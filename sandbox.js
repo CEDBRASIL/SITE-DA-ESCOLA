@@ -1,44 +1,45 @@
-/* sandbox.js – ambiente de teste */
-const MP_PUBLIC_KEY = "PUBLIC_KEY_SANDBOX"; // insira sua chave pública sandbox
+/* sandbox.js – ambiente de teste (chave pública sandbox) */
+const MP_PUBLIC_KEY = "{{ MP_PUBLIC_KEY }}";   // Render injeta o valor de MP_PUBLIC_KEY aqui
+const API_BASE       = "https://api.cedbrasilia.com.br";    //  ← domínio do BACKEND (API)
 
-// const mp = new MercadoPago(MP_PUBLIC_KEY, { locale: 'pt-BR' });
-
+/* ── Carregar cursos ───────────────────────── */
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("/cursos")
-    .then(r => r.json())
+  fetch(`${API_BASE}/cursos`)
+    .then(res => res.json())
     .then(cursos => {
       const select = document.getElementById("cursoSelect");
-      select.innerHTML = "<option value=''>Selecione...</option>";
-      Object.entries(cursos).forEach(([nome, dados]) => {
+      select.innerHTML = "<option value=''>Selecione…</option>";
+      Object.keys(cursos).forEach(nome => {
         const opt = document.createElement("option");
-        opt.value = dados.id || nome;
+        opt.value = nome;
         opt.textContent = nome;
         select.appendChild(opt);
       });
     })
     .catch(() => alert("Erro ao carregar cursos."));
 
+  /* ── Enviar formulário ────────────────────── */
   const form = document.getElementById("formCheckout");
-  form.addEventListener("submit", async (e) => {
+  form.addEventListener("submit", async e => {
     e.preventDefault();
 
-    const dados = {
-      nome: form.nome.value.trim(),
-      whatsapp: form.whatsapp.value.trim(),
-      email: form.email.value.trim(),
-      cursoId: form.curso.value,
-      ambiente: "sandbox"
+    const payload = {
+      nome:      form.nome.value.trim(),
+      whatsapp:  form.whatsapp.value.trim(),
+      email:     form.email.value.trim(),
+      cursoId:   form.curso.value,
+      ambiente:  "sandbox"
     };
 
     try {
-      const resp = await fetch("/api/matricular", {
+      const resp  = await fetch(`${API_BASE}/api/matricular`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dados)
+        body: JSON.stringify(payload)
       });
       const json = await resp.json();
       if (json.init_point) {
-        window.location.href = json.init_point;
+        window.location.href = json.init_point;      // redireciona ao checkout MP (sandbox)
       } else {
         alert("Falha ao iniciar pagamento.");
       }
