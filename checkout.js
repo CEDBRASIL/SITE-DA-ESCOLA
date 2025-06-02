@@ -1,4 +1,4 @@
-/* checkout.js – produção (chave pública real) */
+/* checkout.js – produção (chave pública reeal) */
 const MP_PUBLIC_KEY = "{{ MP_PUBLIC_KEY }}";   // Render injeta o valor de MP_PUBLIC_KEY aqui
 const API_BASE       = "https://api.cedbrasilia.com.br";    //  ← domínio do BACKEND (API)
 
