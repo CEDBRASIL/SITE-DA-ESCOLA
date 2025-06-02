@@ -110,7 +110,7 @@
 
         if (res.ok) {
           // Redirecionar para página de pagamento do Mercado Pago
-          window.location.href = "https://www.mercadopago.com.br/subscriptions"; // <-- substitua com seu link real
+          window.location.href = "https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=2c93808496d9dcdf0196f2ff3b5f0b11"; // <-- substitua com seu link real
         } else {
           const err = await res.json();
           alert("Erro: " + err.detail);
