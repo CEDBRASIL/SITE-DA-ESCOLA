@@ -1,124 +1,43 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Matrícula CED</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #121212;
-      color: white;
-      padding: 30px;
-      max-width: 600px;
-      margin: auto;
-    }
-    h1 {
-      color: #00e676;
-    }
-    label {
-      display: block;
-      margin-top: 12px;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      margin-bottom: 14px;
-      border: none;
-      border-radius: 6px;
-    }
-    input, select {
-      background-color: #1e1e1e;
-      color: white;
-    }
-    button {
-      background-color: #00e676;
-      color: black;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #00c853;
-    }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CED – Matrícula</title>
+
+  <link rel="stylesheet" href="estilo.css" />
 </head>
 <body>
-  <h1>Pré-Matrícula CED</h1>
-  <form id="matriculaForm">
-    <label for="nome">Nome completo</label>
-    <input type="text" id="nome" name="nome" required>
+  <main class="container">
+    <h1>Matrícula – CED</h1>
 
-    <label for="whatsapp">WhatsApp (somente números)</label>
-    <input type="tel" id="whatsapp" name="whatsapp" required>
+    <form id="formCheckout">
+      <label>
+        Nome completo
+        <input type="text" name="nome" required />
+      </label>
 
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required>
+      <label>
+        WhatsApp (DDD+número)
+        <input type="tel" name="whatsapp" pattern="\d{11,13}" required />
+      </label>
 
-    <label for="cursos">Selecione seus cursos</label>
-    <div id="cursosContainer">
-      <p>Carregando cursos...</p>
-    </div>
+      <label>
+        E-mail
+        <input type="email" name="email" required />
+      </label>
 
-    <button type="submit">Ir para pagamento</button>
-  </form>
+      <label>
+        Curso
+        <select name="curso" id="cursoSelect" required>
+          <option value="">Carregando cursos…</option>
+        </select>
+      </label>
 
-  <script>
-    const API_BASE = "https://api.cedbrasilia.com.br";
+      <button type="submit">Pagar e Concluir</button>
+    </form>
+  </main>
 
-    async function listarCursos() {
-      try {
-        const res = await fetch(API_BASE + "/cursos");
-        const json = await res.json();
-        const container = document.getElementById("cursosContainer");
-        container.innerHTML = "";
-        Object.keys(json.cursos).forEach(nome => {
-          const id = "curso-" + nome.replace(/\s+/g, "-");
-          container.insertAdjacentHTML(
-            "beforeend",
-            `<label><input type="checkbox" name="cursos" value="${nome}" id="${id}"> ${nome}</label>`
-          );
-        });
-      } catch (err) {
-        document.getElementById("cursosContainer").textContent = "Erro ao carregar cursos.";
-      }
-    }
-
-    listarCursos();
-
-    document.getElementById("matriculaForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
-
-      const nome = document.getElementById("nome").value.trim();
-      const whatsapp = document.getElementById("whatsapp").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const cursos = Array.from(document.querySelectorAll('input[name="cursos"]:checked')).map(c => c.value);
-
-      if (cursos.length === 0) {
-        alert("Selecione pelo menos um curso.");
-        return;
-      }
-
-      const payload = { nome, whatsapp, email, cursos };
-
-      try {
-        const res = await fetch(API_BASE + "/api/matricular", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        if (res.ok) {
-          // Redirecionar para página de pagamento do Mercado Pago
-          window.location.href = "https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=2c93808496d9dcdf0196f2ff3b5f0b11"; // <-- substitua com seu link real
-        } else {
-          const err = await res.json();
-          alert("Erro: " + err.detail);
-        }
-      } catch (err) {
-        alert("Erro ao enviar: " + err.message);
-      }
-    });
-  </script>
+  <script src="checkout.js"></script>
 </body>
 </html>
