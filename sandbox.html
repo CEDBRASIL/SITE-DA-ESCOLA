@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sandbox de Assinatura - CED</title>
+  <style>
+    body {
+      background: #121212;
+      color: white;
+      font-family: sans-serif;
+      padding: 40px;
+      max-width: 600px;
+      margin: auto;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: none;
+    }
+    input {
+      background: #1e1e1e;
+      color: white;
+    }
+    button {
+      background: #00e676;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>✅ Simulador de Assinatura</h1>
+  <p>Use esse formulário para simular a ativação de uma assinatura e testar a matrícula automática.</p>
+
+  <form id="sandboxForm">
+    <label>Email usado na pré-matrícula:</label>
+    <input type="email" id="email" placeholder="ex: aluno@teste.com" required />
+
+    <label>ID fictício da assinatura:</label>
+    <input type="text" id="subscriptionId" placeholder="ex: fake_sub_id_1234" required />
+
+    <button type="submit">Simular Assinatura e Enviar Webhook</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    document.getElementById("sandboxForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const subscriptionId = document.getElementById("subscriptionId").value.trim();
+
+      // Simula que a assinatura foi criada e aprovada
+      const payload = {
+        type: "preapproval",
+        data: {
+          id: subscriptionId
+        }
+      };
+
+      try {
+        // Salva a pré-matrícula com esse e-mail na produção
+        await fetch("https://api.cedbrasilia.com.br/api/matricular", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nome: "Teste Sandbox",
+            whatsapp: "61999999999",
+            email,
+            cursos: ["Administração", "Pacote Office"]
+          })
+        });
+
+        // Envia o webhook para produção
+        const res = await fetch("https://api.cedbrasilia.com.br/webhook", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const json = await res.json();
+        document.getElementById("status").textContent = "✅ Resposta do backend: " + JSON.stringify(json);
+      } catch (err) {
+        document.getElementById("status").textContent = "❌ Erro: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
