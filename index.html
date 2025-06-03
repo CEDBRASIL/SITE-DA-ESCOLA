@@ -106,105 +106,6 @@
         transform: translateY(0);
       }
 
-      /* JOEL Bot CSS (ajustes para tema) */
-      .joel-bot-container {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 320px;
-        height: 400px;
-        background-color: #282828;
-        border-radius: 10px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-        display: none;
-        flex-direction: column;
-        z-index: 1000;
-        overflow: hidden;
-        border: 1px solid #1db954;
-      }
-      .joel-bot-header {
-        background-color: #1db954;
-        color: #000;
-        padding: 10px 15px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-top-left-radius: 9px;
-        border-top-right-radius: 9px;
-      }
-      .joel-bot-header h3 {
-        margin: 0;
-        font-family: "Poppins", sans-serif; /* Poppins para o título do bot */
-        font-size: 1.2rem;
-      }
-      .joel-bot-header button {
-        background: none;
-        border: none;
-        color: #000;
-        font-size: 1.2rem;
-        cursor: pointer;
-        transition: transform 0.2s ease;
-      }
-      .joel-bot-header button:hover {
-        transform: scale(1.1);
-      }
-      .joel-bot-body {
-        flex-grow: 1;
-        padding: 15px;
-        overflow-y: auto;
-        background-color: #1e1e1e;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      .joel-bot-body .message {
-        padding: 10px 15px;
-        border-radius: 15px;
-        max-width: 80%;
-      }
-      .joel-bot-body .message.sent {
-        background-color: #1db954;
-        color: #000;
-        align-self: flex-end;
-      }
-      .joel-bot-body .message.received {
-        background-color: #444;
-        color: #e0e0e0;
-        align-self: flex-start;
-      }
-      .joel-bot-body .message.loading {
-        font-style: italic;
-        color: #888;
-      }
-      .joel-bot-footer {
-        padding: 10px 15px;
-        background-color: #282828;
-        display: flex;
-        gap: 10px;
-        border-bottom-left-radius: 9px;
-        border-bottom-right-radius: 9px;
-      }
-      .joel-bot-footer input {
-        flex-grow: 1;
-        padding: 10px;
-        border: 1px solid #333;
-        border-radius: 5px;
-        background-color: #3a3a3a;
-        color: #e0e0e0;
-      }
-      .joel-bot-footer button {
-        background-color: #1db954;
-        color: #000;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-      .joel-bot-footer button:hover {
-        background-color: #1aa34a;
-      }
-
       /* Scroll Progress Bar */
       #scroll-progress {
         position: fixed;
@@ -236,12 +137,12 @@
         }
       }
 
-      /* Modal de Detalhes do Curso */
+      /* Modal de Detalhes do Curso (mantido para evitar erros, mas não será usado) */
       .course-details-modal {
         position: fixed;
         inset: 0;
         background-color: rgba(0, 0, 0, 0.75);
-        display: flex;
+        display: none; /* Alterado para none */
         align-items: center;
         justify-content: center;
         padding: 1rem;
@@ -443,10 +344,7 @@
                             <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 12 meses</li>
                             <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
                         </ul>
-                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="Desenvolvimento Web Full Stack">
-                            Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
-                        </button>
-                    </div>
+                        </div>
 
                     <div class="card fade-in-element course-item administracao" style="animation-delay: 0.2s;">
                         <h3 class="text-2xl font-semibold mb-3 spotify-green">Gestão de Negócios Digitais</h3>
@@ -457,10 +355,7 @@
                             <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 10 meses</li>
                             <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
                         </ul>
-                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="Gestão de Negócios Digitais">
-                            Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
-                        </button>
-                    </div>
+                        </div>
 
                     <div class="card fade-in-element course-item design" style="animation-delay: 0.4s;">
                         <h3 class="text-2xl font-semibold mb-3 spotify-green">Design Gráfico e UX/UI</h3>
@@ -471,10 +366,7 @@
                             <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 8 meses</li>
                             <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
                         </ul>
-                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition durataion-300 shadow-md view-details-btn" data-course-id="Design Gráfico e UX/UI">
-                            Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
-                        </button>
-                    </div>
+                        </div>
 
                     <div class="card fade-in-element course-item idiomas" style="animation-delay: 0.6s;">
                         <h3 class="text-2xl font-semibold mb-3 spotify-green">Inglês para Negócios</h3>
@@ -485,10 +377,7 @@
                             <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 6 meses</li>
                             <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
                         </ul>
-                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="Inglês para Negócios">
-                            Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
-                        </button>
-                    </div>
+                        </div>
 
                     <div class="card fade-in-element course-item administracao" style="animation-delay: 0.8s;">
                         <h3 class="text-2xl font-semibold mb-3 spotify-green">Marketing de Conteúdo</h3>
@@ -499,10 +388,7 @@
                             <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 7 meses</li>
                             <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
                         </ul>
-                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="Marketing de Conteúdo">
-                            Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
-                        </button>
-                    </div>
+                        </div>
 
                     <div class="card fade-in-element course-item administracao" style="animation-delay: 1s;">
                         <h3 class="text-2xl font-semibold mb-3 spotify-green">Finanças Pessoais e Investimentos</h3>
@@ -513,10 +399,7 @@
                             <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 5 meses</li>
                             <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
                         </ul>
-                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="Finanças Pessoais e Investimentos">
-                            Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
-                        </button>
-                    </div>
+                        </div>
                 </div>
 
                 <div class="text-center mt-20 fade-in-element">
@@ -679,38 +562,9 @@
         </div>
     </footer>
 
-    <div id="courseDetailsModal" class="course-details-modal">
-        <div class="course-details-modal-content">
-            <button id="closeModalBtn" class="course-details-modal-close">&times;</button>
-            <h3 id="modalCourseTitle" class="text-3xl font-bold spotify-green mb-4 text-center"></h3>
-            <div id="modalCourseDescription" class="text-gray-300 text-lg leading-relaxed text-center">
-                <div class="loading-spinner"></div>
-            </div>
-            <div class="text-center mt-6">
-                <a href="https://www.cedbrasilia.com.br/assinatura" class="bg-spotify-green text-black font-extrabold px-8 py-3 rounded-full text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
-                    Me matricular agora! <i class="fas fa-user-plus ml-2"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <button id="open-joel-bot" class="fixed bottom-6 right-6 bg-spotify-green text-black p-4 rounded-full shadow-lg hover-bg-spotify-green-darker transition duration-300 z-50 transform hover:scale-110 focus:outline-none" aria-label="Abrir Chatbot JOEL">
+    <!-- <button id="open-joel-bot" class="fixed bottom-6 right-6 bg-spotify-green text-black p-4 rounded-full shadow-lg hover-bg-spotify-green-darker transition duration-300 z-50 transform hover:scale-110 focus:outline-none" aria-label="Abrir Chatbot JOEL">
         <i class="fas fa-robot text-2xl"></i>
-    </button>
-
-    <div class="joel-bot-container" id="joel-bot-container">
-        <div class="joel-bot-header">
-            <h3>JOEL</h3>
-            <button id="close-joel-bot" aria-label="Fechar Chatbot">X</button>
-        </div>
-        <div class="joel-bot-body" id="joel-bot-body">
-            <div class="message received">Olá! Eu sou o JOEL, o assistente virtual da CED BRASIL. Como posso ajudar você hoje?</div>
-        </div>
-        <div class="joel-bot-footer">
-            <input type="text" id="joel-input" placeholder="Digite sua mensagem..." aria-label="Campo de mensagem do chatbot" />
-            <button id="joel-send-btn" aria-label="Enviar mensagem">Enviar</button>
-        </div>
-    </div>
+    </button> -->
 
     <div class="mobile-cta-buttons">
         <a href="#cursos" class="w-full bg-spotify-green text-black font-extrabold px-6 py-3 rounded-full text-base text-center hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
@@ -856,135 +710,6 @@
         observer.observe(el);
       });
 
-      // JOEL Bot (UI e Simulação de Interação)
-      const openJoelBotBtn = document.getElementById("open-joel-bot");
-      const closeJoelBotBtn = document.getElementById("close-joel-bot");
-      const joelBotContainer = document.getElementById("joel-bot-container");
-      const joelInput = document.getElementById("joel-input");
-      const joelSendBtn = document.getElementById("joel-send-btn");
-      const joelBotBody = document.getElementById("joel-bot-body");
-
-      openJoelBotBtn.addEventListener("click", () => {
-        joelBotContainer.style.display = "flex"; // Exibe o bot
-      });
-
-      closeJoelBotBtn.addEventListener("click", () => {
-        joelBotContainer.style.display = "none"; // Esconde o bot
-      });
-
-      joelSendBtn.addEventListener("click", () => {
-        sendMessage();
-      });
-
-      joelInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-          sendMessage();
-        }
-      });
-
-      function appendMessage(text, type) {
-        const messageDiv = document.createElement("div");
-        messageDiv.classList.add("message", type);
-        messageDiv.textContent = text;
-        joelBotBody.appendChild(messageDiv);
-        joelBotBody.scrollTop = joelBotBody.scrollHeight; // Vai para a última mensagem
-        return messageDiv;
-      }
-
-      async function getJoelResponse(userMessage) {
-        // Adiciona indicador de carregamento
-        const loadingMessage = appendMessage("Digitando...", "received loading");
-        joelBotBody.scrollTop = joelBotBody.scrollHeight;
-
-        // Prepara histórico (aqui só uma mensagem de sistema + usuário)
-        let chatHistory = [];
-        chatHistory.push({
-          role: "user",
-          parts: [
-            {
-              text: `Você é JOEL, o assistente virtual da CED BRASIL. Sua função é responder a perguntas sobre os cursos, matrículas, modalidades de ensino (como EAD), benefícios da escola e informações gerais sobre a CED BRASIL. Seja prestativo, informativo e direto. Se a pergunta for sobre EAD, confirme que a escola é 100% EAD. Se não souber a resposta, direcione o usuário para o WhatsApp ou e-mail de contato.
-
-Pergunta do usuário: ${userMessage}`,
-            },
-          ],
-        });
-
-        const payload = { contents: chatHistory };
-
-        // ** Aqui buscamos o token via variável de ambiente injetada pelo Jinja **
-        const apiKey = os.getenv("GEMINI_API_KEY");
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-        try {
-          const response = await fetch(apiUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
-
-          // Remove indicador de carregamento
-          loadingMessage.remove();
-
-          if (!response.ok) {
-            const errorData = await response
-              .json()
-              .catch(() => ({ message: "Erro desconhecido." }));
-            throw new Error(
-              `Erro HTTP: ${response.status} - ${
-                errorData.message || response.statusText
-              }`
-            );
-          }
-
-          const result = await response.json();
-
-          let botReplyText =
-            "Desculpe, não consegui obter uma resposta do JOEL no momento.";
-
-          if (
-            result.candidates &&
-            result.candidates.length > 0 &&
-            result.candidates[0].content &&
-            result.candidates[0].content.parts &&
-            result.candidates[0].content.parts.length > 0
-          ) {
-            botReplyText = result.candidates[0].content.parts[0].text.replace(
-              /\*/g,
-              ""
-            ); // Remove asteriscos
-          }
-
-          appendMessage(botReplyText, "received");
-        } catch (error) {
-          // Remove indicador de carregamento em caso de erro
-          if (loadingMessage) loadingMessage.remove();
-          console.error("Erro ao comunicar com a API do Gemini:", error);
-          appendMessage(
-            "Desculpe, estou com dificuldades para me conectar no momento. Tente novamente mais tarde.",
-            "received"
-          );
-        }
-      }
-
-      function sendMessage() {
-        const userMessage = joelInput.value.trim();
-        if (userMessage === "") return;
-        appendMessage(userMessage, "sent");
-        joelInput.value = "";
-        getJoelResponse(userMessage);
-      }
-
-      // Scroll Progress Bar Logic
-      window.addEventListener("scroll", () => {
-        const scrollTop =
-          document.documentElement.scrollTop || document.body.scrollTop;
-        const scrollHeight =
-          document.documentElement.scrollHeight -
-          document.documentElement.clientHeight;
-        const scrolled = (scrollTop / scrollHeight) * 100;
-        document.getElementById("scroll-progress").style.width = scrolled + "%";
-      });
-
       // Course Filtering (placeholder)
       const filterButtons = document.querySelectorAll(
         ".flex.flex-wrap.justify-center.gap-4 button"
@@ -1011,97 +736,6 @@ Pergunta do usuário: ${userMessage}`,
         "bg-spotify-green",
         "text-black"
       );
-
-      // Modal de Detalhes do Curso
-      const courseDetailsModal = document.getElementById("courseDetailsModal");
-      const closeModalBtn = document.getElementById("closeModalBtn");
-      const modalCourseTitle = document.getElementById("modalCourseTitle");
-      const modalCourseDescription = document.getElementById(
-        "modalCourseDescription"
-      );
-      const viewDetailsButtons = document.querySelectorAll(".view-details-btn");
-
-      function showCourseDetailsModal() {
-        courseDetailsModal.classList.add("visible");
-      }
-
-      function hideCourseDetailsModal() {
-        courseDetailsModal.classList.remove("visible");
-        modalCourseTitle.textContent = "";
-        modalCourseDescription.innerHTML =
-          '<div class="loading-spinner"></div>';
-      }
-
-      closeModalBtn.addEventListener("click", hideCourseDetailsModal);
-      courseDetailsModal.addEventListener("click", (e) => {
-        if (e.target === courseDetailsModal) {
-          hideCourseDetailsModal();
-        }
-      });
-
-      async function generateCourseDescription(courseName) {
-        modalCourseTitle.textContent = courseName;
-        modalCourseDescription.innerHTML =
-          '<div class="loading-spinner"></div>';
-
-        const prompt = `Gere uma descrição de marketing persuasiva e focada em conversão para o curso '${courseName}' da CED BRASIL. A descrição deve destacar os benefícios, o que o aluno aprenderá, e por que este curso é ideal para sua carreira, com um tom inspirador e profissional. Inclua uma chamada para ação implícita para a matrícula.`;
-
-        let chatHistory = [];
-        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-        const payload = { contents: chatHistory };
-
-        // ** Aqui também usamos a mesma variável de ambiente injetada pelo Jinja **
-        const apiKey = "{{ gemini_key }}";
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-        try {
-          const response = await fetch(apiUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
-
-          if (!response.ok) {
-            const errorData = await response
-              .json()
-              .catch(() => ({ message: "Erro desconhecido." }));
-            throw new Error(
-              `Erro HTTP: ${response.status} - ${
-                errorData.message || response.statusText
-              }`
-            );
-          }
-
-          const result = await response.json();
-          let courseDescription =
-            "Desculpe, não foi possível gerar a descrição no momento.";
-
-          if (
-            result.candidates &&
-            result.candidates.length > 0 &&
-            result.candidates[0].content &&
-            result.candidates[0].content.parts &&
-            result.candidates[0].content.parts.length > 0
-          ) {
-            courseDescription =
-              result.candidates[0].content.parts[0].text.replace(/\*/g, ""); // Remove asteriscos
-          }
-
-          modalCourseDescription.innerHTML = `<p>${courseDescription}</p>`;
-        } catch (error) {
-          console.error("Erro ao gerar descrição do curso:", error);
-          modalCourseDescription.innerHTML =
-            '<p class="error-message">Não foi possível carregar os detalhes do curso. Tente novamente mais tarde.</p>';
-        }
-      }
-
-      viewDetailsButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          const courseName = button.dataset.courseId;
-          generateCourseDescription(courseName);
-          showCourseDetailsModal();
-        });
-      });
     </script>
 </body>
 </html>
