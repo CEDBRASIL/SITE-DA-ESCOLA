@@ -8,12 +8,13 @@
     <meta name="description" content="Matricule-se nos cursos online da CED BRASIL. Transforme seu futuro com educação de qualidade, 7 dias grátis e sem contrato.">
     <meta property="og:title" content="CED BRASIL - Matrícula Online">
     <meta property="og:description" content="Escolha seu curso, preencha seus dados e comece sua jornada de sucesso com a CED BRASIL.">
-    <meta property="og:image" content="https://placehold.co/1200x630/1DB954/000000?text=Matricule-se+CED+Brasil">
-    <meta property="og:url" content="https://www.seusite.com.br/assinatura.html"> <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image" content="https://placehold.co/1200x630/1DB954/000000">
+    <meta property="og:url" content="https://www.seusite.com.br/assinatura.html">
+    <meta name="twitter:card" content="summary_large_image">
     
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700;700&display=swap" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
     
@@ -75,6 +76,8 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border: 1px solid #333; /* Borda sutil */
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra mais pronunciada */
+            width: 100%;
+            max-width: 450px;
         }
         .card:hover {
             transform: translateY(-8px); /* Efeito de elevação maior */
@@ -110,6 +113,9 @@
             align-items: center;
             justify-content: center;
             padding: 2rem 0;
+            min-height: calc(100vh - 160px); /* Ajusta altura considerando header e footer */
+            background-color: #0A0A0A; /* Fundo escuro sem texto */
+            background-image: none;
         }
         .form-group {
             margin-bottom: 1.5rem;
@@ -159,11 +165,60 @@
             cursor: pointer;
             font-size: 0.95rem;
             color: #E0E0E0;
+            position: relative; /* Necessário para o checkbox customizado */
+            padding-left: 28px; /* Espaço para o checkbox customizado */
         }
         .checkbox-group input[type="checkbox"] {
-            margin-right: 0.5rem;
-            accent-color: #1DB954; /* Cor do checkbox */
+            /* Esconde o checkbox nativo */
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
         }
+        /* Estilo do checkbox customizado */
+        .checkbox-group label::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid #555; /* Borda padrão */
+            border-radius: 4px; /* Cantos arredondados */
+            background-color: #282828;
+            transition: all 250ms ease;
+        }
+        /* Estilo do checkmark (✓) */
+        .checkbox-group label::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 8px;
+            height: 14px;
+            border: solid transparent;
+            border-width: 0 3px 3px 0;
+            opacity: 0;
+            transition: all 250ms ease;
+        }
+        /* Quando marcado */
+        .checkbox-group input[type="checkbox"]:checked + label::before {
+            background-color: #1DB954; /* Fundo verde */
+            border-color: #1DB954; /* Borda verde */
+        }
+        .checkbox-group input[type="checkbox"]:checked + label::after {
+            opacity: 1;
+            border-color: #000; /* Checkmark preto */
+        }
+        /* Hover e Focus-visible para o checkbox customizado */
+        .checkbox-group input[type="checkbox"]:hover + label::before,
+        .checkbox-group input[type="checkbox"]:focus-visible + label::before {
+            box-shadow: 0 0 0 2px #1DB954; /* Outline verde */
+        }
+
         .loading-message {
             color: #1DB954;
             font-weight: 600;
@@ -207,48 +262,6 @@
                 display: none; /* Esconde em desktop */
             }
         }
-
-        /* Hero Section com ilustração */
-        .hero-section-with-illustration {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column; /* Mobile first: coluna */
-            min-height: 80vh; /* Ajuste a altura conforme necessário */
-            background-image: linear-gradient(rgba(18, 18, 18, 0.88), rgba(18, 18, 18, 0.88)), url('https://placehold.co/1920x1080/101010/1DB954?text=Fundo+Abstrato+Educação'); /* Fundo padrão */
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-illustration-container {
-            display: none; /* Esconde a ilustração por padrão no mobile */
-        }
-
-        @media (min-width: 768px) { /* Desktop: layout de duas colunas */
-            .hero-section-with-illustration {
-                flex-direction: row;
-                justify-content: space-around;
-                padding: 4rem 0;
-            }
-            .hero-illustration-container {
-                display: block; /* Mostra a ilustração no desktop */
-                flex: 1;
-                max-width: 500px; /* Tamanho máximo para a ilustração */
-                text-align: center;
-            }
-            .hero-illustration-container img {
-                width: 100%;
-                height: auto;
-                border-radius: 1rem;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            }
-            .form-content-container {
-                flex: 1;
-                max-width: 500px; /* Tamanho máximo para o formulário */
-            }
-        }
     </style>
 </head>
 <body class="antialiased">
@@ -262,7 +275,7 @@
                 <a href="index.html" class="hover:text-spotify-green transition duration-300 text-lg">Voltar ao Início</a>
                 <a href="#" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
             </nav>
-            <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white" aria-label="Abrir menu mobile">
+            <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white" aria-label="Abrir menu móvel">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
@@ -272,46 +285,42 @@
         </div>
     </header>
 
-    <main class="hero-section-with-illustration">
-        <div class="hero-illustration-container fade-in-element">
-            <img src="https://placehold.co/500x400/1E1E1E/1DB954?text=Sua+Carreira+Começa+Aqui" alt="Ilustração de Carreira e Sucesso">
+    <main>
+        <div class="card fade-in-element">
+            <h1 class="text-3xl font-bold text-center mb-6">Garanta sua matrícula agora mesmo!</h1>
+            <p class="text-gray-300 text-center mb-8">Escolha o curso, preencha seus dados e comece sua jornada de sucesso.</p>
+
+            <form id="enrollmentForm">
+                <div class="form-group">
+                    <label for="nome">Como quer ser chamado?</label>
+                    <input type="text" id="nome" name="nome" placeholder="Seu nome ou apelido" required aria-label="Nome ou Apelido">
+                </div>
+
+                <div class="form-group">
+                    <label for="whatsapp">Seu WhatsApp (com DDD)</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="(XX) XXXXX-XXXX" required aria-label="Número de WhatsApp">
+                </div>
+                
+                <div class="form-group">
+                    <label id="cursos-interesse-label">Cursos de Interesse:</label>
+                    <div id="cursos-checkboxes" class="checkbox-group" role="group" aria-labelledby="cursos-interesse-label">
+                        <p class="text-gray-400">Carregando cursos...</p>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitButton" class="w-full bg-spotify-green text-black font-extrabold px-6 py-3 rounded-lg text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
+                    ✅ Se Matricular Agora <i class="fas fa-arrow-circle-right ml-2"></i>
+                </button>
+
+                <div class="flex justify-center items-center gap-4 mt-6 text-gray-500 text-sm">
+                    <i class="fas fa-lock text-xl spotify-green" aria-hidden="true"></i> <span>100% Seguro</span>
+                    <i class="fas fa-shield-alt text-xl spotify-green" aria-hidden="true"></i> <span>Dados Confidenciais</span>
+                    <i class="fas fa-certificate text-xl spotify-green" aria-hidden="true"></i> <span>SSL Certificado</span>
+                </div>
+
+                <div id="form-message" class="text-center mt-4 text-sm" role="alert" aria-live="polite"></div>
+            </form>
         </div>
-        <section class="container mx-auto px-6 py-12 flex items-center justify-center form-content-container">
-            <div class="max-w-xl w-full card p-8 fade-in-element"> <h1 class="text-3xl font-bold text-center mb-6">Garanta sua matrícula agora mesmo!</h1>
-                <p class="text-gray-300 text-center mb-8">Escolha o curso, preencha seus dados e comece sua jornada de sucesso.</p>
-
-                <form id="enrollmentForm">
-                    <div class="form-group">
-                        <label for="nome">Como quer ser chamado?</label>
-                        <input type="text" id="nome" name="nome" placeholder="Seu nome ou apelido" required aria-label="Nome ou Apelido">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="whatsapp">Seu WhatsApp (com DDD)</label>
-                        <input type="tel" id="whatsapp" name="whatsapp" placeholder="(XX) XXXXX-XXXX" required aria-label="Número de WhatsApp">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label id="cursos-interesse-label">Cursos de Interesse:</label>
-                        <div id="cursos-checkboxes" class="checkbox-group" role="group" aria-labelledby="cursos-interesse-label">
-                            <p class="text-gray-400">Carregando cursos...</p>
-                        </div>
-                    </div>
-
-                    <button type="submit" id="submitButton" class="w-full bg-spotify-green text-black font-extrabold px-6 py-3 rounded-lg text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
-                        ✅ Se Matricular Agora <i class="fas fa-arrow-circle-right ml-2"></i>
-                    </button>
-
-                    <div class="flex justify-center items-center gap-4 mt-6 text-gray-500 text-sm">
-                        <i class="fas fa-lock text-xl spotify-green" aria-hidden="true"></i> <span>100% Seguro</span>
-                        <i class="fas fa-shield-alt text-xl spotify-green" aria-hidden="true"></i> <span>Dados Confidenciais</span>
-                        <i class="fas fa-certificate text-xl spotify-green" aria-hidden="true"></i> <span>SSL Certificado</span>
-                    </div>
-
-                    <div id="form-message" class="text-center mt-4 text-sm" role="alert" aria-live="polite"></div>
-                </form>
-            </div>
-        </section>
     </main>
 
     <div class="mobile-sticky-cta">
@@ -341,7 +350,7 @@
         </div>
     </footer>
 
-    <script>
+    <script defer>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
         const enrollmentForm = document.getElementById('enrollmentForm');
@@ -374,10 +383,10 @@
 
                 cursosCheckboxesDiv.innerHTML = ''; // Limpa a mensagem de carregamento
                 for (const courseName in courses) {
-                    const checkboxId = `course-${courseName.replace(/\s+/g, '-').replace(/[^\w-]/g, '')}`; // Sanitize ID
+                    const checkboxId = `course-${courseName.replace(/\s+/g, '-').replace(/[^\w-]/g, '')}`; // Sanitiza o ID
                     const checkboxHtml = `
                         <div>
-                            <input type="checkbox" id="${checkboxId}" name="cursos" value="${courseName}" class="mr-2">
+                            <input type="checkbox" id="${checkboxId}" name="cursos" value="${courseName}">
                             <label for="${checkboxId}">${courseName}</label>
                         </div>
                     `;
@@ -386,7 +395,7 @@
                 console.log('loadCourses: Cursos carregados com sucesso.');
             } catch (error) {
                 console.error('loadCourses: Erro ao carregar cursos:', error);
-                cursosCheckboxesDiv.innerHTML = '<p class="error-message">Erro ao carregar cursos. Verifique a conexão com a internet e tente novamente mais tarde.</p>';
+                cursosCheckboxesDiv.innerHTML = '<p class="error-message">Erro ao carregar cursos. Verifique a ligação à internet e tente novamente mais tarde.</p>';
             }
         }
 
@@ -451,6 +460,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        // 'X-CED-Token': 'SEU_TOKEN_AQUI' // Exemplo de token de validação, se o backend exigir
                     },
                     body: JSON.stringify(data),
                 });
@@ -477,6 +487,8 @@
                 console.error('sendWebhook: Erro no envio do webhook:', error);
                 formMessage.textContent = `Erro ao matricular: ${error.message}. Por favor, tente novamente.`;
                 formMessage.className = 'text-center error-message';
+                // Implementar backup para localStorage aqui, se necessário
+                // localStorage.setItem('failedLead', JSON.stringify(data));
             } finally {
                 submitButton.disabled = false; // Reabilita o botão
             }
@@ -545,25 +557,24 @@
             });
         }
 
-        // Intersection Observer para o botão principal (se necessário, para animações específicas)
-        // Atualmente, o botão já tem transição no hover, esta parte é mais para animações de entrada se o botão não fosse visível inicialmente.
+        // Intersection Observer para o card principal (para animação de entrada)
         const observerOptions = {
             root: null,
             rootMargin: '0px',
             threshold: 0.1
         };
 
-        const formSection = document.querySelector('main section'); // Observa a seção inteira do formulário
-        if (formSection) {
-            const observer = new IntersectionObserver((entries, observer) => {
+        const formCard = document.querySelector('main .card');
+        if (formCard) {
+            const cardObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.querySelectorAll('.fade-in-element').forEach(el => el.classList.add('visible'));
-                        // observer.unobserve(entry.target); // Opcional: desobservar após a animação
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Para animar apenas uma vez
                     }
                 });
             }, observerOptions);
-            observer.observe(formSection);
+            cardObserver.observe(formCard);
         }
     </script>
 </body>
