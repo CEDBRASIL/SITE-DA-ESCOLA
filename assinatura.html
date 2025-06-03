@@ -268,6 +268,24 @@
                 display: none; /* Esconde em desktop */
             }
         }
+        /* Estilo para a mensagem de agradecimento */
+        .thank-you-card {
+            display: none; /* Inicialmente oculto */
+            background-color: #1E1E1E;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .thank-you-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -287,7 +305,7 @@
     </header>
 
     <main>
-        <div class="card fade-in-element">
+        <div class="card fade-in-element" id="enrollmentCard">
             <h1 class="text-3xl font-bold text-center mb-6">Garanta sua matrícula agora mesmo!</h1>
             <p class="text-gray-300 text-center mb-8">Escolha o curso, preencha seus dados e comece sua jornada de sucesso.</p>
 
@@ -322,6 +340,19 @@
                 <div id="form-message" class="text-center mt-4 text-sm" role="alert" aria-live="polite"></div>
             </form>
         </div>
+
+        <div class="thank-you-card fade-in-element" id="thankYouCard">
+            <h2 class="text-3xl font-bold text-center mb-6 spotify-green">Obrigado por se matricular!</h2>
+            <p class="text-gray-300 text-center mb-8 text-lg">
+                Sua matrícula foi enviada com sucesso, <span id="thankYouName" class="font-semibold text-white"></span>!
+                Em breve, entraremos em contato com você pelo WhatsApp para confirmar os detalhes e dar os próximos passos.
+            </p>
+            <i class="fab fa-whatsapp text-6xl spotify-green mb-6"></i>
+            <p class="text-gray-400 text-sm">Aguarde nosso contato! Se precisar de algo, use o botão abaixo para falar conosco.</p>
+            <a href="https://wa.me/5561986660241" target="_blank" class="mt-8 inline-block bg-spotify-green text-black font-extrabold px-8 py-4 rounded-full text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
+                <i class="fab fa-whatsapp text-2xl mr-2"></i> Falar com Consultor
+            </a>
+        </div>
     </main>
 
     <div class="mobile-sticky-cta">
@@ -351,27 +382,30 @@
     </footer>
 
     <script defer>
-        // Set the current year in the footer
+        // Define o ano atual no rodapé
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Get references to form elements
+        // Obtém referências aos elementos do formulário e da mensagem de agradecimento
+        const enrollmentCard = document.getElementById('enrollmentCard');
         const enrollmentForm = document.getElementById('enrollmentForm');
+        const thankYouCard = document.getElementById('thankYouCard');
+        const thankYouNameSpan = document.getElementById('thankYouName');
         const nomeInput = document.getElementById('nome');
         const whatsappInput = document.getElementById('whatsapp');
         const cursosCheckboxesDiv = document.getElementById('cursos-checkboxes');
         const formMessage = document.getElementById('form-message');
         const submitButton = document.getElementById('submitButton');
 
-        // API endpoints
+        // Endpoints da API
         const API_CURSOS_URL = 'https://api.cedbrasilia.com.br/cursos';
         const WEBHOOK_MATRICULAR_URL = 'https://api.cedbrasilia.com.br/matricular';
 
         /**
-         * Dynamically loads courses from the API and populates the checkboxes.
-         * Displays loading, empty, or error messages as appropriate.
+         * Carrega os cursos dinamicamente da API e preenche os checkboxes.
+         * Exibe mensagens de carregamento, vazio ou erro conforme apropriado.
          */
         async function loadCourses() {
-            console.log('loadCourses: Initiating course loading...');
+            console.log('loadCourses: Iniciando carregamento de cursos...');
             cursosCheckboxesDiv.innerHTML = '<p class="text-gray-400 loading-message">Carregando cursos...</p>';
             try {
                 const response = await fetch(API_CURSOS_URL);
@@ -379,17 +413,17 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                console.log('loadCourses: Courses received:', data);
-                const courses = data.cursos; // Access the 'cursos' object within the response
+                console.log('loadCourses: Cursos recebidos:', data);
+                const courses = data.cursos; // Acessa o objeto 'cursos' dentro da resposta
 
                 if (!courses || Object.keys(courses).length === 0) {
                     cursosCheckboxesDiv.innerHTML = '<p class="text-gray-400">Nenhum curso disponível no momento.</p>';
                     return;
                 }
 
-                cursosCheckboxesDiv.innerHTML = ''; // Clear the loading message
+                cursosCheckboxesDiv.innerHTML = ''; // Limpa a mensagem de carregamento
                 for (const courseName in courses) {
-                    // Sanitize the course name to create a valid HTML ID
+                    // Sanitiza o nome do curso para criar um ID HTML válido
                     const checkboxId = `course-${courseName.replace(/\s+/g, '-').replace(/[^\w-]/g, '')}`;
                     const checkboxHtml = `
                         <div>
@@ -399,31 +433,31 @@
                     `;
                     cursosCheckboxesDiv.insertAdjacentHTML('beforeend', checkboxHtml);
                 }
-                console.log('loadCourses: Courses loaded successfully.');
-                // After courses are loaded, validate the selection to set initial border
+                console.log('loadCourses: Cursos carregados com sucesso.');
+                // Após o carregamento dos cursos, valida a seleção para definir a borda inicial
                 validateCoursesSelection();
             } catch (error) {
-                console.error('loadCourses: Error loading courses:', error);
+                console.error('loadCourses: Erro ao carregar cursos:', error);
                 cursosCheckboxesDiv.innerHTML = '<p class="error-message">Erro ao carregar cursos. Verifique sua conexão e tente novamente.</p>';
             }
         }
 
         /**
-         * Applies a WhatsApp phone number mask to the input value.
-         * Formats as (XX) XXXXX-XXXX or (XX) XXXX-XXXX.
-         * @param {string} value - The raw input string.
-         * @returns {string} The formatted phone number.
+         * Aplica uma máscara de número de telefone WhatsApp ao valor de entrada.
+         * Formata como (XX) XXXXX-XXXX ou (XX) XXXX-XXXX.
+         * @param {string} value - A string de entrada bruta.
+         * @returns {string} O número de telefone formatado.
          */
         function applyWhatsappMask(value) {
-            value = value.replace(/\D/g, ""); // Remove all non-digit characters
+            value = value.replace(/\D/g, ""); // Remove todos os caracteres não-dígitos
             if (value.length > 0) {
                 value = "(" + value;
                 if (value.length > 3) {
                     value = value.substring(0, 3) + ") " + value.substring(3);
                 }
-                if (value.length > 10) { // For 9-digit numbers (like mobile in Brazil)
+                if (value.length > 10) { // Para números de 9 dígitos (como celulares no Brasil)
                     value = value.substring(0, 10) + "-" + value.substring(10, 15);
-                } else if (value.length > 9) { // For 8-digit numbers
+                } else if (value.length > 9) { // Para números de 8 dígitos
                     value = value.substring(0, 9) + "-" + value.substring(9);
                 }
             }
@@ -431,8 +465,8 @@
         }
 
         /**
-         * Validates an input field and applies 'is-valid' or 'is-invalid' classes.
-         * @param {HTMLElement} inputElement - The input element to validate.
+         * Valida um campo de entrada e aplica as classes 'is-valid' ou 'is-invalid'.
+         * @param {HTMLElement} inputElement - O elemento de entrada a ser validado.
          */
         function validateField(inputElement) {
             if (inputElement.checkValidity()) {
@@ -444,18 +478,18 @@
             }
         }
 
-        // Event listeners for real-time validation on name and whatsapp inputs
+        // Listeners de evento para validação em tempo real nos campos de nome e WhatsApp
         nomeInput.addEventListener('input', () => validateField(nomeInput));
         whatsappInput.addEventListener('input', (e) => {
             e.target.value = applyWhatsappMask(e.target.value);
             validateField(whatsappInput);
         });
-        whatsappInput.addEventListener('blur', () => validateField(whatsappInput)); // Validate on blur as well
+        whatsappInput.addEventListener('blur', () => validateField(whatsappInput)); // Valida também ao sair do campo
 
         /**
-         * Validates if at least one course checkbox is selected.
-         * Applies 'is-valid' or 'is-invalid' classes to the checkbox group container.
-         * @returns {boolean} True if at least one course is selected, false otherwise.
+         * Valida se pelo menos um checkbox de curso está selecionado.
+         * Aplica as classes 'is-valid' ou 'is-invalid' ao contêiner do grupo de checkboxes.
+         * @returns {boolean} Verdadeiro se pelo menos um curso for selecionado, falso caso contrário.
          */
         function validateCoursesSelection() {
             const selectedCursos = document.querySelectorAll('#cursos-checkboxes input[type="checkbox"]:checked');
@@ -470,111 +504,114 @@
             }
         }
 
-        // Event listener for course selection validation
+        // Listener de evento para validação da seleção de cursos
         cursosCheckboxesDiv.addEventListener('change', validateCoursesSelection);
 
         /**
-         * Sends the enrollment data to the specified webhook URL.
-         * Handles loading, success, and error messages for the user.
-         * @param {Object} data - The form data to send.
+         * Envia os dados de matrícula para a URL do webhook especificada.
+         * Lida com mensagens de carregamento, sucesso e erro para o usuário.
+         * @param {Object} data - Os dados do formulário a serem enviados.
          */
         async function sendWebhook(data) {
-            console.log('sendWebhook: Sending data:', data);
-            submitButton.disabled = true; // Disable button to prevent multiple submissions
-            submitButton.textContent = 'Enviando...'; // Change button text
+            console.log('sendWebhook: Enviando dados:', data);
+            submitButton.disabled = true; // Desabilita o botão para evitar múltiplas submissões
+            submitButton.textContent = 'Enviando...'; // Altera o texto do botão
             formMessage.textContent = 'Enviando sua matrícula...';
-            formMessage.className = 'text-center loading-message'; // Apply loading style
+            formMessage.className = 'text-center loading-message'; // Aplica estilo de carregamento
 
             try {
                 const response = await fetch(WEBHOOK_MATRICULAR_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        // 'X-CED-Token': 'YOUR_TOKEN_HERE' // Example: Uncomment and add if backend requires a token
+                        // 'X-CED-Token': 'SEU_TOKEN_AQUI' // Exemplo: Descomente e adicione se o backend exigir um token
                     },
                     body: JSON.stringify(data),
                 });
 
                 if (response.ok) {
-                    console.log('sendWebhook: Enrollment sent successfully.');
-                    formMessage.textContent = `Obrigado, ${data.nome}! Sua matrícula foi enviada com sucesso. Entraremos em contato pelo WhatsApp.`;
-                    formMessage.className = 'text-center success-message'; // Apply success style
-                    enrollmentForm.reset(); // Clear the form
-                    // Uncheck all checkboxes after successful submission
+                    console.log('sendWebhook: Matrícula enviada com sucesso.');
+                    // Esconde o formulário e exibe a mensagem de agradecimento
+                    enrollmentCard.style.display = 'none';
+                    thankYouNameSpan.textContent = data.nome; // Personaliza a mensagem
+                    thankYouCard.style.display = 'block'; // Exibe o cartão de agradecimento
+                    setTimeout(() => thankYouCard.classList.add('visible'), 50); // Adiciona a classe 'visible' para a animação
+
+                    // Limpa o formulário e os estados de validação
+                    enrollmentForm.reset();
                     document.querySelectorAll('#cursos-checkboxes input[type="checkbox"]').forEach(checkbox => {
                         checkbox.checked = false;
                     });
-                    // Clear validation borders
                     nomeInput.classList.remove('is-valid', 'is-invalid');
                     whatsappInput.classList.remove('is-valid', 'is-invalid');
                     cursosCheckboxesDiv.classList.remove('is-valid', 'is-invalid');
-                    cursosCheckboxesDiv.style.borderColor = '#333'; // Reset to default border
+                    cursosCheckboxesDiv.style.borderColor = '#333'; // Reseta para a borda padrão
                 } else {
                     const errorText = await response.text();
-                    console.error('sendWebhook: Server response error:', response.status, errorText);
+                    console.error('sendWebhook: Erro na resposta do servidor:', response.status, errorText);
                     throw new Error(`Erro ao matricular: ${response.status} - ${errorText}`);
                 }
             } catch (error) {
-                console.error('sendWebhook: Error sending webhook:', error);
+                console.error('sendWebhook: Erro no envio do webhook:', error);
                 formMessage.textContent = `Erro ao matricular: ${error.message}. Por favor, tente novamente.`;
-                formMessage.className = 'text-center error-message'; // Apply error style
-                // Optionally, implement backup to localStorage here for failed leads
+                formMessage.className = 'text-center error-message'; // Aplica estilo de erro
+                // Opcionalmente, implemente backup para localStorage aqui para leads com falha
                 // localStorage.setItem('failedLead', JSON.stringify(data));
             } finally {
-                submitButton.disabled = false; // Re-enable the button
-                submitButton.innerHTML = '✅ Se Matricular Agora <i class="fas fa-arrow-circle-right ml-2"></i>'; // Restore button text and icon
+                submitButton.disabled = false; // Reabilita o botão
+                submitButton.innerHTML = '✅ Se Matricular Agora <i class="fas fa-arrow-circle-right ml-2"></i>'; // Restaura o texto e o ícone do botão
             }
         }
 
-        // Event Listener for form submission
+        // Listener de evento para o envio do formulário
         enrollmentForm.addEventListener('submit', function(event) {
-            console.log('Form submission initiated.');
-            event.preventDefault(); // Prevent default form submission
+            console.log('Formulário submetido.');
+            event.preventDefault(); // Impede o envio padrão do formulário
 
-            // Re-validate all fields on submission attempt
+            // Revalida todos os campos ao tentar submeter
             validateField(nomeInput);
             validateField(whatsappInput);
             const isCoursesValid = validateCoursesSelection();
 
-            // Check overall form validity
+            // Verifica a validade geral do formulário
             if (!nomeInput.checkValidity() || !whatsappInput.checkValidity() || !isCoursesValid) {
                 formMessage.textContent = 'Por favor, corrija os campos destacados.';
                 formMessage.className = 'text-center error-message';
-                return; // Stop submission if validation fails
+                return; // Impede a submissão se a validação falhar
             }
 
             const nome = nomeInput.value.trim();
-            const whatsapp = whatsappInput.value.replace(/\D/g, ''); // Remove non-numeric characters for submission
+            const whatsapp = whatsappInput.value.replace(/\D/g, ''); // Remove caracteres não numéricos para a submissão
 
             const selectedCursos = [];
             document.querySelectorAll('#cursos-checkboxes input[type="checkbox"]:checked').forEach(checkbox => {
                 selectedCursos.push(checkbox.value);
             });
 
-            // Construct the data payload for the webhook
+            // Constrói o payload de dados para o webhook
             const formData = {
                 nome: nome,
                 whatsapp: whatsapp,
-                email: "matricula@cedbrasil.com", // Fictitious email as per original code
+                email: "matricula@cedbrasil.com", // E-mail fictício conforme o código original
                 cursos: selectedCursos
             };
 
-            sendWebhook(formData); // Send the data
+            sendWebhook(formData); // Envia os dados
         });
 
-        // DOMContentLoaded: Ensures the DOM is fully loaded before running scripts
+        // DOMContentLoaded: Garante que o DOM esteja totalmente carregado antes de executar os scripts
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM fully loaded. Initiating loadCourses().');
+            console.log('DOM completamente carregado. Iniciando loadCourses().');
             loadCourses();
 
-            // Activate the fade-in animation for the main card after DOM loads
+            // Ativa a animação fade-in para o cartão principal após o carregamento do DOM
             const mainCard = document.querySelector('main .card');
             if (mainCard) {
                 mainCard.classList.add('visible');
             }
         });
 
-        // Mobile Menu Toggle functionality
+        // Funcionalidade de alternância do menu móvel
         const mobileMenuButton = document.getElementById('mobileMenuButton');
         const mobileMenu = document.getElementById('mobileMenu');
         if (mobileMenuButton && mobileMenu) {
@@ -586,16 +623,16 @@
                     icon.classList.add('fa-bars');
                 } else {
                     icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-bars'); // Changed to fa-bars to avoid accidental X on close
+                    icon.classList.add('fa-bars'); // Alterado para fa-bars para evitar 'X' acidental ao fechar
                 }
             });
         }
 
-        // Intersection Observer for the main card (for entry animation)
+        // Intersection Observer para o cartão principal (para animação de entrada)
         const observerOptions = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.1 // Trigger when 10% of the element is visible
+            threshold: 0.1 // Dispara quando 10% do elemento está visível
         };
 
         const formCard = document.querySelector('main .card');
@@ -604,7 +641,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); // Stop observing once animated
+                        observer.unobserve(entry.target); // Para de observar após a animação
                     }
                 });
             }, observerOptions);
