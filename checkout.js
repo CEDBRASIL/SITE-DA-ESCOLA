@@ -1,7 +1,7 @@
 /* checkout.js – produção */
 const API_BASE = "https://api.cedbrasilia.com.br";
-// Link de assinatura fixo do Mercado Pago
-const MP_SUBSCRIPTION_PLAN_URL = "https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=2c93808496d9dcdf0196f2ff3b5f0b11";
+// O MP_SUBSCRIPTION_PLAN_URL agora será obtido dinamicamente do backend.
+// const MP_SUBSCRIPTION_PLAN_URL = "https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=SEU_PREAPPROVAL_PLAN_ID_DE_SANDBOX_AQUI";
 
 document.addEventListener("DOMContentLoaded", () => {
   fetch(`${API_BASE}/cursos`).then(r => r.json()).then(({ cursos }) => {
@@ -26,27 +26,28 @@ document.addEventListener("DOMContentLoaded", () => {
       cursos: [formData.get('curso')] // Assume que 'curso' é o nome do campo select
     };
 
-    // Primeiro, armazena os dados do aluno no backend para que o webhook possa recuperá-los
-    fetch(`${API_BASE}/sandbox/store-student-data`, { // Chama o novo endpoint de armazenamento
+    // Chamada para o novo endpoint que inicia a assinatura e retorna o preapproval_id
+    fetch(`${API_BASE}/api/initiate-subscription`, { 
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(studentData)
     })
     .then(response => response.json())
     .then(data => {
-      if (data.status === "ok" && data.external_reference) {
-        // Se os dados foram armazenados com sucesso, redireciona para o link da assinatura
-        const redirectUrl = `${MP_SUBSCRIPTION_PLAN_URL}&external_reference=${data.external_reference}`;
-        console.log("Redirecionando para:", redirectUrl);
-        window.location.href = redirectUrl; 
+      if (data.status === "ok" && data.redirect_url && data.preapproval_id) {
+        // AQUI: Exibe o preapproval_id antes de redirecionar
+        console.log("PREAPPROVAL ID GERADO (PRODUÇÃO):", data.preapproval_id);
+        alert("PREAPPROVAL ID GERADO (PRODUÇÃO): " + data.preapproval_id + "\nRedirecionando para o Mercado Pago...");
+        
+        window.location.href = data.redirect_url; // Redireciona para a URL do Mercado Pago
       } else {
-        console.error("Erro ao armazenar dados do aluno:", data.message || data.detail);
+        console.error("Erro ao iniciar assinatura:", data.message || data.detail);
         alert("Erro ao iniciar assinatura: " + (data.message || data.detail || "Erro desconhecido."));
         submitButton.disabled = false; // Reabilita o botão em caso de erro
       }
     })
     .catch(error => {
-      console.error("Erro na requisição de armazenamento de dados:", error);
+      console.error("Erro na requisição de iniciar assinatura:", error);
       alert("Erro de conexão. Por favor, tente novamente.");
       submitButton.disabled = false; // Reabilita o botão em caso de erro
     });
