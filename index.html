@@ -224,6 +224,71 @@
                 display: none; /* Esconde em desktop */
             }
         }
+
+        /* Modal de Detalhes do Curso */
+        .course-details-modal {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .course-details-modal.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .course-details-modal-content {
+            background-color: #1E1E1E;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .course-details-modal.visible .course-details-modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .course-details-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #B3B3B3;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .course-details-modal-close:hover {
+            color: #E0E0E0;
+        }
+
+        /* Estilo para o spinner de carregamento */
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #1DB954; /* Cor verde Spotify */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto; /* Centraliza o spinner */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -359,7 +424,7 @@
                             <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 12 meses</li>
                             <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
                         </ul>
-                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="web-fullstack">
+                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="Desenvolvimento Web Full Stack">
                             Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
                         </button>
                     </div>
@@ -373,7 +438,7 @@
                             <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 10 meses</li>
                             <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
                         </ul>
-                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="negocios-digitais">
+                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="Gestão de Negócios Digitais">
                             Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
                         </button>
                     </div>
@@ -387,7 +452,7 @@
                             <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 8 meses</li>
                             <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
                         </ul>
-                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="design-uxui">
+                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="Design Gráfico e UX/UI">
                             Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
                         </button>
                     </div>
@@ -401,7 +466,7 @@
                             <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 6 meses</li>
                             <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
                         </ul>
-                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="ingles-negocios">
+                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="Inglês para Negócios">
                             Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
                         </button>
                     </div>
@@ -415,7 +480,7 @@
                             <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 7 meses</li>
                             <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
                         </ul>
-                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="marketing-conteudo">
+                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="Marketing de Conteúdo">
                             Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
                         </button>
                     </div>
@@ -429,7 +494,7 @@
                             <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 5 meses</li>
                             <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
                         </ul>
-                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="financas-investimentos">
+                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="Finanças Pessoais e Investimentos">
                             Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
                         </button>
                     </div>
@@ -593,6 +658,21 @@
             </div>
         </div>
     </footer>
+
+    <div id="courseDetailsModal" class="course-details-modal">
+        <div class="course-details-modal-content">
+            <button id="closeModalBtn" class="course-details-modal-close">&times;</button>
+            <h3 id="modalCourseTitle" class="text-3xl font-bold spotify-green mb-4 text-center"></h3>
+            <div id="modalCourseDescription" class="text-gray-300 text-lg leading-relaxed text-center">
+                <div class="loading-spinner"></div>
+            </div>
+            <div class="text-center mt-6">
+                <a href="https://www.cedbrasilia.com.br/assinatura" class="bg-spotify-green text-black font-extrabold px-8 py-3 rounded-full text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
+                    Me matricular agora! <i class="fas fa-user-plus ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
 
     <button id="open-joel-bot" class="fixed bottom-6 right-6 bg-spotify-green text-black p-4 rounded-full shadow-lg hover-bg-spotify-green-darker transition duration-300 z-50 transform hover:scale-110 focus:outline-none" aria-label="Abrir Chatbot JOEL">
         <i class="fas fa-robot text-2xl"></i>
@@ -820,13 +900,20 @@
 
             // Prepara o payload para a API do Gemini
             let chatHistory = [];
-            chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
+            // Adiciona uma instrução de sistema para o JOEL para manter o contexto
+            chatHistory.push({
+                role: "user",
+                parts: [{ text: `Você é JOEL, o assistente virtual da CED BRASIL. Sua função é responder a perguntas sobre os cursos, matrículas, modalidades de ensino (como EAD), benefícios da escola e informações gerais sobre a CED BRASIL. Seja prestativo, informativo e direto. Se a pergunta for sobre EAD, confirme que a escola é 100% EAD. Se não souber a resposta, direcione o usuário para o WhatsApp ou e-mail de contato.
+
+                Pergunta do usuário: ${userMessage}` }]
+            });
+
             const payload = { contents: chatHistory };
-            const apiKey = ""; // A chave da API será fornecida em tempo de execução pelo Canvas
+            // A chave da API será fornecida em tempo de execução pelo Canvas via os.getenv('GEMINI_API_KEY')
+            const apiKey = "";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
-                // Faz a chamada para a API do Gemini
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -845,11 +932,11 @@
 
                 let botReplyText = 'Desculpe, não consegui obter uma resposta do JOEL no momento.';
 
-                // Extrai o texto da resposta da estrutura do Gemini
+                // Extrai o texto da resposta da estrutura do Gemini e remove asteriscos
                 if (result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
-                    botReplyText = result.candidates[0].content.parts[0].text;
+                    botReplyText = result.candidates[0].content.parts[0].text.replace(/\*/g, ''); // Remove asteriscos
                 }
 
                 appendMessage(botReplyText, 'received');
@@ -904,18 +991,84 @@
         // Initial active filter
         document.querySelector('.active-filter').classList.add('bg-spotify-green', 'text-black');
 
-        // Dark/Light Mode (Placeholder for full JS implementation)
-        // const toggleDarkModeBtn = document.getElementById('toggle-dark-mode');
-        // if (toggleDarkModeBtn) {
-        //     toggleDarkModeBtn.addEventListener('click', () => {
-        //         document.body.classList.toggle('light-mode'); // Example class
-        //         // Save preference to localStorage
-        //     });
-        // }
-        // // Check user's system preference on load
-        // if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-        //     // document.body.classList.add('light-mode');
-        // }
+        // Modal de Detalhes do Curso
+        const courseDetailsModal = document.getElementById('courseDetailsModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modalCourseTitle = document.getElementById('modalCourseTitle');
+        const modalCourseDescription = document.getElementById('modalCourseDescription');
+        const viewDetailsButtons = document.querySelectorAll('.view-details-btn');
+
+        // Função para mostrar o modal
+        function showCourseDetailsModal() {
+            courseDetailsModal.classList.add('visible');
+        }
+
+        // Função para esconder o modal
+        function hideCourseDetailsModal() {
+            courseDetailsModal.classList.remove('visible');
+            // Limpa o conteúdo do modal ao fechar e adiciona o spinner novamente
+            modalCourseTitle.textContent = '';
+            modalCourseDescription.innerHTML = '<div class="loading-spinner"></div>';
+        }
+
+        // Listener para fechar o modal
+        closeModalBtn.addEventListener('click', hideCourseDetailsModal);
+        courseDetailsModal.addEventListener('click', (e) => {
+            if (e.target === courseDetailsModal) { // Fecha apenas se clicar no overlay
+                hideCourseDetailsModal();
+            }
+        });
+
+        // Função para gerar a descrição do curso usando a API do Gemini
+        async function generateCourseDescription(courseName) {
+            modalCourseTitle.textContent = courseName;
+            modalCourseDescription.innerHTML = '<div class="loading-spinner"></div>'; // Adiciona o spinner
+
+            const prompt = `Gere uma descrição de marketing persuasiva e focada em conversão para o curso '${courseName}' da CED BRASIL. A descrição deve destacar os benefícios, o que o aluno aprenderá, e por que este curso é ideal para sua carreira, com um tom inspirador e profissional. Inclua uma chamada para ação implícita para a matrícula.`;
+
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; // A chave da API será fornecida em tempo de execução pelo Canvas
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ message: 'Erro desconhecido.' }));
+                    throw new Error(`Erro HTTP: ${response.status} - ${errorData.message || response.statusText}`);
+                }
+
+                const result = await response.json();
+                let courseDescription = 'Desculpe, não foi possível gerar a descrição no momento.';
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    courseDescription = result.candidates[0].content.parts[0].text.replace(/\*/g, ''); // Remove asteriscos
+                }
+
+                modalCourseDescription.innerHTML = `<p>${courseDescription}</p>`; // Exibe a descrição gerada
+
+            } catch (error) {
+                console.error('Erro ao gerar descrição do curso:', error);
+                modalCourseDescription.innerHTML = '<p class="error-message">Não foi possível carregar os detalhes do curso. Tente novamente mais tarde.</p>';
+            }
+        }
+
+        // Adiciona listeners aos botões "Ver Detalhes"
+        viewDetailsButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const courseName = button.dataset.courseId;
+                generateCourseDescription(courseName);
+                showCourseDetailsModal();
+            });
+        });
     </script>
 </body>
 </html>
