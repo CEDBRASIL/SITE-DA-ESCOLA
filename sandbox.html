@@ -1,43 +1,305 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CED – Matrícula (Sandbox)</title>
-
-  <link rel="stylesheet" href="estilo.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrícula Automática CED (SANDBOX)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1e1e2f; /* Um tom de azul escuro para diferenciar o sandbox */
+            color: #e0e0e0; 
+        }
+        .dark-theme-container {
+            background-color: #2a2a3f; 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.2); 
+        }
+        .dark-theme-input {
+            background-color: #3a3a4f; 
+            border-color: #555565; 
+            color: #ffffff; 
+        }
+        .dark-theme-input::placeholder {
+            color: #b0b0b0; 
+        }
+        .dark-theme-input:focus {
+            border-color: #7aa5f0; 
+            box-shadow: 0 0 0 3px rgba(122, 165, 240, 0.5); 
+        }
+        .dark-theme-text-label {
+            color: #d0d0d0; 
+        }
+        .dark-theme-text-helper {
+            color: #a0a0a0; 
+        }
+        .status-success-dark {
+            background-color: #1a472a; 
+            color: #a7f3d0; 
+        }
+        .status-error-dark {
+            background-color: #63171b; 
+            color: #fca5a5; 
+        }
+        .status-info-dark {
+            background-color: #1e3a8a; 
+            color: #93c5fd; 
+        }
+        .sandbox-indicator {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #f59e0b; /* Laranja */
+            color: #1a1a1a;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 100;
+        }
+    </style>
 </head>
-<body>
-  <main class="container">
-    <h1>Matrícula (Ambiente de Teste)</h1>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="sandbox-indicator">AMBIENTE DE TESTE (SANDBOX)</div>
+    <div class="dark-theme-container p-8 rounded-xl shadow-2xl w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center text-gray-100 mb-2">Matrícula Automática</h1>
+        <p class="text-center text-amber-400 font-semibold mb-6 text-sm">[MODO SANDBOX]</p>
 
-    <form id="formCheckout">
-      <label>
-        Nome completo
-        <input type="text" name="nome" required />
-      </label>
+        <form id="enrollmentForm" class="space-y-6">
+            <div>
+                <label for="fullName" class="block text-sm font-medium dark-theme-text-label mb-1">Nome Completo</label>
+                <input type="text" id="fullName" name="fullName" required
+                       class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark-theme-input"
+                       placeholder="Seu nome completo (TESTE)">
+            </div>
 
-      <label>
-        WhatsApp (DDD+número)
-        <input type="tel" name="whatsapp" pattern="\d{11,13}" required />
-      </label>
+            <div>
+                <label for="email" class="block text-sm font-medium dark-theme-text-label mb-1">E-mail de Teste</label>
+                <input type="email" id="email" name="email" required
+                       class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark-theme-input"
+                       placeholder="TEST_USER_...@TESTUSER.COM">
+                 <p class="mt-1 text-xs dark-theme-text-helper">Use um e-mail de comprador de teste do Mercado Pago (Ex: TEST_USER_...)</p>
+            </div>
 
-      <label>
-        E-mail
-        <input type="email" name="email" required />
-      </label>
+            <div>
+                <label for="course" class="block text-sm font-medium dark-theme-text-label mb-1">Curso Desejado</label>
+                <select id="course" name="course" required
+                        class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark-theme-input">
+                    <option value="">Carregando cursos...</option>
+                </select>
+                <button type="button" id="generateDescriptionButton"
+                        class="mt-3 w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white 
+                               bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 
+                               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 
+                               transition duration-300 ease-in-out hidden">
+                    ✨ Gerar Descrição do Curso ✨
+                </button>
+                <div id="courseDescription" class="mt-4 p-4 rounded-lg bg-gray-800 text-gray-200 text-sm leading-relaxed hidden">
+                </div>
+            </div>
 
-      <label>
-        Curso
-        <select name="curso" id="cursoSelect" required>
-          <option value="">Carregando cursos…</option>
-        </select>
-      </label>
+            <div>
+                <label for="phone" class="block text-sm font-medium dark-theme-text-label mb-1">Telefone (WhatsApp)</label>
+                <input type="tel" id="phone" name="phone" required pattern="\(\d{2}\)\s\d{4,5}-\d{4}"
+                       class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark-theme-input"
+                       placeholder="(XX) XXXXX-XXXX">
+                <p class="mt-1 text-xs dark-theme-text-helper">Formato: (XX) XXXXX-XXXX</p>
+            </div>
 
-      <button type="submit">Pagar (Teste)</button>
-    </form>
-  </main>
+            <button type="submit" id="submitButton"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-lg font-semibold text-white 
+                           bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 
+                           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition duration-300 ease-in-out">
+                Prosseguir para Pagamento (SANDBOX)
+            </button>
+        </form>
 
-  <script src="sandbox.js"></script>
+        <div id="statusMessage" class="mt-6 p-4 text-center rounded-lg hidden"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('enrollmentForm');
+            const statusMessage = document.getElementById('statusMessage');
+            const phoneInput = document.getElementById('phone');
+            const courseSelect = document.getElementById('course');
+            const submitButton = document.getElementById('submitButton');
+            const generateDescriptionButton = document.getElementById('generateDescriptionButton');
+            const courseDescriptionDiv = document.getElementById('courseDescription');
+
+            // -----------------------------------------------------------
+            // URLs DA API - APONTANDO PARA UM POSSÍVEL ENDPOINT SANDBOX
+            // Ajuste 'https://api.cedbrasilia.com.br' se seu backend de sandbox estiver em outra URL.
+            // Ajuste o prefixo '/sandbox/api/' se for diferente no seu main_sandbox.py.
+            // -----------------------------------------------------------
+            const BASE_API_URL_SANDBOX = 'https://api.cedbrasilia.com.br'; // Ou sua URL de API de teste
+            const SANDBOX_API_PREFIX = '/sandbox/api'; // Exemplo de prefixo para o router sandbox
+
+            const COURSES_API_URL = `${BASE_API_URL_SANDBOX}/cursos`; // Assumindo que cursos pode ser o mesmo ou um /sandbox/cursos
+            const ENROLLMENT_API_URL_SANDBOX = `${BASE_API_URL_SANDBOX}${SANDBOX_API_PREFIX}/`; 
+            const GENERATE_DESCRIPTION_API_URL_SANDBOX = `${BASE_API_URL_SANDBOX}${SANDBOX_API_PREFIX}/generate-course-description`;
+
+            _showStatusMessage('Modo Sandbox Ativado. As transações serão de teste.', 'info');
+
+
+            // Função para exibir mensagens de status
+            function _showStatusMessage(message, type = 'info') {
+                statusMessage.textContent = message;
+                let statusClass = 'status-info-dark';
+                if (type === 'success') {
+                    statusClass = 'status-success-dark';
+                } else if (type === 'error') {
+                    statusClass = 'status-error-dark';
+                }
+                statusMessage.className = `mt-6 p-4 text-center rounded-lg ${statusClass} block`;
+            }
+
+
+            async function loadCourses() {
+                courseSelect.innerHTML = '<option value="">Carregando cursos (Sandbox)...</option>';
+                courseSelect.disabled = true; 
+                submitButton.disabled = true; 
+                generateDescriptionButton.classList.add('hidden'); 
+                courseDescriptionDiv.classList.add('hidden'); 
+
+                try {
+                    const response = await fetch(COURSES_API_URL); // Usando a URL de cursos (pode ser a mesma de produção)
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+
+                    courseSelect.innerHTML = '<option value="">Selecione um curso (Sandbox)</option>'; 
+                    
+                    if (data && data.cursos && typeof data.cursos === 'object') {
+                        for (const courseName in data.cursos) {
+                            if (Object.hasOwnProperty.call(data.cursos, courseName)) {
+                                const option = document.createElement('option');
+                                option.value = courseName; 
+                                option.textContent = courseName; 
+                                courseSelect.appendChild(option);
+                            }
+                        }
+                        courseSelect.disabled = false; 
+                        submitButton.disabled = false; 
+                    } else {
+                        throw new Error('Formato de dados de cursos inválido (Sandbox). Esperado um objeto "cursos".');
+                    }
+                } catch (error) {
+                    console.error('Erro SANDBOX ao carregar cursos:', error);
+                    courseSelect.innerHTML = '<option value="">Erro ao carregar cursos (Sandbox)</option>';
+                    _showStatusMessage('Não foi possível carregar a lista de cursos (Sandbox). Tente novamente.', 'error');
+                }
+            }
+
+            loadCourses();
+
+            courseSelect.addEventListener('change', () => {
+                const selectedCourse = courseSelect.value;
+                if (selectedCourse) {
+                    generateDescriptionButton.classList.remove('hidden'); 
+                    courseDescriptionDiv.classList.add('hidden'); 
+                    courseDescriptionDiv.innerHTML = ''; 
+                } else {
+                    generateDescriptionButton.classList.add('hidden'); 
+                    courseDescriptionDiv.classList.add('hidden'); 
+                    courseDescriptionDiv.innerHTML = ''; 
+                }
+            });
+
+            generateDescriptionButton.addEventListener('click', async () => {
+                const selectedCourseName = courseSelect.value;
+                if (!selectedCourseName) {
+                    _showStatusMessage('Por favor, selecione um curso primeiro (Sandbox).', 'error');
+                    return;
+                }
+
+                courseDescriptionDiv.classList.remove('hidden');
+                courseDescriptionDiv.innerHTML = '<p class="text-center">Gerando descrição com IA (Sandbox)... ✨</p>';
+                generateDescriptionButton.disabled = true; 
+
+                try {
+                    const response = await fetch(GENERATE_DESCRIPTION_API_URL_SANDBOX, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ course_name: selectedCourseName })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && (result.status === 'ok' || result.status === 'ok_sandbox')) {
+                        courseDescriptionDiv.innerHTML = `<p>${result.description.replace(/\n/g, '<br>')}</p>`;
+                        statusMessage.classList.add('hidden'); 
+                    } else {
+                        courseDescriptionDiv.innerHTML = `<p class="text-red-400">Erro SANDBOX ao gerar descrição: ${result.detail || result.message || 'Erro desconhecido.'}</p>`;
+                         _showStatusMessage(`Erro SANDBOX ao gerar descrição: ${result.detail || 'Tente novamente.'}`, 'error');
+                    }
+                } catch (error) {
+                    console.error('Erro SANDBOX ao chamar a API Gemini:', error);
+                    courseDescriptionDiv.innerHTML = `<p class="text-red-400">Ocorreu um erro de conexão SANDBOX ao gerar a descrição.</p>`;
+                    _showStatusMessage('Ocorreu um erro de rede SANDBOX ao gerar a descrição.', 'error');
+                } finally {
+                    generateDescriptionButton.disabled = false; 
+                }
+            });
+
+            phoneInput.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\D/g, ''); 
+                if (value.length > 11) value = value.slice(0, 11);
+
+                if (value.length > 10) { 
+                    value = value.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+                } else if (value.length > 6) { 
+                    value = value.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+                } else if (value.length > 2) { 
+                    value = value.replace(/^(\d{2})(\d{0,5}).*/, '($1) $2');
+                } else if (value.length > 0) { 
+                    value = value.replace(/^(\d*)/, '($1');
+                }
+                e.target.value = value;
+            });
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault(); 
+
+                submitButton.disabled = true;
+                _showStatusMessage('Preparando seu pagamento de TESTE...', 'info');
+
+                const formData = new FormData(form);
+                const studentData = {
+                    nome: formData.get('fullName'),
+                    email: formData.get('email'), // Use um e-mail de teste do MP aqui
+                    whatsapp: formData.get('phone'),
+                    cursos: [formData.get('course')] 
+                };
+
+                console.log('Dados do Aluno para API SANDBOX:', studentData);
+
+                try {
+                    const apiResponse = await fetch(ENROLLMENT_API_URL_SANDBOX, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(studentData)
+                    });
+
+                    const result = await apiResponse.json();
+
+                    if (apiResponse.ok && (result.status === 'ok' || result.status === 'ok_sandbox') && result.redirect_url) {
+                         _showStatusMessage('Redirecionando para o checkout de TESTE do Mercado Pago...', 'success');
+                        window.location.href = result.redirect_url; 
+                    } else {
+                        const errorMessage = result.detail || result.message || 'Erro SANDBOX ao preparar o pagamento. Tente novamente.';
+                        _showStatusMessage(errorMessage, 'error');
+                        submitButton.disabled = false; 
+                    }
+                } catch (error) {
+                    console.error('Erro SANDBOX na comunicação com o backend:', error);
+                    _showStatusMessage('Ocorreu um erro inesperado (Sandbox). Por favor, tente novamente.', 'error');
+                    submitButton.disabled = false; 
+                }
+            });
+        });
+    </script>
 </body>
 </html>
