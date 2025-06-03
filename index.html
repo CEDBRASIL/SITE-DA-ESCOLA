@@ -3,20 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CED BRASIL - Transformando Futuros</title>
+    <title>CED BRASIL - Transforme Seu Futuro com Educação de Qualidade</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="https://www.cedbrasilia.com.br/favicon.jpg" type="image/x-icon">
+    <link rel="icon" href="favicon.jpg" type="image/jpeg">
+
     <style>
-        /* Estilos personalizados para complementar o Tailwind */
+        /* Estilos base e cores personalizadas */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #121212; /* Fundo escuro */
+            background-color: #121212; /* Fundo escuro principal */
             color: #E0E0E0; /* Texto claro para tema escuro */
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif; /* Poppins para todos os títulos */
+            color: #F5F5F5; /* Cor mais clara para títulos */
         }
         .spotify-green {
-            color: #1DB954;
+            color: #1DB954; /* Verde Spotify */
         }
         .bg-spotify-green {
             background-color: #1DB954;
@@ -25,39 +33,44 @@
             border-color: #1DB954;
         }
         .hover-bg-spotify-green-darker:hover {
-            background-color: #1AA34A; /* Um verde um pouco mais escuro para hover */
+            background-color: #1AA34A; /* Verde um pouco mais escuro para hover */
         }
         .section-title {
-            font-size: 2.5rem; /* 40px */
+            font-size: 2.8rem; /* Título maior para seções */
             font-weight: 700;
-            margin-bottom: 1.5rem; /* 24px */
+            margin-bottom: 1.5rem;
             text-align: center;
+            line-height: 1.2;
         }
         .section-subtitle {
-            font-size: 1.125rem; /* 18px */
+            font-size: 1.25rem; /* Subtítulo um pouco maior */
             color: #A0A0A0;
             text-align: center;
-            margin-bottom: 3rem; /* 48px */
-            max-width: 600px;
+            margin-bottom: 3rem;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
         }
         .card {
-            background-color: #1E1E1E; /* Um tom de cinza escuro um pouco mais claro para cards */
-            border-radius: 0.75rem; /* 12px */
-            padding: 1.5rem; /* 24px */
+            background-color: #1E1E1E; /* Cinza escuro para cards */
+            border-radius: 0.75rem; /* Bordas arredondadas */
+            padding: 1.5rem;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #333;
+            border: 1px solid #333; /* Borda sutil */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra mais pronunciada */
         }
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 200, 83, 0.1); /* Sombra sutil com um toque de verde */
+            transform: translateY(-8px); /* Efeito de elevação maior */
+            box-shadow: 0 15px 30px rgba(0, 200, 83, 0.15); /* Sombra mais vibrante */
         }
         .testimonial-card {
             background-color: #282828; /* Fundo do card de depoimento */
-            border-left: 4px solid #1DB954; /* Borda verde à esquerda */
+            border-left: 5px solid #1DB954; /* Borda verde mais proeminente */
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
         }
-        /* Estilo da barra de rolagem (opcional, para um visual mais polido) */
+        /* Estilo da barra de rolagem */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -74,34 +87,33 @@
         /* Animação de fade-in */
         .fade-in-element {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(30px); /* Começa um pouco mais abaixo */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Transição mais suave */
         }
         .fade-in-element.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* JOEL Bot CSS */
+        /* JOEL Bot CSS (ajustes para tema) */
         .joel-bot-container {
             position: fixed;
             bottom: 20px;
             right: 20px;
             width: 320px;
             height: 400px;
-            background-color: #282828; /* Um cinza um pouco mais claro para o chat */
+            background-color: #282828;
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-            display: none; /* Escondido por padrão */
+            display: none;
             flex-direction: column;
             z-index: 1000;
             overflow: hidden;
-            border: 1px solid #1DB954; /* Borda verde do Spotify */
+            border: 1px solid #1DB954;
         }
-
         .joel-bot-header {
-            background-color: #1DB954; /* Verde Spotify */
-            color: #000; /* Texto preto */
+            background-color: #1DB954;
+            color: #000;
             padding: 10px 15px;
             display: flex;
             justify-content: space-between;
@@ -109,13 +121,11 @@
             border-top-left-radius: 9px;
             border-top-right-radius: 9px;
         }
-
         .joel-bot-header h3 {
             margin: 0;
-            font-family: 'Inter', sans-serif; /* Usando a fonte Inter para o título do bot */
+            font-family: 'Poppins', sans-serif; /* Poppins para o título do bot */
             font-size: 1.2rem;
         }
-
         .joel-bot-header button {
             background: none;
             border: none;
@@ -124,44 +134,37 @@
             cursor: pointer;
             transition: transform 0.2s ease;
         }
-
         .joel-bot-header button:hover {
             transform: scale(1.1);
         }
-
         .joel-bot-body {
             flex-grow: 1;
             padding: 15px;
             overflow-y: auto;
-            background-color: #1e1e1e; /* Fundo do corpo do chat */
+            background-color: #1e1e1e;
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-
         .joel-bot-body .message {
             padding: 10px 15px;
             border-radius: 15px;
             max-width: 80%;
         }
-
         .joel-bot-body .message.sent {
-            background-color: #1DB954; /* Verde Spotify para mensagens enviadas */
+            background-color: #1DB954;
             color: #000;
             align-self: flex-end;
         }
-
         .joel-bot-body .message.received {
-            background-color: #444; /* Cinza escuro para mensagens recebidas */
+            background-color: #444;
             color: #E0E0E0;
             align-self: flex-start;
         }
-        /* Estilo para o indicador de carregamento */
         .joel-bot-body .message.loading {
             font-style: italic;
             color: #888;
         }
-
         .joel-bot-footer {
             padding: 10px 15px;
             background-color: #282828;
@@ -170,7 +173,6 @@
             border-bottom-left-radius: 9px;
             border-bottom-right-radius: 9px;
         }
-
         .joel-bot-footer input {
             flex-grow: 1;
             padding: 10px;
@@ -179,9 +181,8 @@
             background-color: #3a3a3a;
             color: #E0E0E0;
         }
-
         .joel-bot-footer button {
-            background-color: #1DB954; /* Verde Spotify */
+            background-color: #1DB954;
             color: #000;
             border: none;
             padding: 10px 15px;
@@ -189,79 +190,147 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         .joel-bot-footer button:hover {
-            background-color: #1AA34A; /* Verde Spotify mais escuro no hover */
+            background-color: #1AA34A;
+        }
+
+        /* Scroll Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 5px;
+            background-color: #1DB954;
+            z-index: 9999;
+            transition: width 0.1s linear;
+        }
+
+        /* Botões flutuantes para mobile */
+        .mobile-cta-buttons {
+            position: fixed;
+            bottom: 80px; /* Acima do chatbot */
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 999;
+            width: 90%;
+            max-width: 300px;
+        }
+        @media (min-width: 768px) {
+            .mobile-cta-buttons {
+                display: none; /* Esconde em desktop */
+            }
         }
     </style>
 </head>
 <body class="antialiased">
 
+    <div id="scroll-progress"></div>
+
     <header class="bg-[#181818] shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="flex items-center text-2xl font-bold">
+            <a href="#" class="text-3xl font-bold">
                 <span class="spotify-green">CedBrasil</span>
-                <img src="image_eaee74.png" alt="Logo CED BRASIL" class="h-8 ml-2">
             </a>
-            <nav class="hidden md:flex space-x-6 items-center">
-                <a href="#hero" class="hover:text-spotify-green transition duration-300">Início</a>
-                <a href="#sobre" class="hover:text-spotify-green transition duration-300">Sobre Nós</a>
-                <a href="#cursos" class="hover:text-spotify-green transition duration-300">Cursos</a>
-                <a href="#depoimentos" class="hover:text-spotify-green transition duration-300">Depoimentos</a>
-                <a href="#contato" class="hover:text-spotify-green transition duration-300">Contato</a>
-                <a href="#" class="bg-spotify-green text-white px-4 py-2 rounded-md hover-bg-spotify-green-darker transition duration-300 text-sm">Área do Aluno</a>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="#hero" class="hover:text-spotify-green transition duration-300 text-lg">Início</a>
+                <a href="#sobre" class="hover:text-spotify-green transition duration-300 text-lg">Sobre Nós</a>
+                <a href="#cursos" class="hover:text-spotify-green transition duration-300 text-lg">Cursos</a>
+                <a href="#depoimentos" class="hover:text-spotify-green transition duration-300 text-lg">Depoimentos</a>
+                <a href="#contato" class="hover:text-spotify-green transition duration-300 text-lg">Contato</a>
+                <a href="#" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
             </nav>
-            <button id="mobileMenuButton" class="md:hidden focus:outline-none">
+            <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
-        <div id="mobileMenu" class="hidden md:hidden bg-[#181818] py-2">
-            <a href="#hero" class="block px-6 py-2 hover:bg-[#282828] hover:text-spotify-green transition duration-300">Início</a>
-            <a href="#sobre" class="block px-6 py-2 hover:bg-[#282828] hover:text-spotify-green transition duration-300">Sobre Nós</a>
-            <a href="#cursos" class="block px-6 py-2 hover:bg-[#282828] hover:text-spotify-green transition duration-300">Cursos</a>
-            <a href="#depoimentos" class="block px-6 py-2 hover:bg-[#282828] hover:text-spotify-green transition duration-300">Depoimentos</a>
-            <a href="#contato" class="block px-6 py-2 hover:bg-[#282828] hover:text-spotify-green transition duration-300">Contato</a>
-            <a href="#" class="block mx-6 my-2 bg-spotify-green text-white text-center px-4 py-2 rounded-md hover-bg-spotify-green-darker transition duration-300">Área do Aluno</a>
+        <div id="mobileMenu" class="hidden md:hidden bg-[#181818] py-2 border-t border-gray-700">
+            <a href="#hero" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Início</a>
+            <a href="#sobre" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Sobre Nós</a>
+            <a href="#cursos" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Cursos</a>
+            <a href="#depoimentos" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Depoimentos</a>
+            <a href="#contato" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Contato</a>
+            <a href="#" class="block mx-6 my-3 bg-spotify-green text-black text-center px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
         </div>
     </header>
 
     <main>
-        <section id="hero" class="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(18, 18, 18, 0.85), rgba(18, 18, 18, 0.85)), url('https://placehold.co/1920x1080/101010/1DB954?text=CED+BRASIL+Educação');">
-            <div class="text-center p-6 fade-in-element">
-                <h1 class="text-5xl md:text-7xl font-bold mb-6">
-                    Transformando <span class="spotify-green">Futuros</span> Através da Educação
+        <section id="hero" class="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat relative overflow-hidden" style="background-image: linear-gradient(rgba(18, 18, 18, 0.88), rgba(18, 18, 18, 0.88)), url('https://placehold.co/1920x1080/101010/1DB954?text=CED+BRASIL+Educação+e+Inovação');">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#121212] to-transparent"></div>
+            <div class="text-center p-6 relative z-10 fade-in-element max-w-5xl">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
+                    Transforme Seu <span class="spotify-green">Futuro</span> com Nossos Cursos Online
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto">
-                    Na CED BRASIL, capacitamos você com o conhecimento e as habilidades para alcançar seus sonhos.
+                <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto">
+                    Capacitamos você com o conhecimento e as habilidades essenciais para dominar o mercado de trabalho e construir a carreira dos seus sonhos.
                 </p>
-                <a href="#cursos" class="bg-spotify-green text-white font-semibold px-8 py-4 rounded-lg text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg">
-                    Conheça Nossos Cursos
-                </a>
+                <div class="flex flex-col sm:flex-row justify-center gap-6">
+                    <a href="#cursos" class="bg-spotify-green text-black font-extrabold px-10 py-4 rounded-full text-xl hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
+                        Ver Cursos <i class="fas fa-arrow-right ml-3"></i>
+                    </a>
+                    <a href="#contato" class="border-2 border-spotify-green text-spotify-green font-semibold px-10 py-4 rounded-full text-xl hover:bg-spotify-green hover:text-black transition duration-300 shadow-lg transform hover:scale-105">
+                        Fale com um Consultor <i class="fas fa-comments ml-3"></i>
+                    </a>
+                </div>
             </div>
         </section>
 
-        <section id="sobre" class="py-20">
+        <section id="sobre" class="py-20 bg-[#121212]">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16 fade-in-element">
                     <h2 class="section-title">Quem <span class="spotify-green">Somos</span></h2>
-                    <p class="section-subtitle">Dedicados a oferecer educação de qualidade que inspira e transforma.</p>
+                    <p class="section-subtitle">Na CED BRASIL, construímos pontes para o seu sucesso através de uma educação de excelência.</p>
                 </div>
-                <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="grid md:grid-cols-2 gap-16 items-center">
                     <div class="fade-in-element">
-                        <img src="https://placehold.co/600x400/181818/E0E0E0?text=Equipe+CED+BRASIL" alt="Equipe CED BRASIL" class="rounded-lg shadow-xl w-full">
+                        <img src="https://placehold.co/600x400/181818/E0E0E0?text=Equipe+CED+BRASIL+Profissional" alt="Equipe CED BRASIL Profissional" class="rounded-xl shadow-2xl w-full object-cover h-auto max-h-96">
                     </div>
-                    <div class="fade-in-element">
-                        <h3 class="text-3xl font-semibold mb-4">Nossa Missão</h3>
-                        <p class="text-gray-400 mb-4 leading-relaxed">
-                            Proporcionar um ambiente de aprendizado inovador e acessível, focado no desenvolvimento integral dos nossos alunos, preparando-os para os desafios do mercado de trabalho e para a vida.
-                        </p>
-                        <h3 class="text-3xl font-semibold mb-4 mt-6">Nossa Visão</h3>
-                        <p class="text-gray-400 mb-4 leading-relaxed">
-                            Ser referência em educação, reconhecida pela excelência no ensino, pela formação de cidadãos críticos e conscientes, e pelo impacto positivo na sociedade.
-                        </p>
-                        <a href="#contato" class="mt-6 inline-block text-spotify-green font-semibold hover:underline">
-                            Entre em Contato <i class="fas fa-arrow-right ml-2"></i>
-                        </a>
+                    <div class="fade-in-element space-y-8">
+                        <div>
+                            <h3 class="text-4xl font-bold mb-4 spotify-green">Nossa Missão</h3>
+                            <p class="text-gray-300 leading-relaxed text-lg">
+                                Capacitar indivíduos com conhecimento e habilidades inovadoras, promovendo o desenvolvimento pessoal e profissional para que alcancem seus objetivos e contribuam positivamente para a sociedade.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-4xl font-bold mb-4 spotify-green">Nossa Visão</h3>
+                            <p class="text-gray-300 leading-relaxed text-lg">
+                                Ser a principal referência em educação online no Brasil, reconhecida pela qualidade de ensino, inovação pedagógica e pelo impacto transformador na vida de nossos alunos.
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                            <div class="card p-6 flex items-start space-x-4">
+                                <i class="fas fa-lightbulb text-3xl spotify-green mt-1"></i>
+                                <div>
+                                    <h4 class="text-xl font-semibold mb-2">Inovação</h4>
+                                    <p class="text-gray-400 text-sm">Sempre à frente com as últimas tendências e tecnologias educacionais.</p>
+                                </div>
+                            </div>
+                            <div class="card p-6 flex items-start space-x-4">
+                                <i class="fas fa-handshake text-3xl spotify-green mt-1"></i>
+                                <div>
+                                    <h4 class="text-xl font-semibold mb-2">Compromisso</h4>
+                                    <p class="text-gray-400 text-sm">Dedicados ao sucesso de cada aluno, oferecendo suporte contínuo.</p>
+                                </div>
+                            </div>
+                            <div class="card p-6 flex items-start space-x-4">
+                                <i class="fas fa-users text-3xl spotify-green mt-1"></i>
+                                <div>
+                                    <h4 class="text-xl font-semibold mb-2">Comunidade</h4>
+                                    <p class="text-gray-400 text-sm">Construímos uma rede de apoio e colaboração entre alunos e professores.</p>
+                                </div>
+                            </div>
+                            <div class="card p-6 flex items-start space-x-4">
+                                <i class="fas fa-award text-3xl spotify-green mt-1"></i>
+                                <div>
+                                    <h4 class="text-xl font-semibold mb-2">Excelência</h4>
+                                    <p class="text-gray-400 text-sm">Padrões de ensino rigorosos para garantir a melhor formação.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -271,116 +340,198 @@
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16 fade-in-element">
                     <h2 class="section-title">Nossos <span class="spotify-green">Cursos</span></h2>
-                    <p class="section-subtitle">Explore nossa variedade de cursos desenhados para o seu sucesso profissional.</p>
+                    <p class="section-subtitle">Descubra a trilha ideal para o seu crescimento profissional em diversas áreas de atuação.</p>
+                    <div class="mt-8 mb-12 p-4 bg-spotify-green text-black rounded-lg shadow-md max-w-xl mx-auto font-bold text-xl md:text-2xl">
+                        <p>Todos os cursos por apenas <span class="text-3xl md:text-4xl">R$ 49,90/mês!</span></p>
+                        <p class="text-lg md:text-xl mt-2">Aproveite <span class="font-extrabold">7 dias gratuitos</span> e sem contratos!</p>
+                    </div>
                 </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="card fade-in-element">
-                        <img src="https://placehold.co/400x250/282828/1DB954?text=Curso+Tecnologia" alt="Curso de Tecnologia" class="rounded-md mb-6 w-full h-48 object-cover">
+
+                <div class="flex flex-wrap justify-center gap-4 mb-12 fade-in-element">
+                    <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold active-filter" data-filter="all">Todos</button>
+                    <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="tecnologia">Tecnologia</button>
+                    <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="administracao">Administração</button>
+                    <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="design">Design</button>
+                    <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="idiomas">Idiomas</button>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="course-grid">
+                    <div class="card fade-in-element course-item tecnologia">
                         <h3 class="text-2xl font-semibold mb-3 spotify-green">Desenvolvimento Web Full Stack</h3>
                         <p class="text-gray-400 mb-4 text-sm">
-                            Aprenda a criar aplicações web completas, do front-end ao back-end, com as tecnologias mais demandadas pelo mercado.
+                            Domine a criação de aplicações web completas, do front-end ao back-end, utilizando as tecnologias mais requisitadas do mercado.
                         </p>
-                        <a href="#" class="font-semibold text-spotify-green hover:underline">Saiba Mais <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                        <ul class="text-gray-400 text-sm mb-4 space-y-1">
+                            <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 12 meses</li>
+                            <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
+                        </ul>
+                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="web-fullstack">
+                            Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
+                        </button>
                     </div>
-                    <div class="card fade-in-element" style="animation-delay: 0.2s;">
-                        <img src="https://placehold.co/400x250/282828/1DB954?text=Curso+Negócios" alt="Curso de Negócios" class="rounded-md mb-6 w-full h-48 object-cover">
+
+                    <div class="card fade-in-element course-item administracao" style="animation-delay: 0.2s;">
                         <h3 class="text-2xl font-semibold mb-3 spotify-green">Gestão de Negócios Digitais</h3>
                         <p class="text-gray-400 mb-4 text-sm">
-                            Domine as estratégias para gerenciar e escalar negócios no ambiente online, incluindo marketing digital, e-commerce e análise de dados.
+                            Aprenda a planejar, executar e escalar estratégias de negócios no ambiente online, incluindo marketing e e-commerce.
                         </p>
-                        <a href="#" class="font-semibold text-spotify-green hover:underline">Saiba Mais <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                        <ul class="text-gray-400 text-sm mb-4 space-y-1">
+                            <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 10 meses</li>
+                            <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
+                        </ul>
+                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="negocios-digitais">
+                            Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
+                        </button>
                     </div>
-                    <div class="card fade-in-element" style="animation-delay: 0.4s;">
-                        <img src="https://placehold.co/400x250/282828/1DB954?text=Curso+Design" alt="Curso de Design" class="rounded-md mb-6 w-full h-48 object-cover">
+
+                    <div class="card fade-in-element course-item design" style="animation-delay: 0.4s;">
                         <h3 class="text-2xl font-semibold mb-3 spotify-green">Design Gráfico e UX/UI</h3>
                         <p class="text-gray-400 mb-4 text-sm">
-                            Desenvolva habilidades em design gráfico e crie interfaces de usuário intuitivas e atraentes para websites e aplicativos.
+                            Desenvolva sua criatividade e crie interfaces de usuário intuitivas e visualmente atraentes para diversas plataformas.
                         </p>
-                        <a href="#" class="font-semibold text-spotify-green hover:underline">Saiba Mais <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                        <ul class="text-gray-400 text-sm mb-4 space-y-1">
+                            <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 8 meses</li>
+                            <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
+                        </ul>
+                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="design-uxui">
+                            Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
+                        </button>
                     </div>
-                    <div class="card fade-in-element" style="animation-delay: 0.6s;">
-                        <img src="https://placehold.co/400x250/282828/1DB954?text=Curso+Idiomas" alt="Curso de Idiomas" class="rounded-md mb-6 w-full h-48 object-cover">
+
+                    <div class="card fade-in-element course-item idiomas" style="animation-delay: 0.6s;">
                         <h3 class="text-2xl font-semibold mb-3 spotify-green">Inglês para Negócios</h3>
                         <p class="text-gray-400 mb-4 text-sm">
-                            Aprimore suas habilidades no idioma inglês com foco em comunicação profissional e corporativa.
+                            Aprimore suas habilidades no idioma inglês com foco em comunicação empresarial, apresentações e negociações globais.
                         </p>
-                        <a href="#" class="font-semibold text-spotify-green hover:underline">Saiba Mais <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                        <ul class="text-gray-400 text-sm mb-4 space-y-1">
+                            <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 6 meses</li>
+                            <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
+                        </ul>
+                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="ingles-negocios">
+                            Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
+                        </button>
                     </div>
-                    <div class="card fade-in-element" style="animation-delay: 0.8s;">
-                        <img src="https://placehold.co/400x250/282828/1DB954?text=Curso+Marketing" alt="Curso de Marketing" class="rounded-md mb-6 w-full h-48 object-cover">
+
+                    <div class="card fade-in-element course-item administracao" style="animation-delay: 0.8s;">
                         <h3 class="text-2xl font-semibold mb-3 spotify-green">Marketing de Conteúdo</h3>
                         <p class="text-gray-400 mb-4 text-sm">
-                            Aprenda a criar e distribuir conteúdo valioso para atrair, engajar e reter uma audiência claramente definida.
+                            Crie e distribua conteúdo estratégico para atrair, engajar e converter sua audiência, construindo autoridade digital.
                         </p>
-                        <a href="#" class="font-semibold text-spotify-green hover:underline">Saiba Mais <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                        <ul class="text-gray-400 text-sm mb-4 space-y-1">
+                            <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 7 meses</li>
+                            <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
+                        </ul>
+                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="marketing-conteudo">
+                            Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
+                        </button>
                     </div>
-                    <div class="card fade-in-element" style="animation-delay: 1s;">
-                        <img src="https://placehold.co/400x250/282828/1DB954?text=Curso+Finanças" alt="Curso de Finanças" class="rounded-md mb-6 w-full h-48 object-cover">
+
+                    <div class="card fade-in-element course-item administracao" style="animation-delay: 1s;">
                         <h3 class="text-2xl font-semibold mb-3 spotify-green">Finanças Pessoais e Investimentos</h3>
                         <p class="text-gray-400 mb-4 text-sm">
-                            Organize sua vida financeira e aprenda os fundamentos para começar a investir com segurança e inteligência.
+                            Organize sua vida financeira, aprenda a poupar e a investir com inteligência para alcançar seus objetivos de longo prazo.
                         </p>
-                        <a href="#" class="font-semibold text-spotify-green hover:underline">Saiba Mais <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                        <ul class="text-gray-400 text-sm mb-4 space-y-1">
+                            <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 5 meses</li>
+                            <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
+                        </ul>
+                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="financas-investimentos">
+                            Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
+                        </button>
                     </div>
+                </div>
+
+                <div class="text-center mt-20 fade-in-element">
+                    <h3 class="text-4xl font-bold mb-6">Não encontrou o curso ideal?</h3>
+                    <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                        Temos uma equipe de consultores pronta para te ajudar a descobrir o caminho certo para o seu futuro.
+                    </p>
+                    <a href="#contato" class="bg-spotify-green text-black font-extrabold px-10 py-4 rounded-full text-xl hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
+                        Fale com um Consultor <i class="fas fa-headset ml-3"></i>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <section id="depoimentos" class="py-20">
+        <section id="depoimentos" class="py-20 bg-[#121212]">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16 fade-in-element">
                     <h2 class="section-title">O Que Nossos <span class="spotify-green">Alunos Dizem</span></h2>
-                    <p class="section-subtitle">Histórias de sucesso e transformação que nos inspiram todos os dias.</p>
+                    <p class="section-subtitle">Histórias reais de sucesso e transformação que inspiram nossa comunidade diariamente.</p>
                 </div>
                 <div class="relative fade-in-element">
                     <div id="testimonialSlider" class="overflow-hidden">
                         <div class="flex transition-transform duration-500 ease-in-out">
                             <div class="min-w-full p-4">
-                                <div class="testimonial-card p-8 rounded-lg shadow-lg max-w-2xl mx-auto">
-                                    <p class="text-lg italic text-gray-300 mb-6">"O curso de Desenvolvimento Web da CED BRASIL abriu portas que eu nem imaginava! Hoje trabalho na área e sou muito realizado."</p>
+                                <div class="testimonial-card p-8 rounded-lg shadow-lg max-w-3xl mx-auto">
+                                    <div class="flex items-center mb-4">
+                                        <span class="text-yellow-400 text-xl mr-1">⭐⭐⭐⭐⭐</span>
+                                        <span class="text-gray-400 text-sm">(5.0)</span>
+                                    </div>
+                                    <p class="text-lg italic text-gray-300 mb-6">"O curso de Desenvolvimento Web da CED BRASIL foi um divisor de águas na minha carreira. A didática é excelente e o suporte é incomparável. Hoje, sou um desenvolvedor realizado!"</p>
                                     <div class="flex items-center">
-                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=JA" alt="João Almeida" class="w-12 h-12 rounded-full mr-4 border-2 border-spotify-green">
+                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=JA" alt="João Almeida" class="w-14 h-14 rounded-full mr-4 border-2 border-spotify-green object-cover">
                                         <div>
-                                            <p class="font-semibold text-white">João Almeida</p>
-                                            <p class="text-sm text-gray-400">Ex-aluno, Desenvolvedor Web</p>
+                                            <p class="font-semibold text-white text-lg">João Almeida</p>
+                                            <p class="text-sm text-gray-400">Ex-aluno, Desenvolvedor Full Stack na TechSolutions</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="min-w-full p-4">
-                                <div class="testimonial-card p-8 rounded-lg shadow-lg max-w-2xl mx-auto">
-                                    <p class="text-lg italic text-gray-300 mb-6">"A didática dos professores é incrível e o suporte da escola faz toda a diferença. Recomendo a CED BRASIL de olhos fechados!"</p>
+                                <div class="testimonial-card p-8 rounded-lg shadow-lg max-w-3xl mx-auto">
+                                    <div class="flex items-center mb-4">
+                                        <span class="text-yellow-400 text-xl mr-1">⭐⭐⭐⭐⭐</span>
+                                        <span class="text-gray-400 text-sm">(5.0)</span>
+                                    </div>
+                                    <p class="text-lg italic text-gray-300 mb-6">"A CED BRASIL me deu as ferramentas para alavancar meu negócio digital. Os módulos de marketing e análise de dados foram cruciais. Recomendo a todos que buscam resultados reais!"</p>
                                     <div class="flex items-center">
-                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=MS" alt="Maria Silva" class="w-12 h-12 rounded-full mr-4 border-2 border-spotify-green">
+                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=MS" alt="Maria Silva" class="w-14 h-14 rounded-full mr-4 border-2 border-spotify-green object-cover">
                                         <div>
-                                            <p class="font-semibold text-white">Maria Silva</p>
-                                            <p class="text-sm text-gray-400">Aluna, Gestão de Negócios</p>
+                                            <p class="font-semibold text-white text-lg">Maria Silva</p>
+                                            <p class="text-sm text-gray-400">Empreendedora Digital, Fundadora da EcomSuccess</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="min-w-full p-4">
-                                <div class="testimonial-card p-8 rounded-lg shadow-lg max-w-2xl mx-auto">
-                                    <p class="text-lg italic text-gray-300 mb-6">"Finalmente encontrei um curso que se encaixa na minha rotina e me dá as ferramentas para crescer profissionalmente. Obrigada, CED BRASIL!"</p>
+                                <div class="testimonial-card p-8 rounded-lg shadow-lg max-w-3xl mx-auto">
+                                    <div class="flex items-center mb-4">
+                                        <span class="text-yellow-400 text-xl mr-1">⭐⭐⭐⭐⭐</span>
+                                        <span class="text-gray-400 text-sm">(5.0)</span>
+                                    </div>
+                                    <p class="text-lg italic text-gray-300 mb-6">"Finalmente encontrei um curso de design que me ensinou a pensar como um UX/UI designer de verdade. O portfólio que construí na CED BRASIL me abriu portas para grandes projetos."</p>
                                     <div class="flex items-center">
-                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=CP" alt="Carlos Pereira" class="w-12 h-12 rounded-full mr-4 border-2 border-spotify-green">
+                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=CP" alt="Carlos Pereira" class="w-14 h-14 rounded-full mr-4 border-2 border-spotify-green object-cover">
                                         <div>
-                                            <p class="font-semibold text-white">Carlos Pereira</p>
-                                            <p class="text-sm text-gray-400">Aluno, Design Gráfico</p>
+                                            <p class="font-semibold text-white text-lg">Carlos Pereira</p>
+                                            <p class="text-sm text-gray-400">Designer UX/UI Sênior na CreativeFlow Studio</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <button id="prevTestimonial" class="absolute top-1/2 left-0 md:-left-8 transform -translate-y-1/2 bg-spotify-green text-white p-3 rounded-full shadow-md hover-bg-spotify-green-darker transition duration-300 focus:outline-none">
-                        <i class="fas fa-chevron-left"></i>
+                    <button id="prevTestimonial" class="absolute top-1/2 left-0 md:-left-10 transform -translate-y-1/2 bg-spotify-green text-black p-4 rounded-full shadow-md hover-bg-spotify-green-darker transition duration-300 focus:outline-none z-20">
+                        <i class="fas fa-chevron-left text-lg"></i>
                     </button>
-                    <button id="nextTestimonial" class="absolute top-1/2 right-0 md:-right-8 transform -translate-y-1/2 bg-spotify-green text-white p-3 rounded-full shadow-md hover-bg-spotify-green-darker transition duration-300 focus:outline-none">
-                        <i class="fas fa-chevron-right"></i>
+                    <button id="nextTestimonial" class="absolute top-1/2 right-0 md:-right-10 transform -translate-y-1/2 bg-spotify-green text-black p-4 rounded-full shadow-md hover-bg-spotify-green-darker transition duration-300 focus:outline-none z-20">
+                        <i class="fas fa-chevron-right text-lg"></i>
                     </button>
                 </div>
-                <div id="testimonialIndicators" class="flex justify-center mt-8 space-x-2">
+                <div id="testimonialIndicators" class="flex justify-center mt-8 space-x-3">
+                </div>
+
+                <div class="text-center mt-20 fade-in-element bg-[#1E1E1E] p-8 rounded-lg shadow-xl border border-spotify-green max-w-4xl mx-auto">
+                    <p class="text-3xl font-bold text-white mb-4">
+                        Mais de <span class="spotify-green">15.000 alunos</span> já transformaram suas vidas!
+                    </p>
+                    <p class="text-lg text-gray-300 mb-6">
+                        Junte-se à nossa comunidade e comece sua jornada de sucesso hoje.
+                    </p>
+                    <a href="#cursos" class="bg-spotify-green text-black font-extrabold px-8 py-4 rounded-full text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
+                        Garanta Sua Vaga! <i class="fas fa-graduation-cap ml-2"></i>
+                    </a>
                 </div>
             </div>
         </section>
@@ -389,31 +540,20 @@
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16 fade-in-element">
                     <h2 class="section-title">Entre em <span class="spotify-green">Contato</span></h2>
-                    <p class="section-subtitle">Tem alguma dúvida ou quer saber mais? Fale conosco!</p>
+                    <p class="section-subtitle">Tem alguma dúvida, precisa de orientação ou quer se inscrever? Estamos aqui para ajudar!</p>
                 </div>
-                <div class="max-w-2xl mx-auto card fade-in-element">
-                    <form id="contactForm">
-                        <div class="mb-6">
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-300">Nome Completo</label>
-                            <input type="text" id="name" name="name" class="bg-[#282828] border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-spotify-green focus:border-spotify-green block w-full p-3" placeholder="Seu nome" required>
+                <div class="max-w-3xl mx-auto card p-8 fade-in-element">
+                    <div class="mt-8 text-center text-gray-400">
+                        <p class="mb-4 text-lg font-semibold text-white">Fale conosco diretamente:</p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-6">
+                            <a href="https://wa.me/5561986660241" target="_blank" class="bg-spotify-green text-black font-extrabold px-8 py-4 rounded-full text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105 flex items-center justify-center">
+                                <i class="fab fa-whatsapp text-2xl mr-2"></i> Chamar no WhatsApp
+                            </a>
+                            <a href="mailto:contato@cedbrasil.com.br" class="border-2 border-spotify-green text-spotify-green font-semibold px-8 py-4 rounded-full text-lg hover:bg-spotify-green hover:text-black transition duration-300 shadow-lg transform hover:scale-105 flex items-center justify-center">
+                                <i class="fas fa-envelope text-2xl mr-2"></i> Enviar Email
+                            </a>
                         </div>
-                        <div class="mb-6">
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-300">Email</label>
-                            <input type="email" id="email" name="email" class="bg-[#282828] border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-spotify-green focus:border-spotify-green block w-full p-3" placeholder="seu.email@exemplo.com" required>
-                        </div>
-                        <div class="mb-6">
-                            <label for="subject" class="block mb-2 text-sm font-medium text-gray-300">Assunto</label>
-                            <input type="text" id="subject" name="subject" class="bg-[#282828] border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-spotify-green focus:border-spotify-green block w-full p-3" placeholder="Sobre qual curso você quer saber?" required>
-                        </div>
-                        <div class="mb-6">
-                            <label for="message" class="block mb-2 text-sm font-medium text-gray-300">Mensagem</label>
-                            <textarea id="message" name="message" rows="4" class="bg-[#282828] border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-spotify-green focus:border-spotify-green block w-full p-3" placeholder="Deixe sua mensagem aqui..." required></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-spotify-green text-white font-semibold px-6 py-3 rounded-lg text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg">
-                            Enviar Mensagem
-                        </button>
-                        <div id="formMessage" class="mt-4 text-center"></div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </section>
@@ -421,35 +561,80 @@
 
     <footer class="bg-[#0A0A0A] text-gray-400 py-12">
         <div class="container mx-auto px-6 text-center">
-            <div class="mb-6">
-                <a href="#" class="flex items-center justify-center text-3xl font-bold">
+            <div class="mb-8">
+                <a href="#" class="text-4xl font-bold">
                     <span class="spotify-green">CedBrasil</span>
-                    <img src="image_eaee74.png" alt="Logo CED BRASIL" class="h-8 ml-2">
                 </a>
             </div>
-            <div class="mb-6 space-x-6">
-                <a href="#" class="hover:text-spotify-green transition duration-300"><i class="fab fa-facebook-f text-2xl"></i></a>
-                <a href="#" class="hover:text-spotify-green transition duration-300"><i class="fab fa-instagram text-2xl"></i></a>
-                <a href="#" class="hover:text-spotify-green transition duration-300"><i class="fab fa-linkedin-in text-2xl"></i></a>
-                <a href="#" class="hover:text-spotify-green transition duration-300"><i class="fab fa-youtube text-2xl"></i></a>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left mb-10">
+                <div>
+                    <h4 class="text-xl font-semibold text-white mb-4">Navegação Rápida</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#hero" class="hover:text-spotify-green transition duration-300">Início</a></li>
+                        <li><a href="#sobre" class="hover:text-spotify-green transition duration-300">Sobre Nós</a></li>
+                        <li><a href="#cursos" class="hover:text-spotify-green transition duration-300">Cursos</a></li>
+                        <li><a href="#depoimentos" class="hover:text-spotify-green transition duration-300">Depoimentos</a></li>
+                        <li><a href="#contato" class="hover:text-spotify-green transition duration-300">Contato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold text-white mb-4">Cursos Populares</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#cursos" class="hover:text-spotify-green transition duration-300">Desenvolvimento Web</a></li>
+                        <li><a href="#cursos" class="hover:text-spotify-green transition duration-300">Gestão de Negócios</a></li>
+                        <li><a href="#cursos" class="hover:text-spotify-green transition duration-300">Design UX/UI</a></li>
+                        <li><a href="#cursos" class="hover:text-spotify-green transition duration-300">Marketing Digital</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold text-white mb-4">Conecte-se</h4>
+                    <div class="flex justify-center md:justify-start space-x-6 mb-4">
+                        <a href="#" class="hover:text-spotify-green transition duration-300" aria-label="Facebook"><i class="fab fa-facebook-f text-2xl"></i></a>
+                        <a href="#" class="hover:text-spotify-green transition duration-300" aria-label="Instagram"><i class="fab fa-instagram text-2xl"></i></a>
+                        <a href="#" class="hover:text-spotify-green transition duration-300" aria-label="LinkedIn"><i class="fab fa-linkedin-in text-2xl"></i></a>
+                        <a href="#" class="hover:text-spotify-green transition duration-300" aria-label="YouTube"><i class="fab fa-youtube text-2xl"></i></a>
+                    </div>
+                    <p class="text-sm">Endereço: Rua da Educação, 123 - Centro, Brasília/DF</p>
+                    <p class="text-sm">Telefone: (61) 99999-9999</p>
+                </div>
             </div>
-            <p class="text-sm">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
-            <p class="text-xs mt-2">Desenvolvido com <i class="fas fa-heart spotify-green"></i> por Inteligência Artificial</p>
+            <div class="border-t border-gray-700 pt-8 mt-8 text-center">
+                <p class="text-sm mb-2">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
+                <p class="text-xs text-gray-500 mb-2">
+                    <a href="#" class="hover:text-spotify-green transition duration-300">Política de Privacidade</a> | 
+                    <a href="#" class="hover:text-spotify-green transition duration-300">Termos de Uso</a> |
+                    <a href="#" class="hover:text-spotify-green transition duration-300">Aviso LGPD</a>
+                </p>
+                <p class="text-xs mt-4">Desenvolvido com <i class="fas fa-heart spotify-green"></i> por Inteligência Artificial</p>
+            </div>
         </div>
     </footer>
+
+    <button id="open-joel-bot" class="fixed bottom-6 right-6 bg-spotify-green text-black p-4 rounded-full shadow-lg hover-bg-spotify-green-darker transition duration-300 z-50 transform hover:scale-110 focus:outline-none" aria-label="Abrir Chatbot JOEL">
+        <i class="fas fa-robot text-2xl"></i>
+    </button>
 
     <div class="joel-bot-container" id="joel-bot-container">
         <div class="joel-bot-header">
             <h3>JOEL</h3>
-            <button id="close-joel-bot">X</button>
+            <button id="close-joel-bot" aria-label="Fechar Chatbot">X</button>
         </div>
         <div class="joel-bot-body" id="joel-bot-body">
             <div class="message received">Olá! Eu sou o JOEL, o assistente virtual da CED BRASIL. Como posso ajudar você hoje?</div>
         </div>
         <div class="joel-bot-footer">
-            <input type="text" id="joel-input" placeholder="Digite sua mensagem...">
-            <button id="joel-send-btn">Enviar</button>
+            <input type="text" id="joel-input" placeholder="Digite sua mensagem..." aria-label="Campo de mensagem do chatbot">
+            <button id="joel-send-btn" aria-label="Enviar mensagem">Enviar</button>
         </div>
+    </div>
+
+    <div class="mobile-cta-buttons">
+        <a href="#cursos" class="w-full bg-spotify-green text-black font-extrabold px-6 py-3 rounded-full text-base text-center hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
+            Quero me Inscrever! <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+        <a href="https://wa.me/5561986660241" target="_blank" class="w-full border-2 border-spotify-green text-spotify-green font-semibold px-6 py-3 rounded-full text-base text-center hover:bg-spotify-green hover:text-black transition duration-300 shadow-lg transform hover:scale-105">
+            Fale no WhatsApp <i class="fab fa-whatsapp ml-2"></i>
+        </a>
     </div>
 
     <script>
@@ -566,22 +751,8 @@
         // Current Year for Footer
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Contact Form Submission (Basic simulation)
-        const contactForm = document.getElementById('contactForm');
-        const formMessage = document.getElementById('formMessage');
-
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            formMessage.textContent = `Obrigado por sua mensagem, ${name}! Entraremos em contato em breve. (Simulação)`;
-            formMessage.className = 'mt-4 text-center text-spotify-green';
-            contactForm.reset();
-
-            setTimeout(() => {
-                formMessage.textContent = '';
-                formMessage.className = 'mt-4 text-center';
-            }, 5000);
-        });
+        // Contact Form Submission (Basic simulation) - Removed form, so this is no longer directly used for form submission
+        const formMessage = document.getElementById('formMessage'); // Keep this if you want to use it for other messages
 
         // Fade-in elements on scroll
         const fadeInElements = document.querySelectorAll('.fade-in-element');
@@ -610,12 +781,7 @@
         });
 
         // JOEL Bot (UI e Simulação de Interação) - Integrado e adaptado ao novo estilo
-        const openJoelBotBtn = document.createElement('button');
-        openJoelBotBtn.id = 'open-joel-bot';
-        openJoelBotBtn.innerHTML = '<i class="fas fa-robot text-2xl"></i>';
-        openJoelBotBtn.classList.add('fixed', 'bottom-6', 'right-6', 'bg-spotify-green', 'text-white', 'p-4', 'rounded-full', 'shadow-lg', 'hover-bg-spotify-green-darker', 'transition', 'duration-300', 'z-50');
-        document.body.appendChild(openJoelBotBtn);
-
+        const openJoelBotBtn = document.getElementById('open-joel-bot');
         const closeJoelBotBtn = document.getElementById('close-joel-bot');
         const joelBotContainer = document.getElementById('joel-bot-container');
         const joelInput = document.getElementById('joel-input');
@@ -711,6 +877,61 @@
                 appendMessage('Desculpe, estou com dificuldades para me conectar no momento. Tente novamente mais tarde.', 'received');
             }
         }
+
+        // Scroll Progress Bar Logic
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (scrollTop / scrollHeight) * 100;
+            document.getElementById('scroll-progress').style.width = scrolled + '%';
+        });
+
+        // Intersection Observer for Fade-in Elements (re-initialize if needed)
+        // This is already set up above, but ensures elements are observed on load.
+        document.addEventListener('DOMContentLoaded', () => {
+            fadeInElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+
+        // Course Filtering (Placeholder for full JS implementation)
+        const filterButtons = document.querySelectorAll('.flex.flex-wrap.justify-center.gap-4 button');
+        const courseItems = document.querySelectorAll('.course-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active-filter', 'bg-spotify-green', 'text-black'));
+                // Add active class to clicked button
+                button.classList.add('active-filter', 'bg-spotify-green', 'text-black');
+
+                const filter = button.dataset.filter;
+
+                courseItems.forEach(item => {
+                    if (filter === 'all' || item.classList.contains(filter)) {
+                        item.style.display = 'block'; // Or 'flex'/'grid' depending on layout
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Initial active filter
+        document.querySelector('.active-filter').classList.add('bg-spotify-green', 'text-black');
+
+        // Dark/Light Mode (Placeholder for full JS implementation)
+        // const toggleDarkModeBtn = document.getElementById('toggle-dark-mode');
+        // if (toggleDarkModeBtn) {
+        //     toggleDarkModeBtn.addEventListener('click', () => {
+        //         document.body.classList.toggle('light-mode'); // Example class
+        //         // Save preference to localStorage
+        //     });
+        // }
+        // // Check user's system preference on load
+        // if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        //     // document.body.classList.add('light-mode');
+        // }
     </script>
 </body>
 </html>
