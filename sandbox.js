@@ -26,3 +26,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }).finally(() => window.location.href = PLAN_URL);
   });
 });
+
