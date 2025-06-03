@@ -1029,7 +1029,7 @@
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
             const payload = { contents: chatHistory };
-            const apiKey = ""; // A chave da API será fornecida em tempo de execução pelo Canvas
+            const apiKey = os.getenv('GEMINI_API_KEY'); // Obtém
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
