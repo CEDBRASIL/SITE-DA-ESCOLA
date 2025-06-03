@@ -1,13 +1,482 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=h, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CED BRASIL - Transformando Futuros</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212; /* Dark background */
+            color: #E0E0E0; /* Light text for dark theme */
+        }
+        .spotify-green {
+            color: #1DB954;
+        }
+        .bg-spotify-green {
+            background-color: #1DB954;
+        }
+        .border-spotify-green {
+            border-color: #1DB954;
+        }
+        .hover-bg-spotify-green-darker:hover {
+            background-color: #1AA34A;
+        }
+        .section-title {
+            font-size: 2.5rem; /* 40px */
+            font-weight: 700;
+            margin-bottom: 1.5rem; /* 24px */
+            text-align: center;
+        }
+        .section-subtitle {
+            font-size: 1.125rem; /* 18px */
+            color: #A0A0A0;
+            text-align: center;
+            margin-bottom: 3rem; /* 48px */
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .card {
+            background-color: #1E1E1E; /* Slightly lighter dark for cards */
+            border-radius: 0.75rem; /* 12px */
+            padding: 1.5rem; /* 24px */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #333;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 200, 83, 0.1);
+        }
+        .testimonial-card {
+            background-color: #282828;
+            border-left: 4px solid #1DB954;
+        }
+        /* Scrollbar styling (optional, for a more polished look) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1E1E1E;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1DB954;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1AA34A;
+        }
+        /* Fade in animation */
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
-<body>
-    <h1>Site ainda esta sendo desenvolvido!
-    
-    </h1>
+<body class="antialiased">
+
+    <header class="bg-[#181818] shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">
+                <span class="spotify-green">CED</span> BRASIL
+            </a>
+            <nav class="hidden md:flex space-x-6 items-center">
+                <a href="#hero" class="hover:text-spotify-green transition duration-300">Início</a>
+                <a href="#sobre" class="hover:text-spotify-green transition duration-300">Sobre Nós</a>
+                <a href="#cursos" class="hover:text-spotify-green transition duration-300">Cursos</a>
+                <a href="#depoimentos" class="hover:text-spotify-green transition duration-300">Depoimentos</a>
+                <a href="#contato" class="hover:text-spotify-green transition duration-300">Contato</a>
+                <a href="#" class="bg-spotify-green text-white px-4 py-2 rounded-md hover-bg-spotify-green-darker transition duration-300 text-sm">Área do Aluno</a>
+            </nav>
+            <button id="mobileMenuButton" class="md:hidden focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden bg-[#181818] py-2">
+            <a href="#hero" class="block px-6 py-2 hover:bg-[#282828] hover:text-spotify-green transition duration-300">Início</a>
+            <a href="#sobre" class="block px-6 py-2 hover:bg-[#282828] hover:text-spotify-green transition duration-300">Sobre Nós</a>
+            <a href="#cursos" class="block px-6 py-2 hover:bg-[#282828] hover:text-spotify-green transition duration-300">Cursos</a>
+            <a href="#depoimentos" class="block px-6 py-2 hover:bg-[#282828] hover:text-spotify-green transition duration-300">Depoimentos</a>
+            <a href="#contato" class="block px-6 py-2 hover:bg-[#282828] hover:text-spotify-green transition duration-300">Contato</a>
+            <a href="#" class="block mx-6 my-2 bg-spotify-green text-white text-center px-4 py-2 rounded-md hover-bg-spotify-green-darker transition duration-300">Área do Aluno</a>
+        </div>
+    </header>
+
+    <section id="hero" class="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(18, 18, 18, 0.85), rgba(18, 18, 18, 0.85)), url('https://placehold.co/1920x1080/101010/1DB954?text=CED+BRASIL+Educação');">
+        <div class="text-center p-6 fade-in-element">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                Transformando <span class="spotify-green">Futuros</span> Através da Educação
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto">
+                Na CED BRASIL, capacitamos você com o conhecimento e as habilidades para alcançar seus sonhos.
+            </p>
+            <a href="#cursos" class="bg-spotify-green text-white font-semibold px-8 py-4 rounded-lg text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg">
+                Conheça Nossos Cursos
+            </a>
+        </div>
+    </section>
+
+    <section id="sobre" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in-element">
+                <h2 class="section-title">Quem <span class="spotify-green">Somos</span></h2>
+                <p class="section-subtitle">Dedicados a oferecer educação de qualidade que inspira e transforma.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in-element">
+                    <img src="https://placehold.co/600x400/181818/E0E0E0?text=Equipe+CED+BRASIL" alt="Equipe CED BRASIL" class="rounded-lg shadow-xl w-full">
+                </div>
+                <div class="fade-in-element">
+                    <h3 class="text-3xl font-semibold mb-4">Nossa Missão</h3>
+                    <p class="text-gray-400 mb-4 leading-relaxed">
+                        Proporcionar um ambiente de aprendizado inovador e acessível, focado no desenvolvimento integral dos nossos alunos, preparando-os para os desafios do mercado de trabalho e para a vida.
+                    </p>
+                    <h3 class="text-3xl font-semibold mb-4 mt-6">Nossa Visão</h3>
+                    <p class="text-gray-400 mb-4 leading-relaxed">
+                        Ser referência em educação, reconhecida pela excelência no ensino, pela formação de cidadãos críticos e conscientes, e pelo impacto positivo na sociedade.
+                    </p>
+                    <a href="#contato" class="mt-6 inline-block text-spotify-green font-semibold hover:underline">
+                        Entre em Contato <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cursos" class="py-20 bg-[#181818]">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in-element">
+                <h2 class="section-title">Nossos <span class="spotify-green">Cursos</span></h2>
+                <p class="section-subtitle">Explore nossa variedade de cursos desenhados para o seu sucesso profissional.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card fade-in-element">
+                    <img src="https://placehold.co/400x250/282828/1DB954?text=Curso+Tecnologia" alt="Curso de Tecnologia" class="rounded-md mb-6 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-semibold mb-3 spotify-green">Desenvolvimento Web Full Stack</h3>
+                    <p class="text-gray-400 mb-4 text-sm">
+                        Aprenda a criar aplicações web completas, do front-end ao back-end, com as tecnologias mais demandadas pelo mercado.
+                    </p>
+                    <a href="#" class="font-semibold text-spotify-green hover:underline">Saiba Mais <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                </div>
+                <div class="card fade-in-element" style="animation-delay: 0.2s;">
+                    <img src="https://placehold.co/400x250/282828/1DB954?text=Curso+Negócios" alt="Curso de Negócios" class="rounded-md mb-6 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-semibold mb-3 spotify-green">Gestão de Negócios Digitais</h3>
+                    <p class="text-gray-400 mb-4 text-sm">
+                        Domine as estratégias para gerenciar e escalar negócios no ambiente online, incluindo marketing digital, e-commerce e análise de dados.
+                    </p>
+                    <a href="#" class="font-semibold text-spotify-green hover:underline">Saiba Mais <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                </div>
+                <div class="card fade-in-element" style="animation-delay: 0.4s;">
+                     <img src="https://placehold.co/400x250/282828/1DB954?text=Curso+Design" alt="Curso de Design" class="rounded-md mb-6 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-semibold mb-3 spotify-green">Design Gráfico e UX/UI</h3>
+                    <p class="text-gray-400 mb-4 text-sm">
+                        Desenvolva habilidades em design gráfico e crie interfaces de usuário intuitivas e atraentes para websites e aplicativos.
+                    </p>
+                    <a href="#" class="font-semibold text-spotify-green hover:underline">Saiba Mais <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                </div>
+                 <div class="card fade-in-element" style="animation-delay: 0.6s;">
+                    <img src="https://placehold.co/400x250/282828/1DB954?text=Curso+Idiomas" alt="Curso de Idiomas" class="rounded-md mb-6 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-semibold mb-3 spotify-green">Inglês para Negócios</h3>
+                    <p class="text-gray-400 mb-4 text-sm">
+                        Aprimore suas habilidades no idioma inglês com foco em comunicação profissional e corporativa.
+                    </p>
+                    <a href="#" class="font-semibold text-spotify-green hover:underline">Saiba Mais <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                </div>
+                 <div class="card fade-in-element" style="animation-delay: 0.8s;">
+                     <img src="https://placehold.co/400x250/282828/1DB954?text=Curso+Marketing" alt="Curso de Marketing" class="rounded-md mb-6 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-semibold mb-3 spotify-green">Marketing de Conteúdo</h3>
+                    <p class="text-gray-400 mb-4 text-sm">
+                        Aprenda a criar e distribuir conteúdo valioso para atrair, engajar e reter uma audiência claramente definida.
+                    </p>
+                    <a href="#" class="font-semibold text-spotify-green hover:underline">Saiba Mais <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                </div>
+                 <div class="card fade-in-element" style="animation-delay: 1s;">
+                     <img src="https://placehold.co/400x250/282828/1DB954?text=Curso+Finanças" alt="Curso de Finanças" class="rounded-md mb-6 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-semibold mb-3 spotify-green">Finanças Pessoais e Investimentos</h3>
+                    <p class="text-gray-400 mb-4 text-sm">
+                        Organize sua vida financeira e aprenda os fundamentos para começar a investir com segurança e inteligência.
+                    </p>
+                    <a href="#" class="font-semibold text-spotify-green hover:underline">Saiba Mais <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="depoimentos" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in-element">
+                <h2 class="section-title">O Que Nossos <span class="spotify-green">Alunos Dizem</span></h2>
+                <p class="section-subtitle">Histórias de sucesso e transformação que nos inspiram todos os dias.</p>
+            </div>
+            <div class="relative fade-in-element">
+                <div id="testimonialSlider" class="overflow-hidden">
+                    <div class="flex transition-transform duration-500 ease-in-out">
+                        <div class="min-w-full p-4">
+                            <div class="testimonial-card p-8 rounded-lg shadow-lg max-w-2xl mx-auto">
+                                <p class="text-lg italic text-gray-300 mb-6">"O curso de Desenvolvimento Web da CED BRASIL abriu portas que eu nem imaginava! Hoje trabalho na área e sou muito realizado."</p>
+                                <div class="flex items-center">
+                                    <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=JA" alt="João Almeida" class="w-12 h-12 rounded-full mr-4 border-2 border-spotify-green">
+                                    <div>
+                                        <p class="font-semibold text-white">João Almeida</p>
+                                        <p class="text-sm text-gray-400">Ex-aluno, Desenvolvedor Web</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="min-w-full p-4">
+                            <div class="testimonial-card p-8 rounded-lg shadow-lg max-w-2xl mx-auto">
+                                <p class="text-lg italic text-gray-300 mb-6">"A didática dos professores é incrível e o suporte da escola faz toda a diferença. Recomendo a CED BRASIL de olhos fechados!"</p>
+                                 <div class="flex items-center">
+                                    <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=MS" alt="Maria Silva" class="w-12 h-12 rounded-full mr-4 border-2 border-spotify-green">
+                                    <div>
+                                        <p class="font-semibold text-white">Maria Silva</p>
+                                        <p class="text-sm text-gray-400">Aluna, Gestão de Negócios</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="min-w-full p-4">
+                            <div class="testimonial-card p-8 rounded-lg shadow-lg max-w-2xl mx-auto">
+                                <p class="text-lg italic text-gray-300 mb-6">"Finalmente encontrei um curso que se encaixa na minha rotina e me dá as ferramentas para crescer profissionalmente. Obrigada, CED BRASIL!"</p>
+                                 <div class="flex items-center">
+                                    <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=CP" alt="Carlos Pereira" class="w-12 h-12 rounded-full mr-4 border-2 border-spotify-green">
+                                    <div>
+                                        <p class="font-semibold text-white">Carlos Pereira</p>
+                                        <p class="text-sm text-gray-400">Aluno, Design Gráfico</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="prevTestimonial" class="absolute top-1/2 left-0 md:-left-8 transform -translate-y-1/2 bg-spotify-green text-white p-3 rounded-full shadow-md hover-bg-spotify-green-darker transition duration-300 focus:outline-none">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button id="nextTestimonial" class="absolute top-1/2 right-0 md:-right-8 transform -translate-y-1/2 bg-spotify-green text-white p-3 rounded-full shadow-md hover-bg-spotify-green-darker transition duration-300 focus:outline-none">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+             <div id="testimonialIndicators" class="flex justify-center mt-8 space-x-2">
+                </div>
+        </div>
+    </section>
+
+    <section id="contato" class="py-20 bg-[#181818]">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in-element">
+                <h2 class="section-title">Entre em <span class="spotify-green">Contato</span></h2>
+                <p class="section-subtitle">Tem alguma dúvida ou quer saber mais? Fale conosco!</p>
+            </div>
+            <div class="max-w-2xl mx-auto card fade-in-element">
+                <form id="contactForm">
+                    <div class="mb-6">
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-300">Nome Completo</label>
+                        <input type="text" id="name" name="name" class="bg-[#282828] border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-spotify-green focus:border-spotify-green block w-full p-3" placeholder="Seu nome" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-300">Email</label>
+                        <input type="email" id="email" name="email" class="bg-[#282828] border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-spotify-green focus:border-spotify-green block w-full p-3" placeholder="seu.email@exemplo.com" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="subject" class="block mb-2 text-sm font-medium text-gray-300">Assunto</label>
+                        <input type="text" id="subject" name="subject" class="bg-[#282828] border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-spotify-green focus:border-spotify-green block w-full p-3" placeholder="Sobre qual curso você quer saber?" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="message" class="block mb-2 text-sm font-medium text-gray-300">Mensagem</label>
+                        <textarea id="message" name="message" rows="4" class="bg-[#282828] border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-spotify-green focus:border-spotify-green block w-full p-3" placeholder="Deixe sua mensagem aqui..." required></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-spotify-green text-white font-semibold px-6 py-3 rounded-lg text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg">
+                        Enviar Mensagem
+                    </button>
+                    <div id="formMessage" class="mt-4 text-center"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#0A0A0A] text-gray-400 py-12">
+        <div class="container mx-auto px-6 text-center">
+            <div class="mb-6">
+                <a href="#" class="text-3xl font-bold">
+                    <span class="spotify-green">CED</span> BRASIL
+                </a>
+            </div>
+            <div class="mb-6 space-x-6">
+                <a href="#" class="hover:text-spotify-green transition duration-300"><i class="fab fa-facebook-f text-2xl"></i></a>
+                <a href="#" class="hover:text-spotify-green transition duration-300"><i class="fab fa-instagram text-2xl"></i></a>
+                <a href="#" class="hover:text-spotify-green transition duration-300"><i class="fab fa-linkedin-in text-2xl"></i></a>
+                <a href="#" class="hover:text-spotify-green transition duration-300"><i class="fab fa-youtube text-2xl"></i></a>
+            </div>
+            <p class="text-sm">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
+            <p class="text-xs mt-2">Desenvolvido com <i class="fas fa-heart spotify-green"></i> por Inteligência Artificial</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = mobileMenuButton.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                // Close mobile menu if open
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuButton.querySelector('i').classList.remove('fa-times');
+                    mobileMenuButton.querySelector('i').classList.add('fa-bars');
+                }
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Testimonial Slider
+        const slider = document.getElementById('testimonialSlider').querySelector('div');
+        const prevButton = document.getElementById('prevTestimonial');
+        const nextButton = document.getElementById('nextTestimonial');
+        const indicatorsContainer = document.getElementById('testimonialIndicators');
+        let currentIndex = 0;
+        let items = slider.children; // HTMLCollection of testimonial divs
+        const totalItems = items.length;
+        let autoSlideInterval;
+
+        function updateSlider() {
+            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+            updateIndicators();
+        }
+
+        function updateIndicators() {
+            indicatorsContainer.innerHTML = ''; // Clear existing indicators
+            for (let i = 0; i < totalItems; i++) {
+                const button = document.createElement('button');
+                button.classList.add('w-3', 'h-3', 'rounded-full', 'transition-all', 'duration-300');
+                if (i === currentIndex) {
+                    button.classList.add('bg-spotify-green', 'scale-125');
+                } else {
+                    button.classList.add('bg-gray-500', 'hover:bg-gray-400');
+                }
+                button.addEventListener('click', () => {
+                    currentIndex = i;
+                    updateSlider();
+                    resetAutoSlide();
+                });
+                indicatorsContainer.appendChild(button);
+            }
+        }
+        
+        function showNext() {
+            currentIndex = (currentIndex + 1) % totalItems;
+            updateSlider();
+        }
+
+        function showPrev() {
+            currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+            updateSlider();
+        }
+        
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(showNext, 5000); // Change slide every 5 seconds
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            startAutoSlide();
+        }
+
+        if (totalItems > 0) {
+            prevButton.addEventListener('click', () => {
+                showPrev();
+                resetAutoSlide();
+            });
+            nextButton.addEventListener('click', () => {
+                showNext();
+                resetAutoSlide();
+            });
+            
+            // Initialize
+            updateSlider(); // Call this to set initial state and create indicators
+            startAutoSlide();
+        } else {
+            // Hide controls if no testimonials
+            prevButton.style.display = 'none';
+            nextButton.style.display = 'none';
+            indicatorsContainer.style.display = 'none';
+        }
+
+
+        // Current Year for Footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Contact Form Submission (Basic simulation)
+        const contactForm = document.getElementById('contactForm');
+        const formMessage = document.getElementById('formMessage');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            formMessage.textContent = `Obrigado por sua mensagem, ${name}! Entraremos em contato em breve. (Simulação)`;
+            formMessage.className = 'mt-4 text-center text-spotify-green';
+            contactForm.reset();
+
+            setTimeout(() => {
+                formMessage.textContent = '';
+                formMessage.className = 'mt-4 text-center';
+            }, 5000);
+        });
+
+        // Fade-in elements on scroll
+        const fadeInElements = document.querySelectorAll('.fade-in-element');
+
+        const observerOptions = {
+            root: null, // relative to the viewport
+            rootMargin: '0px',
+            threshold: 0.1 // 10% of the element is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Optional: unobserve after animation to save resources
+                    // observer.unobserve(entry.target);
+                } else {
+                    // Optional: remove 'visible' to re-trigger animation on scroll up
+                    // entry.target.classList.remove('visible');
+                }
+            });
+        }, observerOptions);
+
+        fadeInElements.forEach(el => {
+            observer.observe(el);
+        });
+
+    </script>
 </body>
 </html>
