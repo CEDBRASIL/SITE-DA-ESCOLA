@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="favicon.jpg" type="image/jpeg">
     <style>
         /* Estilos personalizados para complementar o Tailwind */
         body {
@@ -198,9 +199,9 @@
 
     <header class="bg-[#181818] shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold">
-                <span class="spotify-green">CED</span> BRASIL
-            </a>
+            <a href="#" class="flex items-center text-2xl font-bold">
+                <span class="spotify-green">CedBrasil</span>
+                <img src="image_eaee74.png" alt="Logo CED BRASIL" class="h-8 ml-2"> </a>
             <nav class="hidden md:flex space-x-6 items-center">
                 <a href="#hero" class="hover:text-spotify-green transition duration-300">Início</a>
                 <a href="#sobre" class="hover:text-spotify-green transition duration-300">Sobre Nós</a>
@@ -420,9 +421,9 @@
     <footer class="bg-[#0A0A0A] text-gray-400 py-12">
         <div class="container mx-auto px-6 text-center">
             <div class="mb-6">
-                <a href="#" class="text-3xl font-bold">
-                    <span class="spotify-green">CED</span> BRASIL
-                </a>
+                <a href="#" class="flex items-center justify-center text-3xl font-bold">
+                    <span class="spotify-green">CedBrasil</span>
+                    <img src="image_eaee74.png" alt="Logo CED BRASIL" class="h-8 ml-2"> </a>
             </div>
             <div class="mb-6 space-x-6">
                 <a href="#" class="hover:text-spotify-green transition duration-300"><i class="fab fa-facebook-f text-2xl"></i></a>
@@ -665,21 +666,16 @@
             const loadingMessage = appendMessage('Digitando...', 'received loading');
             joelBotBody.scrollTop = joelBotBody.scrollHeight; // Rola para o final
 
-            // IMPORTANTE: A API Key do Gemini NUNCA deve ser exposta no frontend.
-            // O uso de 'os.getenv' é para ambientes de servidor (backend).
-            // A chamada abaixo deve ser para o SEU BACKEND no Render, que então chamará a API do Gemini de forma segura.
-            const backendUrl = 'https://SUA_URL_DO_BACKEND_NO_RENDER/chat-with-joel'; // Substitua pela URL real do seu backend
+            // Prepara o payload para a API do Gemini
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; // A chave da API será fornecida em tempo de execução pelo Canvas
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
-                // Prepara o payload para o seu backend
-                const payload = {
-                    message: userMessage,
-                    // Se você precisar de histórico de chat, envie-o aqui também
-                    // chatHistory: []
-                };
-
-                // Faz a chamada para o seu backend
-                const response = await fetch(backendUrl, {
+                // Faz a chamada para a API do Gemini
+                const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -689,7 +685,6 @@
                 loadingMessage.remove();
 
                 if (!response.ok) {
-                    // Tenta ler a mensagem de erro do backend se disponível
                     const errorData = await response.json().catch(() => ({ message: 'Erro desconhecido.' }));
                     throw new Error(`Erro HTTP: ${response.status} - ${errorData.message || response.statusText}`);
                 }
@@ -698,13 +693,8 @@
 
                 let botReplyText = 'Desculpe, não consegui obter uma resposta do JOEL no momento.';
 
-                // Adapte esta parte para como seu backend retorna a resposta do Gemini
-                // Exemplo: se o backend retornar { "reply": "texto da resposta" }
-                if (result.reply) {
-                    botReplyText = result.reply;
-                }
-                // Ou se o backend passar a estrutura completa do Gemini:
-                else if (result.candidates && result.candidates.length > 0 &&
+                // Extrai o texto da resposta da estrutura do Gemini
+                if (result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
                     botReplyText = result.candidates[0].content.parts[0].text;
@@ -715,11 +705,10 @@
             } catch (error) {
                 // Remove o indicador de carregamento em caso de erro
                 if (loadingMessage) loadingMessage.remove();
-                console.error('Erro ao comunicar com o backend ou API do Gemini:', error);
+                console.error('Erro ao comunicar com a API do Gemini:', error);
                 appendMessage('Desculpe, estou com dificuldades para me conectar no momento. Tente novamente mais tarde.', 'received');
             }
         }
     </script>
 </body>
 </html>
-dad
