@@ -1,320 +1,339 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CED BRASIL - Transforme Seu Futuro com Educação de Qualidade</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="favicon.jpg" type="image/jpeg">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="icon" href="favicon.jpg" type="image/jpeg" />
 
     <style>
-        /* Estilos base e cores personalizadas */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #121212; /* Fundo escuro principal */
-            color: #E0E0E0; /* Texto claro para tema escuro */
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif; /* Poppins para todos os títulos */
-            color: #F5F5F5; /* Cor mais clara para títulos */
-        }
-        .spotify-green {
-            color: #1DB954; /* Verde Spotify */
-        }
-        .bg-spotify-green {
-            background-color: #1DB954;
-        }
-        .border-spotify-green {
-            border-color: #1DB954;
-        }
-        .hover-bg-spotify-green-darker:hover {
-            background-color: #1AA34A; /* Verde um pouco mais escuro para hover */
-        }
-        .section-title {
-            font-size: 2.8rem; /* Título maior para seções */
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            line-height: 1.2;
-        }
-        .section-subtitle {
-            font-size: 1.25rem; /* Subtítulo um pouco maior */
-            color: #A0A0A0;
-            text-align: center;
-            margin-bottom: 3rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .card {
-            background-color: #1E1E1E; /* Cinza escuro para cards */
-            border-radius: 0.75rem; /* Bordas arredondadas */
-            padding: 1.5rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #333; /* Borda sutil */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra mais pronunciada */
-        }
-        .card:hover {
-            transform: translateY(-8px); /* Efeito de elevação maior */
-            box-shadow: 0 15px 30px rgba(0, 200, 83, 0.15); /* Sombra mais vibrante */
-        }
-        .testimonial-card {
-            background-color: #282828; /* Fundo do card de depoimento */
-            border-left: 5px solid #1DB954; /* Borda verde mais proeminente */
-            padding: 2rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-        }
-        /* Estilo da barra de rolagem */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1E1E1E;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1DB954;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #1AA34A;
-        }
-        /* Animação de fade-in */
-        .fade-in-element {
-            opacity: 0;
-            transform: translateY(30px); /* Começa um pouco mais abaixo */
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Transição mais suave */
-        }
-        .fade-in-element.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+      /* Estilos base e cores personalizadas */
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #121212; /* Fundo escuro principal */
+        color: #e0e0e0; /* Texto claro para tema escuro */
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Poppins", sans-serif; /* Poppins para títulos */
+        color: #f5f5f5; /* Cor mais clara para títulos */
+      }
+      .spotify-green {
+        color: #1db954; /* Verde Spotify */
+      }
+      .bg-spotify-green {
+        background-color: #1db954;
+      }
+      .border-spotify-green {
+        border-color: #1db954;
+      }
+      .hover-bg-spotify-green-darker:hover {
+        background-color: #1aa34a; /* Verde um pouco mais escuro para hover */
+      }
+      .section-title {
+        font-size: 2.8rem; /* Título maior para seções */
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        line-height: 1.2;
+      }
+      .section-subtitle {
+        font-size: 1.25rem; /* Subtítulo um pouco maior */
+        color: #a0a0a0;
+        text-align: center;
+        margin-bottom: 3rem;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .card {
+        background-color: #1e1e1e; /* Cinza escuro para cards */
+        border-radius: 0.75rem; /* Bordas arredondadas */
+        padding: 1.5rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #333; /* Borda sutil */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra mais pronunciada */
+      }
+      .card:hover {
+        transform: translateY(-8px); /* Efeito de elevação maior */
+        box-shadow: 0 15px 30px rgba(0, 200, 83, 0.15); /* Sombra mais vibrante */
+      }
+      .testimonial-card {
+        background-color: #282828; /* Fundo do card de depoimento */
+        border-left: 5px solid #1db954; /* Borda verde mais proeminente */
+        padding: 2rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      }
+      /* Estilo da barra de rolagem */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #1e1e1e;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1db954;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1aa34a;
+      }
+      /* Animação de fade-in */
+      .fade-in-element {
+        opacity: 0;
+        transform: translateY(30px); /* Começa um pouco mais abaixo */
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Transição mais suave */
+      }
+      .fade-in-element.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
 
-        /* JOEL Bot CSS (ajustes para tema) */
-        .joel-bot-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 320px;
-            height: 400px;
-            background-color: #282828;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-            overflow: hidden;
-            border: 1px solid #1DB954;
-        }
-        .joel-bot-header {
-            background-color: #1DB954;
-            color: #000;
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top-left-radius: 9px;
-            border-top-right-radius: 9px;
-        }
-        .joel-bot-header h3 {
-            margin: 0;
-            font-family: 'Poppins', sans-serif; /* Poppins para o título do bot */
-            font-size: 1.2rem;
-        }
-        .joel-bot-header button {
-            background: none;
-            border: none;
-            color: #000;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        .joel-bot-header button:hover {
-            transform: scale(1.1);
-        }
-        .joel-bot-body {
-            flex-grow: 1;
-            padding: 15px;
-            overflow-y: auto;
-            background-color: #1e1e1e;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .joel-bot-body .message {
-            padding: 10px 15px;
-            border-radius: 15px;
-            max-width: 80%;
-        }
-        .joel-bot-body .message.sent {
-            background-color: #1DB954;
-            color: #000;
-            align-self: flex-end;
-        }
-        .joel-bot-body .message.received {
-            background-color: #444;
-            color: #E0E0E0;
-            align-self: flex-start;
-        }
-        .joel-bot-body .message.loading {
-            font-style: italic;
-            color: #888;
-        }
-        .joel-bot-footer {
-            padding: 10px 15px;
-            background-color: #282828;
-            display: flex;
-            gap: 10px;
-            border-bottom-left-radius: 9px;
-            border-bottom-right-radius: 9px;
-        }
-        .joel-bot-footer input {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid #333;
-            border-radius: 5px;
-            background-color: #3a3a3a;
-            color: #E0E0E0;
-        }
-        .joel-bot-footer button {
-            background-color: #1DB954;
-            color: #000;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .joel-bot-footer button:hover {
-            background-color: #1AA34A;
-        }
+      /* JOEL Bot CSS (ajustes para tema) */
+      .joel-bot-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 320px;
+        height: 400px;
+        background-color: #282828;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        display: none;
+        flex-direction: column;
+        z-index: 1000;
+        overflow: hidden;
+        border: 1px solid #1db954;
+      }
+      .joel-bot-header {
+        background-color: #1db954;
+        color: #000;
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-left-radius: 9px;
+        border-top-right-radius: 9px;
+      }
+      .joel-bot-header h3 {
+        margin: 0;
+        font-family: "Poppins", sans-serif; /* Poppins para o título do bot */
+        font-size: 1.2rem;
+      }
+      .joel-bot-header button {
+        background: none;
+        border: none;
+        color: #000;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+      .joel-bot-header button:hover {
+        transform: scale(1.1);
+      }
+      .joel-bot-body {
+        flex-grow: 1;
+        padding: 15px;
+        overflow-y: auto;
+        background-color: #1e1e1e;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .joel-bot-body .message {
+        padding: 10px 15px;
+        border-radius: 15px;
+        max-width: 80%;
+      }
+      .joel-bot-body .message.sent {
+        background-color: #1db954;
+        color: #000;
+        align-self: flex-end;
+      }
+      .joel-bot-body .message.received {
+        background-color: #444;
+        color: #e0e0e0;
+        align-self: flex-start;
+      }
+      .joel-bot-body .message.loading {
+        font-style: italic;
+        color: #888;
+      }
+      .joel-bot-footer {
+        padding: 10px 15px;
+        background-color: #282828;
+        display: flex;
+        gap: 10px;
+        border-bottom-left-radius: 9px;
+        border-bottom-right-radius: 9px;
+      }
+      .joel-bot-footer input {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #333;
+        border-radius: 5px;
+        background-color: #3a3a3a;
+        color: #e0e0e0;
+      }
+      .joel-bot-footer button {
+        background-color: #1db954;
+        color: #000;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      .joel-bot-footer button:hover {
+        background-color: #1aa34a;
+      }
 
-        /* Scroll Progress Bar */
-        #scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 5px;
-            background-color: #1DB954;
-            z-index: 9999;
-            transition: width 0.1s linear;
-        }
+      /* Scroll Progress Bar */
+      #scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 5px;
+        background-color: #1db954;
+        z-index: 9999;
+        transition: width 0.1s linear;
+      }
 
-        /* Botões flutuantes para mobile */
+      /* Botões flutuantes para mobile */
+      .mobile-cta-buttons {
+        position: fixed;
+        bottom: 80px; /* Acima do chatbot */
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 999;
+        width: 90%;
+        max-width: 300px;
+      }
+      @media (min-width: 768px) {
         .mobile-cta-buttons {
-            position: fixed;
-            bottom: 80px; /* Acima do chatbot */
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 999;
-            width: 90%;
-            max-width: 300px;
+          display: none; /* Esconde em desktop */
         }
-        @media (min-width: 768px) {
-            .mobile-cta-buttons {
-                display: none; /* Esconde em desktop */
-            }
-        }
+      }
 
-        /* Modal de Detalhes do Curso */
-        .course-details-modal {
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.75);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            z-index: 1001;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        .course-details-modal.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        .course-details-modal-content {
-            background-color: #1E1E1E;
-            border-radius: 0.75rem;
-            padding: 2rem;
-            width: 100%;
-            max-width: 600px;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            transform: translateY(20px);
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-        .course-details-modal.visible .course-details-modal-content {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        .course-details-modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: #B3B3B3;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-        .course-details-modal-close:hover {
-            color: #E0E0E0;
-        }
+      /* Modal de Detalhes do Curso */
+      .course-details-modal {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.75);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      .course-details-modal.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+      .course-details-modal-content {
+        background-color: #1e1e1e;
+        border-radius: 0.75rem;
+        padding: 2rem;
+        width: 100%;
+        max-width: 600px;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        transform: translateY(20px);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+      .course-details-modal.visible .course-details-modal-content {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      .course-details-modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #b3b3b3;
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+      .course-details-modal-close:hover {
+        color: #e0e0e0;
+      }
 
-        /* Estilo para o spinner de carregamento */
-        .loading-spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid #1DB954; /* Cor verde Spotify */
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto; /* Centraliza o spinner */
-        }
+      /* Estilo para o spinner de carregamento */
+      .loading-spinner {
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid #1db954; /* Cor verde Spotify */
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto; /* Centraliza o spinner */
+      }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
     </style>
 </head>
 <body class="antialiased">
-
     <div id="scroll-progress"></div>
 
     <header class="bg-[#181818] shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="https://www.cedbrasilia.com.br" class="text-3xl font-bold"> <span class="spotify-green">CedBrasil</span>
+            <a href="https://www.cedbrasilia.com.br" class="text-3xl font-bold">
+                <span class="spotify-green">CedBrasil</span>
             </a>
             <nav class="hidden md:flex space-x-8 items-center">
-                <a href="https://www.cedbrasilia.com.br" class="hover:text-spotify-green transition duration-300 text-lg">Início</a> <a href="#sobre" class="hover:text-spotify-green transition duration-300 text-lg">Sobre Nós</a>
+                <a href="https://www.cedbrasilia.com.br" class="hover:text-spotify-green transition duration-300 text-lg">Início</a>
+                <a href="#sobre" class="hover:text-spotify-green transition duration-300 text-lg">Sobre Nós</a>
                 <a href="#cursos" class="hover:text-spotify-green transition duration-300 text-lg">Cursos</a>
                 <a href="#depoimentos" class="hover:text-spotify-green transition duration-300 text-lg">Depoimentos</a>
                 <a href="#contato" class="hover:text-spotify-green transition duration-300 text-lg">Contato</a>
-                <a href="https://ead.cedbrasilia.com.br" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a> </nav>
+                <a href="https://ead.cedbrasilia.com.br" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
+            </nav>
             <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
         <div id="mobileMenu" class="hidden md:hidden bg-[#181818] py-2 border-t border-gray-700">
-            <a href="https://www.cedbrasilia.com.br" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Início</a> <a href="#sobre" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Sobre Nós</a>
+            <a href="https://www.cedbrasilia.com.br" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Início</a>
+            <a href="#sobre" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Sobre Nós</a>
             <a href="#cursos" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Cursos</a>
             <a href="#depoimentos" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Depoimentos</a>
             <a href="#contato" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Contato</a>
-            <a href="https://ead.cedbrasilia.com.br" class="block mx-6 my-3 bg-spotify-green text-black text-center px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a> </div>
+            <a href="https://ead.cedbrasilia.com.br" class="block mx-6 my-3 bg-spotify-green text-black text-center px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
+        </div>
     </header>
 
     <main>
@@ -452,7 +471,7 @@
                             <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 8 meses</li>
                             <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 49,90/mês</li>
                         </ul>
-                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition duration-300 shadow-md view-details-btn" data-course-id="Design Gráfico e UX/UI">
+                        <button class="w-full bg-spotify-green text-black font-semibold px-6 py-3 rounded-md hover-bg-spotify-green-darker transition durataion-300 shadow-md view-details-btn" data-course-id="Design Gráfico e UX/UI">
                             Ver Detalhes <i class="fas fa-chevron-right text-xs ml-1"></i>
                         </button>
                     </div>
@@ -529,7 +548,7 @@
                                     </div>
                                     <p class="text-lg italic text-gray-300 mb-6">"O curso de Desenvolvimento Web da CED BRASIL foi um divisor de águas na minha carreira. A didática é excelente e o suporte é incomparável. Hoje, sou um desenvolvedor realizado!"</p>
                                     <div class="flex items-center">
-                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=JA" alt="João Almeida" class="w-14 h-14 rounded-full mr-4 border-2 border-spotify-green object-cover">
+                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=JA" alt="João Almeida" class="w-14 h-14 rounded-full mr-4 border-2 border-spotify-green object-cover" />
                                         <div>
                                             <p class="font-semibold text-white text-lg">João Almeida</p>
                                             <p class="text-sm text-gray-400">Ex-aluno, Desenvolvedor Full Stack na TechSolutions</p>
@@ -545,7 +564,7 @@
                                     </div>
                                     <p class="text-lg italic text-gray-300 mb-6">"A CED BRASIL me deu as ferramentas para alavancar meu negócio digital. Os módulos de marketing e análise de dados foram cruciais. Recomendo a todos que buscam resultados reais!"</p>
                                     <div class="flex items-center">
-                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=MS" alt="Maria Silva" class="w-14 h-14 rounded-full mr-4 border-2 border-spotify-green object-cover">
+                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=MS" alt="Maria Silva" class="w-14 h-14 rounded-full mr-4 border-2 border-spotify-green object-cover" />
                                         <div>
                                             <p class="font-semibold text-white text-lg">Maria Silva</p>
                                             <p class="text-sm text-gray-400">Empreendedora Digital, Fundadora da EcomSuccess</p>
@@ -561,7 +580,7 @@
                                     </div>
                                     <p class="text-lg italic text-gray-300 mb-6">"Finalmente encontrei um curso de design que me ensinou a pensar como um UX/UI designer de verdade. O portfólio que construí na CED BRASIL me abriu portas para grandes projetos."</p>
                                     <div class="flex items-center">
-                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=CP" alt="Carlos Pereira" class="w-14 h-14 rounded-full mr-4 border-2 border-spotify-green object-cover">
+                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=CP" alt="Carlos Pereira" class="w-14 h-14 rounded-full mr-4 border-2 border-spotify-green object-cover" />
                                         <div>
                                             <p class="font-semibold text-white text-lg">Carlos Pereira</p>
                                             <p class="text-sm text-gray-400">Designer UX/UI Sênior na CreativeFlow Studio</p>
@@ -578,8 +597,7 @@
                         <i class="fas fa-chevron-right text-lg"></i>
                     </button>
                 </div>
-                <div id="testimonialIndicators" class="flex justify-center mt-8 space-x-3">
-                </div>
+                <div id="testimonialIndicators" class="flex justify-center mt-8 space-x-3"></div>
 
                 <div class="text-center mt-20 fade-in-element bg-[#1E1E1E] p-8 rounded-lg shadow-xl border border-spotify-green max-w-4xl mx-auto">
                     <p class="text-3xl font-bold text-white mb-4">
@@ -621,14 +639,16 @@
     <footer class="bg-[#0A0A0A] text-gray-400 py-12">
         <div class="container mx-auto px-6 text-center">
             <div class="mb-8">
-                <a href="https://www.cedbrasilia.com.br" class="text-4xl font-bold"> <span class="spotify-green">CedBrasil</span>
+                <a href="https://www.cedbrasilia.com.br" class="text-4xl font-bold">
+                    <span class="spotify-green">CedBrasil</span>
                 </a>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left mb-10">
                 <div>
                     <h4 class="text-xl font-semibold text-white mb-4">Navegação Rápida</h4>
                     <ul class="space-y-2">
-                        <li><a href="https://www.cedbrasilia.com.br" class="hover:text-spotify-green transition duration-300">Início</a></li> <li><a href="#sobre" class="hover:text-spotify-green transition duration-300">Sobre Nós</a></li>
+                        <li><a href="https://www.cedbrasilia.com.br" class="hover:text-spotify-green transition duration-300">Início</a></li>
+                        <li><a href="#sobre" class="hover:text-spotify-green transition duration-300">Sobre Nós</a></li>
                         <li><a href="#cursos" class="hover:text-spotify-green transition duration-300">Cursos</a></li>
                         <li><a href="#depoimentos" class="hover:text-spotify-green transition duration-300">Depoimentos</a></li>
                         <li><a href="#contato" class="hover:text-spotify-green transition duration-300">Contato</a></li>
@@ -687,7 +707,7 @@
             <div class="message received">Olá! Eu sou o JOEL, o assistente virtual da CED BRASIL. Como posso ajudar você hoje?</div>
         </div>
         <div class="joel-bot-footer">
-            <input type="text" id="joel-input" placeholder="Digite sua mensagem..." aria-label="Campo de mensagem do chatbot">
+            <input type="text" id="joel-input" placeholder="Digite sua mensagem..." aria-label="Campo de mensagem do chatbot" />
             <button id="joel-send-btn" aria-label="Enviar mensagem">Enviar</button>
         </div>
     </div>
@@ -702,373 +722,386 @@
     </div>
 
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById('mobileMenuButton');
-        const mobileMenu = document.getElementById('mobileMenu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            const icon = mobileMenuButton.querySelector('i');
-            if (mobileMenu.classList.contains('hidden')) {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            } else {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            }
-        });
-
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                // Close mobile menu if open
-                if (!mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                    mobileMenuButton.querySelector('i').classList.remove('fa-times');
-                    mobileMenuButton.querySelector('i').classList.add('fa-bars');
-                }
-
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Testimonial Slider
-        const slider = document.getElementById('testimonialSlider').querySelector('div');
-        const prevButton = document.getElementById('prevTestimonial');
-        const nextButton = document.getElementById('nextTestimonial');
-        const indicatorsContainer = document.getElementById('testimonialIndicators');
-        let currentIndex = 0;
-        let items = slider.children; // HTMLCollection of testimonial divs
-        const totalItems = items.length;
-        let autoSlideInterval;
-
-        function updateSlider() {
-            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-            updateIndicators();
-        }
-
-        function updateIndicators() {
-            indicatorsContainer.innerHTML = ''; // Clear existing indicators
-            for (let i = 0; i < totalItems; i++) {
-                const button = document.createElement('button');
-                button.classList.add('w-3', 'h-3', 'rounded-full', 'transition-all', 'duration-300');
-                if (i === currentIndex) {
-                    button.classList.add('bg-spotify-green', 'scale-125');
-                } else {
-                    button.classList.add('bg-gray-500', 'hover:bg-gray-400');
-                }
-                button.addEventListener('click', () => {
-                    currentIndex = i;
-                    updateSlider();
-                    resetAutoSlide();
-                });
-                indicatorsContainer.appendChild(button);
-            }
-        }
-        
-        function showNext() {
-            currentIndex = (currentIndex + 1) % totalItems;
-            updateSlider();
-        }
-
-        function showPrev() {
-            currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-            updateSlider();
-        }
-        
-        function startAutoSlide() {
-            autoSlideInterval = setInterval(showNext, 5000); // Change slide every 5 seconds
-        }
-
-        function resetAutoSlide() {
-            clearInterval(autoSlideInterval);
-            startAutoSlide();
-        }
-
-        if (totalItems > 0) {
-            prevButton.addEventListener('click', () => {
-                showPrev();
-                resetAutoSlide();
-            });
-            nextButton.addEventListener('click', () => {
-                showNext();
-                resetAutoSlide();
-            });
-            
-            // Initialize
-            updateSlider(); // Call this to set initial state and create indicators
-            startAutoSlide();
+      // Mobile Menu Toggle
+      const mobileMenuButton = document.getElementById("mobileMenuButton");
+      const mobileMenu = document.getElementById("mobileMenu");
+      mobileMenuButton.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+        const icon = mobileMenuButton.querySelector("i");
+        if (mobileMenu.classList.contains("hidden")) {
+          icon.classList.remove("fa-times");
+          icon.classList.add("fa-bars");
         } else {
-            // Hide controls if no testimonials
-            prevButton.style.display = 'none';
-            nextButton.style.display = 'none';
-            indicatorsContainer.style.display = 'none';
+          icon.classList.remove("fa-bars");
+          icon.classList.add("fa-times");
         }
+      });
 
+      // Smooth scroll for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          // Fecha o menu mobile se estiver aberto
+          if (!mobileMenu.classList.contains("hidden")) {
+            mobileMenu.classList.add("hidden");
+            mobileMenuButton.querySelector("i").classList.remove("fa-times");
+            mobileMenuButton.querySelector("i").classList.add("fa-bars");
+          }
 
-        // Current Year for Footer
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-        // Contact Form Submission (Basic simulation) - Removed form, so this is no longer directly used for form submission
-        const formMessage = document.getElementById('formMessage'); // Keep this if you want to use it for other messages
-
-        // Fade-in elements on scroll
-        const fadeInElements = document.querySelectorAll('.fade-in-element');
-
-        const observerOptions = {
-            root: null, // relative to the viewport
-            rootMargin: '0px',
-            threshold: 0.1 // 10% of the element is visible
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    // Optional: unobserve after animation to save resources
-                    // observer.unobserve(entry.target);
-                } else {
-                    // Optional: remove 'visible' to re-trigger animation on scroll up
-                    // entry.target.classList.remove('visible');
-                }
+          const targetId = this.getAttribute("href");
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: "smooth",
             });
-        }, observerOptions);
+          }
+        });
+      });
 
-        fadeInElements.forEach(el => {
-            observer.observe(el);
+      // Testimonial Slider
+      const slider = document
+        .getElementById("testimonialSlider")
+        .querySelector("div");
+      const prevButton = document.getElementById("prevTestimonial");
+      const nextButton = document.getElementById("nextTestimonial");
+      const indicatorsContainer = document.getElementById(
+        "testimonialIndicators"
+      );
+      let currentIndex = 0;
+      let items = slider.children; // Coleção de divs de depoimentos
+      const totalItems = items.length;
+      let autoSlideInterval;
+
+      function updateSlider() {
+        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+        updateIndicators();
+      }
+
+      function updateIndicators() {
+        indicatorsContainer.innerHTML = ""; // Limpa indicadores anteriores
+        for (let i = 0; i < totalItems; i++) {
+          const button = document.createElement("button");
+          button.classList.add("w-3", "h-3", "rounded-full", "transition-all", "duration-300");
+          if (i === currentIndex) {
+            button.classList.add("bg-spotify-green", "scale-125");
+          } else {
+            button.classList.add("bg-gray-500", "hover:bg-gray-400");
+          }
+          button.addEventListener("click", () => {
+            currentIndex = i;
+            updateSlider();
+            resetAutoSlide();
+          });
+          indicatorsContainer.appendChild(button);
+        }
+      }
+
+      function showNext() {
+        currentIndex = (currentIndex + 1) % totalItems;
+        updateSlider();
+      }
+
+      function showPrev() {
+        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+        updateSlider();
+      }
+
+      function startAutoSlide() {
+        autoSlideInterval = setInterval(showNext, 5000); // Troca a cada 5s
+      }
+
+      function resetAutoSlide() {
+        clearInterval(autoSlideInterval);
+        startAutoSlide();
+      }
+
+      if (totalItems > 0) {
+        prevButton.addEventListener("click", () => {
+          showPrev();
+          resetAutoSlide();
+        });
+        nextButton.addEventListener("click", () => {
+          showNext();
+          resetAutoSlide();
         });
 
-        // JOEL Bot (UI e Simulação de Interação) - Integrado e adaptado ao novo estilo
-        const openJoelBotBtn = document.getElementById('open-joel-bot');
-        const closeJoelBotBtn = document.getElementById('close-joel-bot');
-        const joelBotContainer = document.getElementById('joel-bot-container');
-        const joelInput = document.getElementById('joel-input');
-        const joelSendBtn = document.getElementById('joel-send-btn');
-        const joelBotBody = document.getElementById('joel-bot-body');
+        // Inicializa
+        updateSlider(); // Define estado inicial e cria indicadores
+        startAutoSlide();
+      } else {
+        // Esconde controles se não houver depoimentos
+        prevButton.style.display = "none";
+        nextButton.style.display = "none";
+        indicatorsContainer.style.display = "none";
+      }
 
-        openJoelBotBtn.addEventListener('click', () => {
-            joelBotContainer.style.display = 'flex'; // Exibe o bot
+      // Current Year para o footer
+      document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+      // Fade-in elements on scroll
+      const fadeInElements = document.querySelectorAll(".fade-in-element");
+      const observerOptions = {
+        root: null, // Relativo à viewport
+        rootMargin: "0px",
+        threshold: 0.1, // 10% visível
+      };
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      }, observerOptions);
+      fadeInElements.forEach((el) => {
+        observer.observe(el);
+      });
+
+      // JOEL Bot (UI e Simulação de Interação)
+      const openJoelBotBtn = document.getElementById("open-joel-bot");
+      const closeJoelBotBtn = document.getElementById("close-joel-bot");
+      const joelBotContainer = document.getElementById("joel-bot-container");
+      const joelInput = document.getElementById("joel-input");
+      const joelSendBtn = document.getElementById("joel-send-btn");
+      const joelBotBody = document.getElementById("joel-bot-body");
+
+      openJoelBotBtn.addEventListener("click", () => {
+        joelBotContainer.style.display = "flex"; // Exibe o bot
+      });
+
+      closeJoelBotBtn.addEventListener("click", () => {
+        joelBotContainer.style.display = "none"; // Esconde o bot
+      });
+
+      joelSendBtn.addEventListener("click", () => {
+        sendMessage();
+      });
+
+      joelInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          sendMessage();
+        }
+      });
+
+      function appendMessage(text, type) {
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("message", type);
+        messageDiv.textContent = text;
+        joelBotBody.appendChild(messageDiv);
+        joelBotBody.scrollTop = joelBotBody.scrollHeight; // Vai para a última mensagem
+        return messageDiv;
+      }
+
+      async function getJoelResponse(userMessage) {
+        // Adiciona indicador de carregamento
+        const loadingMessage = appendMessage("Digitando...", "received loading");
+        joelBotBody.scrollTop = joelBotBody.scrollHeight;
+
+        // Prepara histórico (aqui só uma mensagem de sistema + usuário)
+        let chatHistory = [];
+        chatHistory.push({
+          role: "user",
+          parts: [
+            {
+              text: `Você é JOEL, o assistente virtual da CED BRASIL. Sua função é responder a perguntas sobre os cursos, matrículas, modalidades de ensino (como EAD), benefícios da escola e informações gerais sobre a CED BRASIL. Seja prestativo, informativo e direto. Se a pergunta for sobre EAD, confirme que a escola é 100% EAD. Se não souber a resposta, direcione o usuário para o WhatsApp ou e-mail de contato.
+
+Pergunta do usuário: ${userMessage}`,
+            },
+          ],
         });
 
-        closeJoelBotBtn.addEventListener('click', () => {
-            joelBotContainer.style.display = 'none'; // Esconde o bot
-        });
+        const payload = { contents: chatHistory };
 
-        joelSendBtn.addEventListener('click', () => {
-            sendMessage();
-        });
+        // ** Aqui buscamos o token via variável de ambiente injetada pelo Jinja **
+        const apiKey = "{{ gemini_key }}";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-        joelInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
+        try {
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          // Remove indicador de carregamento
+          loadingMessage.remove();
+
+          if (!response.ok) {
+            const errorData = await response
+              .json()
+              .catch(() => ({ message: "Erro desconhecido." }));
+            throw new Error(
+              `Erro HTTP: ${response.status} - ${
+                errorData.message || response.statusText
+              }`
+            );
+          }
+
+          const result = await response.json();
+
+          let botReplyText =
+            "Desculpe, não consegui obter uma resposta do JOEL no momento.";
+
+          if (
+            result.candidates &&
+            result.candidates.length > 0 &&
+            result.candidates[0].content &&
+            result.candidates[0].content.parts &&
+            result.candidates[0].content.parts.length > 0
+          ) {
+            botReplyText = result.candidates[0].content.parts[0].text.replace(
+              /\*/g,
+              ""
+            ); // Remove asteriscos
+          }
+
+          appendMessage(botReplyText, "received");
+        } catch (error) {
+          // Remove indicador de carregamento em caso de erro
+          if (loadingMessage) loadingMessage.remove();
+          console.error("Erro ao comunicar com a API do Gemini:", error);
+          appendMessage(
+            "Desculpe, estou com dificuldades para me conectar no momento. Tente novamente mais tarde.",
+            "received"
+          );
+        }
+      }
+
+      function sendMessage() {
+        const userMessage = joelInput.value.trim();
+        if (userMessage === "") return;
+        appendMessage(userMessage, "sent");
+        joelInput.value = "";
+        getJoelResponse(userMessage);
+      }
+
+      // Scroll Progress Bar Logic
+      window.addEventListener("scroll", () => {
+        const scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight;
+        const scrolled = (scrollTop / scrollHeight) * 100;
+        document.getElementById("scroll-progress").style.width = scrolled + "%";
+      });
+
+      // Course Filtering (placeholder)
+      const filterButtons = document.querySelectorAll(
+        ".flex.flex-wrap.justify-center.gap-4 button"
+      );
+      const courseItems = document.querySelectorAll(".course-item");
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          filterButtons.forEach((btn) =>
+            btn.classList.remove("active-filter", "bg-spotify-green", "text-black")
+          );
+          button.classList.add("active-filter", "bg-spotify-green", "text-black");
+          const filter = button.dataset.filter;
+          courseItems.forEach((item) => {
+            if (filter === "all" || item.classList.contains(filter)) {
+              item.style.display = "block";
+            } else {
+              item.style.display = "none";
             }
+          });
         });
+      });
+      document.querySelector(".active-filter")?.classList.add(
+        "bg-spotify-green",
+        "text-black"
+      );
 
-        function sendMessage() {
-            const userMessage = joelInput.value.trim();
-            if (userMessage === '') return; // Não envia mensagens vazias
+      // Modal de Detalhes do Curso
+      const courseDetailsModal = document.getElementById("courseDetailsModal");
+      const closeModalBtn = document.getElementById("closeModalBtn");
+      const modalCourseTitle = document.getElementById("modalCourseTitle");
+      const modalCourseDescription = document.getElementById(
+        "modalCourseDescription"
+      );
+      const viewDetailsButtons = document.querySelectorAll(".view-details-btn");
 
-            appendMessage(userMessage, 'sent'); // Adiciona a mensagem do usuário ao chat
-            joelInput.value = ''; // Limpa o campo de input
+      function showCourseDetailsModal() {
+        courseDetailsModal.classList.add("visible");
+      }
 
-            // Tenta obter a resposta do bot (agora via API)
-            getJoelResponse(userMessage);
+      function hideCourseDetailsModal() {
+        courseDetailsModal.classList.remove("visible");
+        modalCourseTitle.textContent = "";
+        modalCourseDescription.innerHTML =
+          '<div class="loading-spinner"></div>';
+      }
+
+      closeModalBtn.addEventListener("click", hideCourseDetailsModal);
+      courseDetailsModal.addEventListener("click", (e) => {
+        if (e.target === courseDetailsModal) {
+          hideCourseDetailsModal();
         }
+      });
 
-        // Função para adicionar uma mensagem ao corpo do chat
-        // Retorna o elemento da mensagem para que possa ser manipulado (ex: removido)
-        function appendMessage(text, type) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', type);
-            messageDiv.textContent = text;
-            joelBotBody.appendChild(messageDiv);
-            joelBotBody.scrollTop = joelBotBody.scrollHeight; // Rola para a última mensagem
-            return messageDiv;
+      async function generateCourseDescription(courseName) {
+        modalCourseTitle.textContent = courseName;
+        modalCourseDescription.innerHTML =
+          '<div class="loading-spinner"></div>';
+
+        const prompt = `Gere uma descrição de marketing persuasiva e focada em conversão para o curso '${courseName}' da CED BRASIL. A descrição deve destacar os benefícios, o que o aluno aprenderá, e por que este curso é ideal para sua carreira, com um tom inspirador e profissional. Inclua uma chamada para ação implícita para a matrícula.`;
+
+        let chatHistory = [];
+        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+        const payload = { contents: chatHistory };
+
+        // ** Aqui também usamos a mesma variável de ambiente injetada pelo Jinja **
+        const apiKey = "{{ gemini_key }}";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+        try {
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) {
+            const errorData = await response
+              .json()
+              .catch(() => ({ message: "Erro desconhecido." }));
+            throw new Error(
+              `Erro HTTP: ${response.status} - ${
+                errorData.message || response.statusText
+              }`
+            );
+          }
+
+          const result = await response.json();
+          let courseDescription =
+            "Desculpe, não foi possível gerar a descrição no momento.";
+
+          if (
+            result.candidates &&
+            result.candidates.length > 0 &&
+            result.candidates[0].content &&
+            result.candidates[0].content.parts &&
+            result.candidates[0].content.parts.length > 0
+          ) {
+            courseDescription =
+              result.candidates[0].content.parts[0].text.replace(/\*/g, ""); // Remove asteriscos
+          }
+
+          modalCourseDescription.innerHTML = `<p>${courseDescription}</p>`;
+        } catch (error) {
+          console.error("Erro ao gerar descrição do curso:", error);
+          modalCourseDescription.innerHTML =
+            '<p class="error-message">Não foi possível carregar os detalhes do curso. Tente novamente mais tarde.</p>';
         }
+      }
 
-        // Função para interagir com o backend que chamará a API do Gemini
-        async function getJoelResponse(userMessage) {
-            // Adiciona um indicador de carregamento enquanto espera a resposta da IA
-            const loadingMessage = appendMessage('Digitando...', 'received loading');
-            joelBotBody.scrollTop = joelBotBody.scrollHeight; // Rola para o final
-
-            // Prepara o payload para a API do Gemini
-            let chatHistory = [];
-            // Adiciona uma instrução de sistema para o JOEL para manter o contexto
-            chatHistory.push({
-                role: "user",
-                parts: [{ text: `Você é JOEL, o assistente virtual da CED BRASIL. Sua função é responder a perguntas sobre os cursos, matrículas, modalidades de ensino (como EAD), benefícios da escola e informações gerais sobre a CED BRASIL. Seja prestativo, informativo e direto. Se a pergunta for sobre EAD, confirme que a escola é 100% EAD. Se não souber a resposta, direcione o usuário para o WhatsApp ou e-mail de contato.
-
-                Pergunta do usuário: ${userMessage}` }]
-            });
-
-            const payload = { contents: chatHistory };
-            // A chave da API será fornecida em tempo de execução pelo Canvas via os.getenv('GEMINI_API_KEY')
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                // Remove o indicador de carregamento
-                loadingMessage.remove();
-
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({ message: 'Erro desconhecido.' }));
-                    throw new Error(`Erro HTTP: ${response.status} - ${errorData.message || response.statusText}`);
-                }
-
-                const result = await response.json();
-
-                let botReplyText = 'Desculpe, não consegui obter uma resposta do JOEL no momento.';
-
-                // Extrai o texto da resposta da estrutura do Gemini e remove asteriscos
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    botReplyText = result.candidates[0].content.parts[0].text.replace(/\*/g, ''); // Remove asteriscos
-                }
-
-                appendMessage(botReplyText, 'received');
-
-            } catch (error) {
-                // Remove o indicador de carregamento em caso de erro
-                if (loadingMessage) loadingMessage.remove();
-                console.error('Erro ao comunicar com a API do Gemini:', error);
-                appendMessage('Desculpe, estou com dificuldades para me conectar no momento. Tente novamente mais tarde.', 'received');
-            }
-        }
-
-        // Scroll Progress Bar Logic
-        window.addEventListener('scroll', () => {
-            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (scrollTop / scrollHeight) * 100;
-            document.getElementById('scroll-progress').style.width = scrolled + '%';
+      viewDetailsButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const courseName = button.dataset.courseId;
+          generateCourseDescription(courseName);
+          showCourseDetailsModal();
         });
-
-        // Intersection Observer for Fade-in Elements (re-initialize if needed)
-        // This is already set up above, but ensures elements are observed on load.
-        document.addEventListener('DOMContentLoaded', () => {
-            fadeInElements.forEach(el => {
-                observer.observe(el);
-            });
-        });
-
-        // Course Filtering (Placeholder for full JS implementation)
-        const filterButtons = document.querySelectorAll('.flex.flex-wrap.justify-center.gap-4 button');
-        const courseItems = document.querySelectorAll('.course-item');
-
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons
-                filterButtons.forEach(btn => btn.classList.remove('active-filter', 'bg-spotify-green', 'text-black'));
-                // Add active class to clicked button
-                button.classList.add('active-filter', 'bg-spotify-green', 'text-black');
-
-                const filter = button.dataset.filter;
-
-                courseItems.forEach(item => {
-                    if (filter === 'all' || item.classList.contains(filter)) {
-                        item.style.display = 'block'; // Or 'flex'/'grid' depending on layout
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
-        });
-
-        // Initial active filter
-        document.querySelector('.active-filter').classList.add('bg-spotify-green', 'text-black');
-
-        // Modal de Detalhes do Curso
-        const courseDetailsModal = document.getElementById('courseDetailsModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const modalCourseTitle = document.getElementById('modalCourseTitle');
-        const modalCourseDescription = document.getElementById('modalCourseDescription');
-        const viewDetailsButtons = document.querySelectorAll('.view-details-btn');
-
-        // Função para mostrar o modal
-        function showCourseDetailsModal() {
-            courseDetailsModal.classList.add('visible');
-        }
-
-        // Função para esconder o modal
-        function hideCourseDetailsModal() {
-            courseDetailsModal.classList.remove('visible');
-            // Limpa o conteúdo do modal ao fechar e adiciona o spinner novamente
-            modalCourseTitle.textContent = '';
-            modalCourseDescription.innerHTML = '<div class="loading-spinner"></div>';
-        }
-
-        // Listener para fechar o modal
-        closeModalBtn.addEventListener('click', hideCourseDetailsModal);
-        courseDetailsModal.addEventListener('click', (e) => {
-            if (e.target === courseDetailsModal) { // Fecha apenas se clicar no overlay
-                hideCourseDetailsModal();
-            }
-        });
-
-        // Função para gerar a descrição do curso usando a API do Gemini
-        async function generateCourseDescription(courseName) {
-            modalCourseTitle.textContent = courseName;
-            modalCourseDescription.innerHTML = '<div class="loading-spinner"></div>'; // Adiciona o spinner
-
-            const prompt = `Gere uma descrição de marketing persuasiva e focada em conversão para o curso '${courseName}' da CED BRASIL. A descrição deve destacar os benefícios, o que o aluno aprenderá, e por que este curso é ideal para sua carreira, com um tom inspirador e profissional. Inclua uma chamada para ação implícita para a matrícula.`;
-
-            let chatHistory = [];
-            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-            const payload = { contents: chatHistory };
-            const apiKey = os.getenv('GEMINI_API_KEY');
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({ message: 'Erro desconhecido.' }));
-                    throw new Error(`Erro HTTP: ${response.status} - ${errorData.message || response.statusText}`);
-                }
-
-                const result = await response.json();
-                let courseDescription = 'Desculpe, não foi possível gerar a descrição no momento.';
-
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    courseDescription = result.candidates[0].content.parts[0].text.replace(/\*/g, ''); // Remove asteriscos
-                }
-
-                modalCourseDescription.innerHTML = `<p>${courseDescription}</p>`; // Exibe a descrição gerada
-
-            } catch (error) {
-                console.error('Erro ao gerar descrição do curso:', error);
-                modalCourseDescription.innerHTML = '<p class="error-message">Não foi possível carregar os detalhes do curso. Tente novamente mais tarde.</p>';
-            }
-        }
-
-        // Adiciona listeners aos botões "Ver Detalhes"
-        viewDetailsButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const courseName = button.dataset.courseId;
-                generateCourseDescription(courseName);
-                showCourseDetailsModal();
-            });
-        });
+      });
     </script>
 </body>
 </html>
