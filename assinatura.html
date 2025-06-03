@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CED BRASIL - Assinatura de Cursos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="favicon.jpg" type="image/jpeg">
+
+    <style>
+        /* Estilos base e cores personalizadas (replicados do site principal para consistência) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212; /* Fundo escuro principal */
+            color: #E0E0E0; /* Texto claro para tema escuro */
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Garante que o footer fique no final */
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif; /* Poppins para todos os títulos */
+            color: #F5F5F5; /* Cor mais clara para títulos */
+        }
+        .spotify-green {
+            color: #1DB954; /* Verde Spotify */
+        }
+        .bg-spotify-green {
+            background-color: #1DB954;
+        }
+        .border-spotify-green {
+            border-color: #1DB954;
+        }
+        .hover-bg-spotify-green-darker:hover {
+            background-color: #1AA34A; /* Verde um pouco mais escuro para hover */
+        }
+        .section-title {
+            font-size: 2.8rem; /* Título maior para seções */
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            line-height: 1.2;
+        }
+        .section-subtitle {
+            font-size: 1.25rem; /* Subtítulo um pouco maior */
+            color: #A0A0A0;
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .card {
+            background-color: #1E1E1E; /* Cinza escuro para cards */
+            border-radius: 0.75rem; /* Bordas arredondadas */
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #333; /* Borda sutil */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra mais pronunciada */
+        }
+        .card:hover {
+            transform: translateY(-8px); /* Efeito de elevação maior */
+            box-shadow: 0 15px 30px rgba(0, 200, 83, 0.15); /* Sombra mais vibrante */
+        }
+        /* Estilo da barra de rolagem */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1E1E1E;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1DB954;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1AA34A;
+        }
+        /* Animação de fade-in */
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        main {
+            flex-grow: 1; /* Permite que o conteúdo principal ocupe o espaço restante */
+            display: flex;
+            align-items: center; /* Centraliza verticalmente o conteúdo da main */
+            justify-content: center; /* Centraliza horizontalmente o conteúdo da main */
+            padding: 2rem 0; /* Adiciona um padding para não colar nas bordas */
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #E0E0E0;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #333;
+            background-color: #282828;
+            color: #E0E0E0;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #1DB954;
+            box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.3);
+        }
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
+            padding: 1rem;
+            border: 1px solid #333;
+            border-radius: 0.5rem;
+            background-color: #282828;
+            max-height: 200px; /* Limita a altura para scroll */
+            overflow-y: auto;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #E0E0E0;
+        }
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 0.5rem;
+            accent-color: #1DB954; /* Cor do checkbox */
+        }
+        .loading-message {
+            color: #1DB954;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        .success-message {
+            color: #1DB954;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        .error-message {
+            color: #FF4D4D; /* Um vermelho para erros */
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-[#181818] shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-3xl font-bold">
+                <span class="spotify-green">CedBrasil</span>
+            </a>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="index.html" class="hover:text-spotify-green transition duration-300 text-lg">Voltar ao Início</a>
+                <a href="#" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
+            </nav>
+            <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden bg-[#181818] py-2 border-t border-gray-700">
+            <a href="index.html" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Voltar ao Início</a>
+            <a href="#" class="block mx-6 my-3 bg-spotify-green text-black text-center px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="container mx-auto px-6 py-12 flex items-center justify-center">
+            <div class="max-w-xl w-full card p-8 fade-in-element">
+                <h2 class="text-3xl font-bold text-center mb-6">Garanta sua matrícula agora mesmo!</h2>
+                <p class="text-gray-300 text-center mb-8">Escolha o curso, preencha seus dados e comece sua jornada de sucesso.</p>
+
+                <form id="enrollmentForm">
+                    <div class="form-group">
+                        <label for="nome">Como quer ser chamado?</label>
+                        <input type="text" id="nome" name="nome" placeholder="Seu nome ou apelido" required aria-label="Nome ou Apelido">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="whatsapp">Seu WhatsApp (com DDD)</label>
+                        <input type="tel" id="whatsapp" name="whatsapp" placeholder="(XX) XXXXX-XXXX" required aria-label="Número de WhatsApp">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Cursos de Interesse:</label>
+                        <div id="cursos-checkboxes" class="checkbox-group" role="group" aria-labelledby="cursos-interesse-label">
+                            <p class="text-gray-400">Carregando cursos...</p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-spotify-green text-black font-extrabold px-6 py-3 rounded-lg text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
+                        ✅ Se Matricular Agora <i class="fas fa-arrow-circle-right ml-2"></i>
+                    </button>
+
+                    <div id="form-message" class="text-center mt-4 text-sm"></div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#0A0A0A] text-gray-400 py-12">
+        <div class="container mx-auto px-6 text-center">
+            <div class="mb-8">
+                <a href="index.html" class="text-4xl font-bold">
+                    <span class="spotify-green">CedBrasil</span>
+                </a>
+            </div>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6 mb-10">
+                <div class="flex space-x-6">
+                    <a href="https://www.facebook.com/people/CED-Brasil/61575889016332/" target="_blank" class="hover:text-spotify-green transition duration-300" aria-label="Facebook"><i class="fab fa-facebook-f text-2xl"></i></a>
+                    <a href="https://instagram.com/cedbrasill" target="_blank" class="hover:text-spotify-green transition duration-300" aria-label="Instagram"><i class="fab fa-instagram text-2xl"></i></a>
+                </div>
+                <p class="text-sm">Telefone: (61) 98666-0241</p>
+            </div>
+            <div class="border-t border-gray-700 pt-8 mt-8 text-center">
+                <p class="text-sm mb-2">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
+                <p class="text-xs mt-4">Desenvolvido com <i class="fas fa-heart spotify-green"></i> por @FurioNnzxT</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const enrollmentForm = document.getElementById('enrollmentForm');
+        const cursosCheckboxesDiv = document.getElementById('cursos-checkboxes');
+        const formMessage = document.getElementById('form-message');
+
+        const API_CURSOS_URL = 'https://api.cedbrasilia.com.br/cursos';
+        const WEBHOOK_MATRICULAR_URL = 'https://api.cedbrasilia.com.br/matricular';
+
+        // Function to load courses dynamically
+        async function loadCourses() {
+            cursosCheckboxesDiv.innerHTML = '<p class="text-gray-400 loading-message">Carregando cursos...</p>';
+            try {
+                // Assuming GET request for courses based on the provided JSON structure
+                const response = await fetch(API_CURSOS_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                const courses = data.cursos; // Access the 'cursos' object within the response
+
+                if (Object.keys(courses).length === 0) {
+                    cursosCheckboxesDiv.innerHTML = '<p class="text-gray-400">Nenhum curso disponível no momento.</p>';
+                    return;
+                }
+
+                cursosCheckboxesDiv.innerHTML = ''; // Clear loading message
+                for (const courseName in courses) {
+                    const checkboxId = `course-${courseName.replace(/\s+/g, '-').replace(/[^\w-]/g, '')}`; // Sanitize ID
+                    const checkboxHtml = `
+                        <div>
+                            <input type="checkbox" id="${checkboxId}" name="cursos" value="${courseName}" class="mr-2">
+                            <label for="${checkboxId}">${courseName}</label>
+                        </div>
+                    `;
+                    cursosCheckboxesDiv.insertAdjacentHTML('beforeend', checkboxHtml);
+                }
+            } catch (error) {
+                console.error('Error loading courses:', error);
+                cursosCheckboxesDiv.innerHTML = '<p class="error-message">Erro ao carregar cursos. Verifique a conexão ou tente novamente mais tarde.</p>';
+            }
+        }
+
+        // Function to send the webhook
+        async function sendWebhook(data) {
+            formMessage.textContent = 'Enviando sua matrícula...';
+            formMessage.className = 'text-center loading-message';
+
+            try {
+                const response = await fetch(WEBHOOK_MATRICULAR_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    formMessage.textContent = `Obrigado, ${data.nome}! Sua matrícula foi enviada com sucesso. Entraremos em contato pelo WhatsApp.`;
+                    formMessage.className = 'text-center success-message';
+                    enrollmentForm.reset(); // Clear the form
+                    // Uncheck all checkboxes after successful submission
+                    document.querySelectorAll('#cursos-checkboxes input[type="checkbox"]').forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                } else {
+                    const errorText = await response.text();
+                    throw new Error(`Erro ao matricular: ${response.status} - ${errorText}`);
+                }
+            } catch (error) {
+                console.error('Error sending webhook:', error);
+                formMessage.textContent = `Erro ao matricular: ${error.message}. Por favor, tente novamente.`;
+                formMessage.className = 'text-center error-message';
+            }
+        }
+
+        // Event Listener for form submission
+        enrollmentForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const nome = document.getElementById('nome').value.trim();
+            const whatsapp = document.getElementById('whatsapp').value.replace(/\D/g, ''); // Remove non-numeric characters
+            
+            const selectedCursos = [];
+            document.querySelectorAll('#cursos-checkboxes input[type="checkbox"]:checked').forEach(checkbox => {
+                selectedCursos.push(checkbox.value);
+            });
+
+            // Basic validation
+            if (!nome) {
+                formMessage.textContent = 'Por favor, preencha seu nome.';
+                formMessage.className = 'text-center error-message';
+                return;
+            }
+            if (!whatsapp) {
+                formMessage.textContent = 'Por favor, preencha seu WhatsApp.';
+                formMessage.className = 'text-center error-message';
+                return;
+            }
+            if (selectedCursos.length === 0) {
+                formMessage.textContent = 'Por favor, selecione pelo menos um curso.';
+                formMessage.className = 'text-center error-message';
+                return;
+            }
+
+            const formData = {
+                nome: nome,
+                whatsapp: whatsapp,
+                email: "matricula@cedbrasil.com", // Fictitious email as requested
+                cursos: selectedCursos
+            };
+
+            sendWebhook(formData);
+        });
+
+        // Load courses when the page is loaded
+        document.addEventListener('DOMContentLoaded', loadCourses);
+
+        // Mobile Menu Toggle (replicated from main site)
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                const icon = mobileMenuButton.querySelector('i');
+                if (mobileMenu.classList.contains('hidden')) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
