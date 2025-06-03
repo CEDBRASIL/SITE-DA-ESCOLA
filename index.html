@@ -912,7 +912,7 @@ Pergunta do usuário: ${userMessage}`,
         const payload = { contents: chatHistory };
 
         // ** Aqui buscamos o token via variável de ambiente injetada pelo Jinja **
-        const apiKey = "{{ gemini_key }}";
+        const apiKey = os.getenv('GEMINI_API_KEY');
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
         try {
