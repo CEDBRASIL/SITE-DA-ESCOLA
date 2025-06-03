@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CED BRASIL - Garanta sua Matrícula Agora!</title>
-    
+
     <meta name="description" content="Matricule-se nos cursos online da CED BRASIL. Transforme seu futuro com educação de qualidade, 7 dias grátis e sem contrato.">
     <meta property="og:title" content="CED BRASIL - Matrícula Online">
     <meta property="og:description" content="Escolha seu curso, preencha seus dados e comece sua jornada de sucesso com a CED BRASIL.">
     <meta property="og:image" content="https://placehold.co/1200x630/1DB954/000000">
     <meta property="og:url" content="https://www.seusite.com.br/assinatura.html">
     <meta name="twitter:card" content="summary_large_image">
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
-    
+
     <link rel="icon" href="favicon.jpg" type="image/jpeg">
 
     <style>
@@ -242,6 +242,12 @@
         input.is-invalid {
             border-color: #FF4D4D; /* Vermelho para inválido */
         }
+        .checkbox-group.is-invalid {
+            border-color: #FF4D4D; /* Vermelho para grupo de checkboxes inválido */
+        }
+        .checkbox-group.is-valid {
+            border-color: #1DB954; /* Verde para grupo de checkboxes válido */
+        }
 
         /* Sticky CTA para mobile */
         .mobile-sticky-cta {
@@ -268,21 +274,16 @@
 
     <header class="bg-[#181818] shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-3xl font-bold">
-                <span class="spotify-green">CedBrasil</span>
+            <a href="https://www.cedbrasilia.com.br" class="text-3xl font-bold"> <span class="spotify-green">CedBrasil</span>
             </a>
             <nav class="hidden md:flex space-x-8 items-center">
-                <a href="index.html" class="hover:text-spotify-green transition duration-300 text-lg">Voltar ao Início</a>
-                <a href="#" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
-            </nav>
+                <a href="https://www.cedbrasilia.com.br" class="hover:text-spotify-green transition duration-300 text-lg">Voltar ao Início</a> <a href="https://ead.cedbrasilia.com.br" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a> </nav>
             <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white" aria-label="Abrir menu móvel">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
         <div id="mobileMenu" class="hidden md:hidden bg-[#181818] py-2 border-t border-gray-700">
-            <a href="index.html" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Voltar ao Início</a>
-            <a href="#" class="block mx-6 my-3 bg-spotify-green text-black text-center px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
-        </div>
+            <a href="https://www.cedbrasilia.com.br" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Voltar ao Início</a> <a href="https://ead.cedbrasilia.com.br" class="block mx-6 my-3 bg-spotify-green text-black text-center px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a> </div>
     </header>
 
     <main>
@@ -300,7 +301,7 @@
                     <label for="whatsapp">Seu WhatsApp (com DDD)</label>
                     <input type="tel" id="whatsapp" name="whatsapp" placeholder="(XX) XXXXX-XXXX" required aria-label="Número de WhatsApp">
                 </div>
-                
+
                 <div class="form-group">
                     <label id="cursos-interesse-label">Cursos de Interesse:</label>
                     <div id="cursos-checkboxes" class="checkbox-group" role="group" aria-labelledby="cursos-interesse-label">
@@ -332,8 +333,7 @@
     <footer class="bg-[#0A0A0A] text-gray-400 py-12">
         <div class="container mx-auto px-6 text-center">
             <div class="mb-8">
-                <a href="index.html" class="text-4xl font-bold">
-                    <span class="spotify-green">CedBrasil</span>
+                <a href="https://www.cedbrasilia.com.br" class="text-4xl font-bold"> <span class="spotify-green">CedBrasil</span>
                 </a>
             </div>
             <div class="flex flex-col md:flex-row justify-center items-center gap-6 mb-10">
@@ -351,8 +351,10 @@
     </footer>
 
     <script defer>
+        // Set the current year in the footer
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
+        // Get references to form elements
         const enrollmentForm = document.getElementById('enrollmentForm');
         const nomeInput = document.getElementById('nome');
         const whatsappInput = document.getElementById('whatsapp');
@@ -360,12 +362,16 @@
         const formMessage = document.getElementById('form-message');
         const submitButton = document.getElementById('submitButton');
 
+        // API endpoints
         const API_CURSOS_URL = 'https://api.cedbrasilia.com.br/cursos';
         const WEBHOOK_MATRICULAR_URL = 'https://api.cedbrasilia.com.br/matricular';
 
-        // Função para carregar os cursos dinamicamente
+        /**
+         * Dynamically loads courses from the API and populates the checkboxes.
+         * Displays loading, empty, or error messages as appropriate.
+         */
         async function loadCourses() {
-            console.log('loadCourses: Iniciando carregamento de cursos...');
+            console.log('loadCourses: Initiating course loading...');
             cursosCheckboxesDiv.innerHTML = '<p class="text-gray-400 loading-message">Carregando cursos...</p>';
             try {
                 const response = await fetch(API_CURSOS_URL);
@@ -373,17 +379,18 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                console.log('loadCourses: Cursos recebidos:', data);
-                const courses = data.cursos; // Acessa o objeto 'cursos' dentro da resposta
+                console.log('loadCourses: Courses received:', data);
+                const courses = data.cursos; // Access the 'cursos' object within the response
 
-                if (Object.keys(courses).length === 0) {
+                if (!courses || Object.keys(courses).length === 0) {
                     cursosCheckboxesDiv.innerHTML = '<p class="text-gray-400">Nenhum curso disponível no momento.</p>';
                     return;
                 }
 
-                cursosCheckboxesDiv.innerHTML = ''; // Limpa a mensagem de carregamento
+                cursosCheckboxesDiv.innerHTML = ''; // Clear the loading message
                 for (const courseName in courses) {
-                    const checkboxId = `course-${courseName.replace(/\s+/g, '-').replace(/[^\w-]/g, '')}`; // Sanitiza o ID
+                    // Sanitize the course name to create a valid HTML ID
+                    const checkboxId = `course-${courseName.replace(/\s+/g, '-').replace(/[^\w-]/g, '')}`;
                     const checkboxHtml = `
                         <div>
                             <input type="checkbox" id="${checkboxId}" name="cursos" value="${courseName}">
@@ -392,31 +399,41 @@
                     `;
                     cursosCheckboxesDiv.insertAdjacentHTML('beforeend', checkboxHtml);
                 }
-                console.log('loadCourses: Cursos carregados com sucesso.');
+                console.log('loadCourses: Courses loaded successfully.');
+                // After courses are loaded, validate the selection to set initial border
+                validateCoursesSelection();
             } catch (error) {
-                console.error('loadCourses: Erro ao carregar cursos:', error);
-                cursosCheckboxesDiv.innerHTML = '<p class="error-message">Erro ao carregar cursos. Verifique a ligação à internet e tente novamente mais tarde.</p>';
+                console.error('loadCourses: Error loading courses:', error);
+                cursosCheckboxesDiv.innerHTML = '<p class="error-message">Erro ao carregar cursos. Verifique sua conexão e tente novamente.</p>';
             }
         }
 
-        // Função para aplicar máscara de telefone
+        /**
+         * Applies a WhatsApp phone number mask to the input value.
+         * Formats as (XX) XXXXX-XXXX or (XX) XXXX-XXXX.
+         * @param {string} value - The raw input string.
+         * @returns {string} The formatted phone number.
+         */
         function applyWhatsappMask(value) {
-            value = value.replace(/\D/g, ""); // Remove tudo que não é dígito
+            value = value.replace(/\D/g, ""); // Remove all non-digit characters
             if (value.length > 0) {
                 value = "(" + value;
                 if (value.length > 3) {
                     value = value.substring(0, 3) + ") " + value.substring(3);
                 }
-                if (value.length > 10) {
+                if (value.length > 10) { // For 9-digit numbers (like mobile in Brazil)
                     value = value.substring(0, 10) + "-" + value.substring(10, 15);
-                } else if (value.length > 9) {
+                } else if (value.length > 9) { // For 8-digit numbers
                     value = value.substring(0, 9) + "-" + value.substring(9);
                 }
             }
             return value;
         }
 
-        // Validação em tempo real e feedback visual
+        /**
+         * Validates an input field and applies 'is-valid' or 'is-invalid' classes.
+         * @param {HTMLElement} inputElement - The input element to validate.
+         */
         function validateField(inputElement) {
             if (inputElement.checkValidity()) {
                 inputElement.classList.remove('is-invalid');
@@ -427,120 +444,137 @@
             }
         }
 
+        // Event listeners for real-time validation on name and whatsapp inputs
         nomeInput.addEventListener('input', () => validateField(nomeInput));
         whatsappInput.addEventListener('input', (e) => {
             e.target.value = applyWhatsappMask(e.target.value);
             validateField(whatsappInput);
         });
-        whatsappInput.addEventListener('blur', () => validateField(whatsappInput)); // Valida ao sair do campo
+        whatsappInput.addEventListener('blur', () => validateField(whatsappInput)); // Validate on blur as well
 
-        // Função para validar seleção de cursos
+        /**
+         * Validates if at least one course checkbox is selected.
+         * Applies 'is-valid' or 'is-invalid' classes to the checkbox group container.
+         * @returns {boolean} True if at least one course is selected, false otherwise.
+         */
         function validateCoursesSelection() {
             const selectedCursos = document.querySelectorAll('#cursos-checkboxes input[type="checkbox"]:checked');
             if (selectedCursos.length === 0) {
-                cursosCheckboxesDiv.style.borderColor = '#FF4D4D'; // Borda vermelha
+                cursosCheckboxesDiv.classList.remove('is-valid');
+                cursosCheckboxesDiv.classList.add('is-invalid');
                 return false;
             } else {
-                cursosCheckboxesDiv.style.borderColor = '#1DB954'; // Borda verde
+                cursosCheckboxesDiv.classList.remove('is-invalid');
+                cursosCheckboxesDiv.classList.add('is-valid');
                 return true;
             }
         }
 
-        cursosCheckboxesDiv.addEventListener('change', validateCoursesSelection); // Valida ao selecionar/desselecionar
+        // Event listener for course selection validation
+        cursosCheckboxesDiv.addEventListener('change', validateCoursesSelection);
 
-        // Função para enviar o webhook
+        /**
+         * Sends the enrollment data to the specified webhook URL.
+         * Handles loading, success, and error messages for the user.
+         * @param {Object} data - The form data to send.
+         */
         async function sendWebhook(data) {
-            console.log('sendWebhook: Enviando dados:', data);
-            submitButton.disabled = true; // Desabilita o botão para evitar múltiplos cliques
+            console.log('sendWebhook: Sending data:', data);
+            submitButton.disabled = true; // Disable button to prevent multiple submissions
+            submitButton.textContent = 'Enviando...'; // Change button text
             formMessage.textContent = 'Enviando sua matrícula...';
-            formMessage.className = 'text-center loading-message';
+            formMessage.className = 'text-center loading-message'; // Apply loading style
 
             try {
                 const response = await fetch(WEBHOOK_MATRICULAR_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        // 'X-CED-Token': 'SEU_TOKEN_AQUI' // Exemplo de token de validação, se o backend exigir
+                        // 'X-CED-Token': 'YOUR_TOKEN_HERE' // Example: Uncomment and add if backend requires a token
                     },
                     body: JSON.stringify(data),
                 });
 
                 if (response.ok) {
-                    console.log('sendWebhook: Matrícula enviada com sucesso.');
+                    console.log('sendWebhook: Enrollment sent successfully.');
                     formMessage.textContent = `Obrigado, ${data.nome}! Sua matrícula foi enviada com sucesso. Entraremos em contato pelo WhatsApp.`;
-                    formMessage.className = 'text-center success-message';
-                    enrollmentForm.reset(); // Limpa o formulário
-                    // Desmarcar todos os checkboxes após o envio bem-sucedido
+                    formMessage.className = 'text-center success-message'; // Apply success style
+                    enrollmentForm.reset(); // Clear the form
+                    // Uncheck all checkboxes after successful submission
                     document.querySelectorAll('#cursos-checkboxes input[type="checkbox"]').forEach(checkbox => {
                         checkbox.checked = false;
                     });
-                    // Limpa as bordas de validação
+                    // Clear validation borders
                     nomeInput.classList.remove('is-valid', 'is-invalid');
                     whatsappInput.classList.remove('is-valid', 'is-invalid');
-                    cursosCheckboxesDiv.style.borderColor = '#333';
+                    cursosCheckboxesDiv.classList.remove('is-valid', 'is-invalid');
+                    cursosCheckboxesDiv.style.borderColor = '#333'; // Reset to default border
                 } else {
                     const errorText = await response.text();
-                    console.error('sendWebhook: Erro na resposta do servidor:', response.status, errorText);
+                    console.error('sendWebhook: Server response error:', response.status, errorText);
                     throw new Error(`Erro ao matricular: ${response.status} - ${errorText}`);
                 }
             } catch (error) {
-                console.error('sendWebhook: Erro no envio do webhook:', error);
+                console.error('sendWebhook: Error sending webhook:', error);
                 formMessage.textContent = `Erro ao matricular: ${error.message}. Por favor, tente novamente.`;
-                formMessage.className = 'text-center error-message';
-                // Implementar backup para localStorage aqui, se necessário
+                formMessage.className = 'text-center error-message'; // Apply error style
+                // Optionally, implement backup to localStorage here for failed leads
                 // localStorage.setItem('failedLead', JSON.stringify(data));
             } finally {
-                submitButton.disabled = false; // Reabilita o botão
+                submitButton.disabled = false; // Re-enable the button
+                submitButton.innerHTML = '✅ Se Matricular Agora <i class="fas fa-arrow-circle-right ml-2"></i>'; // Restore button text and icon
             }
         }
 
-        // Event Listener para o envio do formulário
+        // Event Listener for form submission
         enrollmentForm.addEventListener('submit', function(event) {
-            console.log('Formulário submetido.');
-            event.preventDefault(); // Impede o envio padrão do formulário
+            console.log('Form submission initiated.');
+            event.preventDefault(); // Prevent default form submission
 
-            // Revalida todos os campos ao submeter
+            // Re-validate all fields on submission attempt
             validateField(nomeInput);
             validateField(whatsappInput);
             const isCoursesValid = validateCoursesSelection();
 
+            // Check overall form validity
             if (!nomeInput.checkValidity() || !whatsappInput.checkValidity() || !isCoursesValid) {
                 formMessage.textContent = 'Por favor, corrija os campos destacados.';
                 formMessage.className = 'text-center error-message';
-                return;
+                return; // Stop submission if validation fails
             }
 
             const nome = nomeInput.value.trim();
-            const whatsapp = whatsappInput.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-            
+            const whatsapp = whatsappInput.value.replace(/\D/g, ''); // Remove non-numeric characters for submission
+
             const selectedCursos = [];
             document.querySelectorAll('#cursos-checkboxes input[type="checkbox"]:checked').forEach(checkbox => {
                 selectedCursos.push(checkbox.value);
             });
 
+            // Construct the data payload for the webhook
             const formData = {
                 nome: nome,
                 whatsapp: whatsapp,
-                email: "matricula@cedbrasil.com", // Email fictício conforme solicitado
+                email: "matricula@cedbrasil.com", // Fictitious email as per original code
                 cursos: selectedCursos
             };
 
-            sendWebhook(formData);
+            sendWebhook(formData); // Send the data
         });
 
-        // Carrega os cursos quando a página é carregada
+        // DOMContentLoaded: Ensures the DOM is fully loaded before running scripts
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM completamente carregado. Iniciando loadCourses().');
+            console.log('DOM fully loaded. Initiating loadCourses().');
             loadCourses();
 
-            // Ativa a animação fade-in para o card principal após o DOM carregar
+            // Activate the fade-in animation for the main card after DOM loads
             const mainCard = document.querySelector('main .card');
             if (mainCard) {
                 mainCard.classList.add('visible');
             }
         });
 
-        // Mobile Menu Toggle
+        // Mobile Menu Toggle functionality
         const mobileMenuButton = document.getElementById('mobileMenuButton');
         const mobileMenu = document.getElementById('mobileMenu');
         if (mobileMenuButton && mobileMenu) {
@@ -552,16 +586,16 @@
                     icon.classList.add('fa-bars');
                 } else {
                     icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
+                    icon.classList.add('fa-bars'); // Changed to fa-bars to avoid accidental X on close
                 }
             });
         }
 
-        // Intersection Observer para o card principal (para animação de entrada)
+        // Intersection Observer for the main card (for entry animation)
         const observerOptions = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.1
+            threshold: 0.1 // Trigger when 10% of the element is visible
         };
 
         const formCard = document.querySelector('main .card');
@@ -570,7 +604,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); // Para animar apenas uma vez
+                        observer.unobserve(entry.target); // Stop observing once animated
                     }
                 });
             }, observerOptions);
