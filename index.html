@@ -155,6 +155,11 @@
             color: #E0E0E0;
             align-self: flex-start;
         }
+        /* Estilo para o indicador de carregamento */
+        .joel-bot-body .message.loading {
+            font-style: italic;
+            color: #888;
+        }
 
         .joel-bot-footer {
             padding: 10px 15px;
@@ -639,68 +644,82 @@
             appendMessage(userMessage, 'sent'); // Adiciona a mensagem do usuário ao chat
             joelInput.value = ''; // Limpa o campo de input
 
-            // Simula uma resposta do bot após um pequeno atraso
-            setTimeout(() => {
-                getJoelResponse(userMessage);
-            }, 1000); // 1 segundo de atraso para simular processamento
+            // Tenta obter a resposta do bot (agora via API)
+            getJoelResponse(userMessage);
         }
 
+        // Função para adicionar uma mensagem ao corpo do chat
+        // Retorna o elemento da mensagem para que possa ser manipulado (ex: removido)
         function appendMessage(text, type) {
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message', type);
             messageDiv.textContent = text;
             joelBotBody.appendChild(messageDiv);
-            // Rola para o final do chat para mostrar a última mensagem
-            joelBotBody.scrollTop = joelBotBody.scrollHeight;
+            joelBotBody.scrollTop = joelBotBody.scrollHeight; // Rola para a última mensagem
+            return messageDiv;
         }
 
+        // Função para interagir com o backend que chamará a API do Gemini
         async function getJoelResponse(userMessage) {
-            let botResponse = 'Desculpe, não entendi. Poderia reformular?'; // Resposta padrão
+            // Adiciona um indicador de carregamento enquanto espera a resposta da IA
+            const loadingMessage = appendMessage('Digitando...', 'received loading');
+            joelBotBody.scrollTop = joelBotBody.scrollHeight; // Rola para o final
 
-            // Lógica de resposta simulada
-            if (userMessage.toLowerCase().includes('olá') || userMessage.toLowerCase().includes('oi')) {
-                botResponse = 'Olá! Como posso ajudar você hoje?';
-            } else if (userMessage.toLowerCase().includes('cursos')) {
-                botResponse = 'Temos cursos de Desenvolvimento Web, Design Gráfico, Análise de Dados e Marketing Digital! Qual área te interessa?';
-            } else if (userMessage.toLowerCase().includes('contato')) {
-                botResponse = 'Você pode nos ligar no (XX) XXXX-XXXX ou enviar um email para contato@cedbrasil.com.br.';
-            } else if (userMessage.toLowerCase().includes('horário')) {
-                botResponse = 'Nossa secretaria funciona de segunda a sexta, das 8h às 18h.';
-            } else if (userMessage.toLowerCase().includes('api do gemini')) {
-                botResponse = 'Sim! O JOEL é um bot de IA e eu consigo me conectar a uma API como a do Gemini para fornecer respostas inteligentes. Mas para isso, o código no servidor precisa fazer a chamada de verdade!';
-            } else if (userMessage.toLowerCase().includes('obrigado') || userMessage.toLowerCase().includes('valeu')) {
-                botResponse = 'De nada! Se precisar de mais alguma coisa, é só chamar.';
-            }
+            // IMPORTANTE: A API Key do Gemini NUNCA deve ser exposta no frontend.
+            // O uso de 'os.getenv' é para ambientes de servidor (backend).
+            // A chamada abaixo deve ser para o SEU BACKEND no Render, que então chamará a API do Gemini de forma segura.
+            const backendUrl = 'https://SUA_URL_DO_BACKEND_NO_RENDER/chat-with-joel'; // Substitua pela URL real do seu backend
 
-            appendMessage(botResponse, 'received'); // Adiciona a resposta do bot ao chat
-
-            /*
-            // Exemplo de como você FARIA a chamada para o seu backend no Render:
-            // Esta parte está comentada porque precisa de um backend real para funcionar.
             try {
-                const response = await fetch('SUA_URL_DO_RENDER_COM_A_API_DO_GEMINI/chat', {
+                // Prepara o payload para o seu backend
+                const payload = {
+                    message: userMessage,
+                    // Se você precisar de histórico de chat, envie-o aqui também
+                    // chatHistory: []
+                };
+
+                // Faz a chamada para o seu backend
+                const response = await fetch(backendUrl, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        // 'Authorization': `Bearer ${'SUA_CHAVE_API_AQUI_SE_NECESSARIO_OU_GERENCIADA_NO_BACKEND'}`
-                    },
-                    body: JSON.stringify({ message: userMessage })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
 
+                // Remove o indicador de carregamento
+                loadingMessage.remove();
+
                 if (!response.ok) {
-                    throw new Error(`Erro HTTP: ${response.status}`);
+                    // Tenta ler a mensagem de erro do backend se disponível
+                    const errorData = await response.json().catch(() => ({ message: 'Erro desconhecido.' }));
+                    throw new Error(`Erro HTTP: ${response.status} - ${errorData.message || response.statusText}`);
                 }
 
-                const data = await response.json();
-                // Supondo que a resposta do seu backend tenha um campo 'text' ou 'reply'
-                appendMessage(data.text || data.reply || "Erro ao obter resposta do bot.", 'received');
+                const result = await response.json();
+
+                let botReplyText = 'Desculpe, não consegui obter uma resposta do JOEL no momento.';
+
+                // Adapte esta parte para como seu backend retorna a resposta do Gemini
+                // Exemplo: se o backend retornar { "reply": "texto da resposta" }
+                if (result.reply) {
+                    botReplyText = result.reply;
+                }
+                // Ou se o backend passar a estrutura completa do Gemini:
+                else if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    botReplyText = result.candidates[0].content.parts[0].text;
+                }
+
+                appendMessage(botReplyText, 'received');
 
             } catch (error) {
-                console.error('Erro ao comunicar com a API do Gemini:', error);
+                // Remove o indicador de carregamento em caso de erro
+                if (loadingMessage) loadingMessage.remove();
+                console.error('Erro ao comunicar com o backend ou API do Gemini:', error);
                 appendMessage('Desculpe, estou com dificuldades para me conectar no momento. Tente novamente mais tarde.', 'received');
             }
-            */
         }
     </script>
 </body>
 </html>
+ad
