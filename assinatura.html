@@ -3,14 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CED BRASIL - Assinatura de Cursos</title>
+    <title>CED BRASIL - Garanta sua Matrícula Agora!</title>
+    
+    <meta name="description" content="Matricule-se nos cursos online da CED BRASIL. Transforme seu futuro com educação de qualidade, 7 dias grátis e sem contrato.">
+    <meta property="og:title" content="CED BRASIL - Matrícula Online">
+    <meta property="og:description" content="Escolha seu curso, preencha seus dados e comece sua jornada de sucesso com a CED BRASIL.">
+    <meta property="og:image" content="https://placehold.co/1200x630/1DB954/000000?text=Matricule-se+CED+Brasil">
+    <meta property="og:url" content="https://www.seusite.com.br/assinatura.html"> <meta name="twitter:card" content="summary_large_image">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700;700&display=swap" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    
     <link rel="icon" href="favicon.jpg" type="image/jpeg">
 
     <style>
-        /* Estilos base e cores personalizadas (replicados do site principal para consistência) */
+        /* Estilos base e cores personalizadas */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #121212; /* Fundo escuro principal */
@@ -25,6 +35,10 @@
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Poppins', sans-serif; /* Poppins para todos os títulos */
             color: #F5F5F5; /* Cor mais clara para títulos */
+            line-height: 1.25; /* Ajuste de line-height para títulos */
+        }
+        p {
+            font-weight: 400; /* Font-weight para parágrafos para leitura mais leve */
         }
         .spotify-green {
             color: #1DB954; /* Verde Spotify */
@@ -47,7 +61,7 @@
         }
         .section-subtitle {
             font-size: 1.25rem; /* Subtítulo um pouco maior */
-            color: #A0A0A0;
+            color: #B3B3B3; /* Contraste melhorado */
             text-align: center;
             margin-bottom: 3rem;
             max-width: 700px;
@@ -91,11 +105,11 @@
             transform: translateY(0);
         }
         main {
-            flex-grow: 1; /* Permite que o conteúdo principal ocupe o espaço restante */
+            flex-grow: 1;
             display: flex;
-            align-items: center; /* Centraliza verticalmente o conteúdo da main */
-            justify-content: center; /* Centraliza horizontalmente o conteúdo da main */
-            padding: 2rem 0; /* Adiciona um padding para não colar nas bordas */
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
         }
         .form-group {
             margin-bottom: 1.5rem;
@@ -119,8 +133,12 @@
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
+        .form-group select:focus,
+        input:focus-visible, /* Foco visível para acessibilidade */
+        select:focus-visible,
+        button:focus-visible {
+            outline: 2px solid #1DB954; /* Outline verde Spotify */
+            outline-offset: 2px;
             border-color: #1DB954;
             box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.3);
         }
@@ -161,6 +179,76 @@
             font-weight: 600;
             margin-top: 1rem;
         }
+
+        /* Estilos para validação em tempo real */
+        input.is-valid {
+            border-color: #1DB954; /* Verde para válido */
+        }
+        input.is-invalid {
+            border-color: #FF4D4D; /* Vermelho para inválido */
+        }
+
+        /* Sticky CTA para mobile */
+        .mobile-sticky-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #181818;
+            padding: 1rem;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
+            z-index: 998; /* Abaixo do chatbot */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        @media (min-width: 768px) {
+            .mobile-sticky-cta {
+                display: none; /* Esconde em desktop */
+            }
+        }
+
+        /* Hero Section com ilustração */
+        .hero-section-with-illustration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column; /* Mobile first: coluna */
+            min-height: 80vh; /* Ajuste a altura conforme necessário */
+            background-image: linear-gradient(rgba(18, 18, 18, 0.88), rgba(18, 18, 18, 0.88)), url('https://placehold.co/1920x1080/101010/1DB954?text=Fundo+Abstrato+Educação'); /* Fundo padrão */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-illustration-container {
+            display: none; /* Esconde a ilustração por padrão no mobile */
+        }
+
+        @media (min-width: 768px) { /* Desktop: layout de duas colunas */
+            .hero-section-with-illustration {
+                flex-direction: row;
+                justify-content: space-around;
+                padding: 4rem 0;
+            }
+            .hero-illustration-container {
+                display: block; /* Mostra a ilustração no desktop */
+                flex: 1;
+                max-width: 500px; /* Tamanho máximo para a ilustração */
+                text-align: center;
+            }
+            .hero-illustration-container img {
+                width: 100%;
+                height: auto;
+                border-radius: 1rem;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            }
+            .form-content-container {
+                flex: 1;
+                max-width: 500px; /* Tamanho máximo para o formulário */
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -174,7 +262,7 @@
                 <a href="index.html" class="hover:text-spotify-green transition duration-300 text-lg">Voltar ao Início</a>
                 <a href="#" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
             </nav>
-            <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white">
+            <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white" aria-label="Abrir menu mobile">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
@@ -184,10 +272,12 @@
         </div>
     </header>
 
-    <main>
-        <section class="container mx-auto px-6 py-12 flex items-center justify-center">
-            <div class="max-w-xl w-full card p-8 fade-in-element">
-                <h2 class="text-3xl font-bold text-center mb-6">Garanta sua matrícula agora mesmo!</h2>
+    <main class="hero-section-with-illustration">
+        <div class="hero-illustration-container fade-in-element">
+            <img src="https://placehold.co/500x400/1E1E1E/1DB954?text=Sua+Carreira+Começa+Aqui" alt="Ilustração de Carreira e Sucesso">
+        </div>
+        <section class="container mx-auto px-6 py-12 flex items-center justify-center form-content-container">
+            <div class="max-w-xl w-full card p-8 fade-in-element"> <h1 class="text-3xl font-bold text-center mb-6">Garanta sua matrícula agora mesmo!</h1>
                 <p class="text-gray-300 text-center mb-8">Escolha o curso, preencha seus dados e comece sua jornada de sucesso.</p>
 
                 <form id="enrollmentForm">
@@ -202,21 +292,33 @@
                     </div>
                     
                     <div class="form-group">
-                        <label>Cursos de Interesse:</label>
+                        <label id="cursos-interesse-label">Cursos de Interesse:</label>
                         <div id="cursos-checkboxes" class="checkbox-group" role="group" aria-labelledby="cursos-interesse-label">
                             <p class="text-gray-400">Carregando cursos...</p>
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-spotify-green text-black font-extrabold px-6 py-3 rounded-lg text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
+                    <button type="submit" id="submitButton" class="w-full bg-spotify-green text-black font-extrabold px-6 py-3 rounded-lg text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
                         ✅ Se Matricular Agora <i class="fas fa-arrow-circle-right ml-2"></i>
                     </button>
 
-                    <div id="form-message" class="text-center mt-4 text-sm"></div>
+                    <div class="flex justify-center items-center gap-4 mt-6 text-gray-500 text-sm">
+                        <i class="fas fa-lock text-xl spotify-green" aria-hidden="true"></i> <span>100% Seguro</span>
+                        <i class="fas fa-shield-alt text-xl spotify-green" aria-hidden="true"></i> <span>Dados Confidenciais</span>
+                        <i class="fas fa-certificate text-xl spotify-green" aria-hidden="true"></i> <span>SSL Certificado</span>
+                    </div>
+
+                    <div id="form-message" class="text-center mt-4 text-sm" role="alert" aria-live="polite"></div>
                 </form>
             </div>
         </section>
     </main>
+
+    <div class="mobile-sticky-cta">
+        <button type="submit" form="enrollmentForm" class="w-full bg-spotify-green text-black font-extrabold px-6 py-3 rounded-lg text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg">
+            Matricule-se Agora!
+        </button>
+    </div>
 
     <footer class="bg-[#0A0A0A] text-gray-400 py-12">
         <div class="container mx-auto px-6 text-center">
@@ -243,30 +345,34 @@
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
         const enrollmentForm = document.getElementById('enrollmentForm');
+        const nomeInput = document.getElementById('nome');
+        const whatsappInput = document.getElementById('whatsapp');
         const cursosCheckboxesDiv = document.getElementById('cursos-checkboxes');
         const formMessage = document.getElementById('form-message');
+        const submitButton = document.getElementById('submitButton');
 
         const API_CURSOS_URL = 'https://api.cedbrasilia.com.br/cursos';
         const WEBHOOK_MATRICULAR_URL = 'https://api.cedbrasilia.com.br/matricular';
 
-        // Function to load courses dynamically
+        // Função para carregar os cursos dinamicamente
         async function loadCourses() {
+            console.log('loadCourses: Iniciando carregamento de cursos...');
             cursosCheckboxesDiv.innerHTML = '<p class="text-gray-400 loading-message">Carregando cursos...</p>';
             try {
-                // Assuming GET request for courses based on the provided JSON structure
                 const response = await fetch(API_CURSOS_URL);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                const courses = data.cursos; // Access the 'cursos' object within the response
+                console.log('loadCourses: Cursos recebidos:', data);
+                const courses = data.cursos; // Acessa o objeto 'cursos' dentro da resposta
 
                 if (Object.keys(courses).length === 0) {
                     cursosCheckboxesDiv.innerHTML = '<p class="text-gray-400">Nenhum curso disponível no momento.</p>';
                     return;
                 }
 
-                cursosCheckboxesDiv.innerHTML = ''; // Clear loading message
+                cursosCheckboxesDiv.innerHTML = ''; // Limpa a mensagem de carregamento
                 for (const courseName in courses) {
                     const checkboxId = `course-${courseName.replace(/\s+/g, '-').replace(/[^\w-]/g, '')}`; // Sanitize ID
                     const checkboxHtml = `
@@ -277,14 +383,66 @@
                     `;
                     cursosCheckboxesDiv.insertAdjacentHTML('beforeend', checkboxHtml);
                 }
+                console.log('loadCourses: Cursos carregados com sucesso.');
             } catch (error) {
-                console.error('Error loading courses:', error);
-                cursosCheckboxesDiv.innerHTML = '<p class="error-message">Erro ao carregar cursos. Verifique a conexão ou tente novamente mais tarde.</p>';
+                console.error('loadCourses: Erro ao carregar cursos:', error);
+                cursosCheckboxesDiv.innerHTML = '<p class="error-message">Erro ao carregar cursos. Verifique a conexão com a internet e tente novamente mais tarde.</p>';
             }
         }
 
-        // Function to send the webhook
+        // Função para aplicar máscara de telefone
+        function applyWhatsappMask(value) {
+            value = value.replace(/\D/g, ""); // Remove tudo que não é dígito
+            if (value.length > 0) {
+                value = "(" + value;
+                if (value.length > 3) {
+                    value = value.substring(0, 3) + ") " + value.substring(3);
+                }
+                if (value.length > 10) {
+                    value = value.substring(0, 10) + "-" + value.substring(10, 15);
+                } else if (value.length > 9) {
+                    value = value.substring(0, 9) + "-" + value.substring(9);
+                }
+            }
+            return value;
+        }
+
+        // Validação em tempo real e feedback visual
+        function validateField(inputElement) {
+            if (inputElement.checkValidity()) {
+                inputElement.classList.remove('is-invalid');
+                inputElement.classList.add('is-valid');
+            } else {
+                inputElement.classList.remove('is-valid');
+                inputElement.classList.add('is-invalid');
+            }
+        }
+
+        nomeInput.addEventListener('input', () => validateField(nomeInput));
+        whatsappInput.addEventListener('input', (e) => {
+            e.target.value = applyWhatsappMask(e.target.value);
+            validateField(whatsappInput);
+        });
+        whatsappInput.addEventListener('blur', () => validateField(whatsappInput)); // Valida ao sair do campo
+
+        // Função para validar seleção de cursos
+        function validateCoursesSelection() {
+            const selectedCursos = document.querySelectorAll('#cursos-checkboxes input[type="checkbox"]:checked');
+            if (selectedCursos.length === 0) {
+                cursosCheckboxesDiv.style.borderColor = '#FF4D4D'; // Borda vermelha
+                return false;
+            } else {
+                cursosCheckboxesDiv.style.borderColor = '#1DB954'; // Borda verde
+                return true;
+            }
+        }
+
+        cursosCheckboxesDiv.addEventListener('change', validateCoursesSelection); // Valida ao selecionar/desselecionar
+
+        // Função para enviar o webhook
         async function sendWebhook(data) {
+            console.log('sendWebhook: Enviando dados:', data);
+            submitButton.disabled = true; // Desabilita o botão para evitar múltiplos cliques
             formMessage.textContent = 'Enviando sua matrícula...';
             formMessage.className = 'text-center loading-message';
 
@@ -298,67 +456,79 @@
                 });
 
                 if (response.ok) {
+                    console.log('sendWebhook: Matrícula enviada com sucesso.');
                     formMessage.textContent = `Obrigado, ${data.nome}! Sua matrícula foi enviada com sucesso. Entraremos em contato pelo WhatsApp.`;
                     formMessage.className = 'text-center success-message';
-                    enrollmentForm.reset(); // Clear the form
-                    // Uncheck all checkboxes after successful submission
+                    enrollmentForm.reset(); // Limpa o formulário
+                    // Desmarcar todos os checkboxes após o envio bem-sucedido
                     document.querySelectorAll('#cursos-checkboxes input[type="checkbox"]').forEach(checkbox => {
                         checkbox.checked = false;
                     });
+                    // Limpa as bordas de validação
+                    nomeInput.classList.remove('is-valid', 'is-invalid');
+                    whatsappInput.classList.remove('is-valid', 'is-invalid');
+                    cursosCheckboxesDiv.style.borderColor = '#333';
                 } else {
                     const errorText = await response.text();
+                    console.error('sendWebhook: Erro na resposta do servidor:', response.status, errorText);
                     throw new Error(`Erro ao matricular: ${response.status} - ${errorText}`);
                 }
             } catch (error) {
-                console.error('Error sending webhook:', error);
+                console.error('sendWebhook: Erro no envio do webhook:', error);
                 formMessage.textContent = `Erro ao matricular: ${error.message}. Por favor, tente novamente.`;
                 formMessage.className = 'text-center error-message';
+            } finally {
+                submitButton.disabled = false; // Reabilita o botão
             }
         }
 
-        // Event Listener for form submission
+        // Event Listener para o envio do formulário
         enrollmentForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
+            console.log('Formulário submetido.');
+            event.preventDefault(); // Impede o envio padrão do formulário
 
-            const nome = document.getElementById('nome').value.trim();
-            const whatsapp = document.getElementById('whatsapp').value.replace(/\D/g, ''); // Remove non-numeric characters
+            // Revalida todos os campos ao submeter
+            validateField(nomeInput);
+            validateField(whatsappInput);
+            const isCoursesValid = validateCoursesSelection();
+
+            if (!nomeInput.checkValidity() || !whatsappInput.checkValidity() || !isCoursesValid) {
+                formMessage.textContent = 'Por favor, corrija os campos destacados.';
+                formMessage.className = 'text-center error-message';
+                return;
+            }
+
+            const nome = nomeInput.value.trim();
+            const whatsapp = whatsappInput.value.replace(/\D/g, ''); // Remove caracteres não numéricos
             
             const selectedCursos = [];
             document.querySelectorAll('#cursos-checkboxes input[type="checkbox"]:checked').forEach(checkbox => {
                 selectedCursos.push(checkbox.value);
             });
 
-            // Basic validation
-            if (!nome) {
-                formMessage.textContent = 'Por favor, preencha seu nome.';
-                formMessage.className = 'text-center error-message';
-                return;
-            }
-            if (!whatsapp) {
-                formMessage.textContent = 'Por favor, preencha seu WhatsApp.';
-                formMessage.className = 'text-center error-message';
-                return;
-            }
-            if (selectedCursos.length === 0) {
-                formMessage.textContent = 'Por favor, selecione pelo menos um curso.';
-                formMessage.className = 'text-center error-message';
-                return;
-            }
-
             const formData = {
                 nome: nome,
                 whatsapp: whatsapp,
-                email: "matricula@cedbrasil.com", // Fictitious email as requested
+                email: "matricula@cedbrasil.com", // Email fictício conforme solicitado
                 cursos: selectedCursos
             };
 
             sendWebhook(formData);
         });
 
-        // Load courses when the page is loaded
-        document.addEventListener('DOMContentLoaded', loadCourses);
+        // Carrega os cursos quando a página é carregada
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM completamente carregado. Iniciando loadCourses().');
+            loadCourses();
 
-        // Mobile Menu Toggle (replicated from main site)
+            // Ativa a animação fade-in para o card principal após o DOM carregar
+            const mainCard = document.querySelector('main .card');
+            if (mainCard) {
+                mainCard.classList.add('visible');
+            }
+        });
+
+        // Mobile Menu Toggle
         const mobileMenuButton = document.getElementById('mobileMenuButton');
         const mobileMenu = document.getElementById('mobileMenu');
         if (mobileMenuButton && mobileMenu) {
@@ -373,6 +543,27 @@
                     icon.classList.add('fa-times');
                 }
             });
+        }
+
+        // Intersection Observer para o botão principal (se necessário, para animações específicas)
+        // Atualmente, o botão já tem transição no hover, esta parte é mais para animações de entrada se o botão não fosse visível inicialmente.
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const formSection = document.querySelector('main section'); // Observa a seção inteira do formulário
+        if (formSection) {
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.querySelectorAll('.fade-in-element').forEach(el => el.classList.add('visible'));
+                        // observer.unobserve(entry.target); // Opcional: desobservar após a animação
+                    }
+                });
+            }, observerOptions);
+            observer.observe(formSection);
         }
     </script>
 </body>
