@@ -1,43 +1,298 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CED – Matrícula</title>
-
-  <link rel="stylesheet" href="estilo.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrícula Automática CED</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a; /* Fundo escuro similar ao Gemini */
+            color: #e0e0e0; /* Cor do texto padrão claro */
+        }
+        /* Estilos para o contêiner principal */
+        .dark-theme-container {
+            background-color: #2c2c2c; /* Cor de fundo do card um pouco mais clara que o body */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.2); /* Sombra mais escura */
+        }
+        /* Estilos para inputs e selects */
+        .dark-theme-input {
+            background-color: #3a3a3a; /* Fundo dos inputs mais escuro */
+            border-color: #555555; /* Borda mais suave */
+            color: #ffffff; /* Texto branco */
+        }
+        .dark-theme-input::placeholder {
+            color: #b0b0b0; /* Placeholder mais claro */
+        }
+        .dark-theme-input:focus {
+            border-color: #60a5fa; /* Cor do foco azul */
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.5); /* Sombra do foco azul */
+        }
+        /* Estilos para labels e textos auxiliares */
+        .dark-theme-text-label {
+            color: #d0d0d0; /* Texto das labels mais claro */
+        }
+        .dark-theme-text-helper {
+            color: #a0a0a0; /* Texto auxiliar mais claro */
+        }
+        /* Estilos para mensagens de status */
+        .status-success-dark {
+            background-color: #1a472a; /* Verde escuro */
+            color: #a7f3d0; /* Verde claro */
+        }
+        .status-error-dark {
+            background-color: #63171b; /* Vermelho escuro */
+            color: #fca5a5; /* Vermelho claro */
+        }
+        .status-info-dark {
+            background-color: #1e3a8a; /* Azul escuro */
+            color: #93c5fd; /* Azul claro */
+        }
+    </style>
 </head>
-<body>
-  <main class="container">
-    <h1>Matrícula – CED</h1>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="dark-theme-container p-8 rounded-xl shadow-2xl w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center text-gray-100 mb-8">Matrícula Automática</h1>
 
-    <form id="formCheckout">
-      <label>
-        Nome completo
-        <input type="text" name="nome" required />
-      </label>
+        <form id="enrollmentForm" class="space-y-6">
+            <div>
+                <label for="fullName" class="block text-sm font-medium dark-theme-text-label mb-1">Nome Completo</label>
+                <input type="text" id="fullName" name="fullName" required
+                       class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark-theme-input"
+                       placeholder="Seu nome completo">
+            </div>
 
-      <label>
-        WhatsApp (DDD+número)
-        <input type="tel" name="whatsapp" pattern="\d{11,13}" required />
-      </label>
+            <div>
+                <label for="email" class="block text-sm font-medium dark-theme-text-label mb-1">E-mail</label>
+                <input type="email" id="email" name="email" required
+                       class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark-theme-input"
+                       placeholder="seu.email@exemplo.com">
+            </div>
 
-      <label>
-        E-mail
-        <input type="email" name="email" required />
-      </label>
+            <div>
+                <label for="course" class="block text-sm font-medium dark-theme-text-label mb-1">Curso Desejado</label>
+                <select id="course" name="course" required
+                        class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark-theme-input">
+                    <option value="">Carregando cursos...</option>
+                </select>
+                <button type="button" id="generateDescriptionButton"
+                        class="mt-3 w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white 
+                               bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 
+                               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 
+                               transition duration-300 ease-in-out hidden">
+                    ✨ Gerar Descrição do Curso ✨
+                </button>
+                <div id="courseDescription" class="mt-4 p-4 rounded-lg bg-gray-800 text-gray-200 text-sm leading-relaxed hidden">
+                    </div>
+            </div>
 
-      <label>
-        Curso
-        <select name="curso" id="cursoSelect" required>
-          <option value="">Carregando cursos…</option>
-        </select>
-      </label>
+            <div>
+                <label for="phone" class="block text-sm font-medium dark-theme-text-label mb-1">Telefone (WhatsApp)</label>
+                <input type="tel" id="phone" name="phone" required pattern="\(\d{2}\)\s\d{4,5}-\d{4}"
+                       class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark-theme-input"
+                       placeholder="(XX) XXXXX-XXXX">
+                <p class="mt-1 text-xs dark-theme-text-helper">Formato: (XX) XXXXX-XXXX</p>
+            </div>
 
-      <button type="submit">Pagar e Concluir</button>
-    </form>
-  </main>
+            <button type="submit" id="submitButton"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-lg font-semibold text-white 
+                           bg-gradient-to-r from-[#1DB954] to-[#1AA34A] hover:from-[#179B46] hover:to-[#179B46] 
+                           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 ease-in-out">
+                Prosseguir para Pagamento
+            </button>
+        </form>
 
-  <script src="checkout.js"></script>
+        <div id="statusMessage" class="mt-6 p-4 text-center rounded-lg hidden"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('enrollmentForm');
+            const statusMessage = document.getElementById('statusMessage');
+            const phoneInput = document.getElementById('phone');
+            const courseSelect = document.getElementById('course');
+            const submitButton = document.getElementById('submitButton');
+            const generateDescriptionButton = document.getElementById('generateDescriptionButton'); // Novo botão
+            const courseDescriptionDiv = document.getElementById('courseDescription'); // Nova área de descrição
+
+            // URL do seu backend para buscar cursos e iniciar matrícula
+            const COURSES_API_URL = 'https://api.cedbrasilia.com.br/cursos';
+            const ENROLLMENT_API_URL = 'https://api.cedbrasilia.com.br/api/'; 
+            const GENERATE_DESCRIPTION_API_URL = 'https://api.cedbrasilia.com.br/api/generate-course-description'; // Novo endpoint Gemini
+
+            // -----------------------------------------------------------
+            // Função para carregar cursos da API (AJUSTADA PARA O NOVO FORMATO)
+            // -----------------------------------------------------------
+            async function loadCourses() {
+                courseSelect.innerHTML = '<option value="">Carregando cursos...</option>';
+                courseSelect.disabled = true; // Desabilita enquanto carrega
+                submitButton.disabled = true; // Desabilita o botão de submit
+                generateDescriptionButton.classList.add('hidden'); // Esconde o botão Gemini
+                courseDescriptionDiv.classList.add('hidden'); // Esconde a descrição
+
+                try {
+                    const response = await fetch(COURSES_API_URL);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+
+                    courseSelect.innerHTML = '<option value="">Selecione um curso</option>'; // Limpa e adiciona opção padrão
+                    
+                    // Verifica se a estrutura esperada está presente e é um objeto 'cursos'
+                    if (data && data.cursos && typeof data.cursos === 'object') {
+                        // Itera sobre as chaves (nomes dos cursos) do objeto 'cursos'
+                        for (const courseName in data.cursos) {
+                            if (Object.hasOwnProperty.call(data.cursos, courseName)) {
+                                const option = document.createElement('option');
+                                option.value = courseName; // O valor será o nome do curso
+                                option.textContent = courseName; // O texto visível será o nome do curso
+                                courseSelect.appendChild(option);
+                            }
+                        }
+                        courseSelect.disabled = false; // Habilita após carregar
+                        submitButton.disabled = false; // Habilita o botão de submit
+                    } else {
+                        throw new Error('Formato de dados de cursos inválido. Esperado um objeto "cursos".');
+                    }
+                } catch (error) {
+                    console.error('Erro ao carregar cursos:', error);
+                    courseSelect.innerHTML = '<option value="">Erro ao carregar cursos</option>';
+                    courseSelect.classList.add('error-text');
+                    statusMessage.textContent = 'Não foi possível carregar a lista de cursos. Tente novamente mais tarde.';
+                    statusMessage.className = 'mt-6 p-4 text-center rounded-lg status-error-dark block'; 
+                }
+            }
+
+            // Carrega os cursos quando a página é carregada
+            loadCourses();
+
+            // -----------------------------------------------------------
+            // Event Listener para mudança de seleção de curso
+            // -----------------------------------------------------------
+            courseSelect.addEventListener('change', () => {
+                const selectedCourse = courseSelect.value;
+                if (selectedCourse) {
+                    generateDescriptionButton.classList.remove('hidden'); // Mostra o botão Gemini
+                    courseDescriptionDiv.classList.add('hidden'); // Esconde descrição anterior
+                    courseDescriptionDiv.innerHTML = ''; // Limpa conteúdo anterior
+                } else {
+                    generateDescriptionButton.classList.add('hidden'); // Esconde o botão Gemini
+                    courseDescriptionDiv.classList.add('hidden'); // Esconde a descrição
+                    courseDescriptionDiv.innerHTML = ''; // Limpa conteúdo
+                }
+            });
+
+            // -----------------------------------------------------------
+            // Event Listener para o botão Gerar Descrição (Gemini)
+            // -----------------------------------------------------------
+            generateDescriptionButton.addEventListener('click', async () => {
+                const selectedCourseName = courseSelect.value;
+                if (!selectedCourseName) {
+                    statusMessage.textContent = 'Por favor, selecione um curso primeiro.';
+                    statusMessage.className = 'mt-6 p-4 text-center rounded-lg status-error-dark block';
+                    return;
+                }
+
+                courseDescriptionDiv.classList.remove('hidden');
+                courseDescriptionDiv.innerHTML = '<p class="text-center">Gerando descrição com IA... ✨</p>';
+                generateDescriptionButton.disabled = true; // Desabilita o botão durante a geração
+
+                try {
+                    const response = await fetch(GENERATE_DESCRIPTION_API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ course_name: selectedCourseName })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.status === 'ok') {
+                        courseDescriptionDiv.innerHTML = `<p>${result.description}</p>`;
+                        statusMessage.classList.add('hidden'); // Esconde mensagem de status se sucesso
+                    } else {
+                        courseDescriptionDiv.innerHTML = `<p class="text-red-400">Erro ao gerar descrição: ${result.message || 'Erro desconhecido.'}</p>`;
+                        statusMessage.textContent = 'Erro ao gerar descrição do curso. Tente novamente.';
+                        statusMessage.className = 'mt-6 p-4 text-center rounded-lg status-error-dark block';
+                    }
+                } catch (error) {
+                    console.error('Erro ao chamar a API Gemini:', error);
+                    courseDescriptionDiv.innerHTML = `<p class="text-red-400">Ocorreu um erro de conexão ao gerar a descrição.</p>`;
+                    statusMessage.textContent = 'Ocorreu um erro de rede ao gerar a descrição. Verifique sua conexão.';
+                    statusMessage.className = 'mt-6 p-4 text-center rounded-lg status-error-dark block';
+                } finally {
+                    generateDescriptionButton.disabled = false; // Reabilita o botão
+                }
+            });
+
+            // -----------------------------------------------------------
+            // Função para formatar Telefone (WhatsApp)
+            // -----------------------------------------------------------
+            phoneInput.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\D/g, ''); 
+                if (value.length > 11) value = value.slice(0, 11);
+
+                if (value.length > 10) { 
+                    value = value.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+                } else if (value.length > 6) { 
+                    value = value.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+                } else if (value.length > 2) { 
+                    value = value.replace(/^(\d{2})(\d{0,5}).*/, '($1) $2');
+                } else if (value.length > 0) { 
+                    value = value.replace(/^(\d*)/, '($1');
+                }
+                e.target.value = value;
+            });
+
+            // -----------------------------------------------------------
+            // Event Listener para envio do Formulário
+            // -----------------------------------------------------------
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault(); 
+
+                submitButton.disabled = true;
+                statusMessage.textContent = 'Preparando seu pagamento...';
+                statusMessage.className = 'mt-6 p-4 text-center rounded-lg status-info-dark block'; 
+
+                const formData = new FormData(form);
+                const studentData = {
+                    nome: formData.get('fullName'),
+                    email: formData.get('email'),
+                    whatsapp: formData.get('phone'),
+                    cursos: [formData.get('course')] 
+                };
+
+                console.log('Dados do Aluno para API:', studentData);
+
+                try {
+                    const apiResponse = await fetch(ENROLLMENT_API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(studentData)
+                    });
+
+                    const result = await apiResponse.json();
+
+                    if (apiResponse.ok && result.status === 'ok') {
+                        statusMessage.textContent = 'Redirecionando para o checkout do Mercado Pago...';
+                        statusMessage.className = 'mt-6 p-4 text-center rounded-lg status-success-dark block'; 
+
+                        window.location.href = result.redirect_url; 
+                    } else {
+                        statusMessage.textContent = result.message || 'Erro ao preparar o pagamento. Tente novamente.';
+                        statusMessage.className = 'mt-6 p-4 text-center rounded-lg status-error-dark block'; 
+                        submitButton.disabled = false; 
+                    }
+                } catch (error) {
+                    console.error('Erro na comunicação com o backend:', error);
+                    statusMessage.textContent = 'Ocorreu um erro inesperado. Por favor, tente novamente mais tarde.';
+                    statusMessage.className = 'mt-6 p-4 text-center rounded-lg status-error-dark block'; 
+                    submitButton.disabled = false; 
+                }
+            });
+        });
+    </script>
 </body>
 </html>
