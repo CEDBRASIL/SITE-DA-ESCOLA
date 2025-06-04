@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema CED BRASIL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="icon" href="../favicon.jpg" type="image/jpeg" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            font-family: 'Poppins', sans-serif;
+            color: #f5f5f5;
+        }
+        .spotify-green { color: #1db954; }
+        .bg-spotify-green { background-color: #1db954; }
+        .hover-bg-spotify-green-darker:hover { background-color: #1aa34a; }
+    </style>
+</head>
+<body>
+    <div id="login-section" class="min-h-screen flex items-center justify-center">
+        <form id="loginForm" class="bg-gray-800 p-8 rounded-md shadow-md w-full max-w-sm">
+            <h1 class="text-2xl font-bold mb-6 text-center">Acessar Sistema</h1>
+            <div class="mb-4">
+                <label for="username" class="block mb-2 text-sm">Usuário</label>
+                <input type="text" id="username" class="w-full px-4 py-2 rounded bg-gray-700 text-white focus:outline-none" placeholder="Login" required />
+            </div>
+            <div class="mb-6">
+                <label for="password" class="block mb-2 text-sm">Senha</label>
+                <input type="password" id="password" class="w-full px-4 py-2 rounded bg-gray-700 text-white focus:outline-none" placeholder="Senha" required />
+            </div>
+            <button type="submit" class="w-full bg-spotify-green text-black font-bold py-2 rounded hover-bg-spotify-green-darker transition-colors">Entrar</button>
+            <p id="loginError" class="mt-4 text-red-500 text-center hidden">Usuário ou senha incorretos.</p>
+        </form>
+    </div>
+    <div id="system-section" class="hidden min-h-screen flex items-center justify-center">
+        <h2 class="text-2xl">Sistema em desenvolvimento.</h2>
+    </div>
+    <script>
+        const form = document.getElementById('loginForm');
+        const loginSection = document.getElementById('login-section');
+        const systemSection = document.getElementById('system-section');
+        const loginError = document.getElementById('loginError');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            if (user === 'Yuri' && pass === '$Mdwy06151931') {
+                loginSection.classList.add('hidden');
+                systemSection.classList.remove('hidden');
+            } else {
+                loginError.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
