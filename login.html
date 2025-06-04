@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - CED Brasil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="icon" href="favicon.jpg" type="image/jpeg" />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #121212;
+        color: #e0e0e0;
+        line-height: 1.6;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: "Poppins", sans-serif;
+        color: #f5f5f5;
+      }
+      .spotify-green {
+        color: #1db954;
+      }
+      .bg-spotify-green {
+        background-color: #1db954;
+      }
+      .hover-bg-spotify-green-darker:hover {
+        background-color: #1aa34a;
+      }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="bg-[#181818] shadow-lg">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="https://www.cedbrasilia.com.br" class="text-3xl font-bold">
+                <span class="spotify-green">CedBrasil</span>
+            </a>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="https://www.cedbrasilia.com.br" class="hover:text-spotify-green transition duration-300 text-lg">Início</a>
+                <a href="index.html#sobre" class="hover:text-spotify-green transition duration-300 text-lg">Sobre Nós</a>
+                <a href="index.html#cursos" class="hover:text-spotify-green transition duration-300 text-lg">Cursos</a>
+                <a href="index.html#contato" class="hover:text-spotify-green transition duration-300 text-lg">Contato</a>
+            </nav>
+            <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden bg-[#181818] py-2 border-t border-gray-700">
+            <a href="https://www.cedbrasilia.com.br" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Início</a>
+            <a href="index.html#sobre" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Sobre Nós</a>
+            <a href="index.html#cursos" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Cursos</a>
+            <a href="index.html#contato" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Contato</a>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center py-16 px-6">
+        <div class="w-full max-w-md bg-[#1e1e1e] p-8 rounded-lg shadow-lg">
+            <h1 class="text-3xl font-bold mb-6 text-center">Área do Aluno</h1>
+            <form action="https://ead.cedbrasilia.com.br/login/index.php" method="post" class="space-y-4">
+                <div>
+                    <label for="username" class="block mb-1">Usuário</label>
+                    <input type="text" id="username" name="username" required class="w-full px-4 py-2 rounded bg-[#282828] border border-gray-600 focus:border-spotify-green focus:outline-none">
+                </div>
+                <div>
+                    <label for="password" class="block mb-1">Senha</label>
+                    <input type="password" id="password" name="password" required class="w-full px-4 py-2 rounded bg-[#282828] border border-gray-600 focus:border-spotify-green focus:outline-none">
+                </div>
+                <button type="submit" class="w-full bg-spotify-green text-black font-semibold py-2 rounded hover-bg-spotify-green-darker transition">Entrar</button>
+            </form>
+            <div class="text-center mt-4">
+                <a href="https://ead.cedbrasilia.com.br/login/forgot_password.php" class="text-sm hover:text-spotify-green">Esqueceu a senha?</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-[#181818] text-center py-4">
+        <p class="text-sm">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
+    </footer>
+
+<script>
+  // Mobile Menu Toggle
+  const mobileMenuButton = document.getElementById("mobileMenuButton");
+  const mobileMenu = document.getElementById("mobileMenu");
+  mobileMenuButton.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
+    const icon = mobileMenuButton.querySelector("i");
+    if (mobileMenu.classList.contains("hidden")) {
+      icon.classList.remove("fa-times");
+      icon.classList.add("fa-bars");
+    } else {
+      icon.classList.remove("fa-bars");
+      icon.classList.add("fa-times");
+    }
+  });
+
+  document.getElementById("currentYear").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
