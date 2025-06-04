@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - CED Brasil</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="icon" href="favicon.jpg" type="image/jpeg" />
     <style>
@@ -57,14 +57,14 @@
     <main class="flex-grow flex items-center justify-center py-16 px-6">
         <div class="w-full max-w-md bg-[#1e1e1e] p-8 rounded-lg shadow-lg">
             <h1 class="text-3xl font-bold mb-6 text-center">Área do Aluno</h1>
-            <form action="https://ead.cedbrasilia.com.br/login/index.php" method="post" class="space-y-4">
+            <form action="https://ead.cedbrasilia.com.br/index.php" method="post" class="space-y-4">
                 <div>
                     <label for="username" class="block mb-1">Usuário</label>
-                    <input type="text" id="username" name="username" required class="w-full px-4 py-2 rounded bg-[#282828] border border-gray-600 focus:border-spotify-green focus:outline-none">
+                    <input type="text" id="username" name="username" required="required" class="w-full px-4 py-2 rounded bg-[#282828] border border-gray-600 focus:border-spotify-green focus:outline-none" />
                 </div>
                 <div>
                     <label for="password" class="block mb-1">Senha</label>
-                    <input type="password" id="password" name="password" required class="w-full px-4 py-2 rounded bg-[#282828] border border-gray-600 focus:border-spotify-green focus:outline-none">
+                    <input type="password" id="password" name="password" required="required" class="w-full px-4 py-2 rounded bg-[#282828] border border-gray-600 focus:border-spotify-green focus:outline-none" />
                 </div>
                 <button type="submit" class="w-full bg-spotify-green text-black font-semibold py-2 rounded hover-bg-spotify-green-darker transition">Entrar</button>
             </form>
@@ -75,7 +75,7 @@
     </main>
 
     <footer class="bg-[#181818] text-center py-4">
-        <p class="text-sm">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
+        <p class="text-sm">&#169; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
     </footer>
 
 <script>
