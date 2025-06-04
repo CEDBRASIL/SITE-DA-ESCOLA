@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Programa de Afiliados - CED BRASIL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="icon" href="favicon.jpg" type="image/jpeg" />
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #121212;
+        color: #e0e0e0;
+        line-height: 1.6;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Poppins', sans-serif;
+        color: #f5f5f5;
+      }
+      .spotify-green { color: #1db954; }
+      .bg-spotify-green { background-color: #1db954; }
+      .hover-bg-spotify-green-darker:hover { background-color: #1aa34a; }
+      .section-title {
+        font-size: 2.8rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+      .section-subtitle {
+        font-size: 1.25rem;
+        text-align: center;
+        color: #a0a0a0;
+        margin-bottom: 3rem;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .card {
+        background-color: #1e1e1e;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        border: 1px solid #333;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 20px rgba(0,200,83,0.15);
+      }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+    <header class="bg-[#181818] shadow-lg">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="https://www.cedbrasilia.com.br" class="text-3xl font-bold"><span class="spotify-green">CedBrasil</span></a>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="index.html" class="hover:text-spotify-green transition text-lg">Início</a>
+                <a href="login.html" class="hover:text-spotify-green transition text-lg">Área do Aluno</a>
+            </nav>
+            <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden bg-[#181818] py-2 border-t border-gray-700">
+            <a href="index.html" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition text-lg">Início</a>
+            <a href="login.html" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition text-lg">Área do Aluno</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section class="text-center py-20 px-6 bg-cover bg-center" style="background-image: linear-gradient(rgba(18,18,18,0.85), rgba(18,18,18,0.85)), url('https://placehold.co/1600x900/101010/1DB954?text=CED+BRASIL+Afiliados');">
+            <h1 class="section-title">Torne-se um <span class="spotify-green">Afiliado Oficial</span></h1>
+            <p class="section-subtitle">Ganhe comissões promovendo cursos profissionalizantes com certificado válido em todo o Brasil</p>
+            <a href="https://dashboard.kiwify.com/join/affiliate/8iXPqnGH" class="inline-block bg-spotify-green text-black font-bold px-8 py-4 rounded-full text-xl hover-bg-spotify-green-darker transition shadow-lg">Quero Me Tornar Afiliado</a>
+        </section>
+
+        <section class="py-20 bg-[#181818]">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">Benefícios do Programa</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-file-image text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Materiais sem marca d'água</h3>
+                            <p class="text-gray-400 text-sm">Acesso a imagens e vídeos prontos para divulgar os cursos.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-play-circle text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Demonstrações gratuitas</h3>
+                            <p class="text-gray-400 text-sm">Mostre aos seus leads uma prévia do conteúdo antes da compra.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-headset text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Suporte dedicado</h3>
+                            <p class="text-gray-400 text-sm">Tire dúvidas rapidamente via WhatsApp e Discord.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-user-graduate text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Suporte aos alunos</h3>
+                            <p class="text-gray-400 text-sm">Você apenas vende; a CED BRASIL cuida do atendimento completo.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-certificate text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Certificados válidos</h3>
+                            <p class="text-gray-400 text-sm">Todos os cursos oferecem certificados reconhecidos em todo o país.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-mobile-screen-button text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Plataforma exclusiva</h3>
+                            <p class="text-gray-400 text-sm">Os alunos estudam pelo celular ou computador sem complicações.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-users text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Comunidade de afiliados</h3>
+                            <p class="text-gray-400 text-sm">Participe de um grupo privado para compartilhar dicas e estratégias.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-12">
+                    <a href="https://dashboard.kiwify.com/join/affiliate/8iXPqnGH" class="inline-block bg-spotify-green text-black font-bold px-10 py-4 rounded-full text-xl hover-bg-spotify-green-darker transition shadow-lg">Quero Me Tornar Afiliado</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#181818] text-center py-6 mt-12">
+        <div class="text-sm space-x-4 mb-4">
+            <a href="#" class="hover:text-spotify-green">Termos de Afiliação</a>
+            <a href="#" class="hover:text-spotify-green">Suporte</a>
+            <a href="#" class="hover:text-spotify-green">Políticas da CED BRASIL</a>
+        </div>
+        <p class="text-xs">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
+    </footer>
+
+<script>
+  const mobileMenuButton = document.getElementById('mobileMenuButton');
+  const mobileMenu = document.getElementById('mobileMenu');
+  mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+    const icon = mobileMenuButton.querySelector('i');
+    if (mobileMenu.classList.contains('hidden')) {
+      icon.classList.remove('fa-times');
+      icon.classList.add('fa-bars');
+    } else {
+      icon.classList.remove('fa-bars');
+      icon.classList.add('fa-times');
+    }
+  });
+  document.getElementById('currentYear').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
