@@ -114,19 +114,7 @@
                         <i class="fas fa-headset text-3xl spotify-green mt-1"></i>
                         <div>
                             <h3 class="text-xl font-semibold mb-2">Suporte dedicado</h3>
-                            <p class="text-gray-400 text-sm">Tire dúvidas rapidamente via WhatsApp e Discord.</p>
-                        </div>
-                    </div>
-                    <div class="card flex items-start space-x-4">
-                        <i class="fas fa-user-graduate text-3xl spotify-green mt-1"></i>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-2">Suporte aos alunos</h3>
-                            <p class="text-gray-400 text-sm">Você apenas vende; a CED BRASIL cuida do atendimento completo.</p>
-                        </div>
-                    </div>
-                    <div class="card flex items-start space-x-4">
-                        <i class="fas fa-certificate text-3xl spotify-green mt-1"></i>
-                        <div>
+@@ -114,75 +130,171 @@
                             <h3 class="text-xl font-semibold mb-2">Certificados válidos</h3>
                             <p class="text-gray-400 text-sm">Todos os cursos oferecem certificados reconhecidos em todo o país.</p>
                         </div>
@@ -152,18 +140,29 @@
                             <p class="text-gray-400 text-sm">Receba 80% de comissão em todos os produtos!</p>
                         </div>
                     </div>
-                    <div class="card flex items-start space-x-4">
-                        <i class="fas fa-star text-3xl spotify-green mt-1"></i>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-2">Produtos de alta qualidade</h3>
-                            <p class="text-gray-400 text-sm">Cursos com excelente reputação para facilitar suas vendas.</p>
-                        </div>
-                    </div>
-                    <div class="card flex items-start space-x-4">
-                        <i class="fas fa-bullhorn text-3xl spotify-green mt-1"></i>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-2">Página de Vendas Gratuita</h3>
-                            <p class="text-gray-400 text-sm">Nos da CED criamos para você uma página de vendas/funil 100% gratuito para divulgar seus produtos.</p>
+                      <div class="card flex items-start space-x-4">
+                          <i class="fas fa-star text-3xl spotify-green mt-1"></i>
+                          <div>
+                              <h3 class="text-xl font-semibold mb-2">Produtos de alta qualidade</h3>
+                              <p class="text-gray-400 text-sm">Cursos com excelente reputação para facilitar suas vendas.</p>
+                          </div>
+                      </div>
+                      <div class="card flex items-start space-x-4">
+                          <i class="fas fa-eye text-3xl spotify-green mt-1"></i>
+                          <div>
+                              <h3 class="text-xl font-semibold mb-2">Conta de Demonstração Gratuita</h3>
+                              <p class="text-gray-400 text-sm">Experimente a plataforma antes de indicar.</p>
+                              <button class="text-spotify-green underline mt-2" onclick="toggleDemoInfo()">Ver mais</button>
+                              <div id="demoInfo" class="mt-3 hidden">
+                                  <button onclick="loginDemoAccount()" class="inline-block bg-spotify-green text-black font-bold px-4 py-2 rounded hover-bg-spotify-green-darker transition shadow">Acessar conta teste</button>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card flex items-start space-x-4">
+                          <i class="fas fa-bullhorn text-3xl spotify-green mt-1"></i>
+                          <div>
+                              <h3 class="text-xl font-semibold mb-2">Página de Vendas Gratuita</h3>
+                              <p class="text-gray-400 text-sm">Nos da CED criamos para você uma página de vendas/funil 100% gratuito para divulgar seus produtos.</p>
                         </div>
                     </div>
                 </div>
@@ -178,23 +177,32 @@
                 <h2 class="section-title">Links Úteis para Parceiros</h2>
                 <p class="section-subtitle">Fique por dentro das novidades e tenha acesso aos materiais de divulgação.</p>
                 <div class="flex flex-col md:flex-row justify-center gap-6 mt-8">
-                    <a href="https://drive.google.com/drive/folders/16pQ8SdgwrlvVJa5HLN3eIY2zjO1XlyBI?usp=sharing" target="_blank" class="inline-flex items-center bg-spotify-green text-black font-bold px-6 py-3 rounded-full text-lg hover-bg-spotify-green-darker transition shadow-lg">
+                    <a href="https://drive.google.com/drive/folders/16pQ8SdgwrlvVJa5HLN3eIY2zjO1XlyBI?usp=sharing" target="_blank" rel="noopener" class="inline-flex items-center bg-spotify-green text-black font-bold px-6 py-3 rounded-full text-lg hover-bg-spotify-green-darker transition shadow-lg">
                         <i class="fas fa-folder-open mr-2"></i> Materiais de Divulgação
                     </a>
-                    <a href="https://chat.whatsapp.com/ELLrXpwBVY6Km9rnZKx1fZ" target="_blank" class="inline-flex items-center bg-green-600 text-white font-bold px-6 py-3 rounded-full text-lg hover:bg-green-500 transition shadow-lg">
+                    <a href="https://chat.whatsapp.com/ELLrXpwBVY6Km9rnZKx1fZ" target="_blank" rel="noopener" class="inline-flex items-center bg-green-600 text-white font-bold px-6 py-3 rounded-full text-lg hover:bg-green-500 transition shadow-lg">
                         <i class="fab fa-whatsapp mr-2"></i> Grupo de Parceiros
                     </a>
-                    <a href="https://whatsapp.com/channel/0029VbBCJsV3QxS9Hdo6102Y" target="_blank" class="inline-flex items-center bg-green-600 text-white font-bold px-6 py-3 rounded-full text-lg hover:bg-green-500 transition shadow-lg">
+                    <a href="https://whatsapp.com/channel/0029VbBCJsV3QxS9Hdo6102Y" target="_blank" rel="noopener" class="inline-flex items-center bg-green-600 text-white font-bold px-6 py-3 rounded-full text-lg hover:bg-green-500 transition shadow-lg">
                         <i class="fas fa-bullhorn mr-2"></i> Canal de Atualizações
                     </a>
                 </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-[#0A0A0A]">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-2xl font-bold mb-6">Ficou alguma dúvida? Fale com o nosso suporte agora!</h2>
+                <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="inline-flex items-center bg-spotify-green text-black font-extrabold px-8 py-4 rounded-full text-lg hover-bg-spotify-green-darker transition shadow-lg transform hover:scale-105">
+                    <i class="fab fa-whatsapp text-2xl mr-2"></i> Suporte via WhatsApp
+                </a>
             </div>
         </section>
     </main>
 
     <footer class="bg-[#181818] text-center py-6 mt-12">
         <div class="mb-6">
-            <a href="https://wa.me/5561986660241" target="_blank" class="inline-flex items-center border-2 border-spotify-green text-spotify-green font-semibold px-6 py-3 rounded-full text-sm sm:text-base hover:bg-spotify-green hover:text-black transition duration-300 shadow-lg transform hover:scale-105">
+            <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="inline-flex items-center border-2 border-spotify-green text-spotify-green font-semibold px-6 py-3 rounded-full text-sm sm:text-base hover:bg-spotify-green hover:text-black transition duration-300 shadow-lg transform hover:scale-105">
                 <i class="fab fa-whatsapp mr-2"></i> Suporte
             </a>
         </div>
@@ -252,15 +260,29 @@
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
     applyTheme(isLight);
   });
-  document.getElementById('mobileThemeToggle')?.addEventListener('click', () => {
-    const isLight = !document.body.classList.contains('light-theme');
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    applyTheme(isLight);
-    mobileMenu.classList.add('hidden');
-    mobileMenuButton.querySelector('i').classList.remove('fa-times');
-    mobileMenuButton.querySelector('i').classList.add('fa-bars');
-  });
-  document.getElementById('currentYear').textContent = new Date().getFullYear();
+    document.getElementById('mobileThemeToggle')?.addEventListener('click', () => {
+      const isLight = !document.body.classList.contains('light-theme');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      applyTheme(isLight);
+      mobileMenu.classList.add('hidden');
+      mobileMenuButton.querySelector('i').classList.remove('fa-times');
+      mobileMenuButton.querySelector('i').classList.add('fa-bars');
+    });
+
+    function toggleDemoInfo() {
+      document.getElementById('demoInfo').classList.toggle('hidden');
+    }
+
+    function loginDemoAccount() {
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'https://ead.cedbrasilia.com.br/login/index.php';
+      form.target = '_blank';
+      form.innerHTML = '<input type="hidden" name="username" value="20254158095"><input type="hidden" name="password" value="teste1">';
+      document.body.appendChild(form);
+      form.submit();
+    }
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
