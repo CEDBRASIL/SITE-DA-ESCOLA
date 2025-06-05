@@ -32,6 +32,9 @@
       body.light-theme video {
         filter: invert(1) hue-rotate(180deg);
       }
+      body.light-theme img.no-invert {
+        filter: none !important;
+      }
       .section-title {
         font-size: 2.8rem;
         font-weight: 700;
@@ -174,6 +177,13 @@
                         <div>
                             <h3 class="text-xl font-semibold mb-2">Página de Vendas Gratuita</h3>
                             <p class="text-gray-400 text-sm">A CED cria para você uma página de vendas/funil 100% gratuita para divulgar seus produtos.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <img src="data:image/png;base64,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" alt="Logo da Kiwify" class="w-8 h-8 mt-1 no-invert" />
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Parceria direta com a Kiwify</h3>
+                            <p class="text-gray-400 text-sm">Venda com segurança usando a estrutura da Kiwify para processar pagamentos e oferecer suporte especializado.</p>
                         </div>
                     </div>
                 </div>
