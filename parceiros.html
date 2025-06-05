@@ -1,234 +1,293 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Programa de Parceiros - CED BRASIL</title>
-  <meta name="description" content="Ganhe dinheiro como afiliado vendendo nossos cursos online.">
-  <meta property="og:title" content="Programa de Parceiros CED BRASIL">
-  <meta property="og:image" content="favicon.jpg">
-  <link rel="icon" href="favicon.jpg" type="image/jpeg">
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXX-X"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config','UA-XXXXXX-X');
-  </script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-  <style>
-    body{font-family:'Inter',sans-serif;background:#121212;color:#E0E0E0;}
-    h1,h2,h3,h4{font-family:'Poppins',sans-serif;}
-    .nav-link{color:#E0E0E0;}
-    .nav-link:hover{color:#1DB954;}
-    .active{color:#1DB954;font-weight:700;}
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Programa de Parceiros 2.0 - CED BRASIL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="icon" href="favicon.jpg" type="image/jpeg" />
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #121212;
+        color: #e0e0e0;
+        line-height: 1.6;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Poppins', sans-serif;
+        color: #f5f5f5;
+      }
+      .spotify-green { color: #1db954; }
+      .bg-spotify-green { background-color: #1db954; }
+      .hover-bg-spotify-green-darker:hover { background-color: #1aa34a; }
+
+      /* Tema claro */
+      body.light-theme {
+        filter: invert(1) hue-rotate(180deg);
+        background-color: #ffffff;
+      }
+      body.light-theme img,
+      body.light-theme video {
+        filter: invert(1) hue-rotate(180deg);
+      }
+      .section-title {
+        font-size: 2.8rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+      .section-subtitle {
+        font-size: 1.25rem;
+        text-align: center;
+        color: #a0a0a0;
+        margin-bottom: 3rem;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .card {
+        background-color: #1e1e1e;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        border: 1px solid #333;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 20px rgba(0,200,83,0.15);
+      }
+    </style>
 </head>
-<body class="antialiased">
-  <header class="sticky top-0 bg-[#121212] py-4 z-50">
-    <nav class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-      <a href="/"><img src="favicon.jpg" alt="Logo CED BRASIL" class="h-10" loading="lazy"></a>
-      <ul class="hidden sm:flex space-x-6 text-sm md:text-base font-medium">
-        <li><a href="/" class="nav-link">Início</a></li>
-        <li><a href="/parceiros" class="nav-link active">Programa de Parceiros</a></li>
-        <li><a href="/cursos" class="nav-link">Cursos</a></li>
-        <li><a href="https://ead.cedbrasilia.com.br" class="nav-link">Área do Aluno</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <section class="relative h-[500px] overflow-hidden">
-      <video class="absolute inset-0 w-full h-full object-cover" src="https://www.w3schools.com/html/mov_bbb.mp4" autoplay muted loop playsinline loading="lazy"></video>
-      <div class="absolute inset-0 bg-black/60"></div>
-      <div class="relative h-full flex flex-col items-center justify-center text-center px-4">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4">Torne-se um Parceiro Oficial</h1>
-        <p class="text-lg md:text-2xl">Ganhe dinheiro como afiliado vendendo nossos cursos sem necessidade de estoque ou investimento.</p>
-        <button class="btn-cta-principal mt-8 bg-[#1DB954] text-white text-xl md:text-2xl font-semibold px-8 py-3 rounded-2xl hover:bg-white hover:text-[#121212] transition">Se Torne um Parceiro Oficial</button>
-      </div>
-    </section>
-
-    <section class="py-12 bg-[#1A1A1A] rounded-2xl mx-4 md:mx-auto max-w-xl text-center mt-8">
-      <h2 class="text-2xl font-bold mb-6">Torne-se Parceiro Oficial!</h2>
-      <form id="formParceiro" class="space-y-4">
-        <input type="text" name="nome" required placeholder="Nome Completo" class="w-full bg-[#2B2B2B] text-[#E0E0E0] placeholder-[#A0A0A0] border border-[#333] rounded p-2">
-        <input type="email" name="email" required placeholder="E-mail" class="w-full bg-[#2B2B2B] text-[#E0E0E0] placeholder-[#A0A0A0] border border-[#333] rounded p-2">
-        <input type="text" name="whatsapp" required placeholder="Whatsapp" class="w-full bg-[#2B2B2B] text-[#E0E0E0] placeholder-[#A0A0A0] border border-[#333] rounded p-2">
-        <input type="text" name="cidade" required placeholder="Cidade" class="w-full bg-[#2B2B2B] text-[#E0E0E0] placeholder-[#A0A0A0] border border-[#333] rounded p-2">
-        <button type="submit" class="w-full bg-[#1DB954] text-white font-semibold py-2 rounded hover:bg-white hover:text-[#121212] transition">Quero Ser Parceiro</button>
-      </form>
-    </section>
-
-    <div class="flex items-center justify-between max-w-lg mx-auto mt-8">
-      <div class="flex flex-col items-center">
-        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-[#1DB954] text-white">1</div>
-        <p class="mt-2 text-[#E0E0E0] text-sm text-center">Cadastro Preenchido</p>
-      </div>
-      <div class="flex-1 h-px bg-[#1DB954]"></div>
-      <div class="flex flex-col items-center">
-        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-[#333] text-[#B0B0B0]">2</div>
-        <p class="mt-2 text-[#B0B0B0] text-sm text-center">E-mail de Boas-Vindas Enviado</p>
-      </div>
-      <div class="flex-1 h-px bg-[#333]"></div>
-      <div class="flex flex-col items-center">
-        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-[#333] text-[#B0B0B0]">3</div>
-        <p class="mt-2 text-[#B0B0B0] text-sm text-center">Comece a Divulgar</p>
-      </div>
-    </div>
-
-    <section class="py-16 bg-[#121212]">
-      <div class="max-w-5xl mx-auto px-4 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-12">Benefícios do Programa</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div class="bg-[#1A1A1A] rounded-2xl p-6 shadow-md flex flex-col items-center text-center">
-            <i class="fa-solid fa-percent text-4xl text-[#1DB954] mb-4"></i>
-            <h3 class="text-lg font-semibold mb-2">80% de Comissão</h3>
-            <p class="text-[#B0B0B0]">Receba a maior parte do valor de cada venda.</p>
-          </div>
-          <div class="bg-[#1A1A1A] rounded-2xl p-6 shadow-md flex flex-col items-center text-center">
-            <i class="fa-solid fa-camera text-4xl text-[#1DB954] mb-4"></i>
-            <h3 class="text-lg font-semibold mb-2">Materiais sem Marca d’Água</h3>
-            <p class="text-[#B0B0B0]">Imagens e vídeos profissionais para divulgação.</p>
-          </div>
-          <div class="bg-[#1A1A1A] rounded-2xl p-6 shadow-md flex flex-col items-center text-center">
-            <i class="fa-solid fa-play text-4xl text-[#1DB954] mb-4"></i>
-            <h3 class="text-lg font-semibold mb-2">Demonstrações Gratuitas</h3>
-            <p class="text-[#B0B0B0]">Envie cupons de acesso para seus leads testarem.</p>
-          </div>
-          <div class="bg-[#1A1A1A] rounded-2xl p-6 shadow-md flex flex-col items-center text-center">
-            <i class="fa-solid fa-headset text-4xl text-[#1DB954] mb-4"></i>
-            <h3 class="text-lg font-semibold mb-2">Suporte Personalizado</h3>
-            <p class="text-[#B0B0B0]">Consultoria para estratégias de vendas.</p>
-          </div>
-          <div class="bg-[#1A1A1A] rounded-2xl p-6 shadow-md flex flex-col items-center text-center">
-            <i class="fa-solid fa-book text-4xl text-[#1DB954] mb-4"></i>
-            <h3 class="text-lg font-semibold mb-2">Acesso a Treinamentos</h3>
-            <p class="text-[#B0B0B0]">Capacitação para aumentar seu desempenho como afiliado.</p>
-          </div>
-          <div class="bg-[#1A1A1A] rounded-2xl p-6 shadow-md flex flex-col items-center text-center">
-            <i class="fa-solid fa-chart-line text-4xl text-[#1DB954] mb-4"></i>
-            <h3 class="text-lg font-semibold mb-2">Relatórios de Desempenho</h3>
-            <p class="text-[#B0B0B0]">Acompanhe suas métricas de vendas em tempo real.</p>
-          </div>
+<body class="antialiased flex flex-col min-h-screen">
+    <header class="bg-[#181818] shadow-lg">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="https://www.cedbrasilia.com.br" class="text-3xl font-bold"><span class="spotify-green">CedBrasil</span></a>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="index.html" class="hover:text-spotify-green transition text-lg">Início</a>
+                <a href="https://ead.cedbrasilia.com.br" class="hover:text-spotify-green transition text-lg">Área do Aluno</a>
+            </nav>
+            <button id="themeToggle" class="text-yellow-400 text-2xl mr-4" aria-label="Alternar tema">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
         </div>
-      </div>
-    </section>
-
-    <section class="py-16 bg-[#000000]">
-      <div class="max-w-5xl mx-auto px-4">
-        <h2 class="text-center text-3xl md:text-4xl font-bold mb-8">Depoimentos de Parceiros</h2>
-        <div class="flex overflow-x-auto space-x-6 pb-4">
-          <div class="min-w-[300px] bg-[#1A1A1A] rounded-2xl p-6 flex-shrink-0">
-            <img src="https://placehold.co/64x64" alt="Parceiro 1" class="w-16 h-16 rounded-full mx-auto" loading="lazy">
-            <h3 class="text-lg font-semibold mt-4">Lucas - Recife</h3>
-            <p class="mt-2 text-[#D0D0D0]">"Minhas comissões explodiram depois que entrei no programa."</p>
-          </div>
-          <div class="min-w-[300px] bg-[#1A1A1A] rounded-2xl p-6 flex-shrink-0">
-            <img src="https://placehold.co/64x64" alt="Parceiro 2" class="w-16 h-16 rounded-full mx-auto" loading="lazy">
-            <h3 class="text-lg font-semibold mt-4">Fernanda - Salvador</h3>
-            <p class="mt-2 text-[#D0D0D0]">"O suporte dedicado me ajudou a alcançar ótimas vendas."</p>
-          </div>
-          <div class="min-w-[300px] bg-[#1A1A1A] rounded-2xl p-6 flex-shrink-0">
-            <img src="https://placehold.co/64x64" alt="Parceiro 3" class="w-16 h-16 rounded-full mx-auto" loading="lazy">
-            <h3 class="text-lg font-semibold mt-4">Rafael - Curitiba</h3>
-            <p class="mt-2 text-[#D0D0D0]">"Ferramentas e materiais excelentes para divulgar."</p>
-          </div>
+        <div id="mobileMenu" class="hidden md:hidden bg-[#181818] py-2 border-t border-gray-700">
+            <a href="index.html" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition text-lg">Início</a>
+            <a href="https://ead.cedbrasilia.com.br" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition text-lg">Área do Aluno</a>
+            <button id="mobileThemeToggle" class="block w-full px-6 py-3 text-yellow-400 text-left text-lg" aria-label="Alternar tema">
+                <i class="fas fa-moon"></i> Tema
+            </button>
         </div>
-        <div class="mt-8 aspect-video">
-          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" class="w-full h-full rounded" frameborder="0" allowfullscreen loading="lazy"></iframe>
+    </header>
+
+    <main class="flex-grow">
+        <section class="text-center py-20 px-6 bg-cover bg-center" style="background-image: linear-gradient(rgba(18,18,18,0.85), rgba(18,18,18,0.85)), url('https://placehold.co/1600x900/101010/1DB954?text=CED+BRASIL+Afiliados');">
+            <h1 class="section-title">Torne-se um <span class="spotify-green">Parceiro Oficial</span></h1>
+            <p class="section-subtitle">Ganhe dinheiro como afiliado, Vendendo nossos cursos profissionalizantes sem necessidade de estoque ou investimento, com certificado válido em todo o Brasil – totalmente gratuito.</p>
+            <a href="https://dashboard.kiwify.com/join/affiliate/zhTcssre" class="inline-block bg-spotify-green text-black font-bold px-8 py-4 rounded-full text-xl hover-bg-spotify-green-darker transition shadow-lg">Quero Me Tornar Parceiro/a</a>
+        </section>
+
+        <section class="py-20 bg-[#181818]">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">Benefícios do Programa</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-file-image text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Materiais sem marca d'água</h3>
+                            <p class="text-gray-400 text-sm">Acesso a imagens e vídeos prontos para divulgar os cursos.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-play-circle text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Demonstrações gratuitas</h3>
+                            <p class="text-gray-400 text-sm">Mostre aos seus leads uma prévia do conteúdo antes da compra.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-headset text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Suporte dedicado</h3>
+                            <p class="text-gray-400 text-sm">Tire dúvidas rapidamente via WhatsApp e Discord.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-user-graduate text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Suporte aos alunos</h3>
+                            <p class="text-gray-400 text-sm">Você apenas vende; a CED BRASIL cuida do atendimento completo.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-certificate text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Certificados válidos</h3>
+                            <p class="text-gray-400 text-sm">Todos os cursos oferecem certificados reconhecidos em todo o país.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-mobile-screen-button text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Plataforma exclusiva</h3>
+                            <p class="text-gray-400 text-sm">Os alunos estudam pelo celular ou computador sem complicações.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-users text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Comunidade de afiliados</h3>
+                            <p class="text-gray-400 text-sm">Participe de um grupo privado para compartilhar dicas e estratégias.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-coins text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">80% de ganhos</h3>
+                            <p class="text-gray-400 text-sm">Receba 80% de comissão em todos os produtos!</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-star text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Produtos de alta qualidade</h3>
+                            <p class="text-gray-400 text-sm">Cursos com excelente reputação para facilitar suas vendas.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-eye text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Conta de Demonstração Gratuita</h3>
+                            <p class="text-gray-400 text-sm">Experimente a plataforma antes de indicar.</p>
+                            <a href="https://ead.cedbrasilia.com.br/index.php?pag=entrar&token=344dd9f9-4235-11f0-8cdc-0eecf9347bc9" target="_blank" class="inline-block bg-spotify-green text-black font-bold px-4 py-2 rounded hover-bg-spotify-green-darker transition shadow-lg">
+                                Acessar conta demonstração
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-bullhorn text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Página de Vendas Gratuita</h3>
+                            <p class="text-gray-400 text-sm">A CED cria para você uma página de vendas/funil 100% gratuita para divulgar seus produtos.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-12">
+                    <a href="https://dashboard.kiwify.com/join/affiliate/zhTcssre" class="inline-block bg-spotify-green text-black font-bold px-10 py-4 rounded-full text-xl hover-bg-spotify-green-darker transition shadow-lg">Quero Me Tornar Parceiro/a</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-[#181818]">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="section-title">Links Úteis para Parceiros</h2>
+                <p class="section-subtitle">Fique por dentro das novidades e tenha acesso aos materiais de divulgação.</p>
+                <div class="flex flex-col md:flex-row justify-center gap-6 mt-8">
+                    <a href="https://drive.google.com/drive/folders/16pQ8SdgwrlvVJa5HLN3eIY2zjO1XlyBI?usp=sharing" target="_blank" rel="noopener" class="inline-flex items-center bg-spotify-green text-black font-bold px-6 py-3 rounded-full text-lg hover-bg-spotify-green-darker transition shadow-lg">
+                        <i class="fas fa-folder-open mr-2"></i> Materiais de Divulgação
+                    </a>
+                    <a href="https://chat.whatsapp.com/ELLrXpwBVY6Km9rnZKx1fZ" target="_blank" rel="noopener" class="inline-flex items-center bg-green-600 text-white font-bold px-6 py-3 rounded-full text-lg hover:bg-green-500 transition shadow-lg">
+                        <i class="fab fa-whatsapp mr-2"></i> Grupo de Parceiros
+                    </a>
+                    <a href="https://whatsapp.com/channel/0029VbBCJsV3QxS9Hdo6102Y" target="_blank" rel="noopener" class="inline-flex items-center bg-green-600 text-white font-bold px-6 py-3 rounded-full text-lg hover:bg-green-500 transition shadow-lg">
+                        <i class="fas fa-bullhorn mr-2"></i> Canal de Atualizações
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-[#0A0A0A]">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-2xl font-bold mb-6">Ficou alguma dúvida? Fale com o nosso suporte agora!</h2>
+                <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="inline-flex items-center bg-spotify-green text-black font-extrabold px-8 py-4 rounded-full text-lg hover-bg-spotify-green-darker transition shadow-lg transform hover:scale-105">
+                    <i class="fab fa-whatsapp text-2xl mr-2"></i> Suporte via WhatsApp
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#181818] text-center py-6 mt-12">
+        <div class="mb-6">
+            <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="inline-flex items-center border-2 border-spotify-green text-spotify-green font-semibold px-6 py-3 rounded-full text-sm sm:text-base hover:bg-spotify-green hover:text-black transition duration-300 shadow-lg transform hover:scale-105">
+                <i class="fab fa-whatsapp mr-2"></i> Suporte
+            </a>
         </div>
-      </div>
-    </section>
+        <details class="max-w-4xl mx-auto text-left text-sm text-gray-300 space-y-2 bg-gray-800/50 p-4 rounded-lg group">
+            <summary class="text-xl font-semibold text-white mb-2 text-center cursor-pointer flex items-center justify-between">
+                <span>📚 Políticas da CED BRASIL</span>
+                <i class="fas fa-chevron-down transition-transform group-open:rotate-180"></i>
+            </summary>
+            <div class="mt-2 space-y-2">
+                <p>Na CED BRASIL, acreditamos que a educação de qualidade começa com responsabilidade, transparência e compromisso com nossos alunos. Por isso, estruturamos nossas políticas para garantir uma experiência segura, acessível e ética para todos.</p>
+                <p>🔐 Privacidade e Segurança<br>Todas as informações fornecidas por nossos alunos são tratadas com total confidencialidade. Utilizamos tecnologias seguras para proteger seus dados pessoais e garantir a integridade das transações realizadas em nossa plataforma.</p>
+                <p>💳 Pagamentos e Assinaturas<br>Trabalhamos com o modelo de assinatura mensal recorrente, sem contrato de fidelidade. O cancelamento pode ser solicitado a qualquer momento, diretamente pela área do aluno ou pelo nosso suporte.</p>
+                <p>🎓 Certificação<br>Todos os cursos oferecidos contam com certificado digital gratuito, válido em todo o território nacional, reconhecido para horas complementares, comprovação de qualificação e currículo.</p>
+                <p>📅 Acesso aos Cursos<br>O aluno tem acesso imediato aos cursos após a confirmação do pagamento. Os conteúdos são 100% online, podendo ser acessados a qualquer hora, de qualquer lugar.</p>
+                <p>🤝 Atendimento ao Aluno<br>Nosso suporte está disponível todos os dias para auxiliar com dúvidas, dificuldades técnicas ou solicitações administrativas. Prezamos por um atendimento rápido, humano e resolutivo.</p>
+                <p>CED BRASIL – Educação acessível, moderna e comprometida com seu sucesso. Em caso de dúvidas, entre em contato com nossa equipe. Estamos aqui para você!</p>
+            </div>
+        </details>
+        <p class="text-xs mt-6">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
+    </footer>
 
-    <section class="py-16 bg-[#121212]">
-      <div class="max-w-5xl mx-auto px-4">
-        <h2 class="text-center text-3xl md:text-4xl font-bold mb-8">Perguntas Frequentes para Parceiros</h2>
-        <div class="space-y-4">
-          <details class="bg-[#1A1A1A] rounded-2xl p-4" role="region" aria-labelledby="faqp1">
-            <summary id="faqp1" class="text-[#E0E0E0] font-semibold cursor-pointer">Quem pode se inscrever no Programa de Parceiros?</summary>
-            <p class="mt-2 text-[#B0B0B0]">Qualquer pessoa maior de 18 anos com vontade de vender cursos online.</p>
-          </details>
-          <details class="bg-[#1A1A1A] rounded-2xl p-4" role="region" aria-labelledby="faqp2">
-            <summary id="faqp2" class="text-[#E0E0E0] font-semibold cursor-pointer">Como recebo o pagamento das comissões?</summary>
-            <p class="mt-2 text-[#B0B0B0]">Os pagamentos são feitos via transferência bancária todo mês.</p>
-          </details>
-          <details class="bg-[#1A1A1A] rounded-2xl p-4" role="region" aria-labelledby="faqp3">
-            <summary id="faqp3" class="text-[#E0E0E0] font-semibold cursor-pointer">Preciso emitir nota fiscal por cada venda?</summary>
-            <p class="mt-2 text-[#B0B0B0]">Não é necessário, a plataforma já cuida de toda a parte fiscal.</p>
-          </details>
-          <details class="bg-[#1A1A1A] rounded-2xl p-4" role="region" aria-labelledby="faqp4">
-            <summary id="faqp4" class="text-[#E0E0E0] font-semibold cursor-pointer">Qual é a média de conversão dos afiliados CED?</summary>
-            <p class="mt-2 text-[#B0B0B0]">Temos afiliados com taxas acima de 5% de conversão.</p>
-          </details>
-          <details class="bg-[#1A1A1A] rounded-2xl p-4" role="region" aria-labelledby="faqp5">
-            <summary id="faqp5" class="text-[#E0E0E0] font-semibold cursor-pointer">Como acessar os materiais de divulgação?</summary>
-            <p class="mt-2 text-[#B0B0B0]">Após o cadastro, enviamos o link com todos os materiais.</p>
-          </details>
-        </div>
-      </div>
-    </section>
+<script>
+  const mobileMenuButton = document.getElementById('mobileMenuButton');
+  const mobileMenu = document.getElementById('mobileMenu');
+  mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+    const icon = mobileMenuButton.querySelector('i');
+    if (mobileMenu.classList.contains('hidden')) {
+      icon.classList.remove('fa-times');
+      icon.classList.add('fa-bars');
+    } else {
+      icon.classList.remove('fa-bars');
+      icon.classList.add('fa-times');
+    }
+  });
 
-    <section class="py-16 bg-[#121212]">
-      <div class="max-w-5xl mx-auto px-4 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-8">Materiais de Divulgação</h2>
-        <div class="flex overflow-x-auto space-x-6 pb-4">
-          <a href="https://drive.google.com" target="_blank" class="flex-shrink-0">
-            <img src="https://placehold.co/200x120" alt="Banner Instagram" class="rounded mb-2" loading="lazy">
-            <p class="text-[#B0B0B0] text-sm">Banner Instagram</p>
-          </a>
-          <a href="https://drive.google.com" target="_blank" class="flex-shrink-0">
-            <img src="https://placehold.co/200x120" alt="Imagem Facebook" class="rounded mb-2" loading="lazy">
-            <p class="text-[#B0B0B0] text-sm">Imagem Facebook</p>
-          </a>
-          <a href="https://drive.google.com" target="_blank" class="flex-shrink-0">
-            <img src="https://placehold.co/200x120" alt="Template E-mail" class="rounded mb-2" loading="lazy">
-            <p class="text-[#B0B0B0] text-sm">Template E-mail</p>
-          </a>
-        </div>
-        <div class="mt-6">
-          <a href="https://drive.google.com" target="_blank" class="bg-[#1DB954] text-white px-6 py-3 rounded hover:bg-white hover:text-[#121212] transition">Ver Todos os Materiais</a>
-        </div>
-      </div>
-    </section>
-  </main>
+  function applyTheme(isLight) {
+    document.body.classList.toggle('light-theme', isLight);
+    const desktopIcon = document.getElementById('themeToggle').querySelector('i');
+    const mobileIcon = document.getElementById('mobileThemeToggle')?.querySelector('i');
+    if (isLight) {
+      desktopIcon.classList.remove('fa-moon');
+      desktopIcon.classList.add('fa-sun');
+      if (mobileIcon) {
+        mobileIcon.classList.remove('fa-moon');
+        mobileIcon.classList.add('fa-sun');
+      }
+    } else {
+      desktopIcon.classList.remove('fa-sun');
+      desktopIcon.classList.add('fa-moon');
+      if (mobileIcon) {
+        mobileIcon.classList.remove('fa-sun');
+        mobileIcon.classList.add('fa-moon');
+      }
+    }
+  }
 
-  <a href="https://wa.me/5511999999999?text=Ol%C3%A1!%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." class="fixed bottom-4 right-4 z-50 bg-[#1DB954] w-14 h-14 rounded-full flex items-center justify-center shadow-md transform hover:scale-105">
-    <i class="fab fa-whatsapp text-white text-2xl"></i>
-  </a>
+  const storedTheme = localStorage.getItem('theme') === 'light';
+  applyTheme(storedTheme);
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const isLight = !document.body.classList.contains('light-theme');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    applyTheme(isLight);
+  });
+  document.getElementById('mobileThemeToggle')?.addEventListener('click', () => {
+    const isLight = !document.body.classList.contains('light-theme');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    applyTheme(isLight);
+    mobileMenu.classList.add('hidden');
+    mobileMenuButton.querySelector('i').classList.remove('fa-times');
+    mobileMenuButton.querySelector('i').classList.add('fa-bars');
+  });
 
-  <footer class="bg-[#000000] py-8">
-    <div class="max-w-5xl mx-auto px-4 text-center">
-      <p class="text-sm text-[#B0B0B0] mb-4">© 2025 CED BRASIL. Todos os direitos reservados.</p>
-      <div class="space-x-4">
-        <a href="/politicas" class="text-[#B0B0B0] hover:text-[#1DB954]">Políticas da CED BRASIL</a>
-        <a href="/termos" class="text-[#B0B0B0] hover:text-[#1DB954]">Termos de Uso</a>
-        <a href="https://wa.me/5511999999999" class="text-[#B0B0B0] hover:text-[#1DB954]">Suporte</a>
-      </div>
-    </div>
-  </footer>
-
-  <div id="modalParceiro" class="fixed inset-0 bg-black/70 flex items-center justify-center hidden">
-    <div class="bg-[#1A1A1A] p-6 rounded">
-      <p class="mb-4">Em instantes você receberá instruções por e-mail.</p>
-      <button id="closeParceiro" class="bg-[#1DB954] text-white px-4 py-2 rounded">Fechar</button>
-    </div>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
-  <script>
-    document.querySelector('.btn-cta-principal').addEventListener('click', () => {
-      gtag('event','click',{event_category:'CTA',event_label:'Assinar Agora'});
-    });
-    const formP = document.getElementById('formParceiro');
-    formP.addEventListener('submit', (e) => {
-      e.preventDefault();
-      gtag('event','preencheu_form_parceiro');
-      window.open('https://app.kiwify.com.br/afiliado/cadastro','_blank');
-      document.getElementById('modalParceiro').classList.remove('hidden');
-    });
-    document.getElementById('closeParceiro').addEventListener('click', () => {
-      document.getElementById('modalParceiro').classList.add('hidden');
-    });
-  </script>
+  document.getElementById('currentYear').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
