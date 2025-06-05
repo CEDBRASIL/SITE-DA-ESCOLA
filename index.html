@@ -1,814 +1,196 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CED BRASIL - Transforme Seu Futuro com Educação de Qualidade</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link rel="icon" href="favicon.jpg" type="image/jpeg" />
-
-    <style>
-      /* Estilos base e cores personalizadas */
-      body {
-        font-family: "Inter", sans-serif;
-        background-color: #121212; /* Fundo escuro principal */
-        color: #e0e0e0; /* Texto claro para tema escuro */
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        font-family: "Poppins", sans-serif; /* Poppins para títulos */
-        color: #f5f5f5; /* Cor mais clara para títulos */
-      }
-      .spotify-green {
-        color: #1db954; /* Verde Spotify */
-      }
-      .bg-spotify-green {
-        background-color: #1db954;
-      }
-      .border-spotify-green {
-        border-color: #1db954;
-      }
-      .hover-bg-spotify-green-darker:hover {
-        background-color: #1aa34a; /* Verde um pouco mais escuro para hover */
-      }
-
-      /* Tema claro */
-      body.light-theme {
-        filter: invert(1) hue-rotate(180deg);
-        background-color: #ffffff;
-      }
-      body.light-theme img,
-      body.light-theme video {
-        filter: invert(1) hue-rotate(180deg);
-      }
-      .section-title {
-        font-size: 2.8rem; /* Título maior para seções */
-        font-weight: 700;
-        margin-bottom: 1.5rem;
-        text-align: center;
-        line-height: 1.2;
-      }
-      .section-subtitle {
-        font-size: 1.25rem; /* Subtítulo um pouco maior */
-        color: #a0a0a0;
-        text-align: center;
-        margin-bottom: 3rem;
-        max-width: 700px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .card {
-        background-color: #1e1e1e; /* Cinza escuro para cards */
-        border-radius: 0.75rem; /* Bordas arredondadas */
-        padding: 1.5rem;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: 1px solid #333; /* Borda sutil */
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra mais pronunciada */
-      }
-      .card:hover {
-        transform: translateY(-8px); /* Efeito de elevação maior */
-        box-shadow: 0 15px 30px rgba(0, 200, 83, 0.15); /* Sombra mais vibrante */
-      }
-      .testimonial-card {
-        background-color: #282828; /* Fundo do card de depoimento */
-        border-left: 5px solid #1db954; /* Borda verde mais proeminente */
-        padding: 2rem;
-        border-radius: 0.75rem;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-      }
-      /* Estilo da barra de rolagem */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #1e1e1e;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #1db954;
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #1aa34a;
-      }
-      /* Animação de fade-in */
-      .fade-in-element {
-        opacity: 0;
-        transform: translateY(30px); /* Começa um pouco mais abaixo */
-        transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Transição mais suave */
-      }
-      .fade-in-element.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* Scroll Progress Bar */
-      #scroll-progress {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 0%;
-        height: 5px;
-        background-color: #1db954;
-        z-index: 9999;
-        transition: width 0.1s linear;
-      }
-
-      /* Botões flutuantes para mobile */
-      .mobile-cta-buttons {
-        position: fixed;
-        bottom: 80px; /* Acima do chatbot */
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        z-index: 999;
-        width: 90%;
-        max-width: 300px;
-      }
-      @media (min-width: 768px) {
-        .mobile-cta-buttons {
-          display: none; /* Esconde em desktop */
-        }
-      }
-
-      /* Modal de Detalhes do Curso (mantido para evitar erros, mas não será usado) */
-      .course-details-modal {
-        position: fixed;
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0.75);
-        display: none; /* Alterado para none */
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-        z-index: 1001;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-      }
-      .course-details-modal.visible {
-        opacity: 1;
-        visibility: visible;
-      }
-      .course-details-modal-content {
-        background-color: #1e1e1e;
-        border-radius: 0.75rem;
-        padding: 2rem;
-        width: 100%;
-        max-width: 600px;
-        position: relative;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-        transform: translateY(20px);
-        opacity: 0;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-      }
-      .course-details-modal.visible .course-details-modal-content {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      .course-details-modal-close {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: #b3b3b3;
-        cursor: pointer;
-        transition: color 0.2s ease;
-      }
-      .course-details-modal-close:hover {
-        color: #e0e0e0;
-      }
-
-      /* Estilo para o spinner de carregamento */
-      .loading-spinner {
-        border: 4px solid rgba(255, 255, 255, 0.3);
-        border-top: 4px solid #1db954; /* Cor verde Spotify */
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-        margin: 20px auto; /* Centraliza o spinner */
-      }
-
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CED BRASIL - Educação de Qualidade</title>
+  <meta name="description" content="Cursos online com 7 dias grátis e certificado válido em todo Brasil.">
+  <meta property="og:title" content="CED BRASIL - Transforme Seu Futuro">
+  <meta property="og:image" content="favicon.jpg">
+  <link rel="icon" href="favicon.jpg" type="image/jpeg">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXX-X"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config','UA-XXXXXX-X');
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:'Inter',sans-serif;background:#121212;color:#E0E0E0;}
+    h1,h2,h3,h4{font-family:'Poppins',sans-serif;}
+    .nav-link{color:#E0E0E0;}
+    .nav-link:hover{color:#1DB954;}
+    .active{color:#1DB954;font-weight:700;}
+  </style>
 </head>
 <body class="antialiased">
-    <div id="scroll-progress"></div>
+  <header class="sticky top-0 bg-[#121212] py-4 z-50">
+    <nav class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+      <a href="/"><img src="favicon.jpg" alt="Logo CED BRASIL" class="h-10" loading="lazy"></a>
+      <ul class="hidden sm:flex space-x-6 text-sm md:text-base font-medium">
+        <li><a href="/" class="nav-link active">Início</a></li>
+        <li><a href="/parceiros" class="nav-link">Programa de Parceiros</a></li>
+        <li><a href="/cursos" class="nav-link">Cursos</a></li>
+        <li><a href="https://ead.cedbrasilia.com.br" class="nav-link">Área do Aluno</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section class="relative h-[500px] bg-fixed bg-center bg-cover" style="background-image:url('https://placehold.co/1920x1080');">
+      <div class="absolute inset-0 bg-black/60"></div>
+      <div class="relative h-full flex flex-col items-center justify-center text-center px-4">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Transforme Seu Futuro com Educação de Qualidade</h1>
+        <p class="text-2xl md:text-3xl font-medium text-[#1DB954]">7 dias grátis em todos os cursos, depois R$49,90/mês</p>
+        <button class="btn-cta-principal mt-8 bg-[#1DB954] text-white text-2xl md:text-3xl font-semibold px-8 py-4 rounded-2xl hover:bg-white hover:text-[#121212] transition">ASSINE AGORA</button>
+      </div>
+    </section>
 
-    <header class="bg-[#181818] shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="https://www.cedbrasilia.com.br" class="text-3xl font-bold">
-                <span class="spotify-green">CedBrasil</span>
-            </a>
-            <nav class="hidden md:flex space-x-8 items-center">
-                <a href="https://www.cedbrasilia.com.br" class="hover:text-spotify-green transition duration-300 text-lg">Início</a>
-                <a href="#sobre" class="hover:text-spotify-green transition duration-300 text-lg">Sobre Nós</a>
-                <a href="#cursos" class="hover:text-spotify-green transition duration-300 text-lg">Cursos</a>
-                <a href="#depoimentos" class="hover:text-spotify-green transition duration-300 text-lg">Depoimentos</a>
-                <a href="#contato" class="hover:text-spotify-green transition duration-300 text-lg">Contato</a>
-                <a href="https://ead.cedbrasilia.com.br" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
-                <a href="https://www.cedbrasilia.com.br/parceiros" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Vire Parceiro</a>
-            </nav>
-            <button id="themeToggle" class="text-yellow-400 text-2xl mr-4" aria-label="Alternar tema">
-                <i class="fas fa-moon"></i>
-            </button>
-            <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white">
-                <i class="fas fa-bars text-2xl"></i>
-            </button>
+    <section class="py-16 bg-[#121212]">
+      <div class="max-w-5xl mx-auto px-4 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12">Por Que Escolher a CED BRASIL?</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="bg-[#1A1A1A] rounded-2xl p-6 shadow-md flex flex-col items-center text-center">
+            <i class="fa-solid fa-laptop text-4xl text-[#1DB954] mb-4"></i>
+            <h3 class="text-lg font-semibold mb-2">Aulas 100% Online</h3>
+            <p class="text-[#B0B0B0]">Aprenda no seu ritmo, em qualquer dispositivo.</p>
+          </div>
+          <div class="bg-[#1A1A1A] rounded-2xl p-6 shadow-md flex flex-col items-center text-center">
+            <i class="fa-solid fa-certificate text-4xl text-[#1DB954] mb-4"></i>
+            <h3 class="text-lg font-semibold mb-2">Certificado Válido em Todo o Brasil</h3>
+            <p class="text-[#B0B0B0]">Reconhecimento oficial após conclusão do curso.</p>
+          </div>
+          <div class="bg-[#1A1A1A] rounded-2xl p-6 shadow-md flex flex-col items-center text-center">
+            <i class="fa-solid fa-headset text-4xl text-[#1DB954] mb-4"></i>
+            <h3 class="text-lg font-semibold mb-2">Suporte Dedicado</h3>
+            <p class="text-[#B0B0B0]">Equipes prontas para tirar dúvidas a qualquer momento.</p>
+          </div>
+          <div class="bg-[#1A1A1A] rounded-2xl p-6 shadow-md flex flex-col items-center text-center">
+            <i class="fa-solid fa-arrows-rotate text-4xl text-[#1DB954] mb-4"></i>
+            <h3 class="text-lg font-semibold mb-2">Conteúdo Atualizado</h3>
+            <p class="text-[#B0B0B0]">Material sempre atualizado com as últimas tendências do mercado.</p>
+          </div>
+          <div class="bg-[#1A1A1A] rounded-2xl p-6 shadow-md flex flex-col items-center text-center">
+            <i class="fa-solid fa-stairs text-4xl text-[#1DB954] mb-4"></i>
+            <h3 class="text-lg font-semibold mb-2">Plano de Carreira</h3>
+            <p class="text-[#B0B0B0]">Conteúdo estruturado para evolução profissional.</p>
+          </div>
+          <div class="bg-[#1A1A1A] rounded-2xl p-6 shadow-md flex flex-col items-center text-center">
+            <i class="fa-solid fa-dollar-sign text-4xl text-[#1DB954] mb-4"></i>
+            <h3 class="text-lg font-semibold mb-2">Preço Acessível</h3>
+            <p class="text-[#B0B0B0]">Assinatura a partir de R$49,90/mês.</p>
+          </div>
         </div>
-        <div id="mobileMenu" class="hidden md:hidden bg-[#181818] py-2 border-t border-gray-700">
-            <a href="https://www.cedbrasilia.com.br" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Início</a>
-            <a href="#sobre" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Sobre Nós</a>
-            <a href="#cursos" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Cursos</a>
-            <a href="#depoimentos" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Depoimentos</a>
-            <a href="#contato" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Contato</a>
-            <a href="https://ead.cedbrasilia.com.br" class="block mx-6 my-3 bg-spotify-green text-black text-center px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
-            <a href="https://www.cedbrasilia.com.br/parceiros" class="block mx-6 my-3 bg-spotify-green text-black text-center px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Vire Parceiro</a>
-            <button id="mobileThemeToggle" class="block w-full mx-6 my-3 text-yellow-400 text-left text-lg" aria-label="Alternar tema">
-                <i class="fas fa-moon"></i> Tema
-            </button>
+      </div>
+    </section>
+
+    <section class="py-16 bg-[#1A1A1A] rounded-2xl mx-4 md:mx-auto max-w-xl text-center">
+      <h2 class="text-2xl font-bold mb-6">Assine Já e Ganhe 7 Dias Grátis!</h2>
+      <form id="formAssinatura" class="space-y-4">
+        <input type="text" name="nome" required placeholder="Nome Completo" class="w-full bg-[#2B2B2B] text-[#E0E0E0] placeholder-[#A0A0A0] border border-[#333] rounded p-2">
+        <input type="email" name="email" required placeholder="E-mail" class="w-full bg-[#2B2B2B] text-[#E0E0E0] placeholder-[#A0A0A0] border border-[#333] rounded p-2">
+        <input type="text" name="whatsapp" required placeholder="WhatsApp" class="w-full bg-[#2B2B2B] text-[#E0E0E0] placeholder-[#A0A0A0] border border-[#333] rounded p-2">
+        <button type="submit" class="btn-cta-principal w-full bg-[#1DB954] text-white font-semibold py-2 rounded hover:bg-white hover:text-[#121212] transition">Quero Assinar</button>
+      </form>
+    </section>
+
+    <section class="py-16 bg-[#000000]">
+      <div class="max-w-5xl mx-auto px-4">
+        <h2 class="text-center text-3xl md:text-4xl font-bold mb-8">O Que Nossos Alunos Dizem</h2>
+        <div class="flex overflow-x-auto space-x-6 pb-4" id="depoimentos">
+          <div class="min-w-[300px] bg-[#1A1A1A] rounded-2xl p-6 flex-shrink-0">
+            <img src="https://placehold.co/64x64" alt="Aluno 1" class="w-16 h-16 rounded-full mx-auto" loading="lazy">
+            <h3 class="text-lg font-semibold mt-4">Ana - São Paulo</h3>
+            <p class="mt-2 text-[#D0D0D0]">"Ótimos cursos e suporte incrível!"</p>
+          </div>
+          <div class="min-w-[300px] bg-[#1A1A1A] rounded-2xl p-6 flex-shrink-0">
+            <img src="https://placehold.co/64x64" alt="Aluno 2" class="w-16 h-16 rounded-full mx-auto" loading="lazy">
+            <h3 class="text-lg font-semibold mt-4">Bruno - Rio de Janeiro</h3>
+            <p class="mt-2 text-[#D0D0D0]">"Consegui meu certificado e já estou empregado."</p>
+          </div>
+          <div class="min-w-[300px] bg-[#1A1A1A] rounded-2xl p-6 flex-shrink-0">
+            <img src="https://placehold.co/64x64" alt="Aluno 3" class="w-16 h-16 rounded-full mx-auto" loading="lazy">
+            <h3 class="text-lg font-semibold mt-4">Carla - Brasília</h3>
+            <p class="mt-2 text-[#D0D0D0]">"Conteúdo sempre atualizado, recomendo!"</p>
+          </div>
         </div>
-    </header>
+      </div>
+    </section>
 
-    <main>
-        <section id="hero" class="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat relative overflow-hidden" style="background-image: linear-gradient(rgba(18, 18, 18, 0.88), rgba(18, 18, 18, 0.88)), url('https://placehold.co/1920x1080/101010/1DB954?text=CED+BRASIL+Educação+e+Inovação');">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#121212] to-transparent"></div>
-            <div class="text-center p-6 relative z-10 fade-in-element max-w-5xl">
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
-                    Transforme Seu <span class="spotify-green">Futuro</span> com Nossos Cursos Online
-                </h1>
-                <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto">
-                    Capacitamos você com o conhecimento e as habilidades essenciais para dominar o mercado de trabalho e construir a carreira dos seus sonhos.
-                </p>
-                <div class="flex flex-col sm:flex-row justify-center gap-6">
-                    <a href="#cursos" class="bg-spotify-green text-black font-extrabold px-10 py-4 rounded-full text-xl hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
-                        Ver Cursos <i class="fas fa-arrow-right ml-3"></i>
-                    </a>
-                    <a href="https://www.cedbrasilia.com.br/assinatura" class="bg-spotify-green text-black font-extrabold px-10 py-4 rounded-full text-xl hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
-                        Me matricular agora! <i class="fas fa-user-plus ml-3"></i>
-                    </a>
-                    <a href="#contato" class="border-2 border-spotify-green text-spotify-green font-semibold px-10 py-4 rounded-full text-xl hover:bg-spotify-green hover:text-black transition duration-300 shadow-lg transform hover:scale-105">
-                        Fale com um Consultor <i class="fas fa-comments ml-3"></i>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section id="sobre" class="py-20 bg-[#121212]">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16 fade-in-element">
-                    <h2 class="section-title">Quem <span class="spotify-green">Somos</span></h2>
-                    <p class="section-subtitle">Na CED BRASIL, construímos pontes para o seu sucesso através de uma educação de excelência.</p>
-                </div>
-                <div class="grid md:grid-cols-2 gap-16 items-center">
-                    <div class="fade-in-element md:col-span-2 text-center">
-                        <h3 class="text-4xl font-bold mb-4 spotify-green">Nossa Missão</h3>
-                        <p class="text-gray-300 leading-relaxed text-lg max-w-2xl mx-auto mb-8">
-                            Capacitar indivíduos com conhecimento e habilidades inovadoras, promovendo o desenvolvimento pessoal e profissional para que alcancem seus objetivos e contribuam positivamente para a sociedade.
-                        </p>
-                        <h3 class="text-4xl font-bold mb-4 spotify-green">Nossa Visão</h3>
-                        <p class="text-gray-300 leading-relaxed text-lg max-w-2xl mx-auto mb-8">
-                            Ser a principal referência em educação online no Brasil, reconhecida pela qualidade de ensino, inovação pedagógica e pelo impacto transformador na vida de nossos alunos.
-                        </p>
-                    </div>
-                    <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 fade-in-element">
-                        <div class="card p-6 flex items-start space-x-4">
-                            <i class="fas fa-lightbulb text-3xl spotify-green mt-1"></i>
-                            <div>
-                                <h4 class="text-xl font-semibold mb-2">Inovação</h4>
-                                <p class="text-gray-400 text-sm">Sempre à frente com as últimas tendências e tecnologias educacionais.</p>
-                            </div>
-                        </div>
-                        <div class="card p-6 flex items-start space-x-4">
-                            <i class="fas fa-handshake text-3xl spotify-green mt-1"></i>
-                            <div>
-                                <h4 class="text-xl font-semibold mb-2">Compromisso</h4>
-                                <p class="text-gray-400 text-sm">Dedicados ao sucesso de cada aluno, oferecendo suporte contínuo.</p>
-                            </div>
-                        </div>
-                        <div class="card p-6 flex items-start space-x-4">
-                            <i class="fas fa-users text-3xl spotify-green mt-1"></i>
-                            <div>
-                                <h4 class="text-xl font-semibold mb-2">Comunidade</h4>
-                                <p class="text-gray-400 text-sm">Construímos uma rede de apoio e colaboração entre alunos e professores.</p>
-                            </div>
-                        </div>
-                        <div class="card p-6 flex items-start space-x-4">
-                            <i class="fas fa-award text-3xl spotify-green mt-1"></i>
-                            <div>
-                                <h4 class="text-xl font-semibold mb-2">Excelência</h4>
-                                <p class="text-gray-400 text-sm">Padrões de ensino rigorosos para garantir a melhor formação.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="cursos" class="py-20 bg-[#181818]">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16 fade-in-element">
-                    <h2 class="section-title">Nossos <span class="spotify-green">Cursos</span></h2>
-                    <p class="section-subtitle">Descubra a trilha ideal para o seu crescimento profissional em diversas áreas de atuação.</p>
-                    <div class="mt-8 mb-12 p-4 bg-spotify-green text-black rounded-lg shadow-md max-w-xl mx-auto font-bold text-xl md:text-2xl">
-                        <p>Todos os cursos por apenas <span class="text-3xl md:text-4xl">R$ 59,99/mês!</span></p>
-                        <p class="text-lg md:text-xl mt-2">Sem contrato de fidelidade!</p>
-                    </div>
-                    <a href="https://www.cedbrasilia.com.br/assinatura" class="bg-spotify-green text-black font-extrabold px-10 py-4 rounded-full text-xl hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105 mt-8 inline-block">
-                        Me matricular agora! <i class="fas fa-user-plus ml-3"></i>
-                    </a>
-                </div>
-
-                <div class="flex flex-wrap justify-center gap-4 mb-12 fade-in-element">
-                    <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold active-filter" data-filter="all">Todos</button>
-                    <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="tecnologia">Tecnologia</button>
-                    <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="administracao">Administração</button>
-                    <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="design">Design</button>
-                    <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="idiomas">Idiomas</button>
-                </div>
-
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="course-grid">
-                    <div class="card fade-in-element course-item tecnologia">
-                        <h3 class="text-2xl font-semibold mb-3 spotify-green">Desenvolvimento de Apps Mobile</h3>
-                        <p class="text-gray-400 mb-4 text-sm">
-                            Crie aplicativos iOS e Android com ferramentas modernas.
-                        </p>
-                        <ul class="text-gray-400 text-sm mb-4 space-y-1">
-                            <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 12 meses</li>
-                            <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 59,99/mês</li>
-                        </ul>
-                        </div>
-
-                    <div class="card fade-in-element course-item tecnologia" style="animation-delay: 0.2s;">
-                        <h3 class="text-2xl font-semibold mb-3 spotify-green">Ciência de Dados para Iniciantes</h3>
-                        <p class="text-gray-400 mb-4 text-sm">
-                            Aprenda a extrair insights com Python e análise de dados.
-                        </p>
-                        <ul class="text-gray-400 text-sm mb-4 space-y-1">
-                            <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 10 meses</li>
-                            <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 59,99/mês</li>
-                        </ul>
-                        </div>
-
-                    <div class="card fade-in-element course-item administracao" style="animation-delay: 0.4s;">
-                        <h3 class="text-2xl font-semibold mb-3 spotify-green">Marketing de Mídias Sociais</h3>
-                        <p class="text-gray-400 mb-4 text-sm">
-                            Domine estratégias de engajamento nas redes mais usadas.
-                        </p>
-                        <ul class="text-gray-400 text-sm mb-4 space-y-1">
-                            <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 6 meses</li>
-                            <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 59,99/mês</li>
-                        </ul>
-                        </div>
-
-                    <div class="card fade-in-element course-item design" style="animation-delay: 0.6s;">
-                        <h3 class="text-2xl font-semibold mb-3 spotify-green">Fotografia Digital Profissional</h3>
-                        <p class="text-gray-400 mb-4 text-sm">
-                            Capture e edite imagens impressionantes como um especialista.
-                        </p>
-                        <ul class="text-gray-400 text-sm mb-4 space-y-1">
-                            <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 7 meses</li>
-                            <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 59,99/mês</li>
-                        </ul>
-                        </div>
-
-                    <div class="card fade-in-element course-item idiomas" style="animation-delay: 0.8s;">
-                        <h3 class="text-2xl font-semibold mb-3 spotify-green">Espanhol do Zero à Fluência</h3>
-                        <p class="text-gray-400 mb-4 text-sm">
-                            Conquiste a fluência para oportunidades internacionais.
-                        </p>
-                        <ul class="text-gray-400 text-sm mb-4 space-y-1">
-                            <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 8 meses</li>
-                            <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 59,99/mês</li>
-                        </ul>
-                        </div>
-
-                    <div class="card fade-in-element course-item administracao" style="animation-delay: 1s;">
-                        <h3 class="text-2xl font-semibold mb-3 spotify-green">Empreendedorismo na Prática</h3>
-                        <p class="text-gray-400 mb-4 text-sm">
-                            Transforme suas ideias em negócios rentáveis.
-                        </p>
-                        <ul class="text-gray-400 text-sm mb-4 space-y-1">
-                            <li><i class="fas fa-clock mr-2 text-spotify-green"></i> Duração: 5 meses</li>
-                            <li><i class="fas fa-dollar-sign mr-2 text-spotify-green"></i> Investimento: R$ 59,99/mês</li>
-                        </ul>
-                        </div>
-                </div>
-
-                <div class="text-center mt-20 fade-in-element">
-                    <h3 class="text-4xl font-bold mb-6">Não encontrou o curso ideal?</h3>
-                    <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                        Temos uma equipe de consultores pronta para te ajudar a descobrir o caminho certo para o seu futuro.
-                    </p>
-                    <a href="#contato" class="bg-spotify-green text-black font-extrabold px-10 py-4 rounded-full text-xl hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
-                        Fale com um Consultor <i class="fas fa-headset ml-3"></i>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section id="depoimentos" class="py-20 bg-[#121212]">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16 fade-in-element">
-                    <h2 class="section-title">O Que Nossos <span class="spotify-green">Alunos Dizem</span></h2>
-                    <p class="section-subtitle">Histórias reais de sucesso e transformação que inspiram nossa comunidade diariamente.</p>
-                </div>
-                <div class="relative fade-in-element">
-                    <div id="testimonialSlider" class="overflow-hidden">
-                        <div class="flex transition-transform duration-500 ease-in-out">
-                            <div class="min-w-full p-4">
-                                <div class="testimonial-card p-8 rounded-lg shadow-lg max-w-3xl mx-auto">
-                                    <div class="flex items-center mb-4">
-                                        <span class="text-yellow-400 text-xl mr-1">⭐⭐⭐⭐⭐</span>
-                                        <span class="text-gray-400 text-sm">(5.0)</span>
-                                    </div>
-                                    <p class="text-lg italic text-gray-300 mb-6">"O curso de Desenvolvimento Web da CED BRASIL foi um divisor de águas na minha carreira. A didática é excelente e o suporte é incomparável. Hoje, sou um desenvolvedor realizado!"</p>
-                                    <div class="flex items-center">
-                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=JA" alt="João Almeida" class="w-14 h-14 rounded-full mr-4 border-2 border-spotify-green object-cover" />
-                                        <div>
-                                            <p class="font-semibold text-white text-lg">João Almeida</p>
-                                            <p class="text-sm text-gray-400">Ex-aluno, Desenvolvedor Full Stack na TechSolutions</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="min-w-full p-4">
-                                <div class="testimonial-card p-8 rounded-lg shadow-lg max-w-3xl mx-auto">
-                                    <div class="flex items-center mb-4">
-                                        <span class="text-yellow-400 text-xl mr-1">⭐⭐⭐⭐⭐</span>
-                                        <span class="text-gray-400 text-sm">(5.0)</span>
-                                    </div>
-                                    <p class="text-lg italic text-gray-300 mb-6">"A CED BRASIL me deu as ferramentas para alavancar meu negócio digital. Os módulos de marketing e análise de dados foram cruciais. Recomendo a todos que buscam resultados reais!"</p>
-                                    <div class="flex items-center">
-                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=MS" alt="Maria Silva" class="w-14 h-14 rounded-full mr-4 border-2 border-spotify-green object-cover" />
-                                        <div>
-                                            <p class="font-semibold text-white text-lg">Maria Silva</p>
-                                            <p class="text-sm text-gray-400">Empreendedora Digital, Fundadora da EcomSuccess</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="min-w-full p-4">
-                                <div class="testimonial-card p-8 rounded-lg shadow-lg max-w-3xl mx-auto">
-                                    <div class="flex items-center mb-4">
-                                        <span class="text-yellow-400 text-xl mr-1">⭐⭐⭐⭐⭐</span>
-                                        <span class="text-gray-400 text-sm">(5.0)</span>
-                                    </div>
-                                    <p class="text-lg italic text-gray-300 mb-6">"Finalmente encontrei um curso de design que me ensinou a pensar como um UX/UI designer de verdade. O portfólio que construí na CED BRASIL me abriu portas para grandes projetos."</p>
-                                    <div class="flex items-center">
-                                        <img src="https://placehold.co/60x60/1DB954/FFFFFF?text=CP" alt="Carlos Pereira" class="w-14 h-14 rounded-full mr-4 border-2 border-spotify-green object-cover" />
-                                        <div>
-                                            <p class="font-semibold text-white text-lg">Carlos Pereira</p>
-                                            <p class="text-sm text-gray-400">Designer UX/UI Sênior na CreativeFlow Studio</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button id="prevTestimonial" class="absolute top-1/2 left-0 md:-left-10 transform -translate-y-1/2 bg-spotify-green text-black p-4 rounded-full shadow-md hover-bg-spotify-green-darker transition duration-300 focus:outline-none z-20">
-                        <i class="fas fa-chevron-left text-lg"></i>
-                    </button>
-                    <button id="nextTestimonial" class="absolute top-1/2 right-0 md:-right-10 transform -translate-y-1/2 bg-spotify-green text-black p-4 rounded-full shadow-md hover-bg-spotify-green-darker transition duration-300 focus:outline-none z-20">
-                        <i class="fas fa-chevron-right text-lg"></i>
-                    </button>
-                </div>
-                <div id="testimonialIndicators" class="flex justify-center mt-8 space-x-3"></div>
-
-                <div class="text-center mt-20 fade-in-element bg-[#1E1E1E] p-8 rounded-lg shadow-xl border border-spotify-green max-w-4xl mx-auto">
-                    <p class="text-3xl font-bold text-white mb-4">
-                        Mais de <span class="spotify-green">15.000 alunos</span> já transformaram suas vidas!
-                    </p>
-                    <p class="text-lg text-gray-300 mb-6">
-                        Junte-se à nossa comunidade e comece sua jornada de sucesso hoje.
-                    </p>
-                    <a href="#cursos" class="bg-spotify-green text-black font-extrabold px-8 py-4 rounded-full text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
-                        Garanta Sua Vaga! <i class="fas fa-graduation-cap ml-2"></i>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section id="contato" class="py-20 bg-[#181818]">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16 fade-in-element">
-                    <h2 class="section-title">Entre em <span class="spotify-green">Contato</span></h2>
-                    <p class="section-subtitle">Tem alguma dúvida, precisa de orientação ou quer se inscrever? Estamos aqui para ajudar!</p>
-                </div>
-                <div class="max-w-3xl mx-auto card p-8 fade-in-element">
-                    <div class="mt-8 text-center text-gray-400">
-                        <p class="mb-4 text-lg font-semibold text-white">Fale conosco diretamente:</p>
-                        <div class="flex flex-col sm:flex-row justify-center gap-6">
-                            <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="bg-spotify-green text-black font-extrabold px-8 py-4 rounded-full text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105 flex items-center justify-center">
-                                <i class="fab fa-whatsapp text-2xl mr-2"></i> Chamar no WhatsApp
-                            </a>
-                            <a href="mailto:contato@cedbrasil.com.br" class="border-2 border-spotify-green text-spotify-green font-semibold px-8 py-4 rounded-full text-lg hover:bg-spotify-green hover:text-black transition duration-300 shadow-lg transform hover:scale-105 flex items-center justify-center">
-                                <i class="fas fa-envelope text-2xl mr-2"></i> Enviar Email
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="bg-[#0A0A0A] text-gray-400 py-12">
-        <div class="container mx-auto px-6 text-center">
-            <div class="mb-8">
-                <a href="https://www.cedbrasilia.com.br" class="text-4xl font-bold">
-                    <span class="spotify-green">CedBrasil</span>
-                </a>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left mb-10">
-                <div>
-                    <h4 class="text-xl font-semibold text-white mb-4">Navegação Rápida</h4>
-                    <ul class="space-y-2">
-                        <li><a href="https://www.cedbrasilia.com.br" class="hover:text-spotify-green transition duration-300">Início</a></li>
-                        <li><a href="#sobre" class="hover:text-spotify-green transition duration-300">Sobre Nós</a></li>
-                        <li><a href="#cursos" class="hover:text-spotify-green transition duration-300">Cursos</a></li>
-                        <li><a href="#depoimentos" class="hover:text-spotify-green transition duration-300">Depoimentos</a></li>
-                        <li><a href="#contato" class="hover:text-spotify-green transition duration-300">Contato</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-xl font-semibold text-white mb-4">Cursos Populares</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#cursos" class="hover:text-spotify-green transition duration-300">Apps Mobile</a></li>
-                        <li><a href="#cursos" class="hover:text-spotify-green transition duration-300">Ciência de Dados</a></li>
-                        <li><a href="#cursos" class="hover:text-spotify-green transition duration-300">Fotografia Digital</a></li>
-                        <li><a href="#cursos" class="hover:text-spotify-green transition duration-300">Empreendedorismo</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-xl font-semibold text-white mb-4">Conecte-se</h4>
-                    <div class="flex justify-center md:justify-start space-x-6 mb-4">
-                        <a href="https://www.facebook.com/people/CED-Brasil/61575889016332/" target="_blank" rel="noopener" class="hover:text-spotify-green transition duration-300" aria-label="Facebook"><i class="fab fa-facebook-f text-2xl"></i></a>
-                        <a href="https://instagram.com/cedbrasill" target="_blank" rel="noopener" class="hover:text-spotify-green transition duration-300" aria-label="Instagram"><i class="fab fa-instagram text-2xl"></i></a>
-                    </div>
-                    <p class="text-sm">Telefone: (61) 98666-0241</p>
-                </div>
-            </div>
-            <details class="max-w-4xl mx-auto text-left text-sm text-gray-300 mt-8 space-y-2 bg-gray-800/50 p-4 rounded-lg group">
-                <summary class="text-xl font-semibold text-white mb-2 cursor-pointer flex items-center justify-between">
-                    <span>📚 Políticas da CED BRASIL</span>
-                    <i class="fas fa-chevron-down transition-transform group-open:rotate-180"></i>
-                </summary>
-                <div class="mt-2 space-y-2">
-                    <p>Na CED BRASIL, acreditamos que a educação de qualidade começa com responsabilidade, transparência e compromisso com nossos alunos. Por isso, estruturamos nossas políticas para garantir uma experiência segura, acessível e ética para todos.</p>
-                    <p>🔐 Privacidade e Segurança<br>Todas as informações fornecidas por nossos alunos são tratadas com total confidencialidade. Utilizamos tecnologias seguras para proteger seus dados pessoais e garantir a integridade das transações realizadas em nossa plataforma.</p>
-                    <p>💳 Pagamentos e Assinaturas<br>Trabalhamos com o modelo de assinatura mensal recorrente, sem contrato de fidelidade. O cancelamento pode ser solicitado a qualquer momento, diretamente pela área do aluno ou pelo nosso suporte.</p>
-                    <p>🎓 Certificação<br>Todos os cursos oferecidos contam com certificado digital gratuito, válido em todo o território nacional, reconhecido para horas complementares, comprovação de qualificação e currículo.</p>
-                    <p>📅 Acesso aos Cursos<br>O aluno tem acesso imediato aos cursos após a confirmação do pagamento. Os conteúdos são 100% online, podendo ser acessados a qualquer hora, de qualquer lugar.</p>
-                    <p>🤝 Atendimento ao Aluno<br>Nosso suporte está disponível todos os dias para auxiliar com dúvidas, dificuldades técnicas ou solicitações administrativas. Prezamos por um atendimento rápido, humano e resolutivo.</p>
-                    <p>CED BRASIL – Educação acessível, moderna e comprometida com seu sucesso. Em caso de dúvidas, entre em contato com nossa equipe. Estamos aqui para você!</p>
-                </div>
-            </details>
-            <div class="border-t border-gray-700 pt-8 mt-8 text-center">
-                <p class="text-sm mb-2">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
-                <p class="text-xs mt-4">Desenvolvido com <i class="fas fa-heart spotify-green"></i> por @FurioNnzxT</p>
-            </div>
+    <section class="py-16 bg-[#121212]">
+      <div class="max-w-5xl mx-auto px-4">
+        <h2 class="text-center text-3xl md:text-4xl font-bold mb-8">Perguntas Frequentes</h2>
+        <div class="space-y-4">
+          <details class="bg-[#1A1A1A] rounded-2xl p-4" role="region" aria-labelledby="faq1">
+            <summary id="faq1" class="text-[#E0E0E0] font-semibold cursor-pointer">Como funciona o período de 7 dias grátis?</summary>
+            <p class="mt-2 text-[#B0B0B0]">Você se cadastra e tem acesso completo aos cursos por 7 dias sem pagar nada. Após esse período, a cobrança é automática.</p>
+          </details>
+          <details class="bg-[#1A1A1A] rounded-2xl p-4" role="region" aria-labelledby="faq2">
+            <summary id="faq2" class="text-[#E0E0E0] font-semibold cursor-pointer">Posso cancelar a qualquer momento?</summary>
+            <p class="mt-2 text-[#B0B0B0]">Sim, o cancelamento pode ser feito pela área do aluno sem multas.</p>
+          </details>
+          <details class="bg-[#1A1A1A] rounded-2xl p-4" role="region" aria-labelledby="faq3">
+            <summary id="faq3" class="text-[#E0E0E0] font-semibold cursor-pointer">Como recebo meu certificado digital?</summary>
+            <p class="mt-2 text-[#B0B0B0]">Após concluir o curso, faça o download do certificado diretamente na plataforma.</p>
+          </details>
+          <details class="bg-[#1A1A1A] rounded-2xl p-4" role="region" aria-labelledby="faq4">
+            <summary id="faq4" class="text-[#E0E0E0] font-semibold cursor-pointer">Quais são as formas de pagamento aceitas?</summary>
+            <p class="mt-2 text-[#B0B0B0]">Aceitamos cartões de crédito, boleto e PIX.</p>
+          </details>
+          <details class="bg-[#1A1A1A] rounded-2xl p-4" role="region" aria-labelledby="faq5">
+            <summary id="faq5" class="text-[#E0E0E0] font-semibold cursor-pointer">Existe suporte para tirar dúvidas durante o curso?</summary>
+            <p class="mt-2 text-[#B0B0B0]">Sim, nossa equipe está disponível todos os dias via chat e WhatsApp.</p>
+          </details>
         </div>
-    </footer>
+      </div>
+    </section>
+  </main>
 
-    <!-- <button id="open-joel-bot" class="fixed bottom-6 right-6 bg-spotify-green text-black p-4 rounded-full shadow-lg hover-bg-spotify-green-darker transition duration-300 z-50 transform hover:scale-110 focus:outline-none" aria-label="Abrir Chatbot JOEL">
-        <i class="fas fa-robot text-2xl"></i>
-    </button> -->
+  <a href="https://wa.me/5511999999999?text=Ol%C3%A1!%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." class="fixed bottom-4 right-4 z-50 bg-[#1DB954] w-14 h-14 rounded-full flex items-center justify-center shadow-md transform hover:scale-105">
+    <i class="fab fa-whatsapp text-white text-2xl"></i>
+  </a>
 
-    <div class="mobile-cta-buttons">
-        <a href="#cursos" class="w-full bg-spotify-green text-black font-extrabold px-6 py-3 rounded-full text-base text-center hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
-            Quero me Inscrever! <i class="fas fa-arrow-right ml-2"></i>
-        </a>
-        <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="w-full border-2 border-spotify-green text-spotify-green font-semibold px-6 py-3 rounded-full text-base text-center hover:bg-spotify-green hover:text-black transition duration-300 shadow-lg transform hover:scale-105">
-            Fale no WhatsApp <i class="fab fa-whatsapp ml-2"></i>
-        </a>
+  <footer class="bg-[#000000] py-8">
+    <div class="max-w-5xl mx-auto px-4 text-center">
+      <p class="text-sm text-[#B0B0B0] mb-4">© 2025 CED BRASIL. Todos os direitos reservados.</p>
+      <div class="space-x-4">
+        <a href="/politicas" class="text-[#B0B0B0] hover:text-[#1DB954]">Políticas da CED BRASIL</a>
+        <a href="/termos" class="text-[#B0B0B0] hover:text-[#1DB954]">Termos de Uso</a>
+        <a href="https://wa.me/5511999999999" class="text-[#B0B0B0] hover:text-[#1DB954]">Suporte</a>
+      </div>
     </div>
+  </footer>
 
-    <script>
-      // Mobile Menu Toggle
-      const mobileMenuButton = document.getElementById("mobileMenuButton");
-      const mobileMenu = document.getElementById("mobileMenu");
-      mobileMenuButton.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
-        const icon = mobileMenuButton.querySelector("i");
-        if (mobileMenu.classList.contains("hidden")) {
-          icon.classList.remove("fa-times");
-          icon.classList.add("fa-bars");
-        } else {
-          icon.classList.remove("fa-bars");
-          icon.classList.add("fa-times");
-        }
+  <div id="modalConfirm" class="fixed inset-0 bg-black/70 flex items-center justify-center hidden">
+    <div class="bg-[#1A1A1A] p-6 rounded">
+      <p class="mb-4">Obrigado! Verifique seu e-mail para continuar.</p>
+      <button id="closeModal" class="bg-[#1DB954] text-white px-4 py-2 rounded">Fechar</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
+  <script>
+    document.querySelector('.btn-cta-principal').addEventListener('click', () => {
+      gtag('event','click',{event_category:'CTA',event_label:'Assinar Agora'});
+    });
+    const form = document.getElementById('formAssinatura');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await fetch('/api/inscrever', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          nome: form.nome.value,
+          email: form.email.value,
+          whatsapp: form.whatsapp.value
+        })
       });
-
-      // Theme Toggle
-      function applyTheme(isLight) {
-        document.body.classList.toggle("light-theme", isLight);
-        const desktopIcon = document.getElementById("themeToggle").querySelector("i");
-        const mobileIcon = document.getElementById("mobileThemeToggle")?.querySelector("i");
-        if (isLight) {
-          desktopIcon.classList.remove("fa-moon");
-          desktopIcon.classList.add("fa-sun");
-          if (mobileIcon) {
-            mobileIcon.classList.remove("fa-moon");
-            mobileIcon.classList.add("fa-sun");
-          }
-        } else {
-          desktopIcon.classList.remove("fa-sun");
-          desktopIcon.classList.add("fa-moon");
-          if (mobileIcon) {
-            mobileIcon.classList.remove("fa-sun");
-            mobileIcon.classList.add("fa-moon");
-          }
-        }
-      }
-
-      const storedTheme = localStorage.getItem("theme") === "light";
-      applyTheme(storedTheme);
-
-      document.getElementById("themeToggle").addEventListener("click", () => {
-        const isLight = !document.body.classList.contains("light-theme");
-        localStorage.setItem("theme", isLight ? "light" : "dark");
-        applyTheme(isLight);
-      });
-
-      document.getElementById("mobileThemeToggle")?.addEventListener("click", () => {
-        const isLight = !document.body.classList.contains("light-theme");
-        localStorage.setItem("theme", isLight ? "light" : "dark");
-        applyTheme(isLight);
-        mobileMenu.classList.add("hidden");
-        mobileMenuButton.querySelector("i").classList.remove("fa-times");
-        mobileMenuButton.querySelector("i").classList.add("fa-bars");
-      });
-
-      // Smooth scroll for navigation links
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          // Fecha o menu mobile se estiver aberto
-          if (!mobileMenu.classList.contains("hidden")) {
-            mobileMenu.classList.add("hidden");
-            mobileMenuButton.querySelector("i").classList.remove("fa-times");
-            mobileMenuButton.querySelector("i").classList.add("fa-bars");
-          }
-
-          const targetId = this.getAttribute("href");
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({
-              behavior: "smooth",
-            });
-          }
-        });
-      });
-
-      // Testimonial Slider
-      const slider = document
-        .getElementById("testimonialSlider")
-        .querySelector("div");
-      const prevButton = document.getElementById("prevTestimonial");
-      const nextButton = document.getElementById("nextTestimonial");
-      const indicatorsContainer = document.getElementById(
-        "testimonialIndicators"
-      );
-      let currentIndex = 0;
-      let items = slider.children; // Coleção de divs de depoimentos
-      const totalItems = items.length;
-      let autoSlideInterval;
-
-      function updateSlider() {
-        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-        updateIndicators();
-      }
-
-      function updateIndicators() {
-        indicatorsContainer.innerHTML = ""; // Limpa indicadores anteriores
-        for (let i = 0; i < totalItems; i++) {
-          const button = document.createElement("button");
-          button.classList.add("w-3", "h-3", "rounded-full", "transition-all", "duration-300");
-          if (i === currentIndex) {
-            button.classList.add("bg-spotify-green", "scale-125");
-          } else {
-            button.classList.add("bg-gray-500", "hover:bg-gray-400");
-          }
-          button.addEventListener("click", () => {
-            currentIndex = i;
-            updateSlider();
-            resetAutoSlide();
-          });
-          indicatorsContainer.appendChild(button);
-        }
-      }
-
-      function showNext() {
-        currentIndex = (currentIndex + 1) % totalItems;
-        updateSlider();
-      }
-
-      function showPrev() {
-        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-        updateSlider();
-      }
-
-      function startAutoSlide() {
-        autoSlideInterval = setInterval(showNext, 5000); // Troca a cada 5s
-      }
-
-      function resetAutoSlide() {
-        clearInterval(autoSlideInterval);
-        startAutoSlide();
-      }
-
-      if (totalItems > 0) {
-        prevButton.addEventListener("click", () => {
-          showPrev();
-          resetAutoSlide();
-        });
-        nextButton.addEventListener("click", () => {
-          showNext();
-          resetAutoSlide();
-        });
-
-        // Inicializa
-        updateSlider(); // Define estado inicial e cria indicadores
-        startAutoSlide();
-      } else {
-        // Esconde controles se não houver depoimentos
-        prevButton.style.display = "none";
-        nextButton.style.display = "none";
-        indicatorsContainer.style.display = "none";
-      }
-
-      // Current Year para o footer
-      document.getElementById("currentYear").textContent = new Date().getFullYear();
-
-      // Fade-in elements on scroll
-      const fadeInElements = document.querySelectorAll(".fade-in-element");
-      const observerOptions = {
-        root: null, // Relativo à viewport
-        rootMargin: "0px",
-        threshold: 0.1, // 10% visível
-      };
-      const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      }, observerOptions);
-      fadeInElements.forEach((el) => {
-        observer.observe(el);
-      });
-
-      // Course Filtering (placeholder)
-      const filterButtons = document.querySelectorAll(
-        ".flex.flex-wrap.justify-center.gap-4 button"
-      );
-      const courseItems = document.querySelectorAll(".course-item");
-
-      filterButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          filterButtons.forEach((btn) =>
-            btn.classList.remove("active-filter", "bg-spotify-green", "text-black")
-          );
-          button.classList.add("active-filter", "bg-spotify-green", "text-black");
-          const filter = button.dataset.filter;
-          courseItems.forEach((item) => {
-            if (filter === "all" || item.classList.contains(filter)) {
-              item.style.display = "block";
-            } else {
-              item.style.display = "none";
-            }
-          });
-        });
-      });
-      document.querySelector(".active-filter")?.classList.add(
-        "bg-spotify-green",
-        "text-black"
-      );
-    </script>
+      document.getElementById('modalConfirm').classList.remove('hidden');
+    });
+    document.getElementById('closeModal').addEventListener('click', () => {
+      document.getElementById('modalConfirm').classList.add('hidden');
+    });
+  </script>
 </body>
 </html>
