@@ -46,6 +46,16 @@
       .hover-bg-spotify-green-darker:hover {
         background-color: #1aa34a; /* Verde um pouco mais escuro para hover */
       }
+
+      /* Tema claro */
+      body.light-theme {
+        filter: invert(1) hue-rotate(180deg);
+        background-color: #ffffff;
+      }
+      body.light-theme img,
+      body.light-theme video {
+        filter: invert(1) hue-rotate(180deg);
+      }
       .section-title {
         font-size: 2.8rem; /* Título maior para seções */
         font-weight: 700;
@@ -224,6 +234,9 @@
                 <a href="https://ead.cedbrasilia.com.br" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
                 <a href="https://www.cedbrasilia.com.br/parceiros" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Vire Parceiro</a>
             </nav>
+            <button id="themeToggle" class="text-yellow-400 text-2xl mr-4" aria-label="Alternar tema">
+                <i class="fas fa-moon"></i>
+            </button>
             <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
@@ -236,6 +249,9 @@
             <a href="#contato" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Contato</a>
             <a href="https://ead.cedbrasilia.com.br" class="block mx-6 my-3 bg-spotify-green text-black text-center px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
             <a href="https://www.cedbrasilia.com.br/parceiros" class="block mx-6 my-3 bg-spotify-green text-black text-center px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Vire Parceiro</a>
+            <button id="mobileThemeToggle" class="block w-full mx-6 my-3 text-yellow-400 text-left text-lg" aria-label="Alternar tema">
+                <i class="fas fa-moon"></i> Tema
+            </button>
         </div>
     </header>
 
@@ -601,6 +617,46 @@
           icon.classList.remove("fa-bars");
           icon.classList.add("fa-times");
         }
+      });
+
+      // Theme Toggle
+      function applyTheme(isLight) {
+        document.body.classList.toggle("light-theme", isLight);
+        const desktopIcon = document.getElementById("themeToggle").querySelector("i");
+        const mobileIcon = document.getElementById("mobileThemeToggle")?.querySelector("i");
+        if (isLight) {
+          desktopIcon.classList.remove("fa-moon");
+          desktopIcon.classList.add("fa-sun");
+          if (mobileIcon) {
+            mobileIcon.classList.remove("fa-moon");
+            mobileIcon.classList.add("fa-sun");
+          }
+        } else {
+          desktopIcon.classList.remove("fa-sun");
+          desktopIcon.classList.add("fa-moon");
+          if (mobileIcon) {
+            mobileIcon.classList.remove("fa-sun");
+            mobileIcon.classList.add("fa-moon");
+          }
+        }
+      }
+
+      const storedTheme = localStorage.getItem("theme") === "light";
+      applyTheme(storedTheme);
+
+      document.getElementById("themeToggle").addEventListener("click", () => {
+        const isLight = !document.body.classList.contains("light-theme");
+        localStorage.setItem("theme", isLight ? "light" : "dark");
+        applyTheme(isLight);
+      });
+
+      document.getElementById("mobileThemeToggle")?.addEventListener("click", () => {
+        const isLight = !document.body.classList.contains("light-theme");
+        localStorage.setItem("theme", isLight ? "light" : "dark");
+        applyTheme(isLight);
+        mobileMenu.classList.add("hidden");
+        mobileMenuButton.querySelector("i").classList.remove("fa-times");
+        mobileMenuButton.querySelector("i").classList.add("fa-bars");
       });
 
       // Smooth scroll for navigation links
