@@ -43,6 +43,19 @@
     <div id="system-section" class="hidden min-h-screen flex items-center justify-center">
         <h2 class="text-2xl">Sistema em desenvolvimento.</h2>
     </div>
+    <footer class="bg-[#181818] text-center py-6 mt-12">
+        <div class="max-w-4xl mx-auto text-left text-sm space-y-2 text-gray-300">
+            <h4 class="text-xl font-semibold text-white mb-2 text-center">📚 Políticas da CED BRASIL</h4>
+            <p>Na CED BRASIL, acreditamos que a educação de qualidade começa com responsabilidade, transparência e compromisso com nossos alunos. Por isso, estruturamos nossas políticas para garantir uma experiência segura, acessível e ética para todos.</p>
+            <p>🔐 Privacidade e Segurança<br>Todas as informações fornecidas por nossos alunos são tratadas com total confidencialidade. Utilizamos tecnologias seguras para proteger seus dados pessoais e garantir a integridade das transações realizadas em nossa plataforma.</p>
+            <p>💳 Pagamentos e Assinaturas<br>Trabalhamos com o modelo de assinatura mensal recorrente, sem contrato de fidelidade. O cancelamento pode ser solicitado a qualquer momento, diretamente pela área do aluno ou pelo nosso suporte.</p>
+            <p>🎓 Certificação<br>Todos os cursos oferecidos contam com certificado digital gratuito, válido em todo o território nacional, reconhecido para horas complementares, comprovação de qualificação e currículo.</p>
+            <p>📅 Acesso aos Cursos<br>O aluno tem acesso imediato aos cursos após a confirmação do pagamento. Os conteúdos são 100% online, podendo ser acessados a qualquer hora, de qualquer lugar.</p>
+            <p>🤝 Atendimento ao Aluno<br>Nosso suporte está disponível todos os dias para auxiliar com dúvidas, dificuldades técnicas ou solicitações administrativas. Prezamos por um atendimento rápido, humano e resolutivo.</p>
+            <p>CED BRASIL – Educação acessível, moderna e comprometida com seu sucesso. Em caso de dúvidas, entre em contato com nossa equipe. Estamos aqui para você!</p>
+        </div>
+        <p class="text-xs mt-6">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
+    </footer>
     <script>
         const form = document.getElementById('loginForm');
         const loginSection = document.getElementById('login-section');
@@ -59,6 +72,7 @@
                 loginError.classList.remove('hidden');
             }
         });
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
