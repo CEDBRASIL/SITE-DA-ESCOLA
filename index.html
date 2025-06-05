@@ -46,6 +46,16 @@
       .hover-bg-spotify-green-darker:hover {
         background-color: #1aa34a; /* Verde um pouco mais escuro para hover */
       }
+
+      /* Tema claro */
+      body.light-theme {
+        filter: invert(1) hue-rotate(180deg);
+        background-color: #ffffff;
+      }
+      body.light-theme img,
+      body.light-theme video {
+        filter: invert(1) hue-rotate(180deg);
+      }
       .section-title {
         font-size: 2.8rem; /* Título maior para seções */
         font-weight: 700;
@@ -224,6 +234,9 @@
                 <a href="https://ead.cedbrasilia.com.br" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
                 <a href="https://www.cedbrasilia.com.br/parceiros" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Vire Parceiro</a>
             </nav>
+            <button id="themeToggle" class="text-yellow-400 text-2xl mr-4" aria-label="Alternar tema">
+                <i class="fas fa-moon"></i>
+            </button>
             <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
@@ -236,6 +249,9 @@
             <a href="#contato" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Contato</a>
             <a href="https://ead.cedbrasilia.com.br" class="block mx-6 my-3 bg-spotify-green text-black text-center px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a>
             <a href="https://www.cedbrasilia.com.br/parceiros" class="block mx-6 my-3 bg-spotify-green text-black text-center px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Vire Parceiro</a>
+            <button id="mobileThemeToggle" class="block w-full mx-6 my-3 text-yellow-400 text-left text-lg" aria-label="Alternar tema">
+                <i class="fas fa-moon"></i> Tema
+            </button>
         </div>
     </header>
 
@@ -508,7 +524,7 @@
                     <div class="mt-8 text-center text-gray-400">
                         <p class="mb-4 text-lg font-semibold text-white">Fale conosco diretamente:</p>
                         <div class="flex flex-col sm:flex-row justify-center gap-6">
-                            <a href="https://wa.me/5561986660241" target="_blank" class="bg-spotify-green text-black font-extrabold px-8 py-4 rounded-full text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105 flex items-center justify-center">
+                            <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="bg-spotify-green text-black font-extrabold px-8 py-4 rounded-full text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105 flex items-center justify-center">
                                 <i class="fab fa-whatsapp text-2xl mr-2"></i> Chamar no WhatsApp
                             </a>
                             <a href="mailto:contato@cedbrasil.com.br" class="border-2 border-spotify-green text-spotify-green font-semibold px-8 py-4 rounded-full text-lg hover:bg-spotify-green hover:text-black transition duration-300 shadow-lg transform hover:scale-105 flex items-center justify-center">
@@ -551,8 +567,8 @@
                 <div>
                     <h4 class="text-xl font-semibold text-white mb-4">Conecte-se</h4>
                     <div class="flex justify-center md:justify-start space-x-6 mb-4">
-                        <a href="https://www.facebook.com/people/CED-Brasil/61575889016332/" target="_blank" class="hover:text-spotify-green transition duration-300" aria-label="Facebook"><i class="fab fa-facebook-f text-2xl"></i></a>
-                        <a href="https://instagram.com/cedbrasill" target="_blank" class="hover:text-spotify-green transition duration-300" aria-label="Instagram"><i class="fab fa-instagram text-2xl"></i></a>
+                        <a href="https://www.facebook.com/people/CED-Brasil/61575889016332/" target="_blank" rel="noopener" class="hover:text-spotify-green transition duration-300" aria-label="Facebook"><i class="fab fa-facebook-f text-2xl"></i></a>
+                        <a href="https://instagram.com/cedbrasill" target="_blank" rel="noopener" class="hover:text-spotify-green transition duration-300" aria-label="Instagram"><i class="fab fa-instagram text-2xl"></i></a>
                     </div>
                     <p class="text-sm">Telefone: (61) 98666-0241</p>
                 </div>
@@ -582,7 +598,7 @@
         <a href="#cursos" class="w-full bg-spotify-green text-black font-extrabold px-6 py-3 rounded-full text-base text-center hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
             Quero me Inscrever! <i class="fas fa-arrow-right ml-2"></i>
         </a>
-        <a href="https://wa.me/5561986660241" target="_blank" class="w-full border-2 border-spotify-green text-spotify-green font-semibold px-6 py-3 rounded-full text-base text-center hover:bg-spotify-green hover:text-black transition duration-300 shadow-lg transform hover:scale-105">
+        <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="w-full border-2 border-spotify-green text-spotify-green font-semibold px-6 py-3 rounded-full text-base text-center hover:bg-spotify-green hover:text-black transition duration-300 shadow-lg transform hover:scale-105">
             Fale no WhatsApp <i class="fab fa-whatsapp ml-2"></i>
         </a>
     </div>
@@ -601,6 +617,46 @@
           icon.classList.remove("fa-bars");
           icon.classList.add("fa-times");
         }
+      });
+
+      // Theme Toggle
+      function applyTheme(isLight) {
+        document.body.classList.toggle("light-theme", isLight);
+        const desktopIcon = document.getElementById("themeToggle").querySelector("i");
+        const mobileIcon = document.getElementById("mobileThemeToggle")?.querySelector("i");
+        if (isLight) {
+          desktopIcon.classList.remove("fa-moon");
+          desktopIcon.classList.add("fa-sun");
+          if (mobileIcon) {
+            mobileIcon.classList.remove("fa-moon");
+            mobileIcon.classList.add("fa-sun");
+          }
+        } else {
+          desktopIcon.classList.remove("fa-sun");
+          desktopIcon.classList.add("fa-moon");
+          if (mobileIcon) {
+            mobileIcon.classList.remove("fa-sun");
+            mobileIcon.classList.add("fa-moon");
+          }
+        }
+      }
+
+      const storedTheme = localStorage.getItem("theme") === "light";
+      applyTheme(storedTheme);
+
+      document.getElementById("themeToggle").addEventListener("click", () => {
+        const isLight = !document.body.classList.contains("light-theme");
+        localStorage.setItem("theme", isLight ? "light" : "dark");
+        applyTheme(isLight);
+      });
+
+      document.getElementById("mobileThemeToggle")?.addEventListener("click", () => {
+        const isLight = !document.body.classList.contains("light-theme");
+        localStorage.setItem("theme", isLight ? "light" : "dark");
+        applyTheme(isLight);
+        mobileMenu.classList.add("hidden");
+        mobileMenuButton.querySelector("i").classList.remove("fa-times");
+        mobileMenuButton.querySelector("i").classList.add("fa-bars");
       });
 
       // Smooth scroll for navigation links
