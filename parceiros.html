@@ -274,6 +274,9 @@
     }
 
     function loginDemoAccount() {
+
+      window.open('https://ead.cedbrasilia.com.br/index.php?pag=entrar&token=344dd9f9-4235-11f0-8cdc-0eecf9347bc9', '_blank', 'noopener');
+=======
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = 'https://ead.cedbrasilia.com.br/login/index.php';
@@ -281,6 +284,7 @@
       form.innerHTML = '<input type="hidden" name="username" value="20254158095"><input type="hidden" name="password" value="teste1">';
       document.body.appendChild(form);
       form.submit();
+ main
     }
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 </script>
