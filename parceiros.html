@@ -114,7 +114,19 @@
                         <i class="fas fa-headset text-3xl spotify-green mt-1"></i>
                         <div>
                             <h3 class="text-xl font-semibold mb-2">Suporte dedicado</h3>
-@@ -114,75 +130,171 @@
+                            <p class="text-gray-400 text-sm">Tire dúvidas rapidamente via WhatsApp e Discord.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-user-graduate text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Suporte aos alunos</h3>
+                            <p class="text-gray-400 text-sm">Você apenas vende; a CED BRASIL cuida do atendimento completo.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-certificate text-3xl spotify-green mt-1"></i>
+                        <div>
                             <h3 class="text-xl font-semibold mb-2">Certificados válidos</h3>
                             <p class="text-gray-400 text-sm">Todos os cursos oferecem certificados reconhecidos em todo o país.</p>
                         </div>
@@ -140,29 +152,28 @@
                             <p class="text-gray-400 text-sm">Receba 80% de comissão em todos os produtos!</p>
                         </div>
                     </div>
-                      <div class="card flex items-start space-x-4">
-                          <i class="fas fa-star text-3xl spotify-green mt-1"></i>
-                          <div>
-                              <h3 class="text-xl font-semibold mb-2">Produtos de alta qualidade</h3>
-                              <p class="text-gray-400 text-sm">Cursos com excelente reputação para facilitar suas vendas.</p>
-                          </div>
-                      </div>
-                      <div class="card flex items-start space-x-4">
-                          <i class="fas fa-eye text-3xl spotify-green mt-1"></i>
-                          <div>
-                              <h3 class="text-xl font-semibold mb-2">Conta de Demonstração Gratuita</h3>
-                              <p class="text-gray-400 text-sm">Experimente a plataforma antes de indicar.</p>
-                              <button class="text-spotify-green underline mt-2" onclick="toggleDemoInfo()">Ver mais</button>
-                              <div id="demoInfo" class="mt-3 hidden">
-                                  <button onclick="loginDemoAccount()" class="inline-block bg-spotify-green text-black font-bold px-4 py-2 rounded hover-bg-spotify-green-darker transition shadow">Acessar conta teste</button>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="card flex items-start space-x-4">
-                          <i class="fas fa-bullhorn text-3xl spotify-green mt-1"></i>
-                          <div>
-                              <h3 class="text-xl font-semibold mb-2">Página de Vendas Gratuita</h3>
-                              <p class="text-gray-400 text-sm">Nos da CED criamos para você uma página de vendas/funil 100% gratuito para divulgar seus produtos.</p>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-star text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Produtos de alta qualidade</h3>
+                            <p class="text-gray-400 text-sm">Cursos com excelente reputação para facilitar suas vendas.</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-eye text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Conta de Demonstração Gratuita</h3>
+                            <p class="text-gray-400 text-sm">Experimente a plataforma antes de indicar.</p>
+                            <a href="https://ead.cedbrasilia.com.br/index.php?pag=entrar&token=344dd9f9-4235-11f0-8cdc-0eecf9347bc9" target="_blank" class="inline-block bg-spotify-green text-black font-bold px-4 py-2 rounded hover-bg-spotify-green-darker transition shadow-lg">
+                                Acessar conta demonstração
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card flex items-start space-x-4">
+                        <i class="fas fa-bullhorn text-3xl spotify-green mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Página de Vendas Gratuita</h3>
+                            <p class="text-gray-400 text-sm">A CED cria para você uma página de vendas/funil 100% gratuita para divulgar seus produtos.</p>
                         </div>
                     </div>
                 </div>
@@ -233,6 +244,7 @@
       icon.classList.add('fa-times');
     }
   });
+
   function applyTheme(isLight) {
     document.body.classList.toggle('light-theme', isLight);
     const desktopIcon = document.getElementById('themeToggle').querySelector('i');
@@ -253,6 +265,7 @@
       }
     }
   }
+
   const storedTheme = localStorage.getItem('theme') === 'light';
   applyTheme(storedTheme);
   document.getElementById('themeToggle').addEventListener('click', () => {
@@ -260,33 +273,16 @@
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
     applyTheme(isLight);
   });
-    document.getElementById('mobileThemeToggle')?.addEventListener('click', () => {
-      const isLight = !document.body.classList.contains('light-theme');
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
-      applyTheme(isLight);
-      mobileMenu.classList.add('hidden');
-      mobileMenuButton.querySelector('i').classList.remove('fa-times');
-      mobileMenuButton.querySelector('i').classList.add('fa-bars');
-    });
+  document.getElementById('mobileThemeToggle')?.addEventListener('click', () => {
+    const isLight = !document.body.classList.contains('light-theme');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    applyTheme(isLight);
+    mobileMenu.classList.add('hidden');
+    mobileMenuButton.querySelector('i').classList.remove('fa-times');
+    mobileMenuButton.querySelector('i').classList.add('fa-bars');
+  });
 
-    function toggleDemoInfo() {
-      document.getElementById('demoInfo').classList.toggle('hidden');
-    }
-
-    function loginDemoAccount() {
-
-      window.open('https://ead.cedbrasilia.com.br/index.php?pag=entrar&token=344dd9f9-4235-11f0-8cdc-0eecf9347bc9', '_blank', 'noopener');
-=======
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = 'https://ead.cedbrasilia.com.br/login/index.php';
-      form.target = '_blank';
-      form.innerHTML = '<input type="hidden" name="username" value="20254158095"><input type="hidden" name="password" value="teste1">';
-      document.body.appendChild(form);
-      form.submit();
- main
-    }
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
+  document.getElementById('currentYear').textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
