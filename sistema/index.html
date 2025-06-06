@@ -99,9 +99,15 @@
         </details>
         <p class="text-xs mt-6">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
     </footer>
-    <script>
-        const form = document.getElementById('loginForm');
-        const loginSection = document.getElementById('login-section');
+        <script>
+            let BASIC_B64 = '';
+            fetch('../get.env').then(r => r.text()).then(t => {
+                const m = t.match(/^BASIC_B64=(.*)$/m);
+                if (m) BASIC_B64 = m[1].trim();
+            });
+
+            const form = document.getElementById('loginForm');
+            const loginSection = document.getElementById('login-section');
         const systemSection = document.getElementById('system-section');
         const loginError = document.getElementById('loginError');
 
@@ -179,7 +185,10 @@
         async function deleteAluno(id) {
             if (!confirm('Deseja realmente deletar este aluno?')) return;
             try {
-                const resp = await fetch(`https://api.cedbrasilia.com.br/excluir/${id}`, { method: 'DELETE' });
+                const resp = await fetch(`https://meuappdecursos.com.br/ws/v2/alunos/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Basic ${BASIC_B64}` }
+                });
                 if (!resp.ok) throw new Error('Falha ao excluir');
                 fetchAlunos();
             } catch (err) {
@@ -192,7 +201,10 @@
             if (selecionados.length === 0) return;
             if (!confirm('Deseja realmente deletar os alunos selecionados?')) return;
             try {
-                await Promise.all(selecionados.map(id => fetch(`https://api.cedbrasilia.com.br/excluir/${id}`, { method: 'DELETE' })));
+                await Promise.all(selecionados.map(id => fetch(`https://meuappdecursos.com.br/ws/v2/alunos/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Basic ${BASIC_B64}` }
+                })));
                 fetchAlunos();
             } catch (err) {
                 alert('Erro ao deletar alunos.');
