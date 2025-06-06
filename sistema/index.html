@@ -40,8 +40,39 @@
             <p id="loginError" class="mt-4 text-red-500 text-center hidden">Usuário ou senha incorretos.</p>
         </form>
     </div>
-    <div id="system-section" class="hidden min-h-screen flex items-center justify-center">
-        <h2 class="text-2xl">Sistema em desenvolvimento.</h2>
+    <div id="system-section" class="hidden min-h-screen">
+        <div class="flex h-full">
+            <aside class="w-60 bg-gray-900 p-4 space-y-4">
+                <h2 class="text-xl font-bold">Painel</h2>
+                <nav class="space-y-2">
+                    <button id="menu-alunos" class="w-full text-left px-3 py-2 rounded hover:bg-gray-700">Alunos</button>
+                </nav>
+            </aside>
+            <main id="main-content" class="flex-1 p-6 overflow-auto">
+                <section id="alunos-section" class="hidden">
+                    <h2 class="text-2xl font-bold mb-4">Alunos</h2>
+                    <div class="mb-4 flex items-center">
+                        <input id="aluno-filtro" type="text" placeholder="Filtrar por nome" class="px-4 py-2 rounded bg-gray-700 text-white focus:outline-none" />
+                        <button id="buscar-alunos" class="ml-2 bg-spotify-green text-black px-4 py-2 rounded hover-bg-spotify-green-darker">Buscar</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-gray-800 rounded">
+                            <thead>
+                                <tr class="bg-gray-700">
+                                    <th class="px-4 py-2 text-left">ID</th>
+                                    <th class="px-4 py-2 text-left">Nome</th>
+                                    <th class="px-4 py-2 text-left">E-mail</th>
+                                </tr>
+                            </thead>
+                            <tbody id="alunos-tabela"></tbody>
+                        </table>
+                    </div>
+                </section>
+                <div id="welcome-section" class="flex items-center justify-center h-full">
+                    <h2 class="text-2xl">Selecione uma opção no menu.</h2>
+                </div>
+            </main>
+        </div>
     </div>
     <footer class="bg-[#181818] text-center py-6 mt-12">
         <details class="max-w-4xl mx-auto text-left text-sm text-gray-300 space-y-2 bg-gray-800/50 p-4 rounded-lg group">
@@ -66,6 +97,14 @@
         const loginSection = document.getElementById('login-section');
         const systemSection = document.getElementById('system-section');
         const loginError = document.getElementById('loginError');
+
+        const menuAlunos = document.getElementById('menu-alunos');
+        const alunosSection = document.getElementById('alunos-section');
+        const welcomeSection = document.getElementById('welcome-section');
+        const alunosTabela = document.getElementById('alunos-tabela');
+        const filtroInput = document.getElementById('aluno-filtro');
+        const buscarAlunos = document.getElementById('buscar-alunos');
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const user = document.getElementById('username').value;
@@ -77,6 +116,38 @@
                 loginError.classList.remove('hidden');
             }
         });
+
+        menuAlunos.addEventListener('click', () => {
+            alunosSection.classList.remove('hidden');
+            welcomeSection.classList.add('hidden');
+            fetchAlunos();
+        });
+
+        buscarAlunos.addEventListener('click', fetchAlunos);
+
+        async function fetchAlunos() {
+            alunosTabela.innerHTML = '<tr><td class="px-4 py-2" colspan="3">Carregando...</td></tr>';
+            try {
+                const response = await fetch('https://api.cedbrasilia.com.br/alunos');
+                const data = await response.json();
+                const filtro = filtroInput.value.toLowerCase();
+                const alunos = data.filter(a => a.nome.toLowerCase().includes(filtro));
+                if (alunos.length === 0) {
+                    alunosTabela.innerHTML = '<tr><td class="px-4 py-2" colspan="3">Nenhum aluno encontrado.</td></tr>';
+                } else {
+                    alunosTabela.innerHTML = alunos.map(aluno => `
+                        <tr class="border-t border-gray-700">
+                            <td class="px-4 py-2">${aluno.id}</td>
+                            <td class="px-4 py-2">${aluno.nome}</td>
+                            <td class="px-4 py-2">${aluno.email}</td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (err) {
+                alunosTabela.innerHTML = '<tr><td class="px-4 py-2" colspan="3">Erro ao buscar alunos.</td></tr>';
+            }
+        }
+
         document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>
 </body>
