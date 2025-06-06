@@ -22,6 +22,26 @@
         .spotify-green { color: #1db954; }
         .bg-spotify-green { background-color: #1db954; }
         .hover-bg-spotify-green-darker:hover { background-color: #1aa34a; }
+  .scroll-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: #1db954;
+    color: #000;
+    border-radius: 9999px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    z-index: 1000;
+  }
+  .scroll-to-top.show {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
     </style>
 </head>
 <body>
@@ -220,7 +240,21 @@
             }
         }
 
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+    <button id="scrollTopBtn" aria-label="Voltar ao topo" class="scroll-to-top">&#8679;</button>
+    <script>
+      const scrollBtn = document.getElementById('scrollTopBtn');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          scrollBtn.classList.add('show');
+        } else {
+          scrollBtn.classList.remove('show');
+        }
+      });
+      scrollBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     </script>
 </body>
 </html>
