@@ -86,7 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!res.ok) throw new Error('Falha ao conectar');
       window.location.href = 'https://www.asaas.com/c/dnbrk5s1xcf5zo1q';
     } catch (err) {
-      formMessage.textContent = err.message;
+      console.error(err);
+      formMessage.textContent = 'Erro ao processar sua solicitação. Tente novamente.';
       formMessage.className = 'text-center error-message';
     } finally {
       submitButton.disabled = false;
