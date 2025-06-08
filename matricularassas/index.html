@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CED BRASIL - Pagar e Matricular</title>
+
+    <meta name="description" content="Preencha seus dados para concluir sua matrícula e pagamento.">
+    <meta property="og:title" content="CED BRASIL - Matrícula Online">
+    <meta property="og:description" content="Preencha seus dados e finalize sua matrícula na CED BRASIL.">
+    <meta property="og:image" content="https://placehold.co/1200x630/1DB954/000000">
+    <meta property="og:url" content="https://www.seusite.com.br/matricularassas.html">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <link rel="icon" href="../favicon.jpg" type="image/jpeg">
+
+    <style>
+        /* Estilos base e cores personalizadas */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212; /* Fundo escuro principal */
+            color: #E0E0E0; /* Texto claro para tema escuro */
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Garante que o footer fique no final */
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif; /* Poppins para todos os títulos */
+            color: #F5F5F5; /* Cor mais clara para títulos */
+            line-height: 1.25; /* Ajuste de line-height para títulos */
+        }
+        p {
+            font-weight: 400; /* Font-weight para parágrafos para leitura mais leve */
+        }
+        .spotify-green {
+            color: #1DB954; /* Verde Spotify */
+        }
+        .bg-spotify-green {
+            background-color: #1DB954;
+        }
+        .border-spotify-green {
+            border-color: #1DB954;
+        }
+        .hover-bg-spotify-green-darker:hover {
+            background-color: #1AA34A; /* Verde um pouco mais escuro para hover */
+        }
+        .section-title {
+            font-size: 2.8rem; /* Título maior para seções */
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            line-height: 1.2;
+        }
+        .section-subtitle {
+            font-size: 1.25rem; /* Subtítulo um pouco maior */
+            color: #B3B3B3; /* Contraste melhorado */
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .card {
+            background-color: #1E1E1E; /* Cinza escuro para cards */
+            border-radius: 0.75rem; /* Bordas arredondadas */
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #333; /* Borda sutil */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra mais pronunciada */
+            width: 100%;
+            max-width: 450px;
+        }
+        .card:hover {
+            transform: translateY(-8px); /* Efeito de elevação maior */
+            box-shadow: 0 15px 30px rgba(0, 200, 83, 0.15); /* Sombra mais vibrante */
+        }
+        /* Estilo da barra de rolagem */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1E1E1E;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1DB954;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1AA34A;
+        }
+        /* Animação de fade-in */
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        main {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+            min-height: calc(100vh - 160px); /* Ajusta altura considerando header e footer */
+            background-color: #0A0A0A; /* Fundo escuro sem texto */
+            background-image: none;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #E0E0E0;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #333;
+            background-color: #282828;
+            color: #E0E0E0;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        input:focus-visible, /* Foco visível para acessibilidade */
+        select:focus-visible,
+        button:focus-visible {
+            outline: 2px solid #1DB954; /* Outline verde Spotify */
+            outline-offset: 2px;
+            border-color: #1DB954;
+            box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.3);
+        }
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
+            padding: 1rem;
+            border: 1px solid #333;
+            border-radius: 0.5rem;
+            background-color: #282828;
+            max-height: 200px; /* Limita a altura para scroll */
+            overflow-y: auto;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #E0E0E0;
+            position: relative; /* Necessário para o checkbox customizado */
+            padding-left: 28px; /* Espaço para o checkbox customizado */
+        }
+        .checkbox-group input[type="checkbox"] {
+            /* Esconde o checkbox nativo */
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        /* Estilo do checkbox customizado */
+        .checkbox-group label::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid #555; /* Borda padrão */
+            border-radius: 4px; /* Cantos arredondados */
+            background-color: #282828;
+            transition: all 250ms ease;
+        }
+        /* Estilo do checkmark (✓) */
+        .checkbox-group label::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 8px;
+            height: 14px;
+            border: solid transparent;
+            border-width: 0 3px 3px 0;
+            opacity: 0;
+            transition: all 250ms ease;
+        }
+        /* Quando marcado */
+        .checkbox-group input[type="checkbox"]:checked + label::before {
+            background-color: #1DB954; /* Fundo verde */
+            border-color: #1DB954; /* Borda verde */
+        }
+        .checkbox-group input[type="checkbox"]:checked + label::after {
+            opacity: 1;
+            border-color: #000; /* Checkmark preto */
+        }
+        /* Hover e Focus-visible para o checkbox customizado */
+        .checkbox-group input[type="checkbox"]:hover + label::before,
+        .checkbox-group input[type="checkbox"]:focus-visible + label::before {
+            box-shadow: 0 0 0 2px #1DB954; /* Outline verde */
+        }
+
+        .loading-message {
+            color: #1DB954;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        .success-message {
+            color: #1DB954;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        .error-message {
+            color: #FF4D4D; /* Um vermelho para erros */
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* Estilos para validação em tempo real */
+        input.is-valid {
+            border-color: #1DB954; /* Verde para válido */
+        }
+        input.is-invalid {
+            border-color: #FF4D4D; /* Vermelho para inválido */
+        }
+        .checkbox-group.is-invalid {
+            border-color: #FF4D4D; /* Vermelho para grupo de checkboxes inválido */
+        }
+        .checkbox-group.is-valid {
+            border-color: #1DB954; /* Verde para grupo de checkboxes válido */
+        }
+
+        /* Sticky CTA para mobile */
+        .mobile-sticky-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #181818;
+            padding: 1rem;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
+            z-index: 998; /* Abaixo do chatbot */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        @media (min-width: 768px) {
+            .mobile-sticky-cta {
+                display: none; /* Esconde em desktop */
+            }
+        }
+        /* Estilo para a mensagem de agradecimento */
+        .thank-you-card {
+            display: none; /* Inicialmente oculto */
+            background-color: #1E1E1E;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .thank-you-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Botão "Voltar ao topo" */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #1DB954;
+            color: #000;
+            border-radius: 9999px;
+            padding: 0.75rem 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: scale(0);
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .scroll-to-top.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-[#181818] shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="https://www.cedbrasilia.com.br" class="text-3xl font-bold"><img src="../logo.svg" alt="CedBrasil" class="h-8 inline-block"></a>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="https://www.cedbrasilia.com.br" class="hover:text-spotify-green transition duration-300 text-lg">Voltar ao Início</a> <a href="https://ead.cedbrasilia.com.br" class="bg-spotify-green text-black px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a> </nav>
+            <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white" aria-label="Abrir menu móvel">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden bg-[#181818] py-2 border-t border-gray-700">
+            <a href="https://www.cedbrasilia.com.br" class="block px-6 py-3 hover:bg-[#282828] hover:text-spotify-green transition duration-300 text-lg">Voltar ao Início</a> <a href="https://ead.cedbrasilia.com.br" class="block mx-6 my-3 bg-spotify-green text-black text-center px-6 py-3 rounded-full hover-bg-spotify-green-darker transition duration-300 text-base font-semibold shadow-md">Área do Aluno</a> </div>
+    </header>
+
+    <main>
+        <div class="card fade-in-element" id="enrollmentCard">
+            <h1 class="text-3xl font-bold text-center mb-6">Garanta sua matrícula agora mesmo!</h1>
+            <p class="text-gray-300 text-center mb-8">Preencha seus dados para concluir sua matrícula.</p>
+
+            <form id="enrollmentForm">
+                <div class="form-group">
+                    <label for="nome">Nome completo</label>
+                    <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required aria-label="Nome Completo">
+                </div>
+                <div class="form-group">
+                    <label for="cpf">CPF</label>
+                    <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required aria-label="CPF">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Telefone (com DDD)</label>
+                    <input type="tel" id="phone" name="phone" placeholder="(XX) XXXXX-XXXX" required aria-label="Número de Telefone">
+                </div>
+                <button type="submit" id="submitButton" class="w-full bg-spotify-green text-black font-extrabold px-6 py-3 rounded-lg text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
+                    Pagar e Matricular <i class="fas fa-arrow-circle-right ml-2"></i>
+                </button>
+
+
+                <div class="flex justify-center items-center gap-4 mt-6 text-gray-500 text-sm">
+                    <i class="fas fa-lock text-xl spotify-green" aria-hidden="true"></i> <span>100% Seguro</span>
+                    <i class="fas fa-shield-alt text-xl spotify-green" aria-hidden="true"></i> <span>Dados Confidenciais</span>
+                    <i class="fas fa-certificate text-xl spotify-green" aria-hidden="true"></i> <span>SSL Certificado</span>
+                </div>
+
+                <div id="form-message" class="text-center mt-4 text-sm" role="alert" aria-live="polite"></div>
+            </form>
+        </div>
+
+    </main>
+
+    <div class="mobile-sticky-cta">
+        <button type="submit" form="enrollmentForm" class="w-full bg-spotify-green text-black font-extrabold px-6 py-3 rounded-lg text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg">
+            Matricule-se Agora!
+        </button>
+    </div>
+
+    <footer class="bg-[#0A0A0A] text-gray-400 py-12">
+        <div class="container mx-auto px-6 text-center">
+            <div class="mb-8">
+                <a href="https://www.cedbrasilia.com.br" class="text-3xl font-bold"><img src="../logo.svg" alt="CedBrasil" class="h-8 inline-block"></a>
+            </div>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6 mb-10">
+                <div class="flex space-x-6">
+                    <a href="https://www.facebook.com/people/CED-Brasil/61575889016332/" target="_blank" rel="noopener" class="hover:text-spotify-green transition duration-300" aria-label="Facebook"><i class="fab fa-facebook-f text-2xl"></i></a>
+                    <a href="https://instagram.com/cedbrasill" target="_blank" rel="noopener" class="hover:text-spotify-green transition duration-300" aria-label="Instagram"><i class="fab fa-instagram text-2xl"></i></a>
+                </div>
+                <p class="text-sm">Telefone: (61) 98666-0241</p>
+            </div>
+            <details class="max-w-4xl mx-auto text-left text-sm text-gray-300 mt-8 space-y-2 bg-gray-800/50 p-4 rounded-lg group">
+                <summary class="text-xl font-semibold text-white mb-2 cursor-pointer flex items-center justify-between">
+                    <span>📚 Políticas da CED BRASIL</span>
+                    <i class="fas fa-chevron-down transition-transform group-open:rotate-180"></i>
+                </summary>
+                <div class="mt-2 space-y-2">
+                    <p>Na CED BRASIL, acreditamos que a educação de qualidade começa com responsabilidade, transparência e compromisso com nossos alunos. Por isso, estruturamos nossas políticas para garantir uma experiência segura, acessível e ética para todos.</p>
+                    <p>🔐 Privacidade e Segurança<br>Todas as informações fornecidas por nossos alunos são tratadas com total confidencialidade. Utilizamos tecnologias seguras para proteger seus dados pessoais e garantir a integridade das transações realizadas em nossa plataforma.</p>
+                    <p>💳 Pagamentos e Assinaturas<br>Trabalhamos com o modelo de assinatura mensal recorrente, sem contrato de fidelidade. O cancelamento pode ser solicitado a qualquer momento, diretamente pela área do aluno ou pelo nosso suporte.</p>
+                    <p>🎓 Certificação<br>Todos os cursos oferecidos contam com certificado digital gratuito, válido em todo o território nacional, reconhecido para horas complementares, comprovação de qualificação e currículo.</p>
+                    <p>📅 Acesso aos Cursos<br>O aluno tem acesso imediato aos cursos após a confirmação do pagamento. Os conteúdos são 100% online, podendo ser acessados a qualquer hora, de qualquer lugar.</p>
+                    <p>🤝 Atendimento ao Aluno<br>Nosso suporte está disponível todos os dias para auxiliar com dúvidas, dificuldades técnicas ou solicitações administrativas. Prezamos por um atendimento rápido, humano e resolutivo.</p>
+                    <p>CED BRASIL – Educação acessível, moderna e comprometida com seu sucesso. Em caso de dúvidas, entre em contato com nossa equipe. Estamos aqui para você!</p>
+                </div>
+            </details>
+            <div class="border-t border-gray-700 pt-8 mt-8 text-center">
+                <p class="text-sm mb-2">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
+                <p class="text-xs mt-4">Desenvolvido com <i class="fas fa-heart spotify-green"></i> por @FurioNnzxT</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../matricularassas.js" defer></script>
+    <button id="scrollTopBtn" aria-label="Voltar ao topo" class="scroll-to-top">&#8679;</button>
+    <script>
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollBtn.classList.add('show');
+            } else {
+                scrollBtn.classList.remove('show');
+            }
+        });
+        scrollBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
