@@ -1,30 +1,46 @@
 <!DOCTYPE html>
-<html lang="pt-br" class="scroll-smooth">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CED BRASIL - Educação que Transforma</title>
-    
-    <!-- Tailwind CSS -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CED BRASIL - Transforme Seu Futuro com Educação de Qualidade</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Inter & Poppins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="icon" href="favicon.jpg" type="image/jpeg" />
-    
-    <!-- Custom Styles -->
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #121212; /* Fundo escuro principal */
-            color: #E5E7EB; /* cinza-200 */
+            background-color: #121212;
+            color: #E5E7EB;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+            pointer-events: none;
         }
 
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Poppins', sans-serif;
+        }
+
+        main {
+            flex-grow: 1;
         }
 
         .spotify-green {
@@ -34,16 +50,28 @@
         .bg-spotify-green {
             background-color: #1db954;
         }
-
-        .border-spotify-green {
-            border-color: #1db954;
-        }
         
         .hover-bg-spotify-green-darker:hover {
             background-color: #1aa34a;
         }
+        
+        .border-spotify-green {
+            border-color: #1db954;
+        }
 
-        /* Efeito de brilho para cards e botões no hover */
+        .card {
+            background-color: #181818;
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid #282828;
+            height: 100%;
+        }
+        
+        .card-glow {
+             will-change: transform, box-shadow; /* Otimização para animação */
+        }
+
         .card-glow:hover {
             transform: translateY(-5px);
             box-shadow: 0 0 25px 5px rgba(29, 185, 84, 0.25);
@@ -53,192 +81,272 @@
         .button-glow {
             transition: all 0.3s ease-in-out;
             box-shadow: 0 0 15px 2px rgba(29, 185, 84, 0.4);
+            will-change: transform, box-shadow; /* Otimização para animação */
         }
         
         .button-glow:hover {
             transform: translateY(-2px);
             box-shadow: 0 0 25px 5px rgba(29, 185, 84, 0.6);
         }
-        
-        /* Animação de entrada */
+
         .reveal {
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.8s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform; /* Otimização para animação */
         }
         
         .reveal.visible {
             opacity: 1;
             transform: translateY(0);
         }
+        
+        .testimonial-card {
+            background-color: #181818;
+            border-left: 4px solid #1db954;
+        }
 
+        #courses-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease-in-out, opacity 0.5s ease-in-out, margin-top 0.7s ease-in-out;
+            opacity: 0;
+            margin-top: 0;
+        }
+
+        #courses-container.expanded {
+            opacity: 1;
+            margin-top: 3rem; /* Adiciona espaço quando expandido */
+        }
+
+        #toggleCoursesBtn i {
+            transition: transform 0.3s ease-in-out;
+        }
+        
+         /* Tema claro */
+        body.light-theme {
+            filter: invert(1) hue-rotate(180deg);
+            background-color: #f0f0f0;
+        }
+        body.light-theme .keep-colors,
+        body.light-theme img,
+        body.light-theme iframe {
+            filter: invert(1) hue-rotate(180deg);
+        }
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #1db954;
+            color: #000;
+            border-radius: 9999px;
+            padding: 0.75rem 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            opacity: 0;
+            transform: scale(0);
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .scroll-to-top.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
     </style>
 </head>
 <body class="overflow-x-hidden">
 
-    <div class="container mx-auto px-6 py-4">
-
-        <!-- Header -->
-        <header class="flex justify-between items-center py-4">
-            <div class="text-3xl font-bold tracking-tighter text-white">
-                <a href="#">CED <span class="spotify-green">BRASIL</span></a>
-            </div>
+    <header class="bg-[#121212] py-4 sticky top-0 z-50 shadow-lg shadow-black/20">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="text-3xl font-bold tracking-tighter text-white">CED <span class="spotify-green">BRASIL</span></a>
             <nav class="hidden md:flex items-center space-x-8">
-                <a href="#recursos" class="hover:text-spotify-green transition-colors">Recursos</a>
-                <a href="#pacotes" class="hover:text-spotify-green transition-colors">Pacotes</a>
+                <a href="#sobre" class="hover:text-spotify-green transition-colors">Sobre Nós</a>
+                <a href="#cursos" class="hover:text-spotify-green transition-colors">Cursos</a>
                 <a href="#depoimentos" class="hover:text-spotify-green transition-colors">Depoimentos</a>
+                 <a href="https://ead.cedbrasilia.com.br" class="hidden md:inline-block bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
+                    Área do Aluno
+                </a>
+                 <a href="afiliados.html" class="hidden md:inline-block bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
+                    Seja Afiliado
+                </a>
             </nav>
-            <a href="#contato" class="hidden md:inline-block bg-spotify-green text-black font-semibold py-2 px-6 rounded-lg hover-bg-spotify-green-darker transition-colors">
-                Contato
-            </a>
-            <button id="mobileMenuButton" class="md:hidden text-white">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            </button>
-        </header>
-        <div id="mobileMenu" class="hidden md:hidden bg-[#181818] rounded-lg mt-4 p-4 text-center">
-            <a href="#recursos" class="block py-2 hover:text-spotify-green transition-colors">Recursos</a>
-            <a href="#pacotes" class="block py-2 hover:text-spotify-green transition-colors">Pacotes</a>
-            <a href="#depoimentos" class="block py-2 hover:text-spotify-green transition-colors">Depoimentos</a>
-            <a href="#contato" class="block mt-2 bg-spotify-green text-black font-semibold py-2 px-6 rounded-lg hover-bg-spotify-green-darker transition-colors">
-                Contato
-            </a>
+            <div class="flex items-center">
+                <button id="themeToggle" class="text-yellow-400 text-2xl mr-4" aria-label="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="mobileMenuButton" class="md:hidden text-white">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </div>
         </div>
+         <div id="mobileMenu" class="hidden md:hidden bg-[#181818] rounded-lg mt-4 mx-6 p-4 text-center">
+            <a href="#sobre" class="block py-2 hover:text-spotify-green transition-colors">Sobre Nós</a>
+            <a href="#cursos" class="block py-2 hover:text-spotify-green transition-colors">Cursos</a>
+            <a href="#depoimentos" class="block py-2 hover:text-spotify-green transition-colors">Depoimentos</a>
+            <a href="https://ead.cedbrasilia.com.br" class="block mt-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
+                Área do Aluno
+            </a>
+            <a href="afiliados.html" class="block mt-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
+                Seja Afiliado
+            </a>
+            <button id="mobileThemeToggle" class="block w-full text-center mt-4 py-2 text-yellow-400 text-lg" aria-label="Alternar tema">
+                <i class="fas fa-moon"></i> Tema
+            </button>
+        </div>
+    </header>
 
-
-        <!-- Hero Section -->
-        <main class="text-center py-20 md:py-32 reveal">
+    <main>
+        <section id="hero" class="text-center py-20 md:py-32 px-6 reveal">
             <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight mb-6">
-                Educação de Qualidade que <br>
-                <span class="spotify-green">Transforma o Seu Futuro Profissional</span>.
+                Educação de Qualidade que <br> 
+                <span class="spotify-green">Transforma o Seu Futuro</span>.
             </h1>
-            <p class="text-lg md:text-xl max-w-2xl mx-auto text-gray-300 mb-10">
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 mb-10">
                 Capacitamos você com o conhecimento e as habilidades essenciais para dominar o mercado de trabalho e construir a carreira dos seus sonhos.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-                <a href="#pacotes" class="w-full sm:w-auto button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full hover-bg-spotify-green-darker">
-                    Quero me Inscrever
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="assinatura.html" class="w-full sm:w-auto inline-block button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full hover-bg-spotify-green-darker">
+                    Me Matricular Agora
                 </a>
-                <a href="#contato" class="w-full sm:w-auto bg-transparent border-2 border-spotify-green text-spotify-green hover:bg-spotify-green hover:text-black font-semibold py-3 px-8 rounded-full transition-colors">
+                <a href="#contato" class="w-full sm:w-auto inline-block bg-transparent border-2 border-spotify-green text-spotify-green font-semibold py-3 px-8 rounded-full hover:bg-spotify-green hover:text-black transition-colors">
                     Fale com um Consultor
                 </a>
             </div>
-        </main>
+        </section>
 
-        <!-- Features Section -->
-        <section id="recursos" class="py-20 reveal">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold tracking-tighter">O que está incluso na sua assinatura</h2>
-                <p class="text-lg text-gray-400 mt-2">Recursos essenciais para o seu desenvolvimento.</p>
-            </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Feature 1 -->
-                <div class="card-glow bg-[#181818] p-8 rounded-2xl transition-all duration-300">
-                    <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                        <i class="fas fa-lightbulb text-xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Inovação</h3>
-                    <p class="text-gray-400">Conteúdo sempre atualizado com as últimas tendências do mercado.</p>
+        <section id="sobre" class="py-20 px-6 reveal">
+            <div class="container mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold tracking-tighter">Quem <span class="spotify-green">Somos</span></h2>
+                    <p class="text-lg text-gray-400 mt-2">Construindo pontes para o seu sucesso através de uma educação de excelência.</p>
                 </div>
-                <!-- Feature 2 -->
-                <div class="card-glow bg-[#181818] p-8 rounded-2xl transition-all duration-300">
-                     <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                        <i class="fas fa-handshake text-xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Compromisso</h3>
-                    <p class="text-gray-400">Dedicados ao seu sucesso, oferecendo suporte contínuo e personalizado.</p>
+                 <div class="text-center max-w-3xl mx-auto mb-12">
+                    <h3 class="text-3xl font-bold mb-4 spotify-green">Nossa Missão</h3>
+                    <p class="text-gray-300 leading-relaxed text-lg">
+                        Capacitar indivíduos com conhecimento e habilidades inovadoras, promovendo o desenvolvimento pessoal e profissional para que alcancem seus objetivos e contribuam positivamente para a sociedade.
+                    </p>
                 </div>
-                <!-- Feature 3 -->
-                <div class="card-glow bg-[#181818] p-8 rounded-2xl transition-all duration-300">
-                    <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                        <i class="fas fa-users text-xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Comunidade</h3>
-                    <p class="text-gray-400">Uma rede de apoio e colaboração entre alunos e professores.</p>
+                 <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h3 class="text-3xl font-bold mb-4 spotify-green">Nossa Visão</h3>
+                    <p class="text-gray-300 leading-relaxed text-lg">
+                        Ser a principal referência em educação online no Brasil, reconhecida pela qualidade de ensino, inovação pedagógica e pelo impacto transformador na vida de nossos alunos.
+                    </p>
                 </div>
-                <!-- Feature 4 -->
-                 <div class="card-glow bg-[#181818] p-8 rounded-2xl transition-all duration-300">
-                    <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                        <i class="fas fa-award text-xl"></i>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="card card-glow text-center">
+                        <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-16 h-16 rounded-full flex items-center justify-center mb-4 text-3xl mx-auto"><i class="fas fa-lightbulb"></i></div>
+                        <h3 class="text-2xl font-bold mb-2">Inovação</h3>
+                        <p class="text-gray-400">Conteúdo sempre atualizado com as últimas tendências do mercado.</p>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">Excelência</h3>
-                    <p class="text-gray-400">Padrões de ensino rigorosos para garantir a melhor formação para você.</p>
+                     <div class="card card-glow text-center">
+                        <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-16 h-16 rounded-full flex items-center justify-center mb-4 text-3xl mx-auto"><i class="fas fa-handshake"></i></div>
+                        <h3 class="text-2xl font-bold mb-2">Compromisso</h3>
+                        <p class="text-gray-400">Dedicados ao seu sucesso, oferecendo suporte contínuo e personalizado.</p>
+                    </div>
+                    <div class="card card-glow text-center">
+                        <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-16 h-16 rounded-full flex items-center justify-center mb-4 text-3xl mx-auto"><i class="fas fa-users"></i></div>
+                        <h3 class="text-2xl font-bold mb-2">Comunidade</h3>
+                        <p class="text-gray-400">Uma rede de apoio e colaboração entre alunos e professores.</p>
+                    </div>
+                    <div class="card card-glow text-center">
+                        <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-16 h-16 rounded-full flex items-center justify-center mb-4 text-3xl mx-auto"><i class="fas fa-award"></i></div>
+                        <h3 class="text-2xl font-bold mb-2">Excelência</h3>
+                        <p class="text-gray-400">Padrões de ensino rigorosos para garantir a melhor formação.</p>
+                    </div>
                 </div>
             </div>
         </section>
-
-        <!-- Pricing Section -->
-        <section id="pacotes" class="py-20 reveal">
-             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold tracking-tighter">Um Plano Simples e Acessível</h2>
-                <p class="text-lg text-gray-400 mt-2">Acesso ilimitado a todos os nossos cursos por um preço único.</p>
-            </div>
-            <div class="flex justify-center">
-                <!-- Pricing Plan 2: Pro -->
-                <div class="bg-[#181818] border-2 border-spotify-green p-8 rounded-2xl flex flex-col shadow-2xl shadow-spotify-green/20 relative max-w-sm w-full">
-                     <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-spotify-green text-black text-xs font-bold px-3 py-1 rounded-full uppercase">Mais Popular</span>
-                    <h3 class="text-2xl font-bold mb-2 text-spotify-green">Assinatura Completa</h3>
-                    <p class="text-gray-400 mb-6">Acesso total a todos os cursos.</p>
-                     <p class="text-4xl font-bold mb-6 text-white">R$29<span class="text-lg font-normal text-gray-400">,99/mês</span></p>
-                    <ul class="space-y-4 text-gray-300 flex-grow">
-                        <li class="flex items-center"><svg class="w-5 h-5 text-spotify-green mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Acesso a +20 cursos</li>
-                        <li class="flex items-center"><svg class="w-5 h-5 text-spotify-green mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Novos cursos todo mês</li>
-                        <li class="flex items-center"><svg class="w-5 h-5 text-spotify-green mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Certificados para todos os cursos</li>
-                        <li class="flex items-center"><svg class="w-5 h-5 text-spotify-green mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Cancele quando quiser</li>
+        
+        <section id="cursos" class="py-20 px-6 bg-[#181818] reveal">
+            <div class="container mx-auto">
+                 <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold tracking-tighter">Nossa <span class="spotify-green">Assinatura</span></h2>
+                    <p class="text-lg text-gray-400 mt-2">Acesso ilimitado a todos os nossos cursos por um preço único.</p>
+                </div>
+                
+                <div class="max-w-2xl mx-auto bg-[#121212] border-2 border-spotify-green rounded-2xl p-8 shadow-2xl shadow-spotify-green/20">
+                    <h3 class="text-3xl font-bold text-center mb-2">Plano Completo</h3>
+                    <p class="text-center text-5xl font-extrabold spotify-green mb-4">R$29<span class="text-3xl font-bold text-gray-400">,99/mês</span></p>
+                    <ul class="space-y-3 text-gray-300 my-8">
+                        <li class="flex items-center"><i class="fas fa-check-circle text-spotify-green mr-3"></i> Acesso a todos os cursos</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-spotify-green mr-3"></i> Novos cursos adicionados mensalmente</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-spotify-green mr-3"></i> Certificado de conclusão para todos</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-spotify-green mr-3"></i> Cancele quando quiser, sem burocracia</li>
                     </ul>
-                    <a href="https://www.cedbrasilia.com.br/assinatura" class="button-glow mt-8 w-full text-center bg-spotify-green text-black font-bold py-3 rounded-lg hover-bg-spotify-green-darker">
-                        Assinar Agora
+                     <a href="assinatura.html" class="block w-full text-center button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full hover-bg-spotify-green-darker">
+                        Garantir Minha Vaga
                     </a>
                 </div>
-            </div>
-        </section>
 
-        <!-- Testimonials Section -->
-        <section id="depoimentos" class="py-20 reveal">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold tracking-tighter">Amado por alunos que decolaram</h2>
-                <p class="text-lg text-gray-400 mt-2">Veja o que nossos alunos estão dizendo.</p>
-            </div>
-            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="card-glow bg-[#181818] p-8 rounded-2xl transition-all duration-300">
-                    <p class="text-gray-300 italic mb-6">"O curso de Desenvolvimento Web foi um divisor de águas na minha carreira. A didática é excelente e o suporte é incomparável. Hoje, sou um desenvolvedor realizado!"</p>
-                    <div class="flex items-center">
-                        <img src="https://placehold.co/48x48/1DB954/000000?text=JA" alt="Avatar de João Almeida" class="w-12 h-12 rounded-full mr-4">
-                        <div>
-                            <p class="font-bold text-white">João Almeida</p>
-                            <p class="text-sm text-gray-400">Desenvolvedor Full Stack</p>
-                        </div>
-                    </div>
+                <div class="text-center mt-12">
+                    <button id="toggleCoursesBtn" class="bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors">
+                        Ver todos os cursos incluídos <i class="fas fa-chevron-down ml-2 transition-transform"></i>
+                    </button>
                 </div>
-                 <div class="card-glow bg-[#181818] p-8 rounded-2xl transition-all duration-300">
-                    <p class="text-gray-300 italic mb-6">"Finalmente encontrei um curso de design que me ensinou a pensar como um UX/UI designer de verdade. O portfólio que construí aqui me abriu portas para grandes projetos."</p>
-                    <div class="flex items-center">
-                        <img src="https://placehold.co/48x48/1DB954/000000?text=MP" alt="Avatar de Maria Pereira" class="w-12 h-12 rounded-full mr-4">
-                        <div>
-                            <p class="font-bold text-white">Maria Pereira</p>
-                            <p class="text-sm text-gray-400">Designer UX/UI</p>
-                        </div>
+
+                <div id="courses-container">
+                     <div class="flex flex-wrap justify-center gap-4 my-8">
+                        <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold active-filter" data-filter="all">Todos</button>
+                        <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="tecnologia">Tecnologia</button>
+                        <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="administracao">Administração</button>
+                        <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="design">Design</button>
+                        <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="idiomas">Idiomas</button>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="course-list">
+                        <!-- Cursos serão inseridos aqui pelo JavaScript -->
                     </div>
                 </div>
             </div>
         </section>
 
-         <!-- Contact Section -->
-        <section id="contato" class="py-20 reveal">
-             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold tracking-tighter">Vamos Conversar?</h2>
-                <p class="text-lg text-gray-400 mt-2">Estamos prontos para tirar suas dúvidas e ajudar você a começar.</p>
+        <section id="depoimentos" class="py-20 px-6 reveal">
+             <div class="container mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold tracking-tighter">O Que Nossos <span class="spotify-green">Alunos Dizem</span></h2>
+                    <p class="text-lg text-gray-400 mt-2">Histórias reais de sucesso e transformação que inspiram nossa comunidade.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="card testimonial-card p-8">
+                        <div class="flex items-center mb-4 text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="text-gray-300 italic mb-6">"O curso de Desenvolvimento Web foi um divisor de águas na minha carreira. A didática é excelente e o suporte é incomparável. Hoje, sou um desenvolvedor realizado!"</p>
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/48x48/1DB954/121212?text=JA" alt="Avatar de João Almeida" class="w-12 h-12 rounded-full mr-4 keep-colors">
+                            <div>
+                                <p class="font-bold text-white">João Almeida</p>
+                                <p class="text-sm text-gray-400">Desenvolvedor Full Stack</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="card testimonial-card p-8">
+                        <div class="flex items-center mb-4 text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="text-gray-300 italic mb-6">"Finalmente encontrei um curso de design que me ensinou a pensar como um UX/UI designer de verdade. O portfólio que construí aqui me abriu portas para grandes projetos."</p>
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/48x48/1DB954/121212?text=MP" alt="Avatar de Maria Pereira" class="w-12 h-12 rounded-full mr-4 keep-colors">
+                            <div>
+                                <p class="font-bold text-white">Maria Pereira</p>
+                                <p class="text-sm text-gray-400">Designer UX/UI</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="max-w-md mx-auto card-glow bg-[#181818] p-8 rounded-2xl transition-all duration-300">
-                <p class="text-center text-gray-300 mb-6">Clique no botão abaixo para falar com um de nossos consultores educacionais diretamente pelo WhatsApp.</p>
-                 <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="button-glow w-full flex items-center justify-center gap-3 bg-spotify-green text-black font-bold py-3 px-8 rounded-full hover-bg-spotify-green-darker">
-                    <i class="fab fa-whatsapp text-xl"></i>
-                    Chamar no WhatsApp
+        </section>
+
+        <section id="contato" class="py-20 px-6 text-center bg-[#181818] reveal">
+            <div class="container mx-auto">
+                 <h2 class="text-4xl font-bold tracking-tighter">Pronto para Começar?</h2>
+                 <p class="text-lg text-gray-400 mt-2 mb-8 max-w-2xl mx-auto">Fale com nossa equipe de especialistas e descubra como podemos ajudar você a alcançar seus objetivos.</p>
+                 <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="inline-block button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full hover-bg-spotify-green-darker">
+                    <i class="fab fa-whatsapp mr-2"></i> Falar com Consultor
                 </a>
             </div>
         </section>
+    </main>
 
-        <!-- Footer -->
-        <footer class="text-center py-12 border-t border-gray-800 mt-12">
+    <footer class="text-center py-8 border-t border-gray-800">
+        <div class="container mx-auto px-6">
              <div class="text-2xl font-bold tracking-tighter mb-4 text-white">
                 <a href="#">CED <span class="spotify-green">BRASIL</span></a>
             </div>
@@ -248,13 +356,54 @@
                  <a href="https://instagram.com/cedbrasill" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-instagram text-lg"></i></a>
                  <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-whatsapp text-lg"></i></a>
              </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
     
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    <button id="scrollTopBtn" aria-label="Voltar ao topo" class="scroll-to-top">&#8679;</button>
 
-        // Animação de revelação ao rolar a página
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Mobile Menu
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        document.querySelectorAll('#mobileMenu a, nav a[href^="#"]').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Theme Toggle
+        function applyTheme(isLight) {
+            document.body.classList.toggle('light-theme', isLight);
+            const icons = document.querySelectorAll('#themeToggle i, #mobileThemeToggle i');
+            icons.forEach(icon => {
+                icon.classList.toggle('fa-moon', !isLight);
+                icon.classList.toggle('fa-sun', isLight);
+            });
+        }
+        const storedTheme = localStorage.getItem('theme') === 'light';
+        applyTheme(storedTheme);
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const isLight = !document.body.classList.contains('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            applyTheme(isLight);
+        });
+        document.getElementById('mobileThemeToggle')?.addEventListener('click', () => {
+            const isLight = !document.body.classList.contains('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            applyTheme(isLight);
+        });
+
+        // Current Year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Reveal Animation
         const revealElements = document.querySelectorAll('.reveal');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -263,35 +412,87 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, {
-            threshold: 0.1
+        }, { threshold: 0.1 });
+        revealElements.forEach(el => observer.observe(el));
+        
+        // Scroll to top button
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) scrollBtn.classList.add('show');
+            else scrollBtn.classList.remove('show');
         });
+        scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        
+        // Course Data and Filtering
+        const courses = [
+            { name: "Desenvolvimento de Apps Mobile", category: "tecnologia", duration: "12 meses" },
+            { name: "Ciência de Dados para Iniciantes", category: "tecnologia", duration: "10 meses" },
+            { name: "Marketing de Mídias Sociais", category: "administracao", duration: "6 meses" },
+            { name: "Fotografia Digital Profissional", category: "design", duration: "7 meses" },
+            { name: "Espanhol do Zero à Fluência", category: "idiomas", duration: "8 meses" },
+            { name: "Empreendedorismo na Prática", category: "administracao", duration: "5 meses" },
+            { name: "Excel PRO", category: "tecnologia", duration: "12 meses" },
+            { name: "Design Gráfico", category: "design", duration: "10 meses" },
+            { name: "Analista e Dev de Sistemas", category: "tecnologia", duration: "18 meses" },
+            { name: "Administração", category: "administracao", duration: "8 meses" },
+            { name: "Inglês Fluente", category: "idiomas", duration: "12 meses" },
+            { name: "Inglês Kids", category: "idiomas", duration: "6 meses" },
+            { name: "Informática Essencial", category: "tecnologia", duration: "6 meses" },
+            { name: "Operador de Micro", category: "tecnologia", duration: "8 meses" },
+            { name: "Marketing & Vendas 360º", category: "administracao", duration: "12 meses" },
+            { name: "Marketing Digital", category: "administracao", duration: "8 meses" },
+            { name: "Pacote Office", category: "tecnologia", duration: "6 meses" }
+        ];
 
-        revealElements.forEach(el => {
-            observer.observe(el);
-        });
-        
-        // Menu Mobile
-        const mobileMenuButton = document.getElementById("mobileMenuButton");
-        const mobileMenu = document.getElementById("mobileMenu");
-        mobileMenuButton.addEventListener("click", () => {
-            mobileMenu.classList.toggle("hidden");
-        });
-        
-        // Fechar menu ao clicar no link
-        document.querySelectorAll('#mobileMenu a, nav a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                if (link.getAttribute('href').startsWith('#')) {
-                    if(!mobileMenu.classList.contains('hidden')){
-                        mobileMenu.classList.add('hidden');
-                    }
-                }
+        const courseListContainer = document.getElementById('course-list');
+        const filterButtons = document.querySelectorAll('[data-filter]');
+        const toggleCoursesBtn = document.getElementById('toggleCoursesBtn');
+        const coursesContainer = document.getElementById('courses-container');
+
+        const renderCourses = (filter = 'all') => {
+            courseListContainer.innerHTML = '';
+            const filteredCourses = courses.filter(course => filter === 'all' || course.category === filter);
+
+            filteredCourses.forEach(course => {
+                const courseCard = `
+                    <div class="card card-glow course-item" data-category="${course.category}">
+                        <h3 class="text-2xl font-bold mb-2 spotify-green">${course.name}</h3>
+                        <p class="text-gray-400">Duração: ${course.duration}</p>
+                    </div>
+                `;
+                courseListContainer.insertAdjacentHTML('beforeend', courseCard);
+            });
+        };
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active-filter', 'bg-spotify-green', 'text-black'));
+                button.classList.add('active-filter', 'bg-spotify-green', 'text-black');
+                renderCourses(button.dataset.filter);
             });
         });
+        
+        toggleCoursesBtn.addEventListener('click', () => {
+            const icon = toggleCoursesBtn.querySelector('i');
+            const isExpanded = coursesContainer.classList.toggle('expanded');
+            
+            if (isExpanded) {
+                coursesContainer.style.maxHeight = coursesContainer.scrollHeight + 'px';
+                toggleCoursesBtn.innerHTML = 'Ocultar cursos <i class="fas fa-chevron-up ml-2 transition-transform"></i>';
+                toggleCoursesBtn.querySelector('i').style.transform = 'rotate(180deg)';
 
-        // Current Year
-        document.getElementById("currentYear").textContent = new Date().getFullYear();
+            } else {
+                coursesContainer.style.maxHeight = '0px';
+                toggleCoursesBtn.innerHTML = 'Ver todos os cursos incluídos <i class="fas fa-chevron-down ml-2 transition-transform"></i>';
+                 toggleCoursesBtn.querySelector('i').style.transform = 'rotate(0deg)';
+            }
+        });
+        
+        // Initial Render
+        document.querySelector('[data-filter="all"]').classList.add('active-filter', 'bg-spotify-green', 'text-black');
+        renderCourses();
     });
-    </script>
+</script>
+
 </body>
 </html>
