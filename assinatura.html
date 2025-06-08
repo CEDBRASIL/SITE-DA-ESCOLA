@@ -29,6 +29,22 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+            pointer-events: none;
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -65,6 +81,10 @@
             border: 1px solid #282828;
         }
         
+        .card-glow {
+            will-change: transform, box-shadow;
+        }
+        
         .card-glow:hover {
             transform: translateY(-5px);
             box-shadow: 0 0 25px 5px rgba(29, 185, 84, 0.25);
@@ -74,6 +94,7 @@
         .button-glow {
             transition: all 0.3s ease-in-out;
             box-shadow: 0 0 15px 2px rgba(29, 185, 84, 0.4);
+            will-change: transform, box-shadow;
         }
         
         .button-glow:hover {
@@ -137,12 +158,10 @@
 </head>
 <body class="overflow-x-hidden">
 
-    <header class="bg-[#121212] py-4">
+    <header class="bg-[#121212] py-4 sticky top-0 z-50 shadow-lg shadow-black/20">
         <div class="container mx-auto px-6 flex justify-between items-center">
-            <div class="text-3xl font-bold tracking-tighter text-white">
-                <a href="index.html">CED <span class="spotify-green">BRASIL</span></a>
-            </div>
-             <a href="index.html" class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
+             <a href="index.html" class="text-3xl font-bold tracking-tighter text-white">CED <span class="spotify-green">BRASIL</span></a>
+            <a href="index.html" class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
                 Voltar ao Início
             </a>
         </div>
@@ -244,7 +263,7 @@
                         const checkboxId = `course-${courseName.replace(/\s+/g, '-').replace(/[^\w-]/g, '')}`;
                         const checkboxHtml = `
                             <label for="${checkboxId}" class="flex items-center cursor-pointer p-2 rounded-md hover:bg-gray-700 transition-colors">
-                                <input type="checkbox" id="${checkboxId}" name="cursos" value="${courseName}" class="w-5 h-5 mr-3 rounded-md bg-gray-600 border-gray-500 text-spotify-green focus:ring-spotify-green">
+                                <input type="checkbox" id="${checkboxId}" name="cursos" value="${courseName}" class="w-5 h-5 mr-3 rounded-md bg-gray-600 border-gray-500 text-spotify-green focus:ring-spotify-green focus:ring-offset-0">
                                 <span>${courseName}</span>
                             </label>`;
                         cursosCheckboxesDiv.insertAdjacentHTML('beforeend', checkboxHtml);
@@ -282,7 +301,7 @@
             enrollmentForm.addEventListener('input', (e) => {
                 if(e.target.type === 'checkbox') {
                     validateCoursesSelection();
-                } else {
+                } else if (e.target.tagName === 'INPUT') {
                     validateField(e.target);
                 }
             });
