@@ -356,6 +356,9 @@
                  <a href="https://instagram.com/cedbrasill" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-instagram text-lg"></i></a>
                  <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-whatsapp text-lg"></i></a>
              </div>
+             <p class="text-xs text-gray-500 mt-6">
+                Feito com <i class="fas fa-heart spotify-green"></i> por @FurioNnzxT | <a href="http://www.encrypthost.com.br" target="_blank" rel="noopener" class="hover:text-spotify-green underline">Acesse www.encrypthost.com.br</a>
+             </p>
         </div>
     </footer>
     
@@ -478,13 +481,13 @@
             
             if (isExpanded) {
                 coursesContainer.style.maxHeight = coursesContainer.scrollHeight + 'px';
-                toggleCoursesBtn.innerHTML = 'Ocultar cursos <i class="fas fa-chevron-up ml-2 transition-transform"></i>';
-                toggleCoursesBtn.querySelector('i').style.transform = 'rotate(180deg)';
+                icon.style.transform = 'rotate(180deg)';
+                toggleCoursesBtn.childNodes[0].nodeValue = 'Ocultar cursos ';
 
             } else {
                 coursesContainer.style.maxHeight = '0px';
-                toggleCoursesBtn.innerHTML = 'Ver todos os cursos incluídos <i class="fas fa-chevron-down ml-2 transition-transform"></i>';
-                 toggleCoursesBtn.querySelector('i').style.transform = 'rotate(0deg)';
+                icon.style.transform = 'rotate(0deg)';
+                toggleCoursesBtn.childNodes[0].nodeValue = 'Ver todos os cursos incluídos ';
             }
         });
         
