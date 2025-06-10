@@ -205,9 +205,8 @@
         async function deleteAluno(id) {
             if (!confirm('Deseja realmente deletar este aluno?')) return;
             try {
-                const resp = await fetch(`https://meuappdecursos.com.br/ws/v2/alunos/${id}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Basic ${BASIC_B64}` }
+                const resp = await fetch(`https://api.cedbrasilia.com.br/deletar/${id}`, {
+                    method: 'DELETE'
                 });
                 if (!resp.ok) throw new Error('Falha ao excluir');
                 fetchAlunos();
@@ -221,9 +220,8 @@
             if (selecionados.length === 0) return;
             if (!confirm('Deseja realmente deletar os alunos selecionados?')) return;
             try {
-                await Promise.all(selecionados.map(id => fetch(`https://meuappdecursos.com.br/ws/v2/alunos/${id}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Basic ${BASIC_B64}` }
+                await Promise.all(selecionados.map(id => fetch(`https://api.cedbrasilia.com.br/deletar/${id}`, {
+                    method: 'DELETE'
                 })));
                 fetchAlunos();
             } catch (err) {
