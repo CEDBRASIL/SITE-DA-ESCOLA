@@ -97,7 +97,9 @@
                 </div>
             </main>
         </div>
-        <div id="acoes-drawer" class="hidden fixed bottom-0 left-0 right-0 bg-gray-900 p-4 flex justify-end">
+        <div id="acoes-drawer" class="hidden fixed bottom-0 left-0 right-0 bg-gray-900 p-4 flex flex-wrap justify-end space-x-2">
+            <button id="bloquear-selecionados" class="bg-yellow-600 text-white px-4 py-2 rounded">Bloquear Selecionados</button>
+            <button id="desbloquear-selecionados" class="bg-green-600 text-white px-4 py-2 rounded">Desbloquear Selecionados</button>
             <button id="excluir-selecionados" class="bg-red-600 text-white px-4 py-2 rounded">Excluir Selecionados</button>
         </div>
     </div>
@@ -139,6 +141,8 @@
         const buscarAlunos = document.getElementById('buscar-alunos');
         const selectAll = document.getElementById('select-all');
         const acoesDrawer = document.getElementById('acoes-drawer');
+        const bloquearSelecionados = document.getElementById('bloquear-selecionados');
+        const desbloquearSelecionados = document.getElementById('desbloquear-selecionados');
         const excluirSelecionados = document.getElementById('excluir-selecionados');
 
         form.addEventListener('submit', function(e) {
@@ -161,6 +165,8 @@
 
         buscarAlunos.addEventListener('click', fetchAlunos);
         excluirSelecionados.addEventListener('click', deleteSelecionados);
+        bloquearSelecionados.addEventListener('click', () => updateSelecionados(1));
+        desbloquearSelecionados.addEventListener('click', () => updateSelecionados(0));
         selectAll.addEventListener('change', () => {
             document.querySelectorAll('.select-aluno').forEach(cb => cb.checked = selectAll.checked);
             updateDrawer();
@@ -183,13 +189,21 @@
                             <td class="px-4 py-2">${aluno.id}</td>
                             <td class="px-4 py-2">${aluno.nome}</td>
                             <td class="px-4 py-2">${aluno.email}</td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 space-x-1">
+                                <button data-id="${aluno.id}" class="block-aluno bg-yellow-600 text-white px-2 py-1 rounded">Bloquear</button>
+                                <button data-id="${aluno.id}" class="unblock-aluno bg-green-600 text-white px-2 py-1 rounded">Desbloquear</button>
                                 <button data-id="${aluno.id}" class="delete-aluno bg-red-600 text-white px-2 py-1 rounded">Excluir</button>
                             </td>
                         </tr>
                     `).join('');
                     document.querySelectorAll('.delete-aluno').forEach(btn => {
                         btn.addEventListener('click', () => deleteAluno(btn.getAttribute('data-id')));
+                    });
+                    document.querySelectorAll('.block-aluno').forEach(btn => {
+                        btn.addEventListener('click', () => updateAluno(btn.getAttribute('data-id'), 1));
+                    });
+                    document.querySelectorAll('.unblock-aluno').forEach(btn => {
+                        btn.addEventListener('click', () => updateAluno(btn.getAttribute('data-id'), 0));
                     });
                     document.querySelectorAll('.select-aluno').forEach(cb => {
                         cb.addEventListener('change', updateDrawer);
@@ -215,6 +229,18 @@
             }
         }
 
+        async function updateAluno(id, status) {
+            try {
+                const resp = await fetch(`https://api.cedbrasilia.com.br/bloquear/${id}?status=${status}`, {
+                    method: 'POST'
+                });
+                if (!resp.ok) throw new Error('Falha ao atualizar');
+                fetchAlunos();
+            } catch (err) {
+                alert('Erro ao atualizar aluno.');
+            }
+        }
+
         async function deleteSelecionados() {
             const selecionados = Array.from(document.querySelectorAll('.select-aluno:checked')).map(cb => cb.getAttribute('data-id'));
             if (selecionados.length === 0) return;
@@ -226,6 +252,19 @@
                 fetchAlunos();
             } catch (err) {
                 alert('Erro ao deletar alunos.');
+            }
+        }
+
+        async function updateSelecionados(status) {
+            const selecionados = Array.from(document.querySelectorAll('.select-aluno:checked')).map(cb => cb.getAttribute('data-id'));
+            if (selecionados.length === 0) return;
+            try {
+                await Promise.all(selecionados.map(id => fetch(`https://api.cedbrasilia.com.br/bloquear/${id}?status=${status}`, {
+                    method: 'POST'
+                })));
+                fetchAlunos();
+            } catch (err) {
+                alert('Erro ao atualizar alunos.');
             }
         }
 
