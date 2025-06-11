@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CED BRASIL - Pagar e Matricular</title>
+
+    <meta name="description" content="Preencha seus dados para concluir sua matrícula e pagamento.">
+    <meta property="og:title" content="CED BRASIL - Matrícula Online">
+    <meta property="og:description" content="Preencha seus dados e finalize sua matrícula na CED BRASIL.">
+    <meta property="og:image" content="https://placehold.co/1200x630/1DB954/000000">
+    <meta property="og:url" content="https://www.seusite.com.br/matricularassas.html">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="icon" href="favicon.jpg" type="image/jpeg" />
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212;
+            color: #E5E7EB;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .spotify-green {
+            color: #1db954;
+        }
+
+        .bg-spotify-green {
+            background-color: #1db954;
+        }
+        
+        .hover-bg-spotify-green-darker:hover {
+            background-color: #1aa34a;
+        }
+
+        .card {
+            background-color: #181818;
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid #282828;
+            will-change: transform, box-shadow;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px 5px rgba(29, 185, 84, 0.25);
+            border-color: rgba(29, 185, 84, 0.4);
+        }
+        
+        .form-control {
+            background-color: #282828;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            background-color: #333;
+            border-color: #1db954;
+            box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.3);
+            outline: none;
+        }
+        
+        .button-glow {
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 15px 2px rgba(29, 185, 84, 0.4);
+            will-change: transform, box-shadow;
+        }
+        
+        .button-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px 5px rgba(29, 185, 84, 0.6);
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <header class="bg-[#121212] py-4 sticky top-0 z-50 shadow-lg shadow-black/20">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="text-3xl font-bold tracking-tighter text-white">CED <span class="spotify-green">BRASIL</span></a>
+            <a href="index.html" class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
+                Voltar ao Início
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="card mx-auto" id="enrollmentCard">
+            <h1 class="text-3xl md:text-4xl font-bold text-center mb-4">Finalize sua Matrícula</h1>
+            <p class="text-gray-400 text-center mb-8">Preencha seus dados para ser direcionado ao pagamento.</p>
+
+            <form id="enrollmentForm" novalidate>
+                <div class="mb-4">
+                    <label for="nome" class="block mb-2 font-semibold">Nome completo</label>
+                    <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required class="form-control w-full p-3 rounded-lg text-white">
+                </div>
+                <div class="mb-4">
+                    <label for="cpf" class="block mb-2 font-semibold">CPF</label>
+                    <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required class="form-control w-full p-3 rounded-lg text-white">
+                </div>
+                <div class="mb-6">
+                    <label for="phone" class="block mb-2 font-semibold">Telefone (com DDD)</label>
+                    <input type="tel" id="phone" name="phone" placeholder="(XX) XXXXX-XXXX" required class="form-control w-full p-3 rounded-lg text-white">
+                </div>
+
+                <button type="submit" id="submitButton" class="w-full button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full text-lg hover-bg-spotify-green-darker">
+                    Pagar e Matricular
+                </button>
+                 <div class="flex justify-center items-center gap-4 mt-6 text-gray-500 text-sm">
+                    <i class="fas fa-lock text-lg spotify-green"></i> <span>Pagamento 100% Seguro</span>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="text-center py-8 border-t border-gray-800 mt-auto">
+        <div class="container mx-auto px-6">
+            <div class="text-2xl font-bold tracking-tighter mb-4 text-white">
+                <a href="#">CED <span class="spotify-green">BRASIL</span></a>
+            </div>
+            <p class="text-gray-400">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
+             <div class="flex justify-center space-x-6 mt-4">
+                 <a href="https://www.facebook.com/people/CED-Brasil/61575889016332/" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-facebook-f text-lg"></i></a>
+                 <a href="https://instagram.com/cedbrasill" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-instagram text-lg"></i></a>
+                 <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-whatsapp text-lg"></i></a>
+             </div>
+        </div>
+    </footer>
+
+    <script src="matricularassas.js" defer></script>
+</body>
+</html>
