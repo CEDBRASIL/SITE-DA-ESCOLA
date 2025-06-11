@@ -206,11 +206,11 @@
 
                 // Cria o objeto com os dados para enviar à API
                 const dadosMatricula = {
-                    name: nome,
-                    cpfCnpj: cpf,
+                    nome: nome,
+                    cpf: cpf,
                     phone: telefone
                 };
-                
+
                 try {
                     // Envia os dados para o endpoint usando fetch (método POST)
                     // Nota: O endpoint '/matricularasaas' é um placeholder e deve existir no seu backend.
