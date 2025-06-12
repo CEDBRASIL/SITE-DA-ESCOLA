@@ -113,6 +113,18 @@
         .status-message {
             transition: opacity 0.3s ease-in-out;
         }
+
+        .course-checkboxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .course-checkboxes label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
     </style>
 </head>
 <body class="overflow-x-hidden">
@@ -144,6 +156,10 @@
                     <div class="mb-6">
                         <label for="phone" class="block mb-2 font-semibold">Telefone (com DDD)</label>
                         <input type="tel" id="phone" name="phone" placeholder="(XX) XXXXX-XXXX" required class="form-control w-full p-3 rounded-lg text-white">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block mb-2 font-semibold">Cursos</label>
+                        <div id="coursesContainer" class="course-checkboxes text-sm"></div>
                     </div>
 
                     <button type="submit" id="submitButton" class="w-full button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full text-lg hover-bg-spotify-green-darker">
@@ -180,6 +196,38 @@
             const enrollmentForm = document.getElementById('enrollmentForm');
             const submitButton = document.getElementById('submitButton');
             const statusMessage = document.getElementById('status-message');
+            const coursesContainer = document.getElementById('coursesContainer');
+
+            let coursesMap = {};
+
+            const loadCourses = async () => {
+                try {
+                    const res = await fetch('https://api.cedbrasilia.com.br/cursos');
+                    const data = await res.json();
+                    coursesMap = data.cursos || {};
+                    coursesContainer.innerHTML = '';
+                    Object.entries(coursesMap).forEach(([nome, ids]) => {
+                        if (nome === 'None') return;
+                        const checkboxId = `curso-${ids[0]}`;
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.id = checkboxId;
+                        checkbox.dataset.ids = ids.join(',');
+                        checkbox.className = 'curso-checkbox';
+                        const label = document.createElement('label');
+                        label.setAttribute('for', checkboxId);
+                        label.textContent = nome;
+                        const wrapper = document.createElement('div');
+                        wrapper.appendChild(checkbox);
+                        wrapper.appendChild(label);
+                        coursesContainer.appendChild(wrapper);
+                    });
+                } catch (error) {
+                    coursesContainer.textContent = 'Não foi possível carregar os cursos.';
+                }
+            };
+
+            loadCourses();
 
             /**
              * Função principal que lida com o envio do formulário.
@@ -196,9 +244,11 @@
                 const nome = document.getElementById('nome').value;
                 const cpf = document.getElementById('cpf').value;
                 const telefone = document.getElementById('phone').value;
+                const selectedIds = Array.from(document.querySelectorAll('.curso-checkbox:checked'))
+                    .flatMap(cb => cb.dataset.ids.split(',').map(id => parseInt(id, 10)));
 
                 // Validação simples para garantir que os campos não estão vazios
-                if (!nome || !cpf || !telefone) {
+                if (!nome || !cpf || !telefone || selectedIds.length === 0) {
                     displayMessage('Por favor, preencha todos os campos.', 'error');
                     resetButton();
                     return;
@@ -208,7 +258,8 @@
                 const dadosMatricula = {
                     nome: nome,
                     cpf: cpf,
-                    phone: telefone
+                    phone: telefone,
+                    cursos_ids: selectedIds
                 };
 
                 try {
