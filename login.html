@@ -68,15 +68,28 @@
                 });
             }
 
-            loginForm.addEventListener('submit', e => {
+            loginForm.addEventListener('submit', async e => {
                 e.preventDefault();
                 const usuario = document.getElementById('usuario').value.trim();
                 const senha = document.getElementById('senha').value.trim();
                 const msg = document.getElementById('loginMsg');
-                msg.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-green-500 text-xl"></i>';
-                msg.className = 'mt-4 text-center';
-                const url = `https://api.cedbrasilia.com.br/login?usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
-                window.location.href = url;
+                msg.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-green-500 text-xl"></i> Enviando...';
+                msg.className = 'mt-4 text-center text-gray-300';
+                try {
+                    const url = `https://api.cedbrasilia.com.br/login?usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
+                    const res = await fetch(url);
+                    if (res.ok) {
+                        const redirectUrl = res.redirected ? res.url : url;
+                        window.location.href = redirectUrl;
+                    } else {
+                        const data = await res.json().catch(() => ({}));
+                        msg.textContent = data.detail || 'Erro ao fazer login.';
+                        msg.className = 'mt-4 text-center text-red-500';
+                    }
+                } catch (err) {
+                    msg.textContent = 'Erro ao fazer login.';
+                    msg.className = 'mt-4 text-center text-red-500';
+                }
             });
         });
     </script>
