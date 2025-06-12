@@ -151,7 +151,7 @@
     <header class="bg-transparent py-4 sticky top-0 z-50 backdrop-blur-sm border-b border-transparent">
         <div class="container mx-auto px-6 flex justify-between items-center">
             <a href="#" data-section="hero" class="text-3xl font-bold tracking-tighter logo-text">CED <span class="spotify-green">BRASIL</span></a>
-            <nav id="desktop-nav" class="hidden md:flex items-center space-x-6 relative ml-6">
+            <nav id="desktop-nav" class="hidden md:flex items-center gap-6 flex-1 justify-center relative ml-6">
                 <a href="#" data-section="hero" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Início</a>
                 <a href="#" data-section="sobre" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Sobre Nós</a>
                 <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Cursos</a>
@@ -163,8 +163,9 @@
                     <input type="checkbox" id="theme-checkbox" />
                     <div class="slider"></div>
                 </label>
-                 <button id="cartButton" class="text-white hover:text-spotify-green transition-colors text-xl">
+                 <button id="cartButton" class="relative text-white hover:text-spotify-green transition-colors text-xl">
                     <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-spotify-green text-black rounded-full text-xs w-5 h-5 flex items-center justify-center" style="display:none"></span>
                 </button>
             </div>
             <button id="mobileMenuButton" class="md:hidden text-white z-50">
@@ -193,7 +194,7 @@
         </nav>
     </div>
 
-    <div id="cart-sidebar" class="fixed top-0 right-0 w-80 h-full bg-gray-900 p-6 transform translate-x-full transition-transform duration-300 z-50">
+    <div id="cart-sidebar" class="fixed top-0 right-0 w-80 h-full bg-gray-900 border-l border-gray-700 shadow-xl rounded-l-lg p-6 transform translate-x-full transition-transform duration-300 z-50">
         <button id="close-cart" class="text-white mb-4"><i class="fas fa-times"></i></button>
         <h2 class="text-2xl font-bold mb-4">Seu Carrinho</h2>
         <ul id="cart-items" class="space-y-4 mb-4"></ul>
@@ -201,7 +202,7 @@
         <a href="matricularasaas.html" class="button-glow bg-spotify-green text-black font-bold py-2 px-4 rounded">Finalizar Matrícula</a>
     </div>
 
-    <div id="cart-backdrop" class="fixed inset-0 bg-black/60 hidden z-40"></div>
+    <div id="cart-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-40"></div>
 
     <div id="course-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-50">
         <div class="bg-gray-900 p-6 rounded-lg relative max-w-lg w-full">
@@ -307,6 +308,9 @@
 
                 const mobileMenuButton = document.getElementById('mobileMenuButton');
                 const mobileMenu = document.getElementById('mobile-menu');
+                if (typeof updateCartCount === 'function') {
+                    updateCartCount();
+                }
                 if (mobileMenuButton && mobileMenu) {
                     mobileMenuButton.addEventListener('click', () => {
                         mobileMenu.classList.toggle('hidden');

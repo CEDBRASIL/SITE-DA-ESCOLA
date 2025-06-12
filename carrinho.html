@@ -42,6 +42,9 @@
             document.getElementById('currentYear').textContent = new Date().getFullYear();
             const list = document.getElementById('cart-items');
             const totalEl = document.getElementById('cart-total');
+            if (typeof updateCartCount === 'function') {
+                updateCartCount();
+            }
 
             function render() {
                 const cart = getCart();
