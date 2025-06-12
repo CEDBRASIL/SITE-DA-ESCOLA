@@ -344,6 +344,12 @@
                     <label for="phone">Telefone (com DDD)</label>
                     <input type="tel" id="phone" name="phone" placeholder="(XX) XXXXX-XXXX" required aria-label="Número de Telefone">
                 </div>
+                <div class="form-group">
+                    <label for="courses">Cursos desejados</label>
+                    <select id="courses" name="courses" multiple required aria-label="Cursos" class="h-32 overflow-y-auto">
+                        <!-- opções serão carregadas via JavaScript -->
+                    </select>
+                </div>
                 <button type="submit" id="submitButton" class="w-full bg-spotify-green text-black font-extrabold px-6 py-3 rounded-lg text-lg hover-bg-spotify-green-darker transition duration-300 shadow-lg transform hover:scale-105">
                     Pagar e Matricular <i class="fas fa-arrow-circle-right ml-2"></i>
                 </button>

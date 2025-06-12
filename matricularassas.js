@@ -41,8 +41,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const nomeInput = document.getElementById('nome');
   const cpfInput = document.getElementById('cpf');
   const phoneInput = document.getElementById('phone');
+  const coursesSelect = document.getElementById('courses');
   const formMessage = document.getElementById('form-message');
   const submitButton = document.getElementById('submitButton');
+
+  const loadCourses = async () => {
+    try {
+      const res = await fetch('https://api.cedbrasilia.com.br/cursos');
+      const data = await res.json();
+      const nomes = Object.keys(data.cursos || {});
+      nomes.forEach(n => {
+        const opt = document.createElement('option');
+        opt.value = n;
+        opt.textContent = n;
+        coursesSelect.appendChild(opt);
+      });
+    } catch (err) {
+      ['Excel PRO','Design Gráfico','Administração'].forEach(n => {
+        const opt = document.createElement('option');
+        opt.value = n;
+        opt.textContent = n;
+        coursesSelect.appendChild(opt);
+      });
+    }
+  };
+  loadCourses();
 
   nomeInput.addEventListener('input', () => validateField(nomeInput));
   cpfInput.addEventListener('input', (e) => {
@@ -71,6 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const nome = nomeInput.value.trim();
     const cpf = cpfInput.value.replace(/\D/g, '').slice(0,11);
     const phone = phoneInput.value.replace(/\D/g, '');
+    const cursos = Array.from(coursesSelect.selectedOptions).map(o => o.value);
+    if (cursos.length === 0) {
+      formMessage.textContent = 'Selecione ao menos um curso.';
+      formMessage.className = 'text-center error-message';
+      return;
+    }
 
     submitButton.disabled = true;
     submitButton.textContent = 'Enviando...';
@@ -81,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('https://api.cedbrasilia.com.br/matricularasaas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, cpf, phone })
+        body: JSON.stringify({ nome, cpf, phone, cursos })
       });
       if (!res.ok) throw new Error('Falha ao conectar');
       window.location.href = 'https://www.asaas.com/c/dnbrk5s1xcf5zo1q';
