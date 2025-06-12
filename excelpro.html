@@ -67,6 +67,7 @@
         applyTheme(isChecked);
         localStorage.setItem('theme', isChecked ? 'light' : 'dark');
       });
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
 
       document.getElementById('enrollForm').addEventListener('submit', async e => {
         e.preventDefault();
