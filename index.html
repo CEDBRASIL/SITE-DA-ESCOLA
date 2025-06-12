@@ -223,6 +223,89 @@
         #notification-popup.error {
             background-color: rgba(239, 68, 68, 0.9); /* Cor para erro/duplicado */
         }
+
+        /* Carousel specific styles */
+        .carousel-container {
+            position: relative;
+            max-width: 100%;
+            margin: 0 auto;
+            overflow: hidden; /* Hide scrollbar */
+        }
+
+        .carousel-wrapper {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch; /* For smoother scrolling on iOS */
+        }
+
+        .carousel-item {
+            flex: 0 0 100%; /* Each item takes full width of the container */
+            scroll-snap-align: start;
+            padding: 1rem; /* Adjust as needed */
+            box-sizing: border-box; /* Include padding in item's total width */
+        }
+
+        /* For desktop, show 2 items */
+        @media (min-width: 768px) {
+            .carousel-item {
+                flex: 0 0 50%; /* Show two items per slide on medium screens */
+            }
+        }
+
+        /* For large screens, show 3 items (if desired, adjust accordingly) */
+        @media (min-width: 1024px) {
+            .carousel-item {
+                flex: 0 0 33.33%; /* Show three items per slide on large screens */
+            }
+        }
+
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 9999px; /* Full rounded */
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .carousel-button:hover {
+            opacity: 1;
+        }
+
+        .carousel-button.prev {
+            left: 0;
+        }
+
+        .carousel-button.next {
+            right: 0;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--text-muted-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: var(--accent-color);
+        }
     </style>
 </head>
 <body class="overflow-x-hidden">
@@ -238,14 +321,20 @@
             <a href="#" data-section="hero">
                 <img src="ced.svg" alt="CED Brasil" class="h-16 inline-block">
             </a>
-            <nav id="desktop-nav" class="hidden md:flex items-center space-x-2 relative">
-                <a href="#" data-section="hero" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Início</a>
-                <a href="#" data-section="sobre" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Sobre Nós</a>
-                <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Cursos</a>
-                <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Depoimentos</a>
+            <nav id="desktop-nav" class="hidden md:flex items-center space-x-4 relative">
+                <a href="#" data-section="hero" class="hover:text-spotify-green transition-colors px-4 py-2 rounded-md font-semibold text-lg"><span>Início</span></a>
+                <a href="#" data-section="sobre" class="hover:text-spotify-green transition-colors px-4 py-2 rounded-md font-semibold text-lg"><span>Sobre Nós</span></a>
+                <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors px-4 py-2 rounded-md font-semibold text-lg"><span>Cursos</span></a>
+                <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors px-4 py-2 rounded-md font-semibold text-lg"><span>Depoimentos</span></a>
+                <a href="#" data-section="afiliados" class="hover:text-spotify-green transition-colors px-4 py-2 rounded-md font-semibold text-lg"><span>Afiliados</span></a>
                 <div id="nav-indicator" class="absolute bottom-0 h-0.5 bg-spotify-green transition-all duration-300"></div>
             </nav>
             <div class="hidden md:flex items-center gap-4">
+                <div class="flex space-x-3">
+                    <a href="https://www.facebook.com/people/CED-Brasil/61575889016332/" target="_blank" rel="noopener" class="text-white hover:text-spotify-green text-xl"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com/cedbrasill" target="_blank" rel="noopener" class="text-white hover:text-spotify-green text-xl"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="text-white hover:text-spotify-green text-xl"><i class="fab fa-whatsapp"></i></a>
+                </div>
                 <label class="theme-switch" for="theme-checkbox">
                     <input type="checkbox" id="theme-checkbox" />
                     <div class="slider"></div>
@@ -269,9 +358,16 @@
             <a href="#" data-section="sobre" class="hover:text-spotify-green transition-colors">Sobre Nós</a>
             <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors">Cursos</a>
             <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors">Depoimentos</a>
+            <a href="#" data-section="afiliados" class="hover:text-spotify-green transition-colors">Afiliados</a>
             <a href="login.html" class="hover:text-spotify-green transition-colors">Entrar</a>
             <button id="mobileCartButton" class="hover:text-spotify-green transition-colors"><i class="fas fa-shopping-cart"></i></button>
             
+            <div class="flex justify-center space-x-6 mt-8">
+                <a href="https://www.facebook.com/people/CED-Brasil/61575889016332/" target="_blank" rel="noopener" class="text-white hover:text-spotify-green text-3xl"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com/cedbrasill" target="_blank" rel="noopener" class="text-white hover:text-spotify-green text-3xl"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="text-white hover:text-spotify-green text-3xl"><i class="fab fa-whatsapp"></i></a>
+            </div>
+
             <div class="border-t border-gray-700 w-full my-8"></div>
             
             <div class="flex items-center gap-8">
@@ -332,6 +428,7 @@
             <p id="hero-subtitle" class="text-lg md:text-xl max-w-3xl mx-auto text-muted mb-10" data-text="Capacitamos você com o conhecimento e as habilidades essenciais para dominar o mercado de trabalho e construir a carreira dos seus sonhos.">
                 <!-- Conteúdo será digitado via JavaScript -->
             </p>
+            <a href="#cursos" class="button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full text-lg mt-8 inline-block">Fazer minha matrícula agora</a>
         </section>
 
         <section id="sobre" class="py-20 px-6 content-section hidden">
@@ -343,13 +440,26 @@
                 <div class="text-center max-w-3xl mx-auto mb-12">
                     <h3 class="text-3xl font-bold mb-4 spotify-green">Nossa Missão</h3>
                     <p class="text-muted leading-relaxed text-lg">
-                        Capacitar indivíduos com conhecimento e habilidades inovadoras, promovendo o desenvolvimento pessoal e profissional para que alcancem seus objetivos e contribuam positivamente para a sociedade.
+                        Na CED BRASIL, nossa missão é democratizar o acesso à educação de alta qualidade, capacitando indivíduos com conhecimento e habilidades inovadoras. Acreditamos que a educação é a chave para o desenvolvimento pessoal e profissional, e estamos comprometidos em ajudar nossos alunos a alcançar seus objetivos e a contribuir positivamente para a sociedade, transformando suas vidas e o futuro do Brasil.
+                    </p>
+                </div>
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <h3 class="text-3xl font-bold mb-4 spotify-green">Nossa Visão</h3>
+                    <p class="text-muted leading-relaxed text-lg">
+                        Almejamos ser a principal referência em educação online no Brasil, reconhecida pela excelência de ensino, pela inovação pedagógica e pelo impacto transformador na vida de nossos alunos. Buscamos continuamente aprimorar nossos métodos e tecnologias para oferecer uma experiência de aprendizado dinâmica e eficaz, preparando profissionais adaptáveis e bem-sucedidos para os desafios do mercado global.
                     </p>
                 </div>
                 <div class="text-center max-w-3xl mx-auto mb-16">
-                    <h3 class="text-3xl font-bold mb-4 spotify-green">Nossa Visão</h3>
+                    <h3 class="text-3xl font-bold mb-4 spotify-green">Nossa História e Abordagem</h3>
                     <p class="text-muted leading-relaxed text-lg">
-                        Ser a principal referência em educação online no Brasil, reconhecida pela qualidade de ensino, inovação pedagógica e pelo impacto transformador na vida de nossos alunos.
+                        Fundada com a paixão por educar e o compromisso com a transformação, a CED BRASIL tem crescido exponencialmente, adaptando-se às necessidades do mercado e às demandas dos alunos. Nossa abordagem pedagógica foca em:
+                        <ul class="list-disc list-inside mt-4 space-y-2">
+                            <li>**Conteúdo Atualizado:** Cursos desenvolvidos por especialistas, sempre alinhados com as últimas tendências e tecnologias do mercado.</li>
+                            <li>**Flexibilidade:** Plataforma intuitiva que permite estudar no seu ritmo e de qualquer lugar.</li>
+                            <li>**Suporte Dedicado:** Uma equipe de tutores e atendimento pronta para auxiliar em sua jornada de aprendizado.</li>
+                            <li>**Prática e Aplicabilidade:** Foco em exemplos práticos e projetos que preparam o aluno para o mundo real do trabalho.</li>
+                        </ul>
+                        No CED BRASIL, você não apenas aprende, você se transforma!
                     </p>
                 </div>
             </div>
@@ -371,32 +481,168 @@
                     <h2 class="text-4xl font-bold tracking-tighter">O Que Nossos <span class="spotify-green">Alunos Dizem</span></h2>
                     <p class="text-lg text-muted mt-2">Histórias reais de sucesso e transformação que inspiram nossa comunidade.</p>
                 </div>
-                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <div class="card testimonial-card p-8">
-                        <div class="flex items-center mb-4 text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                        <p class="text-muted italic mb-6">"O curso de Desenvolvimento Web foi um divisor de águas na minha carreira. A didática é excelente!"</p>
-                        <div class="flex items-center">
-                            <img src="https://placehold.co/48x48/1DB954/121212?text=JA" alt="Avatar de João Almeida" class="w-12 h-12 rounded-full mr-4">
-                            <div>
-                                <p class="font-bold text-white">João Almeida</p>
-                                <p class="text-sm text-muted">Desenvolvedor Full Stack</p>
-                            </div>
-                        </div>
+                <div class="carousel-container">
+                    <div id="testimonials-carousel" class="carousel-wrapper">
+                        <!-- Depoimentos serão injetados aqui via JavaScript -->
                     </div>
-                    <div class="card testimonial-card p-8">
-                        <div class="flex items-center mb-4 text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                        <p class="text-muted italic mb-6">"Graças aos professores do CED, hoje tenho meu próprio negócio digital."</p>
-                        <div class="flex items-center">
-                            <img src="https://placehold.co/48x48/1DB954/121212?text=MF" alt="Avatar de Maria Ferreira" class="w-12 h-12 rounded-full mr-4">
-                            <div>
-                                <p class="font-bold text-white">Maria Ferreira</p>
-                                <p class="text-sm text-muted">Empreendedora</p>
-                            </div>
-                        </div>
-                    </div>
+                    <button id="prev-testimonial" class="carousel-button prev"><i class="fas fa-chevron-left"></i></button>
+                    <button id="next-testimonial" class="carousel-button next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div id="carousel-dots" class="carousel-dots">
+                    <!-- Dots serão injetados aqui via JavaScript -->
                 </div>
             </div>
         </section>
+
+        <section id="afiliados" class="py-20 px-6 content-section hidden">
+            <div class="container mx-auto">
+                <div class="text-center py-20 md:py-32 px-6">
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight mb-6">
+                        Seja um Afiliado Oficial e <br> 
+                        <span class="spotify-green">Fature Alto Conosco</span>.
+                    </h1>
+                    <p class="text-lg md:text-xl max-w-3xl mx-auto text-muted mb-10">
+                        Ganhe 80% de comissão vendendo cursos de alta qualidade, sem precisar de estoque ou investimento. Nós cuidamos de tudo para você focar no que importa: vender.
+                    </p>
+                    <a href="https://dashboard.kiwify.com/join/affiliate/zhTcssre" target="_blank" rel="noopener" class="inline-block button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full hover-bg-spotify-green-darker">
+                        Quero ser Afiliado Agora
+                    </a>
+                </div>
+
+                <div class="py-20 px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-4xl font-bold tracking-tighter">Vantagens Exclusivas para Afiliados</h2>
+                        <p class="text-lg text-muted mt-2">Tudo que você precisa para ter sucesso na palma da sua mão.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Benefícios -->
+                        <div class="card card-glow">
+                            <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-2xl"><i class="fas fa-file-image"></i></div>
+                            <h3 class="text-2xl font-bold mb-2">Materiais sem marca d'água</h3>
+                            <p class="text-muted">Acesso a imagens e vídeos prontos para divulgar os cursos.</p>
+                        </div>
+                        <div class="card card-glow">
+                            <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-2xl"><i class="fas fa-play-circle"></i></div>
+                            <h3 class="text-2xl font-bold mb-2">Demonstrações gratuitas</h3>
+                            <p class="text-muted">Mostre aos seus leads uma prévia do conteúdo antes da compra.</p>
+                        </div>
+                        <div class="card card-glow">
+                            <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-2xl"><i class="fas fa-headset"></i></div>
+                            <h3 class="text-2xl font-bold mb-2">Suporte dedicado</h3>
+                            <p class="text-muted">Tire dúvidas rapidamente via WhatsApp e Discord.</p>
+                        </div>
+                        <div class="card card-glow">
+                            <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-2xl"><i class="fas fa-user-graduate"></i></div>
+                            <h3 class="text-2xl font-bold mb-2">Suporte aos alunos</h3>
+                            <p class="text-muted">Você apenas vende; a CED BRASIL cuida do atendimento completo.</p>
+                        </div>
+                        <div class="card card-glow">
+                            <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-2xl"><i class="fas fa-certificate"></i></div>
+                            <h3 class="text-2xl font-bold mb-2">Certificados válidos</h3>
+                            <p class="text-muted">Todos os cursos oferecem certificados reconhecidos em todo o país.</p>
+                        </div>
+                        <div class="card card-glow">
+                            <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-2xl"><i class="fas fa-mobile-screen-button"></i></div>
+                            <h3 class="text-2xl font-bold mb-2">Plataforma exclusiva</h3>
+                            <p class="text-muted">Os alunos estudam pelo celular ou computador sem complicações.</p>
+                        </div>
+                        <div class="card card-glow">
+                            <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-2xl"><i class="fas fa-users"></i></div>
+                            <h3 class="text-2xl font-bold mb-2">Comunidade de afiliados</h3>
+                            <p class="text-muted">Participe de um grupo privado para compartilhar dicas e estratégias.</p>
+                        </div>
+                        <div class="card card-glow">
+                            <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-2xl"><i class="fas fa-coins"></i></div>
+                            <h3 class="text-2xl font-bold mb-2">80% de ganhos</h3>
+                            <p class="text-muted">Receba 80% de comissão em todos os produtos!</p>
+                        </div>
+                        <div class="card card-glow">
+                            <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-2xl"><i class="fas fa-star"></i></div>
+                            <h3 class="text-2xl font-bold mb-2">Produtos de alta qualidade</h3>
+                            <p class="text-muted">Cursos com excelente reputação para facilitar suas vendas.</p>
+                        </div>
+                        <div class="card card-glow">
+                            <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-2xl"><i class="fas fa-eye"></i></div>
+                            <h3 class="text-2xl font-bold mb-2">Conta de Demonstração</h3>
+                            <p class="text-muted mb-3">Experimente a plataforma antes de indicar.</p>
+                            <a href="https://ead.cedbrasilia.com.br/index.php?pag=entrar&token=1ce0d5e0-431a-11f0-8cdc-0eecf9347bc9" target="_blank" class="inline-block bg-spotify-green text-black font-bold px-4 py-2 rounded-lg text-sm hover-bg-spotify-green-darker transition shadow-md">Acessar</a>
+                        </div>
+                        <div class="card card-glow">
+                            <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-2xl"><i class="fas fa-bullhorn"></i></div>
+                            <h3 class="text-2xl font-bold mb-2">Página de Vendas Gratuita</h3>
+                            <p class="text-muted">A CED cria para você uma página de vendas/funil 100% gratuita para divulgar.</p>
+                        </div>
+                        <div class="card card-glow">
+                            <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                                <img src="https://placehold.co/48x48/1DB954/121212?text=K" alt="Logo da Kiwify" class="w-8 h-8 rounded-full">
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2">Parceria Kiwify</h3>
+                            <p class="text-muted">Venda com a segurança da Kiwify, uma das maiores plataformas do Brasil.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="py-20 px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-4xl font-bold tracking-tighter">Sua Primeira Venda em 20 Minutos</h2>
+                        <p class="text-lg text-muted mt-2">Assista ao vídeo e aprenda o passo a passo para começar a lucrar agora mesmo.</p>
+                    </div>
+                    <div class="flex justify-center">
+                        <div class="w-full max-w-4xl aspect-video rounded-lg overflow-hidden shadow-2xl shadow-spotify-green/20">
+                            <iframe class="w-full h-full" src="https://www.youtube.com/embed/OlVSaro7gsg" title="Como fazer a sua primeira venda em 20 MINUTOS!" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="py-20 px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-4xl font-bold tracking-tighter">Nossos Produtos</h2>
+                        <p class="text-lg text-muted mt-2">Confira a comissão para cada um dos nossos cursos de alta conversão.</p>
+                    </div>
+                    <div class="overflow-x-auto rounded-lg border border-gray-800">
+                        <table class="min-w-full text-left text-sm">
+                            <thead class="bg-gray-800">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 font-semibold text-white">Nome do Curso</th>
+                                    <th scope="col" class="px-6 py-3 font-semibold text-white">Preço</th>
+                                    <th scope="col" class="px-6 py-3 font-semibold text-spotify-green">Sua Comissão (80%)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="afiliados-products-table-body" class="divide-y divide-gray-800 bg-[#181818]">
+                                <!-- Rows will be populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="py-20 px-6 bg-[#121212]">
+                    <div class="container mx-auto px-6 text-center">
+                        <h2 class="text-4xl font-bold tracking-tighter">Links Úteis para Afiliados</h2>
+                        <p class="text-lg text-muted mt-2 mb-8 max-w-2xl mx-auto">Acesse nossos grupos e materiais de divulgação para potencializar suas vendas.</p>
+                        <div class="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
+                            <a href="https://drive.google.com/drive/folders/16pQ8SdgwrlvVJa5HLN3eIY2zjO1XlyBI?usp=sharing" target="_blank" rel="noopener" class="inline-flex items-center justify-center button-glow bg-spotify-green text-black font-bold px-6 py-3 rounded-full text-lg hover-bg-spotify-green-darker">
+                                <i class="fas fa-folder-open mr-2"></i> Materiais
+                            </a>
+                            <a href="https://chat.whatsapp.com/ELLrXpwBVY6Km9rnZKx1fZ" target="_blank" rel="noopener" class="inline-flex items-center justify-center bg-gray-700 text-white font-bold px-6 py-3 rounded-full text-lg hover:bg-gray-600 transition">
+                                <i class="fab fa-whatsapp mr-2"></i> Grupo de Afiliados
+                            </a>
+                            <a href="https://whatsapp.com/channel/0029VbBCJsV3QxS9Hdo6102Y" target="_blank" rel="noopener" class="inline-flex items-center justify-center bg-gray-700 text-white font-bold px-6 py-3 rounded-full text-lg hover:bg-gray-600 transition">
+                                <i class="fas fa-bullhorn mr-2"></i> Canal de Avisos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="py-20 px-6 text-center">
+                    <h2 class="text-4xl font-bold tracking-tighter">Pronto para Começar?</h2>
+                    <p class="text-lg text-muted mt-2 mb-8 max-w-2xl mx-auto">Clique no botão abaixo, junte-se ao nosso time de afiliados e comece a transformar vidas (e seu bolso) hoje mesmo!</p>
+                    <a href="https://dashboard.kiwify.com/join/affiliate/zhTcssre" target="_blank" rel="noopener" class="inline-block button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full hover-bg-spotify-green-darker">
+                        Tornar-se Afiliado Oficial
+                    </a>
+                </div>
+            </div>
+        </section>
+
     </main>
         <footer class="text-center py-8 border-t border-gray-800 mt-auto">
             <div class="container mx-auto px-6">
@@ -409,6 +655,9 @@
                     <a href="https://instagram.com/cedbrasill" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-instagram text-lg"></i></a>
                     <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-whatsapp text-lg"></i></a>
                 </div>
+                <p class="text-gray-400 mt-4">
+                    Feito com ❤️ por <a href="https://instagram.com/furionnzxt" target="_blank" rel="noopener" class="text-spotify-green hover:underline">@FurioNnzxT</a>. Acesse <a href="https://www.encrypthost.com.br" target="_blank" rel="noopener" class="text-spotify-green hover:underline">www.encrypthost.com.br</a>
+                </p>
             </div>
         </footer>
 
@@ -672,10 +921,15 @@
 
             function updateIndicator(el) {
                 if (!indicator || !el) return;
-                const elRect = el.getBoundingClientRect();
-                const navRect = desktopNav.getBoundingClientRect();
-                indicator.style.width = `${el.offsetWidth}px`;
-                indicator.style.left = `${el.offsetLeft}px`;
+                const span = el.querySelector('span');
+                if (span) {
+                    indicator.style.width = `${span.offsetWidth}px`;
+                    indicator.style.left = `${el.offsetLeft + span.offsetLeft}px`;
+                } else {
+                    // Fallback if no span, or for elements without direct text children
+                    indicator.style.width = `${el.offsetWidth}px`;
+                    indicator.style.left = `${el.offsetLeft}px`;
+                }
             }
             
             // Função para simular o efeito de digitação
@@ -944,6 +1198,206 @@
                 }
             });
 
+            // Carrossel de Depoimentos
+            const testimonialsData = [
+                { name: "Ana Souza", role: "Designer Gráfica Júnior", rating: 5, quote: "O curso de Design Gráfico foi fundamental para eu conseguir meu primeiro emprego na área. Didática excelente!" },
+                { name: "Bruno Costa", role: "Analista de Dados", rating: 5, quote: "Com o curso de Excel PRO, organizei e analisei dados de forma muito mais eficiente. Recomendo para todos!" },
+                { name: "Carla Lima", role: "Empreendedora Digital", rating: 5, quote: "As estratégias de Marketing Digital que aprendi aqui foram essenciais para alavancar meu negócio online." },
+                { name: "Daniel Rocha", role: "Estudante de TI", rating: 4, quote: "O curso de Desenvolvimento de Sistemas me deu uma base sólida para seguir na carreira. Ótimos professores." },
+                { name: "Elena Santos", role: "Recursos Humanos", rating: 5, quote: "O curso de Administração me ajudou a entender melhor os processos de gestão e aplicá-los no meu dia a dia profissional." },
+                { name: "Felipe Guedes", role: "Tradutor", rating: 5, quote: "Inglês Fluente superou minhas expectativas! Hoje me sinto confiante para me comunicar globalmente." },
+                { name: "Gabriela Alves", role: "Professora", rating: 5, quote: "O curso de Pacote Office é completo e me ajudou a otimizar minhas tarefas diárias." },
+                { name: "Hugo Pereira", role: "Jovem Aprendiz", rating: 4, quote: "Informática Essencial foi meu primeiro contato com o mundo digital e me abriu muitas portas." },
+                { name: "Isabela Martins", role: "Gerente de Vendas", rating: 5, quote: "O Especialista em Marketing & Vendas 360º me deu uma visão estratégica completa do mercado." },
+                { name: "Juliana Neves", role: "Estudante", rating: 5, quote: "Inglês Kids é muito divertido! Minha filha adora e está aprendendo super rápido." },
+                { name: "Lucas Oliveira", role: "Desenvolvedor Front-end", rating: 5, quote: "O curso de Desenvolvimento Web foi um divisor de águas na minha carreira. A didática é excelente!" },
+                { name: "Mariana Souza", role: "Consultora Financeira", rating: 5, quote: "As habilidades que adquiri em Excel PRO são cruciais para o meu trabalho. Muito bem estruturado!" },
+                { name: "Thiago Mendes", role: "Especialista em SEO", rating: 5, quote: "O Marketing Digital me proporcionou conhecimentos para otimizar campanhas e gerar mais leads." },
+                { name: "Fernanda Costa", role: "Analista de Sistemas", rating: 4, quote: "O curso de Analista e Desenvolvimento de Sistemas é desafiador, mas os recursos são ótimos." },
+                { name: "Guilherme Santos", role: "Administrador de Empresas", rating: 5, quote: "O curso de Administração me ajudou a crescer profissionalmente e assumir novas responsabilidades." },
+                { name: "Beatriz Almeida", role: "Professora de Idiomas", rating: 5, quote: "Recomendo o Inglês Fluente para quem busca resultados reais e uma metodologia diferenciada." },
+                { name: "Rafael Carvalho", role: "Auxiliar Administrativo", rating: 5, quote: "Pacote Office foi fundamental para me qualificar e melhorar minhas chances no mercado de trabalho." },
+                { name: "Laura Fernandes", role: "Estudante", rating: 4, quote: "O curso de Operador de Micro me deu a segurança que precisava para usar o computador no dia a dia." },
+                { name: "Rodrigo Dantas", role: "Consultor de Marketing", rating: 5, quote: "O curso de Marketing & Vendas 360º é um investimento que se paga. Conteúdo super atualizado." },
+                { name: "Patrícia Gomes", role: "Mãe de Aluno", rating: 5, quote: "Meu filho está amando o Inglês Kids! É incrível ver o progresso dele se divertindo." }
+            ];
+
+            const testimonialsCarousel = document.getElementById('testimonials-carousel');
+            const prevButton = document.getElementById('prev-testimonial');
+            const nextButton = document.getElementById('next-testimonial');
+            const carouselDotsContainer = document.getElementById('carousel-dots');
+            let currentTestimonialIndex = 0;
+            let autoPlayInterval;
+            const autoPlayDelay = 5000; // 5 seconds
+
+            function renderTestimonials() {
+                testimonialsCarousel.innerHTML = '';
+                carouselDotsContainer.innerHTML = '';
+
+                testimonialsData.forEach((testimonial, index) => {
+                    const testimonialCard = document.createElement('div');
+                    testimonialCard.className = 'carousel-item';
+                    
+                    let starsHtml = '';
+                    for (let i = 0; i < testimonial.rating; i++) {
+                        starsHtml += '<i class="fas fa-star"></i>';
+                    }
+
+                    testimonialCard.innerHTML = `
+                        <div class="card testimonial-card p-8">
+                            <div class="flex items-center mb-4 text-yellow-400">${starsHtml}</div>
+                            <p class="text-muted italic mb-6">"${testimonial.quote}"</p>
+                            <div class="flex items-center">
+                                <img src="https://placehold.co/48x48/1DB954/121212?text=${testimonial.name.split(' ').map(n => n[0]).join('').toUpperCase()}" alt="Avatar de ${testimonial.name}" class="w-12 h-12 rounded-full mr-4">
+                                <div>
+                                    <p class="font-bold text-white">${testimonial.name}</p>
+                                    <p class="text-sm text-muted">${testimonial.role}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    testimonialsCarousel.appendChild(testimonialCard);
+
+                    const dot = document.createElement('div');
+                    dot.classList.add('dot');
+                    dot.dataset.index = index;
+                    dot.addEventListener('click', () => showTestimonial(index));
+                    carouselDotsContainer.appendChild(dot);
+                });
+                updateCarouselButtons();
+                updateDots();
+                startAutoPlay();
+            }
+
+            function showTestimonial(index) {
+                // Ensure index is within bounds
+                if (index < 0) {
+                    currentTestimonialIndex = testimonialsData.length - 1;
+                } else if (index >= testimonialsData.length) {
+                    currentTestimonialIndex = 0;
+                } else {
+                    currentTestimonialIndex = index;
+                }
+
+                // Calculate total width of items displayed per view
+                let itemsInView;
+                if (window.innerWidth >= 1024) { // Large screens (3 items)
+                    itemsInView = 3;
+                } else if (window.innerWidth >= 768) { // Medium screens (2 items)
+                    itemsInView = 2;
+                } else { // Small screens (1 item)
+                    itemsInView = 1;
+                }
+
+                const itemWidth = testimonialsCarousel.firstElementChild.clientWidth;
+                // Adjust translation to center the current item as much as possible for itemsInView > 1
+                // For a single item, just show that item. For multiple, try to keep the first visible.
+                const offset = (itemWidth * currentTestimonialIndex);
+                testimonialsCarousel.style.transform = `translateX(-${offset}px)`;
+                
+                updateCarouselButtons();
+                updateDots();
+                restartAutoPlay();
+            }
+
+            function nextTestimonial() {
+                // Determine how many items to advance based on screen size
+                let advanceCount;
+                if (window.innerWidth >= 1024) {
+                    advanceCount = 3;
+                } else if (window.innerWidth >= 768) {
+                    advanceCount = 2;
+                } else {
+                    advanceCount = 1;
+                }
+                showTestimonial(currentTestimonialIndex + advanceCount);
+            }
+
+            function prevTestimonial() {
+                // Determine how many items to go back based on screen size
+                let retreatCount;
+                if (window.innerWidth >= 1024) {
+                    retreatCount = 3;
+                } else if (window.innerWidth >= 768) {
+                    retreatCount = 2;
+                } else {
+                    retreatCount = 1;
+                }
+                showTestimonial(currentTestimonialIndex - retreatCount);
+            }
+
+            function updateCarouselButtons() {
+                // For infinite loop carousel, buttons are always active
+                prevButton.style.display = 'block';
+                nextButton.style.display = 'block';
+            }
+
+            function updateDots() {
+                const dots = document.querySelectorAll('.dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentTestimonialIndex);
+                });
+            }
+
+            function startAutoPlay() {
+                stopAutoPlay(); // Clear any existing interval
+                autoPlayInterval = setInterval(nextTestimonial, autoPlayDelay);
+            }
+
+            function stopAutoPlay() {
+                clearInterval(autoPlayInterval);
+            }
+
+            function restartAutoPlay() {
+                stopAutoPlay();
+                startAutoPlay();
+            }
+
+            // Event Listeners for carousel buttons
+            prevButton.addEventListener('click', prevTestimonial);
+            nextButton.addEventListener('click', nextTestimonial);
+
+            // Populate Afiliados Products Table
+            const afiliadosProducts = [
+                { name: "Administração", price: "59,99" },
+                { name: "Análise e Desenvolvimento de Sistemas", price: "59,99" },
+                { name: "Excel PRO", price: "59,99" },
+                { name: "Inglês Kids", price: "59,99" },
+                { name: "Informática Essencial", price: "59,99" },
+                { name: "Marketing Digital", price: "59,99" },
+                { name: "Inglês Fluente", price: "59,99" },
+                { name: "Design Gráfico", price: "59,99" },
+                { name: "Operador de Micro", price: "59,99" },
+                { name: "Pacote Office", price: "59,99" },
+                { name: "Especialista em Marketing & Vendas 360º", price: "59,99" },
+            ];
+
+            function loadAfiliadosProducts() {
+                const tableBody = document.getElementById('afiliados-products-table-body');
+                if(tableBody){
+                    tableBody.innerHTML = '';
+                    afiliadosProducts.forEach(product => {
+                        const commission = (parseFloat(product.price.replace(',', '.')) * 0.8).toFixed(2).replace('.', ',');
+                        const row = `
+                            <tr class="hover:bg-gray-800 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">${product.name}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">R$ ${product.price}</td>
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-spotify-green">R$ ${commission}</td>
+                            </tr>
+                        `;
+                        tableBody.insertAdjacentHTML('beforeend', row);
+                    });
+                }
+            }
+
+
+            // Recalculate position on resize to ensure correct snapping
+            window.addEventListener('resize', () => {
+                showTestimonial(currentTestimonialIndex); // Re-adjust position based on new window size
+                const activeLink = document.querySelector('#desktop-nav a.active');
+                if (activeLink) updateIndicator(activeLink);
+            });
+
             // Carregamento inicial: mostra a seção hero e inicia o efeito de digitação
             showSection('hero');
             const initialLink = document.querySelector('#desktop-nav a.active');
@@ -951,6 +1405,8 @@
 
             // Carrega os cursos da API quando a página é carregada
             fetchCourses();
+            renderTestimonials(); // Render testimonials on page load
+            loadAfiliadosProducts(); // Load Afiliados products table
         });
     </script>
 </body>
