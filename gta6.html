@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTA 6 - Página Oficial de Venda</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter e um para o título -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Ícones (Lucide Icons) -->
+    <script src="https://unpkg.com/lucide-react@0.292.0/dist/lucide-react.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Configuração do Tema e Fontes */
+        :root {
+            --bg-light: #f3f4f6; /* cinza claro */
+            --text-light: #1f2937; /* cinza escuro */
+            --bg-dark: #111827;   /* cinza bem escuro */
+            --text-dark: #f9fafb;  /* cinza bem claro */
+            --accent: #f59e0b;   /* âmbar */
+            --card-light: #ffffff;
+            --card-dark: #1f2937;
+        }
+
+        /* Aplica o tema escuro por padrão */
+        html.dark {
+            background-color: var(--bg-dark);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Estilos para o tema claro */
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        /* Estilos para o tema escuro */
+        .dark body {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+        
+        .dark .card {
+             background-color: var(--card-dark);
+        }
+
+        .card {
+            background-color: var(--card-light);
+        }
+
+        /* Efeito Glitch para o Título */
+        .glitch-text {
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            animation: glitch-animation 3s infinite steps(2, end);
+            text-shadow: 
+                -2px -2px 0 #ff00c1,
+                 2px  2px 0 #00fff9,
+                -2px  2px 0 #ff00c1,
+                 2px -2px 0 #00fff9;
+        }
+
+        @keyframes glitch-animation {
+            0%, 100% {
+                clip-path: inset(45% 0 35% 0);
+            }
+            25% {
+                clip-path: inset(15% 0 65% 0);
+            }
+            50% {
+                clip-path: inset(85% 0 5% 0);
+            }
+            75% {
+                clip-path: inset(55% 0 25% 0);
+            }
+        }
+
+        /* Animação de Fade-in ao rolar */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Fundo de vídeo */
+        #video-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Cabeçalho -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-sm bg-white/10 dark:bg-black/10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wider">GTA<span class="text-amber-500">VI</span></h1>
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="#home" class="hover:text-amber-500 transition-colors">Início</a>
+                <a href="#editions" class="hover:text-amber-500 transition-colors">Edições</a>
+                <a href="#trailer" class="hover:text-amber-500 transition-colors">Trailer</a>
+                <a href="#countdown" class="hover:text-amber-500 transition-colors">Lançamento</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-500/20 transition-colors">
+                    <i data-lucide="sun" class="block dark:hidden"></i>
+                    <i data-lucide="moon" class="hidden dark:block"></i>
+                </button>
+                <a href="#editions" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-5 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+                    Comprar Agora
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Seção Principal (Hero) -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden text-center">
+        <video autoplay muted loop id="video-bg">
+            <source src="https://cdn.pixabay.com/video/2024/01/16/196321-904037563_large.mp4" type="video/mp4">
+            Seu navegador não suporta o vídeo de fundo.
+        </video>
+        <div class="video-overlay"></div>
+        <div class="relative z-10 px-4">
+            <h2 class="text-6xl md:text-8xl lg:text-9xl font-black uppercase glitch-text text-white">
+                Vice City
+            </h2>
+            <p class="text-lg md:text-2xl mt-4 max-w-2xl mx-auto text-gray-200">
+                A espera acabou. Volte para as ruas de neon da cidade mais icônica.
+            </p>
+            <div id="main-countdown" class="mt-8 text-white">
+                <!-- O contador principal será inserido aqui pelo JS -->
+            </div>
+        </div>
+    </section>
+
+    <main class="container mx-auto px-4 py-16">
+        <!-- Seção Edições -->
+        <section id="editions" class="py-16 fade-in-section">
+            <h3 class="text-4xl font-bold text-center mb-12">Escolha sua Edição</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Card Edição Padrão -->
+                <div class="card border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col">
+                    <img src="https://placehold.co/600x400/1f2937/f59e0b?text=Edição+Padrão" alt="Arte da Edição Padrão do GTA 6" class="w-full h-56 object-cover">
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h4 class="text-2xl font-bold mb-2">Edição Padrão</h4>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 flex-grow">A experiência completa de Grand Theft Auto VI.</p>
+                        <span class="text-3xl font-extrabold text-amber-500 mb-6">R$ 349,90</span>
+                        <button class="w-full mt-auto bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card Edição Deluxe -->
+                <div class="card border-2 border-amber-500 rounded-xl overflow-hidden shadow-2xl hover:-translate-y-2 transition-all duration-300 relative flex flex-col">
+                    <div class="absolute top-0 right-0 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">MAIS POPULAR</div>
+                    <img src="https://placehold.co/600x400/4b5563/f59e0b?text=Edição+Deluxe" alt="Arte da Edição Deluxe do GTA 6" class="w-full h-56 object-cover">
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h4 class="text-2xl font-bold mb-2">Edição Deluxe</h4>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 flex-grow">Inclui o jogo base e conteúdo digital exclusivo: novas missões, veículos e armas.</p>
+                        <span class="text-3xl font-extrabold text-amber-500 mb-6">R$ 499,90</span>
+                        <button class="w-full mt-auto bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card Edição de Colecionador -->
+                <div class="card border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col">
+                    <img src="https://placehold.co/600x400/000000/f59e0b?text=Colecionador" alt="Arte da Edição de Colecionador do GTA 6" class="w-full h-56 object-cover">
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h4 class="text-2xl font-bold mb-2">Edição de Colecionador</h4>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 flex-grow">Itens físicos exclusivos, steelbook, mapa do jogo e todo o conteúdo da Edição Deluxe.</p>
+                        <span class="text-3xl font-extrabold text-amber-500 mb-6">R$ 899,90</span>
+                        <button class="w-full mt-auto bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-lg cursor-not-allowed" disabled>
+                            Esgotado
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Trailer -->
+        <section id="trailer" class="py-16 fade-in-section">
+            <h3 class="text-4xl font-bold text-center mb-12">Assista ao Trailer Oficial</h3>
+            <div class="aspect-w-16 aspect-h-9 max-w-4xl mx-auto rounded-lg overflow-hidden shadow-2xl">
+                 <iframe class="w-full h-[500px]" src="https://www.youtube.com/embed/QdBZY2fkU-0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <!-- Seção Contagem Regressiva -->
+        <section id="countdown" class="py-16 fade-in-section">
+            <div class="text-center p-12 rounded-lg bg-gray-800" style="background-image: url('https://placehold.co/1200x400/111827/ffffff?text=Background'); background-size: cover; background-position: center;">
+                <h3 class="text-4xl font-bold text-white mb-4">Lançamento Mundial</h3>
+                <p class="text-gray-300 mb-8">Marque no seu calendário. A contagem regressiva começou.</p>
+                <div id="countdown-container" class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto text-white">
+                    <div class="bg-white/10 p-6 rounded-lg">
+                        <span id="days" class="text-5xl font-bold">00</span>
+                        <p class="text-sm uppercase">Dias</p>
+                    </div>
+                    <div class="bg-white/10 p-6 rounded-lg">
+                        <span id="hours" class="text-5xl font-bold">00</span>
+                        <p class="text-sm uppercase">Horas</p>
+                    </div>
+                    <div class="bg-white/10 p-6 rounded-lg">
+                        <span id="minutes" class="text-5xl font-bold">00</span>
+                        <p class="text-sm uppercase">Minutos</p>
+                    </div>
+                    <div class="bg-white/10 p-6 rounded-lg">
+                        <span id="seconds" class="text-5xl font-bold">00</span>
+                        <p class="text-sm uppercase">Segundos</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="border-t border-gray-200 dark:border-gray-800">
+        <div class="container mx-auto px-4 py-8 text-center text-gray-500 dark:text-gray-400">
+            <div class="flex justify-center space-x-6 mb-4">
+                <!-- Ícones de redes sociais aqui, se desejar -->
+            </div>
+            <p class="text-sm">&copy; 2024 Rockstar Games. Todos os direitos reservados.</p>
+            <p class="text-xs mt-2">Este é um site fictício criado para fins de demonstração. Grand Theft Auto, GTA VI e Rockstar Games são marcas registradas da Take-Two Interactive.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- INICIALIZAÇÃO DE ÍCONES ---
+            lucide.createIcons();
+
+            // --- LÓGICA DO TEMA (CLARO/ESCURO) ---
+            const themeToggle = document.getElementById('theme-toggle');
+            const htmlEl = document.documentElement;
+
+            // Verifica o tema salvo no localStorage ou a preferência do sistema
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                htmlEl.classList.add('dark');
+            } else {
+                htmlEl.classList.remove('dark');
+            }
+
+            themeToggle.addEventListener('click', () => {
+                htmlEl.classList.toggle('dark');
+                if (htmlEl.classList.contains('dark')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+                // Recria os ícones para garantir que a cor correta seja aplicada
+                lucide.createIcons();
+            });
+
+
+            // --- LÓGICA DA CONTAGEM REGRESSIVA ---
+            // Defina a data de lançamento aqui (Ano, Mês-1, Dia)
+            const countdownDate = new Date("2025-10-25T00:00:00").getTime();
+
+            const mainCountdownContainer = document.getElementById('main-countdown');
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = countdownDate - now;
+
+                if (distance < 0) {
+                    clearInterval(interval);
+                    document.getElementById('countdown-container').innerHTML = `<p class="col-span-4 text-3xl font-bold text-amber-500">JÁ DISPONÍVEL!</p>`;
+                    if(mainCountdownContainer) mainCountdownContainer.innerHTML = '';
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                const format = (num) => num.toString().padStart(2, '0');
+
+                daysEl.textContent = format(days);
+                hoursEl.textContent = format(hours);
+                minutesEl.textContent = format(minutes);
+                secondsEl.textContent = format(seconds);
+                
+                if (mainCountdownContainer) {
+                    mainCountdownContainer.innerHTML = `
+                        <div class="flex justify-center space-x-4 text-xl md:text-3xl font-bold">
+                           <div>${format(days)}D</div>
+                           <div>${format(hours)}H</div>
+                           <div>${format(minutes)}M</div>
+                           <div>${format(seconds)}S</div>
+                        </div>
+                    `;
+                }
+            }
+            
+            const interval = setInterval(updateCountdown, 1000);
+            updateCountdown(); // Chama uma vez para não esperar 1 segundo
+
+
+            // --- ANIMAÇÃO DE FADE-IN AO ROLAR ---
+            const sections = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // --- SCROLL SUAVE PARA ÂNCORAS ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
