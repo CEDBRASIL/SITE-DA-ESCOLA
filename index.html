@@ -285,7 +285,67 @@
                 </div>
             </div>
         </footer>
-        <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
         <script src="courses.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+                const mobileMenuButton = document.getElementById('mobileMenuButton');
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenuButton && mobileMenu) {
+                    mobileMenuButton.addEventListener('click', () => {
+                        mobileMenu.classList.toggle('hidden');
+                    });
+                }
+
+                const themeCheckboxes = [
+                    document.getElementById('theme-checkbox'),
+                    document.getElementById('mobile-theme-checkbox')
+                ];
+                const body = document.body;
+                function applyTheme(isLight) {
+                    body.classList.toggle('light-theme', isLight);
+                    themeCheckboxes.forEach(cb => cb && (cb.checked = isLight));
+                }
+                const savedTheme = localStorage.getItem('theme') === 'light';
+                applyTheme(savedTheme);
+                themeCheckboxes.forEach(cb => {
+                    if (cb) {
+                        cb.addEventListener('change', e => {
+                            const isChecked = e.currentTarget.checked;
+                            applyTheme(isChecked);
+                            localStorage.setItem('theme', isChecked ? 'light' : 'dark');
+                            if (mobileMenu) mobileMenu.classList.add('hidden');
+                        });
+                    }
+                });
+
+                const sections = document.querySelectorAll('.content-section');
+                const navLinks = document.querySelectorAll('[data-section]');
+                function showSection(id) {
+                    sections.forEach(section => {
+                        if (section.id === id) {
+                            section.classList.remove('hidden');
+                            section.classList.add('visible');
+                        } else {
+                            section.classList.add('hidden');
+                            section.classList.remove('visible');
+                        }
+                    });
+                    navLinks.forEach(link => {
+                        link.classList.toggle('active', link.dataset.section === id);
+                    });
+                }
+                navLinks.forEach(link => {
+                    link.addEventListener('click', e => {
+                        e.preventDefault();
+                        const id = link.dataset.section;
+                        showSection(id);
+                        if (mobileMenu) mobileMenu.classList.add('hidden');
+                    });
+                });
+                showSection('hero');
+            });
+        </script>
     </body>
 </html>
