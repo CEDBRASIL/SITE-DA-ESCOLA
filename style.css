@@ -176,6 +176,35 @@
         #cart-sidebar {
             transition: transform 0.3s ease;
         }
-        #cart-sidebar.open {
-            transform: translateX(0);
-        }
+#cart-sidebar.open {
+    transform: translateX(0);
+}
+
+#toast-container {
+    position: fixed;
+    bottom: 0.5rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.toast {
+    background-color: rgba(0,0,0,0.9);
+    border: 2px solid #22c55e;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: auto;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}

@@ -55,7 +55,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       const addBtn = card.querySelector('.add-cart');
       addBtn.addEventListener('click', () => {
         addCourse(name);
-        alert('Curso adicionado ao carrinho!');
+        if (typeof showToast === 'function') {
+          showToast(`${name} adicionado ao carrinho!`);
+        }
       });
       courseList.appendChild(card);
     });
