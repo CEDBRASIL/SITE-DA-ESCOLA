@@ -125,6 +125,8 @@
         input:checked + .slider:before {
             transform: translateX(24px);
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
         }
         nav a.active {
             color: var(--accent-color) !important;
@@ -138,6 +140,89 @@
             opacity: 0;
             pointer-events: none;
         }
+        /* Efeito de cursor de digitação */
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em; /* Ajusta com base no tamanho da fonte */
+            background-color: var(--text-color);
+            margin-left: 2px;
+            animation: blink-caret .75s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { background-color: transparent }
+            50% { background-color: var(--text-color); }
+        }
+
+        .light-theme .typing-cursor {
+            background-color: var(--text-color); /* Garante que a cor do cursor mude com o tema */
+        }
+
+        /* Estilos para o menu do carrinho */
+        #cart-sidebar {
+            background-color: var(--bg-color); /* Usar a cor de fundo principal */
+            border: 1px solid var(--border-color);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5); /* Sombra mais forte */
+        }
+        #cart-sidebar .text-2xl.font-bold {
+            color: var(--accent-color); /* Título do carrinho na cor de destaque */
+        }
+        #cart-items li {
+            background-color: var(--card-bg-color); /* Fundo dos itens do carrinho */
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem; /* Bordas mais arredondadas */
+            padding: 1rem;
+            margin-bottom: 0.75rem; /* Espaçamento entre os itens */
+        }
+        #cart-items li span:first-child {
+            font-weight: 500; /* Nome do curso mais destacado */
+        }
+        #cart-items li .remove {
+            background-color: #ef4444; /* Cor de fundo para o botão de remover */
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            transition: background-color 0.2s;
+        }
+        #cart-items li .remove:hover {
+            background-color: #dc2626;
+        }
+        #checkout-button {
+            width: 100%; /* Botão de finalizar matrícula em largura total */
+            border-radius: 9999px; /* Totalmente arredondado */
+        }
+
+        /* Estilos da notificação */
+        #notification-popup {
+            position: fixed;
+            bottom: -100px; /* Inicia fora da tela */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(29, 185, 84, 0.9); /* Cor de destaque com transparência */
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: bottom 0.5s ease-out, opacity 0.5s ease-out, visibility 0.5s;
+            min-width: 250px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        #notification-popup.show {
+            bottom: 20px; /* Desliza para cima */
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #notification-popup.error {
+            background-color: rgba(239, 68, 68, 0.9); /* Cor para erro/duplicado */
+        }
     </style>
 </head>
 <body class="overflow-x-hidden">
@@ -150,7 +235,9 @@
 
     <header class="bg-transparent py-4 sticky top-0 z-50 backdrop-blur-sm border-b border-transparent">
         <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="#" data-section="hero"><img src="ced.svg" alt="CED Brasil" class="h-12 inline-block"></a>
+            <a href="#" data-section="hero">
+                <img src="ced.svg" alt="CED Brasil" class="h-12 inline-block">
+            </a>
             <nav id="desktop-nav" class="hidden md:flex items-center space-x-2 relative">
                 <a href="#" data-section="hero" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Início</a>
                 <a href="#" data-section="sobre" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Sobre Nós</a>
@@ -159,18 +246,18 @@
                 <div id="nav-indicator" class="absolute bottom-0 h-0.5 bg-spotify-green transition-all duration-300"></div>
             </nav>
             <div class="hidden md:flex items-center gap-4">
-                 <label class="theme-switch" for="theme-checkbox">
+                <label class="theme-switch" for="theme-checkbox">
                     <input type="checkbox" id="theme-checkbox" />
                     <div class="slider"></div>
                 </label>
-                 <a href="login.html" class="header-button font-semibold py-2 px-6 rounded-lg transition-colors">Entrar</a>
-                 <button id="cartButton" class="relative text-white hover:text-spotify-green transition-colors text-xl">
+                <a href="login.html" class="header-button font-semibold py-2 px-6 rounded-lg transition-colors">Entrar</a>
+                <button id="cartButton" class="relative text-white hover:text-spotify-green transition-colors text-xl">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count" class="absolute -top-2 -right-2 bg-spotify-green text-black rounded-full text-xs w-5 h-5 flex items-center justify-center" style="display:none"></span>
                 </button>
             </div>
             <button id="mobileMenuButton" class="md:hidden text-white z-50">
-                 <i class="fas fa-bars text-xl"></i>
+                <i class="fas fa-bars text-xl"></i>
             </button>
         </div>
     </header>
@@ -185,23 +272,23 @@
             <a href="login.html" class="hover:text-spotify-green transition-colors">Entrar</a>
             <button id="mobileCartButton" class="hover:text-spotify-green transition-colors"><i class="fas fa-shopping-cart"></i></button>
             
-             <div class="border-t border-gray-700 w-full my-8"></div>
-             
-             <div class="flex items-center gap-8">
-                 <label class="theme-switch" for="mobile-theme-checkbox">
+            <div class="border-t border-gray-700 w-full my-8"></div>
+            
+            <div class="flex items-center gap-8">
+                <label class="theme-switch" for="mobile-theme-checkbox">
                     <input type="checkbox" id="mobile-theme-checkbox" />
                     <div class="slider"></div>
                 </label>
-             </div>
+            </div>
         </nav>
     </div>
 
-    <div id="cart-sidebar" class="fixed top-0 right-0 w-80 h-full bg-gray-900 border-l border-gray-700 shadow-xl rounded-l-lg p-6 transform translate-x-full transition-transform duration-300 z-50">
+    <div id="cart-sidebar" class="fixed top-0 right-0 w-80 h-full p-6 transform translate-x-full transition-transform duration-300 z-50 rounded-l-lg">
         <button id="close-cart" class="text-white mb-4"><i class="fas fa-times"></i></button>
         <h2 class="text-2xl font-bold mb-4">Seu Carrinho</h2>
         <ul id="cart-items" class="space-y-4 mb-4"></ul>
         <div id="cart-total" class="text-lg font-semibold mb-4"></div>
-        <button id="checkout-button" class="button-glow bg-spotify-green text-black font-bold py-2 px-4 rounded">Finalizar Matrícula</button>
+        <button id="checkout-button" class="button-glow bg-spotify-green text-black font-bold py-2 px-4 rounded-full">Finalizar Matrícula</button>
     </div>
 
     <div id="cart-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-40"></div>
@@ -239,12 +326,11 @@
 
     <main class="container mx-auto px-6 relative">
         <section id="hero" class="text-center py-20 md:py-32 px-6 content-section">
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight mb-6">
-                Educação de Qualidade que <br> 
-                <span class="spotify-green">Transforma o Seu Futuro</span>.
+            <h1 id="hero-title" class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight mb-6" data-text="Educação de Qualidade que Transforma o Seu Futuro.">
+                <!-- Conteúdo será digitado via JavaScript -->
             </h1>
-            <p class="text-lg md:text-xl max-w-3xl mx-auto text-muted mb-10">
-                Capacitamos você com o conhecimento e as habilidades essenciais para dominar o mercado de trabalho e construir a carreira dos seus sonhos.
+            <p id="hero-subtitle" class="text-lg md:text-xl max-w-3xl mx-auto text-muted mb-10" data-text="Capacitamos você com o conhecimento e as habilidades essenciais para dominar o mercado de trabalho e construir a carreira dos seus sonhos.">
+                <!-- Conteúdo será digitado via JavaScript -->
             </p>
         </section>
 
@@ -275,7 +361,7 @@
                     <p class="text-lg text-muted mt-2">Invista em você com um dos nossos cursos de alta demanda.</p>
                 </div>
                 <div id="course-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Course cards will be injected here by JavaScript -->
+                    <!-- Cards de cursos serão injetados aqui via JavaScript -->
                 </div>
             </div>
         </section>
@@ -325,241 +411,486 @@
                 </div>
             </div>
         </footer>
-        <script src="cart.js"></script>
-        <script src="courses.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-                const mobileMenuButton = document.getElementById('mobileMenuButton');
-                const mobileMenu = document.getElementById('mobile-menu');
-                if (typeof updateCartCount === 'function') {
-                    updateCartCount();
-                }
-                if (mobileMenuButton && mobileMenu) {
-                    mobileMenuButton.addEventListener('click', () => {
-                        mobileMenu.classList.toggle('hidden');
-                    });
-                }
+    <!-- Elemento de Notificação -->
+    <div id="notification-popup"></div>
 
-                const themeCheckboxes = [
-                    document.getElementById('theme-checkbox'),
-                    document.getElementById('mobile-theme-checkbox')
-                ];
-                const body = document.body;
-                function applyTheme(isLight) {
-                    body.classList.toggle('light-theme', isLight);
-                    themeCheckboxes.forEach(cb => cb && (cb.checked = isLight));
+    <script>
+        // Conteúdo do cart.js
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let availableCourses = []; // Variável para armazenar os cursos carregados da API
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+        }
+
+        function getCart() {
+            return cart;
+        }
+
+        /**
+         * Adiciona um curso ao carrinho se ele não estiver duplicado.
+         * @param {string} courseName - O nome do curso a ser adicionado.
+         * @returns {boolean} - Retorna true se o curso foi adicionado, false se já existia.
+         */
+        function addCourse(courseName) {
+            if (!cart.includes(courseName)) {
+                cart.push(courseName);
+                saveCart();
+                return true; // Course added successfully
+            }
+            return false; // Course already in cart
+        }
+
+        function removeCourse(index) {
+            cart.splice(index, 1);
+            saveCart();
+        }
+
+        function updateCartCount() {
+            const cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = cart.length;
+                cartCountElement.style.display = cart.length > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // Função para carregar os cursos da API
+        async function fetchCourses() {
+            try {
+                const response = await fetch('https://api.cedbrasilia.com.br/cursos');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const savedTheme = localStorage.getItem('theme') === 'light';
-                applyTheme(savedTheme);
-                themeCheckboxes.forEach(cb => {
-                    if (cb) {
-                        cb.addEventListener('change', e => {
-                            const isChecked = e.currentTarget.checked;
-                            applyTheme(isChecked);
-                            localStorage.setItem('theme', isChecked ? 'light' : 'dark');
-                            if (mobileMenu) mobileMenu.classList.add('hidden');
-                        });
+                const data = await response.json();
+                availableCourses = data; // Armazena os cursos na variável global
+                loadCourses(); // Carrega os cursos na interface
+            } catch (error) {
+                console.error('Erro ao carregar cursos da API:', error);
+                showNotification('Erro ao carregar cursos. Tente novamente mais tarde.', 'error');
+            }
+        }
+
+        function loadCourses() {
+            const courseList = document.getElementById('course-list');
+            if (!courseList) return;
+
+            courseList.innerHTML = ''; // Limpa o conteúdo existente
+
+            availableCourses.forEach(course => { // Usa os cursos carregados da API
+                const courseCard = document.createElement('div');
+                courseCard.className = 'card card-glow p-6 flex flex-col justify-between items-start';
+                // Adiciona um placeholder de imagem se a URL da imagem não for válida ou estiver ausente
+                const imageUrl = course.image && course.image.startsWith('http') ? course.image : `https://placehold.co/400x250/1DB954/121212?text=${encodeURIComponent(course.name)}`;
+                
+                courseCard.innerHTML = `
+                    <img src="${imageUrl}" alt="Imagem do curso de ${course.name}" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <h3 class="text-2xl font-bold mb-2">${course.name}</h3>
+                    <p class="text-muted text-sm mb-4">${course.description}</p>
+                    <div class="flex items-center justify-between w-full mt-auto">
+                        <span class="text-xl font-bold spotify-green">R$ ${course.price.toFixed(2).replace('.', ',')}</span>
+                        <button class="add-to-cart button-glow bg-spotify-green text-black font-semibold py-2 px-4 rounded-full transition-all duration-300 transform" data-course-name="${course.name}">
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                    <button class="details-button text-xs mt-2 text-blue-400 hover:underline" data-title="${course.name}" data-description="${course.description}">Ver Detalhes</button>
+                `;
+                courseList.appendChild(courseCard);
+            });
+
+            // Adiciona listeners de evento para botões "Adicionar ao Carrinho"
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const courseName = e.target.dataset.courseName;
+                    const added = addCourse(courseName); // Chama a função addCourse
+
+                    if (added) {
+                        showNotification(`"${courseName}" adicionado ao carrinho!`, 'success');
+                        // Desabilita o botão temporariamente ou muda o texto
+                        e.target.textContent = 'Adicionado!';
+                        e.target.disabled = true;
+                        e.target.classList.add('opacity-50', 'cursor-not-allowed');
+                        setTimeout(() => {
+                            // Reativa o botão se o item ainda não estiver no carrinho (caso seja removido depois)
+                            if (!getCart().includes(courseName)) {
+                                e.target.textContent = 'Adicionar ao Carrinho';
+                                e.target.disabled = false;
+                                e.target.classList.remove('opacity-50', 'cursor-not-allowed');
+                            }
+                        }, 2000); // Reativa o botão após 2 segundos
+                        updateCartCount(); // Atualiza a contagem do carrinho no cabeçalho
+                    } else {
+                        showNotification(`"${courseName}" já está no carrinho.`, 'error');
+                        e.target.textContent = 'Já no carrinho!';
+                        setTimeout(() => {
+                            e.target.textContent = 'Adicionar ao Carrinho';
+                        }, 1500);
                     }
                 });
+            });
 
-                const sections = document.querySelectorAll('.content-section');
-                const desktopLinks = document.querySelectorAll('#desktop-nav [data-section]');
-                const mobileLinks = document.querySelectorAll('#mobile-nav [data-section]');
-                const allLinks = [...desktopLinks, ...mobileLinks];
-                const indicator = document.getElementById('nav-indicator');
-                const desktopNav = document.getElementById('desktop-nav');
+            // Adiciona listeners de evento para botões "Ver Detalhes"
+            document.querySelectorAll('.details-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const title = e.target.dataset.title;
+                    const description = e.target.dataset.description;
+                    window.showCourseModal(title, description); // Usa a função global
+                });
+            });
+        }
 
-                function updateIndicator(el) {
-                    if (!indicator || !el) return;
-                    const elRect = el.getBoundingClientRect();
-                    const navRect = desktopNav.getBoundingClientRect();
-                    indicator.style.width = `${el.offsetWidth}px`;
-                    indicator.style.left = `${el.offsetLeft}px`;
-                }
-                function showSection(id) {
-                    sections.forEach(section => {
-                        section.classList.toggle('visible', section.id === id);
-                        section.classList.toggle('hidden', section.id !== id);
-                    });
-                    desktopLinks.forEach(link => {
-                        const active = link.dataset.section === id;
-                        link.classList.toggle('active', active);
-                        if (active) updateIndicator(link);
-                    });
-                    mobileLinks.forEach(link => {
-                        link.classList.toggle('active', link.dataset.section === id);
-                    });
-                }
-                allLinks.forEach(link => {
-                    link.addEventListener('click', e => {
-                        e.preventDefault();
-                        const id = link.dataset.section;
-                        showSection(id);
+        // Função para obter o preço do curso, necessária para renderização do carrinho.
+        function getCoursePrice(courseName) {
+            const course = availableCourses.find(c => c.name === courseName); // Busca nos cursos carregados
+            return course ? course.price : 0;
+        }
+
+        // Função para mostrar notificações
+        let notificationTimeout;
+        function showNotification(message, type = 'success', duration = 3000) {
+            const popup = document.getElementById('notification-popup');
+            popup.textContent = message;
+            popup.classList.remove('error'); // Limpa classe anterior
+            if (type === 'error') {
+                popup.classList.add('error');
+            }
+            popup.classList.add('show');
+
+            if (notificationTimeout) {
+                clearTimeout(notificationTimeout);
+            }
+            notificationTimeout = setTimeout(() => {
+                popup.classList.remove('show');
+            }, duration);
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (typeof updateCartCount === 'function') {
+                updateCartCount();
+            }
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            const themeCheckboxes = [
+                document.getElementById('theme-checkbox'),
+                document.getElementById('mobile-theme-checkbox')
+            ];
+            const body = document.body;
+            function applyTheme(isLight) {
+                body.classList.toggle('light-theme', isLight);
+                themeCheckboxes.forEach(cb => cb && (cb.checked = isLight));
+            }
+            const savedTheme = localStorage.getItem('theme') === 'light';
+            applyTheme(savedTheme);
+            themeCheckboxes.forEach(cb => {
+                if (cb) {
+                    cb.addEventListener('change', e => {
+                        const isChecked = e.currentTarget.checked;
+                        applyTheme(isChecked);
+                        localStorage.setItem('theme', isChecked ? 'light' : 'dark');
                         if (mobileMenu) mobileMenu.classList.add('hidden');
                     });
-                });
-                window.addEventListener('resize', () => {
-                    const activeLink = document.querySelector('#desktop-nav a.active');
-                    if (activeLink) updateIndicator(activeLink);
-                });
-
-                const cartSidebar = document.getElementById('cart-sidebar');
-                const cartBackdrop = document.getElementById('cart-backdrop');
-                const cartButton = document.getElementById('cartButton');
-                const mobileCartButton = document.getElementById('mobileCartButton');
-                const closeCart = document.getElementById('close-cart');
-                const cartList = document.getElementById('cart-items');
-                const cartTotal = document.getElementById('cart-total');
-                const courseModal = document.getElementById('course-modal');
-                const modalTitle = document.getElementById('modal-title');
-                const modalDesc = document.getElementById('modal-desc');
-                const closeModal = document.getElementById('close-modal');
-
-                function renderCart() {
-                    const cart = getCart();
-                    cartList.innerHTML = '';
-                    let total = 0;
-                    cart.forEach((name, idx) => {
-                        const price = getCoursePrice(name);
-                        const li = document.createElement('li');
-                        li.className = 'flex justify-between items-center bg-gray-800 p-4 rounded';
-                        li.innerHTML = `<span>${name}</span>` +
-                            `<span>R$ ${price.toFixed(2).replace('.', ',')}</span>` +
-                            `<button data-idx="${idx}" class="remove text-red-500">Remover</button>`;
-                        cartList.appendChild(li);
-                        total += price;
-                    });
-                    if (cart.length >= 2) {
-                        const desconto = total * 0.4;
-                        const final = total - desconto;
-                        cartTotal.innerHTML = `Subtotal: R$ ${total.toFixed(2).replace('.', ',')}<br>` +
-                            `<span class="text-green-500">Desconto 40%: -R$ ${desconto.toFixed(2).replace('.', ',')}</span><br>` +
-                            `<strong>Total: R$ ${final.toFixed(2).replace('.', ',')}</strong>`;
-                    } else {
-                        cartTotal.innerHTML = `<strong>Total: R$ ${total.toFixed(2).replace('.', ',')}</strong>`;
-                    }
                 }
-
-                function openCart() {
-                    renderCart();
-                    cartSidebar.classList.remove('translate-x-full');
-                    cartSidebar.classList.add('translate-x-0', 'open');
-                    if (cartBackdrop) cartBackdrop.classList.remove('hidden');
-                }
-
-                if (cartButton) cartButton.addEventListener('click', openCart);
-                if (mobileCartButton) mobileCartButton.addEventListener('click', () => {
-                    if (mobileMenu) mobileMenu.classList.add('hidden');
-                    openCart();
-                });
-                function closeCartFn() {
-                    cartSidebar.classList.remove('open', 'translate-x-0');
-                    cartSidebar.classList.add('translate-x-full');
-                    if (cartBackdrop) cartBackdrop.classList.add('hidden');
-                }
-
-                if (closeCart) closeCart.addEventListener('click', closeCartFn);
-                if (cartBackdrop) cartBackdrop.addEventListener('click', closeCartFn);
-                cartList.addEventListener('click', e => {
-                    if (e.target.classList.contains('remove')) {
-                        const idx = parseInt(e.target.dataset.idx, 10);
-                        removeCourse(idx);
-                        renderCart();
-                    }
-                });
-
-                function showCourseModal(title, text) {
-                    if (!courseModal) return;
-                    modalTitle.textContent = title;
-                    modalDesc.textContent = text;
-                    courseModal.classList.remove('hidden');
-                }
-
-                function closeModalFn() {
-                    if (courseModal) courseModal.classList.add('hidden');
-                }
-                if (closeModal) closeModal.addEventListener('click', closeModalFn);
-                if (courseModal) courseModal.addEventListener('click', e => { if (e.target === courseModal) closeModalFn(); });
-                window.showCourseModal = showCourseModal;
-
-                const checkoutButton = document.getElementById('checkout-button');
-                const checkoutModal = document.getElementById('checkout-modal');
-                const closeCheckout = document.getElementById('close-checkout');
-                const checkoutForm = document.getElementById('checkoutForm');
-                const checkoutNome = document.getElementById('checkout-nome');
-                const checkoutCPF = document.getElementById('checkout-cpf');
-                const checkoutPhone = document.getElementById('checkout-phone');
-                const checkoutMsg = document.getElementById('checkout-message');
-
-                function openCheckout() {
-                    if (checkoutModal) checkoutModal.classList.remove('hidden');
-                }
-                function closeCheckoutFn() {
-                    if (checkoutModal) checkoutModal.classList.add('hidden');
-                }
-
-                function applyWhatsappMask(v) {
-                    v = v.replace(/\D/g, '');
-                    if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
-                    if (v.length > 9) v = `${v.slice(0,9)}-${v.slice(9,13)}`;
-                    return v;
-                }
-                function applyCPFMask(v) {
-                    v = v.replace(/\D/g, '').slice(0,11);
-                    v = v.replace(/(\d{3})(\d)/, '$1.$2');
-                    v = v.replace(/(\d{3})(\d)/, '$1.$2');
-                    v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-                    return v;
-                }
-
-                if (checkoutButton) checkoutButton.addEventListener('click', () => {
-                    closeCartFn();
-                    openCheckout();
-                });
-                if (closeCheckout) closeCheckout.addEventListener('click', closeCheckoutFn);
-                if (checkoutModal) checkoutModal.addEventListener('click', e => { if (e.target === checkoutModal) closeCheckoutFn(); });
-
-                if (checkoutCPF) checkoutCPF.addEventListener('input', e => { e.target.value = applyCPFMask(e.target.value); });
-                if (checkoutPhone) checkoutPhone.addEventListener('input', e => { e.target.value = applyWhatsappMask(e.target.value); });
-
-                if (checkoutForm) checkoutForm.addEventListener('submit', async e => {
-                    e.preventDefault();
-                    const nome = checkoutNome.value.trim();
-                    const cpf = checkoutCPF.value.replace(/\D/g, '').slice(0,11);
-                    const phone = checkoutPhone.value.replace(/\D/g, '');
-                    if (!nome || !cpf || !phone) {
-                        checkoutMsg.textContent = 'Preencha todos os campos.';
-                        checkoutMsg.className = 'text-center text-red-500 mt-2 h-5';
-                        return;
-                    }
-                    checkoutMsg.textContent = 'Enviando...';
-                    checkoutMsg.className = 'text-center text-gray-300 mt-2 h-5';
-                    try {
-                        const res = await fetch('https://api.cedbrasilia.com.br/matricular', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ nome, cpf, whatsapp: phone, cursos: getCart() })
-                        });
-                        if (res.ok) {
-                            checkoutMsg.textContent = 'Matrícula enviada com sucesso!';
-                            checkoutMsg.className = 'text-center text-green-400 mt-2 h-5';
-                            checkoutForm.reset();
-                            saveCart([]);
-                        } else {
-                            throw new Error('Erro ao enviar');
-                        }
-                    } catch {
-                        checkoutMsg.textContent = 'Erro ao enviar. Tente novamente.';
-                        checkoutMsg.className = 'text-center text-red-500 mt-2 h-5';
-                    }
-                });
-
-                showSection('hero');
-                const initialLink = document.querySelector('#desktop-nav a.active');
-                if (initialLink) updateIndicator(initialLink);
             });
-        </script>
-    </body>
+
+            const sections = document.querySelectorAll('.content-section');
+            const desktopLinks = document.querySelectorAll('#desktop-nav [data-section]');
+            const mobileLinks = document.querySelectorAll('#mobile-nav [data-section]');
+            const allLinks = [...desktopLinks, ...mobileLinks];
+            const indicator = document.getElementById('nav-indicator');
+            const desktopNav = document.getElementById('desktop-nav');
+
+            function updateIndicator(el) {
+                if (!indicator || !el) return;
+                const elRect = el.getBoundingClientRect();
+                const navRect = desktopNav.getBoundingClientRect();
+                indicator.style.width = `${el.offsetWidth}px`;
+                indicator.style.left = `${el.offsetLeft}px`;
+            }
+            
+            // Função para simular o efeito de digitação
+            function typeEffect(element, text, speed = 50, callback) {
+                let i = 0;
+                element.innerHTML = ''; // Limpa o conteúdo
+                const cursor = document.createElement('span');
+                cursor.className = 'typing-cursor';
+                element.appendChild(cursor);
+
+                function type() {
+                    if (i < text.length) {
+                        const char = text.charAt(i);
+                        element.insertBefore(document.createTextNode(char), cursor);
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        if (cursor.parentNode) {
+                            cursor.parentNode.removeChild(cursor);
+                        }
+                        if (callback) callback();
+                    }
+                }
+                type();
+            }
+
+            // Função para aplicar estilo específico após a digitação do H1
+            function applyHeroTitleStyling() {
+                const titleElement = document.getElementById('hero-title');
+                if (titleElement) {
+                    const fullText = titleElement.textContent;
+                    const phraseToHighlight = 'Transforma o Seu Futuro.';
+                    const index = fullText.indexOf(phraseToHighlight);
+
+                    if (index !== -1) {
+                        const part1 = fullText.substring(0, index);
+                        const part2 = fullText.substring(index, index + phraseToHighlight.length);
+                        const part3 = fullText.substring(index + phraseToHighlight.length); // Caso haja texto depois
+
+                        titleElement.innerHTML = ''; // Limpa o texto atual
+
+                        // Adiciona a primeira parte
+                        titleElement.appendChild(document.createTextNode(part1));
+
+                        // Adiciona a parte destacada
+                        const span = document.createElement('span');
+                        span.className = 'spotify-green';
+                        span.textContent = part2;
+                        titleElement.appendChild(span);
+
+                        // Adiciona a terceira parte
+                        titleElement.appendChild(document.createTextNode(part3));
+                    }
+                }
+            }
+
+            function showSection(id) {
+                sections.forEach(section => {
+                    section.classList.toggle('visible', section.id === id);
+                    section.classList.toggle('hidden', section.id !== id);
+                });
+                desktopLinks.forEach(link => {
+                    const active = link.dataset.section === id;
+                    link.classList.toggle('active', active);
+                    if (active) updateIndicator(link);
+                });
+                mobileLinks.forEach(link => {
+                    link.classList.toggle('active', link.dataset.section === id);
+                });
+
+                // Aciona a animação de digitação se a seção principal (hero) estiver ativa
+                if (id === 'hero') {
+                    const heroTitle = document.getElementById('hero-title');
+                    const heroSubtitle = document.getElementById('hero-subtitle');
+                    if (heroTitle && heroSubtitle) {
+                        const originalTitleText = heroTitle.dataset.text;
+                        const originalSubtitleText = heroSubtitle.dataset.text;
+
+                        // Inicia a animação de digitação para o título, depois para o subtítulo
+                        typeEffect(heroTitle, originalTitleText, 50, () => {
+                            applyHeroTitleStyling(); // Aplica o estilo após o título ser totalmente digitado
+                            typeEffect(heroSubtitle, originalSubtitleText, 30); // Digitação mais lenta para o parágrafo
+                        });
+                    }
+                }
+            }
+
+            allLinks.forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    const id = link.dataset.section;
+                    showSection(id);
+                    if (mobileMenu) mobileMenu.classList.add('hidden');
+                });
+            });
+            window.addEventListener('resize', () => {
+                const activeLink = document.querySelector('#desktop-nav a.active');
+                if (activeLink) updateIndicator(activeLink);
+            });
+
+            const cartSidebar = document.getElementById('cart-sidebar');
+            const cartBackdrop = document.getElementById('cart-backdrop');
+            const cartButton = document.getElementById('cartButton');
+            const mobileCartButton = document.getElementById('mobileCartButton');
+            const closeCart = document.getElementById('close-cart');
+            const cartList = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const courseModal = document.getElementById('course-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDesc = document.getElementById('modal-desc');
+            const closeModal = document.getElementById('close-modal');
+
+            function renderCart() {
+                const cart = getCart();
+                cartList.innerHTML = '';
+                let total = 0;
+                cart.forEach((name, idx) => {
+                    const price = getCoursePrice(name);
+                    const li = document.createElement('li');
+                    // li.className = 'flex justify-between items-center bg-gray-800 p-4 rounded'; // Style moved to global CSS
+                    li.innerHTML = `<span>${name}</span>` +
+                        `<span>R$ ${price.toFixed(2).replace('.', ',')}</span>` +
+                        `<button data-idx="${idx}" class="remove">Remover</button>`;
+                    cartList.appendChild(li);
+                    total += price;
+                });
+                if (cart.length >= 2) {
+                    const desconto = total * 0.4;
+                    const final = total - desconto;
+                    cartTotal.innerHTML = `Subtotal: R$ ${total.toFixed(2).replace('.', ',')}<br>` +
+                        `<span class="text-green-500">Desconto 40%: -R$ ${desconto.toFixed(2).replace('.', ',')}</span><br>` +
+                        `<strong>Total: R$ ${final.toFixed(2).replace('.', ',')}</strong>`;
+                } else {
+                    cartTotal.innerHTML = `<strong>Total: R$ ${total.toFixed(2).replace('.', ',')}</strong>`;
+                }
+            }
+
+            function openCart() {
+                renderCart();
+                cartSidebar.classList.remove('translate-x-full');
+                cartSidebar.classList.add('translate-x-0', 'open');
+                if (cartBackdrop) cartBackdrop.classList.remove('hidden');
+            }
+
+            if (cartButton) cartButton.addEventListener('click', openCart);
+            if (mobileCartButton) mobileCartButton.addEventListener('click', () => {
+                if (mobileMenu) mobileMenu.classList.add('hidden');
+                openCart();
+            });
+            function closeCartFn() {
+                cartSidebar.classList.remove('open', 'translate-x-0');
+                cartSidebar.classList.add('translate-x-full');
+                if (cartBackdrop) cartBackdrop.classList.add('hidden');
+            }
+
+            if (closeCart) closeCart.addEventListener('click', closeCartFn);
+            if (cartBackdrop) cartBackdrop.addEventListener('click', closeCartFn);
+            cartList.addEventListener('click', e => {
+                if (e.target.classList.contains('remove')) {
+                    const idx = parseInt(e.target.dataset.idx, 10);
+                    removeCourse(idx);
+                    renderCart();
+                }
+            });
+
+            function showCourseModal(title, text) {
+                if (!courseModal) return;
+                modalTitle.textContent = title;
+                modalDesc.textContent = text;
+                courseModal.classList.remove('hidden');
+            }
+
+            function closeModalFn() {
+                if (courseModal) courseModal.classList.add('hidden');
+            }
+            if (closeModal) closeModal.addEventListener('click', closeModalFn);
+            if (courseModal) courseModal.addEventListener('click', e => { if (e.target === courseModal) closeModalFn(); });
+            window.showCourseModal = showCourseModal;
+
+            const checkoutButton = document.getElementById('checkout-button');
+            const checkoutModal = document.getElementById('checkout-modal');
+            const closeCheckout = document.getElementById('close-checkout');
+            const checkoutForm = document.getElementById('checkoutForm');
+            const checkoutNome = document.getElementById('checkout-nome');
+            const checkoutCPF = document.getElementById('checkout-cpf');
+            const checkoutPhone = document.getElementById('checkout-phone');
+            const checkoutMsg = document.getElementById('checkout-message');
+
+            function openCheckout() {
+                if (checkoutModal) checkoutModal.classList.remove('hidden');
+            }
+            function closeCheckoutFn() {
+                if (checkoutModal) checkoutModal.classList.add('hidden');
+            }
+
+            // Função de máscara de telefone aprimorada
+            function applyWhatsappMask(value) {
+                value = value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+
+                if (value.length > 11) { // Limita a 11 dígitos (DDD + 9 dígitos)
+                    value = value.slice(0, 11);
+                }
+
+                if (value.length <= 2) { // Apenas DDD
+                    return value;
+                } else if (value.length <= 7) { // (DD) XXXXX
+                    return `(${value.slice(0, 2)}) ${value.slice(2)}`;
+                } else if (value.length <= 11) { // (DD) XXXXX-XXXX (para números de 9 dígitos de celular)
+                    // Verifica se é um celular (começa com 9 no 3º ou 4º dígito após o DDD)
+                    if (value.length >= 3 && value[2] === '9' || (value.length >= 4 && value[2] !== '9' && value[3] === '9')) {
+                        return `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7, 11)}`;
+                    } else { // Telefone fixo (8 dígitos após DDD)
+                        return `(${value.slice(0, 2)}) ${value.slice(2, 6)}-${value.slice(6, 10)}`;
+                    }
+                }
+                return value; // Fallback
+            }
+
+            function applyCPFMask(v) {
+                v = v.replace(/\D/g, '').slice(0,11);
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                return v;
+            }
+
+            if (checkoutButton) checkoutButton.addEventListener('click', () => {
+                closeCartFn();
+                openCheckout();
+            });
+            if (closeCheckout) closeCheckout.addEventListener('click', closeCheckoutFn);
+            if (checkoutModal) checkoutModal.addEventListener('click', e => { if (e.target === checkoutModal) closeCheckoutFn(); });
+
+            if (checkoutCPF) checkoutCPF.addEventListener('input', e => { e.target.value = applyCPFMask(e.target.value); });
+            if (checkoutPhone) checkoutPhone.addEventListener('input', e => { e.target.value = applyWhatsappMask(e.target.value); });
+
+            if (checkoutForm) checkoutForm.addEventListener('submit', async e => {
+                e.preventDefault();
+                const nome = checkoutNome.value.trim();
+                const cpf = checkoutCPF.value.replace(/\D/g, '').slice(0,11);
+                const phone = checkoutPhone.value.replace(/\D/g, '');
+                if (!nome || !cpf || !phone) {
+                    checkoutMsg.textContent = 'Preencha todos os campos.';
+                    checkoutMsg.className = 'text-center text-red-500 mt-2 h-5';
+                    return;
+                }
+                checkoutMsg.textContent = 'Enviando...';
+                checkoutMsg.className = 'text-center text-gray-300 mt-2 h-5';
+                try {
+                    const res = await fetch('https://api.cedbrasilia.com.br/matricular', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ nome, cpf, whatsapp: phone, cursos: getCart() })
+                    });
+                    if (res.ok) {
+                        checkoutMsg.textContent = 'Matrícula enviada com sucesso!';
+                        checkoutMsg.className = 'text-center text-green-400 mt-2 h-5';
+                        checkoutForm.reset();
+                        saveCart([]);
+                    } else {
+                        throw new Error('Erro ao enviar');
+                    }
+                } catch {
+                    checkoutMsg.textContent = 'Erro ao enviar. Tente novamente.';
+                    checkoutMsg.className = 'text-center text-red-500 mt-2 h-5';
+                }
+            });
+
+            // Carregamento inicial: mostra a seção hero e inicia o efeito de digitação
+            showSection('hero');
+            const initialLink = document.querySelector('#desktop-nav a.active');
+            if (initialLink) updateIndicator(initialLink);
+
+            // Carrega os cursos da API quando a página é carregada
+            fetchCourses();
+        });
+    </script>
+</body>
 </html>
