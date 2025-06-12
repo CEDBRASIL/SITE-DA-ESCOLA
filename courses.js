@@ -33,10 +33,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       const desc = descriptions[name] || 'Curso profissionalizante do CED BRASIL.';
       const card = document.createElement('div');
       card.className = 'card p-6 flex flex-col justify-between';
+      let badge = '';
+      if (name === 'Pacote Office') {
+        card.classList.add('border-2', 'border-green-500');
+        badge = '<span class="bg-green-500 text-black px-2 py-1 rounded text-sm mb-2 inline-block">Recomendado</span>';
+      }
       const priceVal = getCoursePrice(name);
       const price = `R$ ${priceVal.toFixed(2).replace('.', ',')}`;
       card.innerHTML = `
         <div>
+          ${badge}
           <h3 class="text-xl font-bold mb-2">${name}</h3>
           <p class="text-gray-400 mb-4">${desc}</p>
           <p class="text-gray-400 mb-4">Valor: ${price}</p>

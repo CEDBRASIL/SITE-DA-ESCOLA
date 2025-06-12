@@ -169,6 +169,13 @@
             position: relative;
         }
         #nav-indicator {
-            transition: transform 0.3s ease, width 0.3s ease;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
             left: 0;
+        }
+
+        #cart-sidebar {
+            transition: transform 0.3s ease;
+        }
+        #cart-sidebar.open {
+            transform: translateX(0);
         }
