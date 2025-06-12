@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Gráfico - CED BRASIL</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-black text-gray-200">
+  <main class="max-w-md mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-4">Design Gráfico</h1>
+    <p class="mb-8">Preencha os campos abaixo para garantir sua matrícula.</p>
+    <form id="enrollForm" class="space-y-4">
+      <input type="text" id="nome" placeholder="Seu nome" required class="w-full p-3 rounded-lg bg-gray-800">
+      <input type="tel" id="whatsapp" placeholder="(XX) XXXXX-XXXX" required class="w-full p-3 rounded-lg bg-gray-800">
+      <button type="submit" class="w-full button-glow bg-spotify-green text-black font-bold py-3 px-6 rounded">Matricular</button>
+      <div id="msg" class="text-center mt-4"></div>
+    </form>
+  </main>
+  <script>
+    document.getElementById('enrollForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value.trim();
+      const whatsapp = document.getElementById('whatsapp').value.replace(/\D/g,'');
+      const data = { nome, whatsapp, email: 'matricula@cedbrasil.com', cursos: ['Design Gráfico'] };
+      const msg = document.getElementById('msg');
+      msg.textContent = 'Enviando...';
+      try {
+        const resp = await fetch('https://api.cedbrasilia.com.br/matricular', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        msg.textContent = resp.ok ? 'Obrigado! Em breve entraremos em contato.' : 'Erro ao enviar. Tente novamente.';
+      } catch (err) {
+        msg.textContent = 'Erro de conex\u00e3o.';
+      }
+    });
+  </script>
+</body>
+</html>
