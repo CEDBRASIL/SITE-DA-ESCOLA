@@ -21,6 +21,8 @@
             --accent-glow-color: rgba(29, 185, 84, 0.4);
             --accent-glow-hover-color: rgba(29, 185, 84, 0.6);
             --slider-bg: #374151;
+            --logo-text-color: #ffffff;
+            --subscription-box-bg: #121212;
         }
 
         .light-theme {
@@ -31,6 +33,8 @@
             --border-color: #E5E7EB;
             --header-button-bg: #E5E7EB;
             --slider-bg: #d1d5db;
+            --logo-text-color: #1F2937;
+            --subscription-box-bg: #ffffff;
         }
 
         body {
@@ -39,7 +43,24 @@
             color: var(--text-color);
             transition: background-color 0.3s ease, color 0.3s ease;
         }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image:
+                linear-gradient(to right, rgba(119, 119, 119, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(119, 119, 119, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+            pointer-events: none;
+        }
 
+        .logo-text { color: var(--logo-text-color); }
+        .subscription-box { background-color: var(--subscription-box-bg); }
         .text-muted { color: var(--text-muted-color); }
         .card {
             background-color: var(--card-bg-color);
@@ -51,7 +72,7 @@
             height: 100%;
         }
         .header-button { background-color: var(--header-button-bg); color: var(--text-color); }
-        .header-button:hover { background-color: var(--border-color); }
+        .header-button:hover { opacity: 0.8; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; color: var(--text-color); }
         main { flex-grow: 1; }
         .spotify-green { color: var(--accent-color); }
@@ -64,16 +85,23 @@
         .glow-effect { position: absolute; z-index: -1; filter: blur(120px); opacity: 0.2; }
         
         .content-section {
-            display: none;
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-            opacity: 0;
-            transform: translateY(20px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
             will-change: opacity, transform;
         }
+        
+        .content-section.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+        }
+        
         .content-section.visible {
-            display: block;
             opacity: 1;
             transform: translateY(0);
+            pointer-events: auto;
+            position: relative;
         }
 
         .theme-switch { display: inline-block; height: 24px; position: relative; width: 48px; }
@@ -102,6 +130,14 @@
             color: var(--accent-color) !important;
             font-weight: 600;
         }
+        #mobile-menu {
+             transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #mobile-menu.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body class="overflow-x-hidden">
@@ -114,30 +150,14 @@
 
     <header class="bg-transparent py-4 sticky top-0 z-50 backdrop-blur-sm border-b border-transparent">
         <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="#" data-section="hero" class="text-3xl font-bold tracking-tighter text-white">CED <span class="spotify-green">BRASIL</span></a>
+            <a href="#" data-section="hero" class="text-3xl font-bold tracking-tighter logo-text">CED <span class="spotify-green">BRASIL</span></a>
             <nav id="desktop-nav" class="hidden md:flex items-center space-x-2">
-                <a href="#" data-section="hero" class="text-white hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Início</a>
-                <a href="#" data-section="sobre" class="text-muted hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Sobre Nós</a>
-                <a href="#" data-section="cursos" class="text-muted hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Cursos</a>
-                <a href="#" data-section="depoimentos" class="text-muted hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Depoimentos</a>
+                <a href="#" data-section="hero" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Início</a>
+                <a href="#" data-section="sobre" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Sobre Nós</a>
+                <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Assinatura</a>
+                <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Depoimentos</a>
             </nav>
             <div class="hidden md:flex items-center gap-4">
-                 <div class="relative">
-                    <button id="lang-switcher-btn" class="px-3 py-1.5 border border-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-800 transition-colors flex items-center">
-                        <span data-translate="lang_button">PT</span>
-                        <svg class="w-4 h-4 ml-1 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div id="lang-desktop-menu" class="absolute hidden right-0 mt-2 w-40 rounded-lg shadow-lg card z-10">
-                        <div class="py-1">
-                            <a href="#" class="block px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-white" onclick="setLanguage('pt', event)">Português (PT)</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-white" onclick="setLanguage('en', event)">English (EN)</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-white" onclick="setLanguage('es', event)">Español (ES)</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-white" onclick="setLanguage('ru', event)">Русский (RU)</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-white" onclick="setLanguage('zh', event)">中文 (ZH)</a>
-                             <a href="#" class="block px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-white" onclick="setLanguage('ja', event)">日本語 (JA)</a>
-                        </div>
-                    </div>
-                </div>
                 <label class="theme-switch" for="theme-checkbox">
                     <input type="checkbox" id="theme-checkbox" />
                     <div class="slider"></div>
@@ -146,19 +166,39 @@
                     Matricular
                 </a>
             </div>
-            <button id="mobileMenuButton" class="md:hidden text-white">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <button id="mobileMenuButton" class="md:hidden text-white z-50">
+                 <i class="fas fa-bars text-xl"></i>
             </button>
         </div>
     </header>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-40 p-6">
+        <nav id="mobile-nav" class="flex flex-col items-center justify-center h-full text-2xl space-y-8">
+            <a href="#" data-section="hero" class="hover:text-spotify-green transition-colors">Início</a>
+            <a href="#" data-section="sobre" class="hover:text-spotify-green transition-colors">Sobre Nós</a>
+            <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors">Assinatura</a>
+            <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors">Depoimentos</a>
+            
+             <div class="border-t border-gray-700 w-full my-8"></div>
+             
+             <div class="flex items-center gap-8">
+                 <label class="theme-switch" for="mobile-theme-checkbox">
+                    <input type="checkbox" id="mobile-theme-checkbox" />
+                    <div class="slider"></div>
+                </label>
+             </div>
+        </nav>
+    </div>
 
-    <main class="container mx-auto px-6">
+
+    <main class="container mx-auto px-6 relative">
         <section id="hero" class="text-center py-20 md:py-32 px-6 content-section">
-            <h1 data-translate="hero_title" class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight mb-6">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight mb-6">
                 Educação de Qualidade que <br> 
                 <span class="spotify-green">Transforma o Seu Futuro</span>.
             </h1>
-            <p data-translate="hero_subtitle" class="text-lg md:text-xl max-w-3xl mx-auto text-muted mb-10">
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-muted mb-10">
                 Capacitamos você com o conhecimento e as habilidades essenciais para dominar o mercado de trabalho e construir a carreira dos seus sonhos.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -168,7 +208,7 @@
             </div>
         </section>
 
-        <section id="sobre" class="py-20 px-6 content-section">
+        <section id="sobre" class="py-20 px-6 content-section hidden">
              <div class="container mx-auto">
                 <div class="text-center mb-12">
                     <h2 class="text-4xl font-bold tracking-tighter">Quem <span class="spotify-green">Somos</span></h2>
@@ -188,14 +228,14 @@
                 </div>
             </div>
         </section>
-        <section id="cursos" class="py-20 px-6 content-section">
+        <section id="cursos" class="py-20 px-6 content-section hidden">
             <div class="container mx-auto">
                  <div class="text-center mb-12">
                     <h2 class="text-4xl font-bold tracking-tighter">Nossa <span class="spotify-green">Assinatura</span></h2>
                     <p class="text-lg text-muted mt-2">Acesso ilimitado a todos os nossos cursos por um preço único.</p>
                 </div>
                 
-                <div class="max-w-2xl mx-auto bg-[#000000] border-2 border-spotify-green rounded-2xl p-8 shadow-2xl shadow-spotify-green/20">
+                <div class="subscription-box max-w-2xl mx-auto border-2 border-spotify-green rounded-2xl p-8 shadow-2xl shadow-spotify-green/20">
                     <h3 class="text-3xl font-bold text-center mb-2">Plano Completo</h3>
                     <p class="text-center text-5xl font-extrabold spotify-green mb-4">R$29<span class="text-3xl font-bold text-gray-400">,99/mês</span></p>
                     <ul class="space-y-3 my-8">
@@ -210,7 +250,7 @@
                 </div>
             </div>
         </section>
-        <section id="depoimentos" class="py-20 px-6 content-section">
+        <section id="depoimentos" class="py-20 px-6 content-section hidden">
              <div class="container mx-auto">
                 <div class="text-center mb-12">
                     <h2 class="text-4xl font-bold tracking-tighter">O Que Nossos <span class="spotify-green">Alunos Dizem</span></h2>
@@ -248,7 +288,7 @@
         <div class="container mx-auto px-6">
              <div class="mb-4">
                 <a href="#" data-section="hero" class="flex items-center justify-center gap-3">
-                     <span class="text-2xl font-bold tracking-tighter text-white">CED <span class="spotify-green">BRASIL</span></span>
+                     <span class="text-2xl font-bold tracking-tighter logo-text">CED <span class="spotify-green">BRASIL</span></span>
                 </a>
             </div>
             <p class="text-muted">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
@@ -264,61 +304,33 @@
     </footer>
     
 <script>
-    const translations = {
-        pt: {
-            nav_inicio: "Início", nav_sobre: "Sobre Nós", nav_cursos: "Cursos", nav_depoimentos: "Depoimentos", lang_button: "PT",
-            hero_title: `Educação de Qualidade que <br> <span class="spotify-green">Transforma o Seu Futuro</span>.`,
-            hero_subtitle: "Capacitamos você com o conhecimento e as habilidades essenciais para dominar o mercado de trabalho e construir a carreira dos seus sonhos.",
-        },
-        en: {
-            nav_inicio: "Home", nav_sobre: "About Us", nav_cursos: "Courses", nav_depoimentos: "Testimonials", lang_button: "EN",
-            hero_title: `Quality Education that <br> <span class="spotify-green">Transforms Your Future</span>.`,
-            hero_subtitle: "We empower you with the essential knowledge and skills to master the job market and build the career of your dreams.",
-        },
-        es: { nav_inicio: "Inicio", nav_sobre: "Sobre Nosotros", nav_cursos: "Cursos", nav_depoimentos: "Testimonios", lang_button: "ES" },
-        ru: { nav_inicio: "Главная", nav_sobre: "О нас", nav_cursos: "Курсы", nav_depoimentos: "Отзывы", lang_button: "RU" },
-        zh: { nav_inicio: "首页", nav_sobre: "关于我们", nav_cursos: "课程", nav_depoimentos: "感言", lang_button: "ZH" },
-        ja: { nav_inicio: "ホーム", nav_sobre: "会社概要", nav_cursos: "コース", nav_depoimentos: "お客様の声", lang_button: "JA" }
-    };
-
-    function setLanguage(lang, event) {
-        if(event) event.preventDefault();
-        const langPack = translations[lang] || translations.pt;
-        document.querySelectorAll('[data-translate]').forEach(el => {
-            const key = el.getAttribute('data-translate');
-            if (langPack[key]) {
-                el.innerHTML = langPack[key];
-            } else if (translations.pt[key]) {
-                el.innerHTML = translations.pt[key];
-            }
-        });
-        localStorage.setItem('language', lang);
-        document.querySelectorAll('#lang-switcher-btn span, #mobile-lang-btn span').forEach(el => el.textContent = lang.toUpperCase());
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
         const contentSections = document.querySelectorAll('.content-section');
-        const navLinks = document.querySelectorAll('nav a[data-section], footer a[data-section]');
+        const allNavLinks = document.querySelectorAll('a[data-section]');
 
         function switchContent(targetId) {
             contentSections.forEach(section => {
-                section.classList.toggle('visible', section.id === targetId);
+                const isTarget = section.id === targetId;
+                section.classList.toggle('visible', isTarget);
+                section.classList.toggle('hidden', !isTarget);
             });
-            navLinks.forEach(link => {
+            allNavLinks.forEach(link => {
                 const isActive = link.dataset.section === targetId;
                 link.classList.toggle('active', isActive);
-                link.classList.toggle('text-muted', !isActive);
             });
         }
 
-        navLinks.forEach(link => {
+        allNavLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 switchContent(link.dataset.section);
+                const mobileMenu = document.getElementById('mobile-menu');
+                if(!mobileMenu.classList.contains('hidden')){
+                    mobileMenu.classList.add('hidden');
+                    document.querySelector('#mobileMenuButton i').classList.replace('fa-times', 'fa-bars');
+                }
             });
         });
-
-        switchContent('hero');
         
         // Theme Switcher
         const themeCheckboxes = [document.getElementById('theme-checkbox'), document.getElementById('mobile-theme-checkbox')];
@@ -329,35 +341,17 @@
         }
         const savedTheme = localStorage.getItem('theme') === 'light';
         applyTheme(savedTheme);
+
         themeCheckboxes.forEach(cb => {
             if(cb) cb.addEventListener('change', (e) => {
-                applyTheme(e.currentTarget.checked);
-                localStorage.setItem('theme', e.currentTarget.checked ? 'light' : 'dark');
+                const isChecked = e.currentTarget.checked;
+                applyTheme(isChecked);
+                localStorage.setItem('theme', isChecked ? 'light' : 'dark');
             });
         });
 
-        // Language Switcher
-        const langBtn = document.getElementById('lang-switcher-btn');
-        const langMenu = document.getElementById('lang-desktop-menu');
-        if(langBtn && langMenu) {
-            langBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                langMenu.classList.toggle('hidden');
-            });
-        }
-        document.addEventListener('click', (e) => {
-            if (langMenu && !langMenu.contains(e.target) && !langBtn.contains(e.target)) {
-                langMenu.classList.add('hidden');
-            }
-        });
-        document.querySelectorAll('#lang-desktop-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                if(langMenu) langMenu.classList.add('hidden');
-            });
-        });
-        const savedLang = localStorage.getItem('language') || 'pt';
-        setLanguage(savedLang);
-
+        // Initialize view
+        switchContent('hero');
         document.getElementById('currentYear').textContent = new Date().getFullYear();
     });
 </script>
