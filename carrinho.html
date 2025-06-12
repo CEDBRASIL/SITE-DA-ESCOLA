@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho de Compras - CED BRASIL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.jpg" type="image/jpeg" />
+</head>
+<body class="overflow-x-hidden">
+    <header class="bg-transparent py-4 sticky top-0 z-50 backdrop-blur-sm border-b border-transparent">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="text-3xl font-bold tracking-tighter logo-text">CED <span class="spotify-green">BRASIL</span></a>
+            <a href="index.html" class="header-button font-semibold py-2 px-6 rounded-lg transition-colors">Voltar</a>
+        </div>
+    </header>
+    <main class="container mx-auto px-6 py-10">
+        <h1 class="text-3xl font-bold mb-6">Seu Carrinho</h1>
+        <ul id="cart-items" class="mb-6 space-y-4"></ul>
+        <div id="cart-total" class="text-lg font-semibold mb-6"></div>
+        <a href="matricularasaas.html" class="button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full">Finalizar Matrícula</a>
+    </main>
+    <footer class="text-center py-8 border-t border-gray-800 mt-auto">
+        <div class="container mx-auto px-6">
+            <div class="text-2xl font-bold tracking-tighter mb-4 text-white">
+                <a href="index.html">CED BRASIL</a>
+            </div>
+            <p class="text-gray-400">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="https://www.facebook.com/people/CED-Brasil/61575889016332/" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-facebook-f text-lg"></i></a>
+                <a href="https://instagram.com/cedbrasill" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-instagram text-lg"></i></a>
+                <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-whatsapp text-lg"></i></a>
+            </div>
+        </div>
+    </footer>
+    <script src="cart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            const list = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+
+            function render() {
+                const cart = getCart();
+                list.innerHTML = '';
+                let total = 0;
+                cart.forEach((name, idx) => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center bg-gray-800 p-4 rounded';
+                    li.innerHTML = `<span>${name}</span>
+                        <span>R$ ${COURSE_PRICE.toFixed(2).replace('.', ',')}</span>
+                        <button data-idx="${idx}" class="remove text-red-500">Remover</button>`;
+                    list.appendChild(li);
+                    total += COURSE_PRICE;
+                });
+                if (cart.length >= 2) {
+                    const desconto = total * 0.4;
+                    const final = total - desconto;
+                    totalEl.innerHTML = `Subtotal: R$ ${total.toFixed(2).replace('.', ',')}<br>` +
+                        `<span class="text-green-500">Desconto 40%: -R$ ${desconto.toFixed(2).replace('.', ',')}</span><br>` +
+                        `<strong>Total: R$ ${final.toFixed(2).replace('.', ',')}</strong>`;
+                } else {
+                    totalEl.innerHTML = `<strong>Total: R$ ${total.toFixed(2).replace('.', ',')}</strong>`;
+                }
+            }
+
+            list.addEventListener('click', e => {
+                if (e.target.classList.contains('remove')) {
+                    const idx = parseInt(e.target.dataset.idx, 10);
+                    removeCourse(idx);
+                    render();
+                }
+            });
+
+            render();
+        });
+    </script>
+</body>
+</html>
