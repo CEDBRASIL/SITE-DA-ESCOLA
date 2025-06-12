@@ -398,7 +398,7 @@
                     <input type="checkbox" id="theme-checkbox" />
                     <div class="slider"></div>
                 </label>
-                <button id="loginButton" type="button" class="header-button font-semibold py-2 px-6 rounded-lg transition-colors">Entrar</button>
+                <a id="loginButton" href="https://ead.cedbrasilia.com.br/index.php?pag=entrar&token=TOKEN" class="header-button font-semibold py-2 px-6 rounded-lg transition-colors">Entrar</a>
                 <button id="cartButton" class="relative text-white hover:text-spotify-green transition-colors text-xl">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count" class="absolute -top-2 -right-2 bg-spotify-green text-black rounded-full text-xs w-5 h-5 flex items-center justify-center" style="display:none"></span>
@@ -418,7 +418,7 @@
             <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors">Cursos</a>
             <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors">Depoimentos</a>
             <a href="#" data-section="afiliados" class="hover:text-spotify-green transition-colors">Afiliados</a>
-            <button id="mobileLoginButton" type="button" class="hover:text-spotify-green transition-colors">Entrar</button>
+            <a id="mobileLoginButton" href="https://ead.cedbrasilia.com.br/index.php?pag=entrar&token=TOKEN" class="hover:text-spotify-green transition-colors">Entrar</a>
             <button id="mobileCartButton" class="hover:text-spotify-green transition-colors"><i class="fas fa-shopping-cart"></i></button>
             
             <div class="flex justify-center space-x-6 mt-8">
@@ -813,10 +813,11 @@
             if (!cart.includes(courseName)) {
                 cart.push(courseName);
                 saveCart();
-                window.showToast(`${courseName} adicionado ao carrinho`);
+                updateCourseButtonStates();
+                showNotification(`"${courseName}" adicionado ao carrinho!`, 'success');
                 return true;
             } else {
-                window.showToast(`${courseName} j\u00e1 est\u00e1 no carrinho`);
+                showNotification(`"${courseName}" j\u00e1 est\u00e1 no carrinho`, 'error');
                 return false;
             }
         }
@@ -827,7 +828,7 @@
             saveCart();
             renderCart();
             updateCourseButtonStates();
-            window.showToast(`${removedCourseName} removido do carrinho`);
+            showNotification(`"${removedCourseName}" removido do carrinho`, 'success');
         }
 
         function updateCartCount() {
@@ -926,10 +927,18 @@
         // Nova função para atualizar o estado dos botões de curso
         function updateCourseButtonStates() {
             const buttons = document.querySelectorAll('.add-to-cart');
+            const currentCart = getCart();
             buttons.forEach(button => {
-                button.textContent = 'Adicionar ao Carrinho';
-                button.disabled = false;
-                button.classList.remove('opacity-50', 'cursor-not-allowed');
+                const name = button.dataset.courseName;
+                if (currentCart.includes(name)) {
+                    button.textContent = 'No Carrinho';
+                    button.disabled = true;
+                    button.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    button.textContent = 'Adicionar ao Carrinho';
+                    button.disabled = false;
+                    button.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
             });
         }
 
@@ -996,47 +1005,24 @@
                 if (loginModal) loginModal.classList.add('hidden');
             }
 
-            if (loginButton) loginButton.addEventListener('click', openLogin);
-            if (mobileLoginButton) mobileLoginButton.addEventListener('click', () => {
-                if (mobileMenu) mobileMenu.classList.add('hidden');
-                openLogin();
-            });
+            // Botões de login agora redirecionam diretamente para o EAD
             if (closeLogin) closeLogin.addEventListener('click', closeLoginFn);
             if (loginModal) loginModal.addEventListener('click', e => { if (e.target === loginModal) closeLoginFn(); });
 
-            if (loginForm) loginForm.addEventListener('submit', async e => {
+            if (loginForm) loginForm.addEventListener('submit', e => {
                 e.preventDefault();
                 const usuario = document.getElementById('usuario').value.trim();
                 const senha = document.getElementById('senha').value.trim();
 
-                // Show loading state
-                loginMsg.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-spotify-green text-xl"></i> Enviando...';
+                loginMsg.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-spotify-green text-xl"></i> Redirecionando...';
                 loginMsg.classList.remove('hidden', 'text-red-500');
                 loginMsg.classList.add('text-gray-300');
                 loginSubmitButton.disabled = true;
                 loginSubmitButton.classList.add('opacity-50', 'cursor-not-allowed');
                 loginSubmitButton.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Entrando...';
 
-                try {
-                    // Usa URL com barra ao final para evitar perda de parâmetros durante o redirecionamento
-                    const url = `https://api.cedbrasilia.com.br/login/?usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
-                    const response = await fetch(url);
-                    if (response.ok) {
-                        const redirectUrl = response.redirected ? response.url : url;
-                        window.location.href = redirectUrl;
-                    } else {
-                        const data = await response.json().catch(() => ({}));
-                        throw new Error(data.detail || 'Erro ao fazer login.');
-                    }
-                } catch (error) {
-                    loginMsg.textContent = error.message;
-                    loginMsg.classList.remove('text-green-500', 'text-gray-300');
-                    loginMsg.classList.add('text-red-500');
-                } finally {
-                    loginSubmitButton.disabled = false;
-                    loginSubmitButton.classList.remove('opacity-50', 'cursor-not-allowed');
-                    loginSubmitButton.innerHTML = 'Entrar';
-                }
+                const url = `https://api.cedbrasilia.com.br/login/?usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
+                window.location.href = url;
             });
 
             const themeCheckboxes = [
