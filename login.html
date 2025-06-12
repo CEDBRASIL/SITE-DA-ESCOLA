@@ -43,13 +43,11 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ usuario, senha })
                 });
-                const data = await resp.json();
-                if (resp.ok && data.token) {
-                    msg.textContent = 'Redirecionando...';
+                if (resp.ok) {
+                    msg.textContent = 'Login realizado com sucesso!';
                     msg.className = 'mt-4 text-center text-green-500';
-                    window.location.href = `https://ead.cedbrasilia.com.br/index.php?pag=entrar&token=${encodeURIComponent(data.token)}`;
                 } else {
-                    msg.textContent = data.detail || 'Usuário ou senha incorretos.';
+                    msg.textContent = 'Usuário ou senha incorretos.';
                     msg.className = 'mt-4 text-center text-red-500';
                 }
             } catch (err) {
