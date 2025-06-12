@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - CED BRASIL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.jpg" type="image/jpeg" />
+</head>
+<body class="min-h-screen">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-sm">
+            <a href="index.html" class="text-3xl font-bold tracking-tighter text-white block text-center mb-8">CED <span class="spotify-green">BRASIL</span></a>
+            <form id="loginForm" class="bg-[#181818] p-8 rounded-2xl shadow-2xl shadow-spotify-green/10 border border-gray-800">
+                <h1 class="text-2xl font-bold mb-6 text-center text-white">Acessar Área do Aluno</h1>
+                <div class="mb-4">
+                    <label for="usuario" class="block mb-2 text-sm font-semibold text-gray-300">Usuário</label>
+                    <input type="text" id="usuario" class="form-control w-full p-3 rounded-lg text-white" placeholder="Login" required />
+                </div>
+                <div class="mb-6">
+                    <label for="senha" class="block mb-2 text-sm font-semibold text-gray-300">Senha</label>
+                    <input type="password" id="senha" class="form-control w-full p-3 rounded-lg text-white" placeholder="Senha" required />
+                </div>
+                <button type="submit" class="w-full bg-spotify-green text-black font-bold py-3 rounded-lg hover-bg-spotify-green-darker transition-colors button-glow">Entrar</button>
+                <p id="loginMsg" class="mt-4 text-center hidden"></p>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const usuario = document.getElementById('usuario').value.trim();
+            const senha = document.getElementById('senha').value.trim();
+            const msg = document.getElementById('loginMsg');
+            msg.textContent = 'Enviando...';
+            msg.className = 'mt-4 text-center text-gray-300';
+            try {
+                const resp = await fetch('https://api.cedbrasilia.com.br/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario, senha })
+                });
+                if (resp.ok) {
+                    msg.textContent = 'Login realizado com sucesso!';
+                    msg.className = 'mt-4 text-center text-green-500';
+                } else {
+                    msg.textContent = 'Usuário ou senha incorretos.';
+                    msg.className = 'mt-4 text-center text-red-500';
+                }
+            } catch (err) {
+                msg.textContent = 'Erro ao entrar. Tente novamente.';
+                msg.className = 'mt-4 text-center text-red-500';
+            }
+        });
+    </script>
+</body>
+</html>
