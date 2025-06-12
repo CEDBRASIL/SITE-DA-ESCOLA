@@ -156,3 +156,11 @@
             transform: scale(1);
             pointer-events: auto;
         }
+
+        .language-select {
+            background-color: var(--header-button-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            padding: 0.25rem 0.5rem;
+        }

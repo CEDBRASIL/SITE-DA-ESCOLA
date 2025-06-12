@@ -29,6 +29,14 @@
                 <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Depoimentos</a>
             </nav>
             <div class="hidden md:flex items-center gap-4">
+                <select id="language-selector" class="language-select">
+                    <option value="pt" selected>PT</option>
+                    <option value="en">EN</option>
+                    <option value="es">ES</option>
+                    <option value="ru">RU</option>
+                    <option value="ja">JA</option>
+                    <option value="zh-CN">ZH</option>
+                </select>
                 <label class="theme-switch" for="theme-checkbox">
                     <input type="checkbox" id="theme-checkbox" />
                     <div class="slider"></div>
@@ -54,13 +62,21 @@
              <div class="border-t border-gray-700 w-full my-8"></div>
              
              <div class="flex items-center gap-8">
+                 <select id="mobile-language-selector" class="language-select text-base">
+                    <option value="pt" selected>PT</option>
+                    <option value="en">EN</option>
+                    <option value="es">ES</option>
+                    <option value="ru">RU</option>
+                    <option value="ja">JA</option>
+                    <option value="zh-CN">ZH</option>
+                 </select>
                  <label class="theme-switch" for="mobile-theme-checkbox">
                     <input type="checkbox" id="mobile-theme-checkbox" />
                     <div class="slider"></div>
                 </label>
              </div>
-        </nav>
-    </div>
+         </nav>
+     </div>
 
 
     <main class="container mx-auto px-6 relative">
@@ -224,7 +240,30 @@
         // Initialize view
         switchContent('hero');
         document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        function changeLanguage(lang) {
+            const translator = document.querySelector('.goog-te-combo');
+            if (translator) {
+                translator.value = lang;
+                translator.dispatchEvent(new Event('change'));
+            }
+        }
+        ['language-selector','mobile-language-selector'].forEach(id => {
+            const sel = document.getElementById(id);
+            if (sel) sel.addEventListener('change', () => changeLanguage(sel.value));
+        });
     });
+</script>
+<div id="google_translate_element" style="display:none"></div>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'pt',
+            includedLanguages: 'pt,en,es,ru,ja,zh-CN',
+            autoDisplay: false
+        }, 'google_translate_element');
+    }
 </script>
 
 </body>
