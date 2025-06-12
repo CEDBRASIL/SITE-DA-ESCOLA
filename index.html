@@ -199,7 +199,7 @@
         <h2 class="text-2xl font-bold mb-4">Seu Carrinho</h2>
         <ul id="cart-items" class="space-y-4 mb-4"></ul>
         <div id="cart-total" class="text-lg font-semibold mb-4"></div>
-        <a href="matricularasaas.html" class="button-glow bg-spotify-green text-black font-bold py-2 px-4 rounded">Finalizar Matrícula</a>
+        <button id="checkout-button" class="button-glow bg-spotify-green text-black font-bold py-2 px-4 rounded">Finalizar Matrícula</button>
     </div>
 
     <div id="cart-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-40"></div>
@@ -209,6 +209,29 @@
             <button id="close-modal" class="absolute top-2 right-2 text-white"><i class="fas fa-times"></i></button>
             <h2 id="modal-title" class="text-2xl font-bold mb-4"></h2>
             <p id="modal-desc" class="text-gray-300"></p>
+        </div>
+    </div>
+
+    <div id="checkout-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-50">
+        <div class="bg-gray-900 p-6 rounded-lg relative max-w-lg w-full">
+            <button id="close-checkout" class="absolute top-2 right-2 text-white"><i class="fas fa-times"></i></button>
+            <h2 class="text-2xl font-bold mb-4">Finalizar Compra</h2>
+            <form id="checkoutForm" class="space-y-4">
+                <div>
+                    <label for="checkout-nome" class="block mb-2 font-semibold">Nome completo</label>
+                    <input type="text" id="checkout-nome" required class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600" />
+                </div>
+                <div>
+                    <label for="checkout-cpf" class="block mb-2 font-semibold">CPF</label>
+                    <input type="text" id="checkout-cpf" required placeholder="000.000.000-00" class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600" />
+                </div>
+                <div class="mb-2">
+                    <label for="checkout-phone" class="block mb-2 font-semibold">Telefone (com DDD)</label>
+                    <input type="tel" id="checkout-phone" required placeholder="(XX) XXXXX-XXXX" class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600" />
+                </div>
+                <button type="submit" id="checkout-submit" class="w-full button-glow bg-spotify-green text-black font-bold py-3 px-6 rounded-full">Concluir Matrícula</button>
+                <div id="checkout-message" class="text-center mt-2 h-5"></div>
+            </form>
         </div>
     </div>
 
@@ -463,6 +486,78 @@
                 if (closeModal) closeModal.addEventListener('click', closeModalFn);
                 if (courseModal) courseModal.addEventListener('click', e => { if (e.target === courseModal) closeModalFn(); });
                 window.showCourseModal = showCourseModal;
+
+                const checkoutButton = document.getElementById('checkout-button');
+                const checkoutModal = document.getElementById('checkout-modal');
+                const closeCheckout = document.getElementById('close-checkout');
+                const checkoutForm = document.getElementById('checkoutForm');
+                const checkoutNome = document.getElementById('checkout-nome');
+                const checkoutCPF = document.getElementById('checkout-cpf');
+                const checkoutPhone = document.getElementById('checkout-phone');
+                const checkoutMsg = document.getElementById('checkout-message');
+
+                function openCheckout() {
+                    if (checkoutModal) checkoutModal.classList.remove('hidden');
+                }
+                function closeCheckoutFn() {
+                    if (checkoutModal) checkoutModal.classList.add('hidden');
+                }
+
+                function applyWhatsappMask(v) {
+                    v = v.replace(/\D/g, '');
+                    if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+                    if (v.length > 9) v = `${v.slice(0,9)}-${v.slice(9,13)}`;
+                    return v;
+                }
+                function applyCPFMask(v) {
+                    v = v.replace(/\D/g, '').slice(0,11);
+                    v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                    v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                    v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                    return v;
+                }
+
+                if (checkoutButton) checkoutButton.addEventListener('click', () => {
+                    closeCartFn();
+                    openCheckout();
+                });
+                if (closeCheckout) closeCheckout.addEventListener('click', closeCheckoutFn);
+                if (checkoutModal) checkoutModal.addEventListener('click', e => { if (e.target === checkoutModal) closeCheckoutFn(); });
+
+                if (checkoutCPF) checkoutCPF.addEventListener('input', e => { e.target.value = applyCPFMask(e.target.value); });
+                if (checkoutPhone) checkoutPhone.addEventListener('input', e => { e.target.value = applyWhatsappMask(e.target.value); });
+
+                if (checkoutForm) checkoutForm.addEventListener('submit', async e => {
+                    e.preventDefault();
+                    const nome = checkoutNome.value.trim();
+                    const cpf = checkoutCPF.value.replace(/\D/g, '').slice(0,11);
+                    const phone = checkoutPhone.value.replace(/\D/g, '');
+                    if (!nome || !cpf || !phone) {
+                        checkoutMsg.textContent = 'Preencha todos os campos.';
+                        checkoutMsg.className = 'text-center text-red-500 mt-2 h-5';
+                        return;
+                    }
+                    checkoutMsg.textContent = 'Enviando...';
+                    checkoutMsg.className = 'text-center text-gray-300 mt-2 h-5';
+                    try {
+                        const res = await fetch('https://api.cedbrasilia.com.br/matricular', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ nome, cpf, whatsapp: phone, cursos: getCart() })
+                        });
+                        if (res.ok) {
+                            checkoutMsg.textContent = 'Matrícula enviada com sucesso!';
+                            checkoutMsg.className = 'text-center text-green-400 mt-2 h-5';
+                            checkoutForm.reset();
+                            saveCart([]);
+                        } else {
+                            throw new Error('Erro ao enviar');
+                        }
+                    } catch {
+                        checkoutMsg.textContent = 'Erro ao enviar. Tente novamente.';
+                        checkoutMsg.className = 'text-center text-red-500 mt-2 h-5';
+                    }
+                });
 
                 showSection('hero');
                 const initialLink = document.querySelector('#desktop-nav a.active');
