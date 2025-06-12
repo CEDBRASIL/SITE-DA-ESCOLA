@@ -8,8 +8,137 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="icon" href="favicon.jpg" type="image/jpeg" />
-    <link rel="stylesheet" href="style.css" />
 
+    <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #E5E7EB;
+            --text-muted-color: #9CA3AF;
+            --card-bg-color: rgba(24, 24, 24, 0.5); /* #181818 com opacidade */
+            --border-color: #282828;
+            --header-button-bg: #1F2937;
+            --accent-color: #1db954;
+            --accent-glow-color: rgba(29, 185, 84, 0.4);
+            --accent-glow-hover-color: rgba(29, 185, 84, 0.6);
+            --slider-bg: #374151;
+            --logo-text-color: #ffffff;
+            --subscription-box-bg: #121212;
+        }
+
+        .light-theme {
+            --bg-color: #F9FAFB;
+            --text-color: #1F2937;
+            --text-muted-color: #4B5563;
+            --card-bg-color: rgba(255, 255, 255, 0.8);
+            --border-color: #E5E7EB;
+            --header-button-bg: #E5E7EB;
+            --slider-bg: #d1d5db;
+            --logo-text-color: #1F2937;
+            --subscription-box-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image:
+                linear-gradient(to right, rgba(119, 119, 119, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(119, 119, 119, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .logo-text { color: var(--logo-text-color); }
+        .subscription-box { background-color: var(--subscription-box-bg); }
+        .text-muted { color: var(--text-muted-color); }
+        .card {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .header-button { background-color: var(--header-button-bg); color: var(--text-color); }
+        .header-button:hover { opacity: 0.8; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; color: var(--text-color); }
+        main { flex-grow: 1; }
+        .spotify-green { color: var(--accent-color); }
+        .bg-spotify-green { background-color: var(--accent-color); }
+        .hover-bg-spotify-green-darker:hover { background-color: #1aa34a; }
+        .border-spotify-green { border-color: var(--accent-color); }
+        .card-glow:hover { transform: translateY(-5px); box-shadow: 0 0 25px 5px var(--accent-glow-color); border-color: var(--accent-color); }
+        .button-glow { transition: all 0.3s ease-in-out; box-shadow: 0 0 15px 2px var(--accent-glow-color); }
+        .button-glow:hover { transform: translateY(-2px); box-shadow: 0 0 25px 5px var(--accent-glow-hover-color); }
+        .glow-effect { position: absolute; z-index: -1; filter: blur(120px); opacity: 0.2; }
+        
+        .content-section {
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+            will-change: opacity, transform;
+        }
+        
+        .content-section.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+        }
+        
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            position: relative;
+        }
+
+        .theme-switch { display: inline-block; height: 24px; position: relative; width: 48px; }
+        .theme-switch input { display:none; }
+        .slider { background-color: var(--slider-bg); bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 24px; }
+        .slider:before {
+            background-color: #fff;
+            bottom: 3px;
+            content: "";
+            height: 18px;
+            left: 3px;
+            position: absolute;
+            transition: .4s;
+            width: 18px;
+            border-radius: 50%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%23374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        input:checked + .slider { background-color: var(--accent-color); }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>');
+        }
+        nav a.active {
+            color: var(--accent-color) !important;
+            font-weight: 600;
+        }
+        #mobile-menu {
+             transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #mobile-menu.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body class="overflow-x-hidden">
 
@@ -25,19 +154,11 @@
             <nav id="desktop-nav" class="hidden md:flex items-center space-x-2">
                 <a href="#" data-section="hero" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Início</a>
                 <a href="#" data-section="sobre" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Sobre Nós</a>
-                <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Assinatura</a>
+                <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Cursos</a>
                 <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Depoimentos</a>
             </nav>
             <div class="hidden md:flex items-center gap-4">
-                <select id="language-selector" class="language-select">
-                    <option value="pt" selected>PT</option>
-                    <option value="en">EN</option>
-                    <option value="es">ES</option>
-                    <option value="ru">RU</option>
-                    <option value="ja">JA</option>
-                    <option value="zh-CN">ZH</option>
-                </select>
-                <label class="theme-switch" for="theme-checkbox">
+                 <label class="theme-switch" for="theme-checkbox">
                     <input type="checkbox" id="theme-checkbox" />
                     <div class="slider"></div>
                 </label>
@@ -56,27 +177,19 @@
         <nav id="mobile-nav" class="flex flex-col items-center justify-center h-full text-2xl space-y-8">
             <a href="#" data-section="hero" class="hover:text-spotify-green transition-colors">Início</a>
             <a href="#" data-section="sobre" class="hover:text-spotify-green transition-colors">Sobre Nós</a>
-            <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors">Assinatura</a>
+            <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors">Cursos</a>
             <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors">Depoimentos</a>
             
              <div class="border-t border-gray-700 w-full my-8"></div>
              
              <div class="flex items-center gap-8">
-                 <select id="mobile-language-selector" class="language-select text-base">
-                    <option value="pt" selected>PT</option>
-                    <option value="en">EN</option>
-                    <option value="es">ES</option>
-                    <option value="ru">RU</option>
-                    <option value="ja">JA</option>
-                    <option value="zh-CN">ZH</option>
-                 </select>
                  <label class="theme-switch" for="mobile-theme-checkbox">
                     <input type="checkbox" id="mobile-theme-checkbox" />
                     <div class="slider"></div>
                 </label>
              </div>
-         </nav>
-     </div>
+        </nav>
+    </div>
 
 
     <main class="container mx-auto px-6 relative">
@@ -118,22 +231,11 @@
         <section id="cursos" class="py-20 px-6 content-section hidden">
             <div class="container mx-auto">
                  <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold tracking-tighter">Nossa <span class="spotify-green">Assinatura</span></h2>
-                    <p class="text-lg text-muted mt-2">Acesso ilimitado a todos os nossos cursos por um preço único.</p>
+                    <h2 class="text-4xl font-bold tracking-tighter">Nossos <span class="spotify-green">Cursos</span></h2>
+                    <p class="text-lg text-muted mt-2">Invista em você com um dos nossos cursos de alta demanda.</p>
                 </div>
-                
-                <div class="subscription-box max-w-2xl mx-auto border-2 border-spotify-green rounded-2xl p-8 shadow-2xl shadow-spotify-green/20">
-                    <h3 class="text-3xl font-bold text-center mb-2">Plano Completo</h3>
-                    <p class="text-center text-5xl font-extrabold spotify-green mb-4">R$29<span class="text-3xl font-bold text-gray-400">,99/mês</span></p>
-                    <ul class="space-y-3 my-8">
-                        <li class="flex items-center"><i class="fas fa-check-circle text-spotify-green mr-3"></i> Acesso a todos os cursos</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle text-spotify-green mr-3"></i> Novos cursos adicionados mensalmente</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle text-spotify-green mr-3"></i> Certificado de conclusão para todos</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle text-spotify-green mr-3"></i> Cancele quando quiser, sem burocracia</li>
-                    </ul>
-                     <a href="assinatura.html" class="block w-full text-center button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full hover-bg-spotify-green-darker">
-                        Garantir Minha Vaga
-                    </a>
+                <div id="course-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Course cards will be injected here by JavaScript -->
                 </div>
             </div>
         </section>
@@ -157,114 +259,4 @@
                     </div>
                      <div class="card testimonial-card p-8">
                         <div class="flex items-center mb-4 text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                        <p class="text-muted italic mb-6">"Finalmente encontrei um curso de design que me ensinou a pensar como um UX/UI designer de verdade. O portfólio que construí aqui me abriu portas para grandes projetos."</p>
-                        <div class="flex items-center">
-                            <img src="https://placehold.co/48x48/1DB954/121212?text=MP" alt="Avatar de Maria Pereira" class="w-12 h-12 rounded-full mr-4">
-                            <div>
-                                <p class="font-bold text-white">Maria Pereira</p>
-                                <p class="text-sm text-muted">Designer UX/UI</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="text-center py-8 border-t border-gray-800">
-        <div class="container mx-auto px-6">
-             <div class="mb-4">
-                <a href="#" data-section="hero" class="flex items-center justify-center gap-3">
-                     <span class="text-2xl font-bold tracking-tighter logo-text">CED <span class="spotify-green">BRASIL</span></span>
-                </a>
-            </div>
-            <p class="text-muted">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
-             <div class="flex justify-center space-x-6 mt-4">
-                 <a href="https://www.facebook.com/people/CED-Brasil/61575889016332/" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-facebook-f text-lg"></i></a>
-                 <a href="https://instagram.com/cedbrasill" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-instagram text-lg"></i></a>
-                 <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-whatsapp text-lg"></i></a>
-             </div>
-             <p class="text-xs text-muted mt-6">
-                Feito com <i class="fas fa-heart spotify-green"></i> por @FurioNnzxT | <a href="http://www.encrypthost.com.br" target="_blank" rel="noopener" class="hover:text-spotify-green underline">Acesse www.encrypthost.com.br</a>
-             </p>
-        </div>
-    </footer>
-    
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const contentSections = document.querySelectorAll('.content-section');
-        const allNavLinks = document.querySelectorAll('a[data-section]');
-
-        function switchContent(targetId) {
-            contentSections.forEach(section => {
-                const isTarget = section.id === targetId;
-                section.classList.toggle('visible', isTarget);
-                section.classList.toggle('hidden', !isTarget);
-            });
-            allNavLinks.forEach(link => {
-                const isActive = link.dataset.section === targetId;
-                link.classList.toggle('active', isActive);
-            });
-        }
-
-        allNavLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                switchContent(link.dataset.section);
-                const mobileMenu = document.getElementById('mobile-menu');
-                if(!mobileMenu.classList.contains('hidden')){
-                    mobileMenu.classList.add('hidden');
-                    document.querySelector('#mobileMenuButton i').classList.replace('fa-times', 'fa-bars');
-                }
-            });
-        });
-        
-        // Theme Switcher
-        const themeCheckboxes = [document.getElementById('theme-checkbox'), document.getElementById('mobile-theme-checkbox')];
-        const body = document.body;
-        function applyTheme(isLight) {
-             body.classList.toggle('light-theme', isLight);
-             themeCheckboxes.forEach(cb => { if(cb) cb.checked = isLight; });
-        }
-        const savedTheme = localStorage.getItem('theme') === 'light';
-        applyTheme(savedTheme);
-
-        themeCheckboxes.forEach(cb => {
-            if(cb) cb.addEventListener('change', (e) => {
-                const isChecked = e.currentTarget.checked;
-                applyTheme(isChecked);
-                localStorage.setItem('theme', isChecked ? 'light' : 'dark');
-            });
-        });
-
-        // Initialize view
-        switchContent('hero');
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-        function changeLanguage(lang) {
-            const translator = document.querySelector('.goog-te-combo');
-            if (translator) {
-                translator.value = lang;
-                translator.dispatchEvent(new Event('change'));
-            }
-        }
-        ['language-selector','mobile-language-selector'].forEach(id => {
-            const sel = document.getElementById(id);
-            if (sel) sel.addEventListener('change', () => changeLanguage(sel.value));
-        });
-    });
-</script>
-<div id="google_translate_element" style="display:none"></div>
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<script>
-    function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
-            pageLanguage: 'pt',
-            includedLanguages: 'pt,en,es,ru,ja,zh-CN',
-            autoDisplay: false
-        }, 'google_translate_element');
-    }
-</script>
-
-</body>
-</html>
+                        <p class="text-muted italic
