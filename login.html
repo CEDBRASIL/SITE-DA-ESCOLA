@@ -76,7 +76,8 @@
                 msg.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-green-500 text-xl"></i> Enviando...';
                 msg.className = 'mt-4 text-center text-gray-300';
                 try {
-                    const url = `https://api.cedbrasilia.com.br/login?usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
+                    // Usa URL com barra ao final para evitar perda de parâmetros durante o redirecionamento
+                    const url = `https://api.cedbrasilia.com.br/login/?usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
                     const res = await fetch(url);
                     if (res.ok) {
                         const redirectUrl = res.redirected ? res.url : url;

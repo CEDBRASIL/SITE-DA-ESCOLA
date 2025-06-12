@@ -34,14 +34,22 @@ function saveCart(cart) {
 
 function addCourse(name) {
   const cart = getCart();
-  cart.push(name);
-  saveCart(cart);
+  if (!cart.includes(name)) {
+    cart.push(name);
+    saveCart(cart);
+    showToast(`${name} adicionado ao carrinho`);
+  } else {
+    showToast(`${name} j\u00e1 est\u00e1 no carrinho`);
+  }
 }
 
 function removeCourse(index) {
   const cart = getCart();
-  cart.splice(index, 1);
+  const removed = cart.splice(index, 1);
   saveCart(cart);
+  if (removed.length) {
+    showToast(`${removed[0]} removido do carrinho`);
+  }
 }
 
 function updateCartCount() {

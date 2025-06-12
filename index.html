@@ -810,17 +810,24 @@
          * @returns {boolean} - Retorna true se o curso foi adicionado, false se já existia.
          */
         function addCourse(courseName) {
-            cart.push(courseName);
-            saveCart();
-            return true;
+            if (!cart.includes(courseName)) {
+                cart.push(courseName);
+                saveCart();
+                window.showToast(`${courseName} adicionado ao carrinho`);
+                return true;
+            } else {
+                window.showToast(`${courseName} j\u00e1 est\u00e1 no carrinho`);
+                return false;
+            }
         }
 
         function removeCourse(index) {
-            const removedCourseName = cart[index]; // Get the name of the course being removed
+            const removedCourseName = cart[index];
             cart.splice(index, 1);
             saveCart();
-            renderCart(); // Re-render the cart after removal
-            updateCourseButtonStates(); // Update the states of all course buttons
+            renderCart();
+            updateCourseButtonStates();
+            window.showToast(`${removedCourseName} removido do carrinho`);
         }
 
         function updateCartCount() {
@@ -899,8 +906,10 @@
             document.querySelectorAll('.add-to-cart').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const courseName = e.target.dataset.courseName;
-                    addCourse(courseName);
-                    showNotification(`"${courseName}" adicionado ao carrinho!`, 'success');
+                    const added = addCourse(courseName);
+                    if (added) {
+                        showNotification(`"${courseName}" adicionado ao carrinho!`, 'success');
+                    }
                 });
             });
 
@@ -1009,7 +1018,8 @@
                 loginSubmitButton.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Entrando...';
 
                 try {
-                    const url = `https://api.cedbrasilia.com.br/login?usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
+                    // Usa URL com barra ao final para evitar perda de parâmetros durante o redirecionamento
+                    const url = `https://api.cedbrasilia.com.br/login/?usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
                     const response = await fetch(url);
                     if (response.ok) {
                         const redirectUrl = response.redirected ? response.url : url;
