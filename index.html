@@ -379,7 +379,7 @@
         </nav>
     </div>
 
-    <div id="cart-sidebar" class="fixed top-0 right-0 w-80 h-full p-6 transform translate-x-full transition-transform duration-300 z-50 rounded-l-lg">
+    <div id="cart-sidebar" class="fixed top-0 right-0 w-96 h-full p-6 transform translate-x-full transition-transform duration-300 z-50 rounded-l-lg">
         <button id="close-cart" class="text-white mb-4"><i class="fas fa-times"></i></button>
         <h2 class="text-2xl font-bold mb-4">Seu Carrinho</h2>
         <ul id="cart-items" class="space-y-4 mb-4"></ul>
@@ -428,7 +428,7 @@
             <p id="hero-subtitle" class="text-lg md:text-xl max-w-3xl mx-auto text-muted mb-10" data-text="Capacitamos você com o conhecimento e as habilidades essenciais para dominar o mercado de trabalho e construir a carreira dos seus sonhos.">
                 <!-- Conteúdo será digitado via JavaScript -->
             </p>
-            <a href="#cursos" class="button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full text-lg mt-8 inline-block">Fazer minha matrícula agora</a>
+            <a id="enroll-now" href="#cursos" class="button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full text-lg mt-8 inline-block">Fazer minha matrícula agora</a>
         </section>
 
         <section id="sobre" class="py-20 px-6 content-section hidden">
@@ -921,15 +921,8 @@
 
             function updateIndicator(el) {
                 if (!indicator || !el) return;
-                const span = el.querySelector('span');
-                if (span) {
-                    indicator.style.width = `${span.offsetWidth}px`;
-                    indicator.style.left = `${el.offsetLeft + span.offsetLeft}px`;
-                } else {
-                    // Fallback if no span, or for elements without direct text children
-                    indicator.style.width = `${el.offsetWidth}px`;
-                    indicator.style.left = `${el.offsetLeft}px`;
-                }
+                indicator.style.width = `${el.offsetWidth}px`;
+                indicator.style.left = `${el.offsetLeft}px`;
             }
             
             // Função para simular o efeito de digitação
@@ -1407,6 +1400,15 @@
             fetchCourses();
             renderTestimonials(); // Render testimonials on page load
             loadAfiliadosProducts(); // Load Afiliados products table
+
+            const enrollNow = document.getElementById('enroll-now');
+            if (enrollNow) {
+                enrollNow.addEventListener('click', e => {
+                    e.preventDefault();
+                    showSection('cursos');
+                    document.getElementById('cursos').scrollIntoView({ behavior: 'smooth' });
+                });
+            }
         });
     </script>
 </body>
