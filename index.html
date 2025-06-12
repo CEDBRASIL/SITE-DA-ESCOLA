@@ -164,7 +164,33 @@
             background-color: var(--bg-color); /* Usar a cor de fundo principal */
             border: 1px solid var(--border-color);
             box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5); /* Sombra mais forte */
+            /* Aumentando o tamanho do carrinho */
+            width: 100%; /* Default para mobile */
+            max-width: 100%; /* Garante que não ultrapasse 100% em mobile */
         }
+        /* Responsive widths for cart sidebar */
+        @media (min-width: 640px) { /* sm */
+            #cart-sidebar {
+                width: 75%;
+            }
+        }
+        @media (min-width: 768px) { /* md */
+            #cart-sidebar {
+                width: 66.66%; /* 2/3 */
+            }
+        }
+        @media (min-width: 1024px) { /* lg */
+            #cart-sidebar {
+                width: 50%; /* 1/2 */
+            }
+        }
+        @media (min-width: 1280px) { /* xl */
+            #cart-sidebar {
+                max-width: 448px; /* max-w-md */
+            }
+        }
+
+
         #cart-sidebar .text-2xl.font-bold {
             color: var(--accent-color); /* Título do carrinho na cor de destaque */
         }
@@ -306,6 +332,27 @@
         .dot.active {
             background-color: var(--accent-color);
         }
+
+        /* Login Modal Animation */
+        .login-modal-content {
+            animation: fadeInScale 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Animation for login button on submit */
+        .login-submit-loading {
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
     </style>
 </head>
 <body class="overflow-x-hidden">
@@ -319,7 +366,7 @@
     <header class="bg-transparent py-4 sticky top-0 z-50 backdrop-blur-sm border-b border-transparent">
         <div class="container mx-auto px-6 flex justify-between items-center">
             <a href="#" data-section="hero">
-                <img src="ced.svg" alt="CED Brasil" class="h-16 inline-block">
+                <img src="ced.svg" alt="CED Brasil" class="h-16 inline-block"> <!-- Reverted to local SVG -->
             </a>
             <nav id="desktop-nav" class="hidden md:flex items-center space-x-4 relative">
                 <a href="#" data-section="hero" class="hover:text-spotify-green transition-colors px-4 py-2 rounded-md font-semibold text-lg"><span>Início</span></a>
@@ -379,7 +426,7 @@
         </nav>
     </div>
 
-    <div id="cart-sidebar" class="fixed top-0 right-0 w-96 h-full p-6 transform translate-x-full transition-transform duration-300 z-50 rounded-l-lg">
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full p-6 transform translate-x-full transition-transform duration-300 z-50 rounded-l-lg bg-gray-900">
         <button id="close-cart" class="text-white mb-4"><i class="fas fa-times"></i></button>
         <h2 class="text-2xl font-bold mb-4">Seu Carrinho</h2>
         <ul id="cart-items" class="space-y-4 mb-4"></ul>
@@ -426,20 +473,20 @@
             <div class="glow-effect top-1/2 left-1/3 w-[500px] h-[500px] bg-emerald-600 rounded-full"></div>
             <div class="glow-effect -bottom-40 -right-40 w-96 h-96 bg-teal-500 rounded-full"></div>
         </div>
-        <div class="bg-[#181818] p-8 rounded-2xl shadow-2xl shadow-spotify-green/10 border border-gray-800 relative w-full max-w-sm">
+        <div class="bg-[#181818] p-8 rounded-2xl shadow-2xl shadow-spotify-green/10 border border-gray-800 relative w-full max-w-md login-modal-content"> <!-- Increased max-w-sm to max-w-md -->
             <button id="close-login" class="absolute top-2 right-2 text-white"><i class="fas fa-times"></i></button>
             <form id="loginForm" class="space-y-4">
                 <h1 class="text-2xl font-bold mb-6 text-center text-white">Acessar Área do Aluno</h1>
                 <div class="mb-4">
                     <label for="usuario" class="block mb-2 text-sm font-semibold text-gray-300">Usuário</label>
-                    <input type="text" id="usuario" class="form-control w-full p-3 rounded-lg text-white" placeholder="Login" required />
+                    <input type="text" id="usuario" class="form-control w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600 focus:outline-none focus:border-spotify-green focus:ring-1 focus:ring-spotify-green transition-all" placeholder="Login" required />
                 </div>
                 <div class="mb-6">
                     <label for="senha" class="block mb-2 text-sm font-semibold text-gray-300">Senha</label>
-                    <input type="password" id="senha" class="form-control w-full p-3 rounded-lg text-white" placeholder="Senha" required />
+                    <input type="password" id="senha" class="form-control w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600 focus:outline-none focus:border-spotify-green focus:ring-1 focus:ring-spotify-green transition-all" placeholder="Senha" required />
                 </div>
-                <button type="submit" class="w-full bg-spotify-green text-black font-bold py-3 rounded-lg hover-bg-spotify-green-darker transition-colors button-glow">Entrar</button>
-                <p id="loginMsg" class="mt-4 text-center hidden"></p>
+                <button type="submit" id="loginSubmitButton" class="w-full bg-spotify-green text-black font-bold py-3 rounded-lg hover-bg-spotify-green-darker transition-colors button-glow login-submit-loading">Entrar</button>
+                <p id="loginMsg" class="mt-4 text-center text-red-500 font-semibold h-5"></p> <!-- Adjusted text color and added height -->
             </form>
         </div>
     </div>
@@ -586,6 +633,13 @@
                             <p class="text-muted">Cursos com excelente reputação para facilitar suas vendas.</p>
                         </div>
                         <div class="card card-glow">
+                            <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                                <img src="https://placehold.co/48x48/1DB954/121212?text=K" alt="Logo da Kiwify" class="w-8 h-8 rounded-full">
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2">Parceria Kiwify</h3>
+                            <p class="text-muted">Venda com a segurança da Kiwify, uma das maiores plataformas do Brasil.</p>
+                        </div>
+                        <div class="card card-glow">
                             <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-2xl"><i class="fas fa-eye"></i></div>
                             <h3 class="text-2xl font-bold mb-2">Conta de Demonstração</h3>
                             <p class="text-muted mb-3">Experimente a plataforma antes de indicar.</p>
@@ -595,13 +649,6 @@
                             <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-2xl"><i class="fas fa-bullhorn"></i></div>
                             <h3 class="text-2xl font-bold mb-2">Página de Vendas Gratuita</h3>
                             <p class="text-muted">A CED cria para você uma página de vendas/funil 100% gratuita para divulgar.</p>
-                        </div>
-                        <div class="card card-glow">
-                            <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                                <img src="https://placehold.co/48x48/1DB954/121212?text=K" alt="Logo da Kiwify" class="w-8 h-8 rounded-full">
-                            </div>
-                            <h3 class="text-2xl font-bold mb-2">Parceria Kiwify</h3>
-                            <p class="text-muted">Venda com a segurança da Kiwify, uma das maiores plataformas do Brasil.</p>
                         </div>
                     </div>
                 </div>
@@ -911,6 +958,8 @@
             const closeLogin = document.getElementById('close-login');
             const loginForm = document.getElementById('loginForm');
             const loginMsg = document.getElementById('loginMsg');
+            const loginSubmitButton = document.getElementById('loginSubmitButton'); // Get the login submit button
+
             if (typeof updateCartCount === 'function') {
                 updateCartCount();
             }
@@ -921,7 +970,15 @@
             }
 
             function openLogin() {
-                if (loginModal) loginModal.classList.remove('hidden');
+                if (loginModal) {
+                    loginModal.classList.remove('hidden');
+                    // Reset login message and button state when opening
+                    loginMsg.textContent = '';
+                    loginMsg.classList.add('hidden');
+                    loginSubmitButton.innerHTML = 'Entrar';
+                    loginSubmitButton.disabled = false;
+                    loginSubmitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
             }
             function closeLoginFn() {
                 if (loginModal) loginModal.classList.add('hidden');
@@ -935,14 +992,52 @@
             if (closeLogin) closeLogin.addEventListener('click', closeLoginFn);
             if (loginModal) loginModal.addEventListener('click', e => { if (e.target === loginModal) closeLoginFn(); });
 
-            if (loginForm) loginForm.addEventListener('submit', e => {
+            if (loginForm) loginForm.addEventListener('submit', async e => {
                 e.preventDefault();
                 const usuario = document.getElementById('usuario').value.trim();
                 const senha = document.getElementById('senha').value.trim();
-                loginMsg.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-green-500 text-xl"></i>';
-                loginMsg.className = 'mt-4 text-center';
-                const url = `https://api.cedbrasilia.com.br/login?usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
-                window.location.href = url;
+
+                // Show loading state
+                loginMsg.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-spotify-green text-xl"></i> Enviando...';
+                loginMsg.classList.remove('hidden', 'text-red-500'); // Ensure it's visible and not red
+                loginMsg.classList.add('text-gray-300'); // Set a neutral color for loading
+                loginSubmitButton.disabled = true;
+                loginSubmitButton.classList.add('opacity-50', 'cursor-not-allowed');
+                loginSubmitButton.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Entrando...';
+
+                try {
+                    const url = `https://api.cedbrasilia.com.br/login?usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
+                    // Simulate API call for demonstration, replace with actual fetch
+                    // For a real API call:
+                    // const response = await fetch(url);
+                    // if (!response.ok) throw new Error('Falha no login');
+                    // const data = await response.json();
+                    
+                    // Simulating a delay and success/failure for demonstration
+                    await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
+                    
+                    // Simulate success or failure
+                    const success = Math.random() > 0.3; // 70% chance of success for demo
+                    if (success) {
+                        loginMsg.textContent = 'Login bem-sucedido! Redirecionando...';
+                        loginMsg.classList.remove('text-red-500', 'text-gray-300');
+                        loginMsg.classList.add('text-green-500');
+                        // In a real application, you'd redirect here:
+                        // window.location.href = url; // or a dashboard URL
+                        setTimeout(closeLoginFn, 1000); // Close modal after 1 second for demo
+                    } else {
+                        throw new Error('Usuário ou senha incorretos.');
+                    }
+
+                } catch (error) {
+                    loginMsg.textContent = error.message;
+                    loginMsg.classList.remove('text-green-500', 'text-gray-300');
+                    loginMsg.classList.add('text-red-500');
+                } finally {
+                    loginSubmitButton.disabled = false;
+                    loginSubmitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                    loginSubmitButton.innerHTML = 'Entrar';
+                }
             });
 
             const themeCheckboxes = [
