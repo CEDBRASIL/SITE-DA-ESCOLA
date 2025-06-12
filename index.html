@@ -326,7 +326,9 @@
                 });
 
                 const sections = document.querySelectorAll('.content-section');
-                const navLinks = document.querySelectorAll('[data-section]');
+                const desktopLinks = document.querySelectorAll('#desktop-nav [data-section]');
+                const mobileLinks = document.querySelectorAll('#mobile-nav [data-section]');
+                const allLinks = [...desktopLinks, ...mobileLinks];
                 const indicator = document.getElementById('nav-indicator');
                 const desktopNav = document.getElementById('desktop-nav');
 
@@ -347,13 +349,16 @@
                             section.classList.remove('visible');
                         }
                     });
-                    navLinks.forEach(link => {
+                    desktopLinks.forEach(link => {
                         const active = link.dataset.section === id;
                         link.classList.toggle('active', active);
                         if (active) updateIndicator(link);
                     });
+                    mobileLinks.forEach(link => {
+                        link.classList.toggle('active', link.dataset.section === id);
+                    });
                 }
-                navLinks.forEach(link => {
+                allLinks.forEach(link => {
                     link.addEventListener('click', e => {
                         e.preventDefault();
                         const id = link.dataset.section;
@@ -400,7 +405,8 @@
 
                 function openCart() {
                     renderCart();
-                    cartSidebar.classList.add('open');
+                    cartSidebar.classList.remove('translate-x-full');
+                    cartSidebar.classList.add('translate-x-0', 'open');
                 }
 
                 if (cartButton) cartButton.addEventListener('click', openCart);
@@ -408,7 +414,10 @@
                     if (mobileMenu) mobileMenu.classList.add('hidden');
                     openCart();
                 });
-                if (closeCart) closeCart.addEventListener('click', () => cartSidebar.classList.remove('open'));
+                if (closeCart) closeCart.addEventListener('click', () => {
+                    cartSidebar.classList.remove('open', 'translate-x-0');
+                    cartSidebar.classList.add('translate-x-full');
+                });
                 cartList.addEventListener('click', e => {
                     if (e.target.classList.contains('remove')) {
                         const idx = parseInt(e.target.dataset.idx, 10);
