@@ -427,7 +427,7 @@
         scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
         
         // Course Data and Filtering
-        const courses = [
+        const defaultCourses = [
             { name: "Desenvolvimento de Apps Mobile", category: "tecnologia", duration: "12 meses" },
             { name: "Ciência de Dados para Iniciantes", category: "tecnologia", duration: "10 meses" },
             { name: "Marketing de Mídias Sociais", category: "administracao", duration: "6 meses" },
@@ -446,6 +446,28 @@
             { name: "Marketing Digital", category: "administracao", duration: "8 meses" },
             { name: "Pacote Office", category: "tecnologia", duration: "6 meses" }
         ];
+
+        let courses = [];
+
+        const guessCategory = (name) => {
+            const lower = name.toLowerCase();
+            if (lower.includes('ingl')) return 'idiomas';
+            if (lower.includes('design')) return 'design';
+            if (lower.includes('marketing') || lower.includes('admin')) return 'administracao';
+            return 'tecnologia';
+        };
+
+        const fetchCourses = async () => {
+            try {
+                const res = await fetch('https://api.cedbrasilia.com.br/cursos');
+                const data = await res.json();
+                const nomes = Object.keys(data.cursos || {});
+                courses = nomes.map(n => ({ name: n, category: guessCategory(n), duration: '-' }));
+            } catch (err) {
+                courses = defaultCourses;
+            }
+            renderCourses();
+        };
 
         const courseListContainer = document.getElementById('course-list');
         const filterButtons = document.querySelectorAll('[data-filter]');
@@ -493,7 +515,7 @@
         
         // Initial Render
         document.querySelector('[data-filter="all"]').classList.add('active-filter', 'bg-spotify-green', 'text-black');
-        renderCourses();
+        fetchCourses();
     });
 </script>
 
