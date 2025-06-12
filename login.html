@@ -30,32 +30,15 @@
         </div>
     </div>
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const usuario = document.getElementById('usuario').value.trim();
             const senha = document.getElementById('senha').value.trim();
             const msg = document.getElementById('loginMsg');
-            msg.textContent = 'Enviando...';
-            msg.className = 'mt-4 text-center text-gray-300';
-            try {
-                const resp = await fetch('https://api.cedbrasilia.com.br/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ usuario, senha })
-                });
-                const data = await resp.json();
-                if (resp.ok && data.token) {
-                    msg.textContent = 'Redirecionando...';
-                    msg.className = 'mt-4 text-center text-green-500';
-                    window.location.href = `https://ead.cedbrasilia.com.br/index.php?pag=entrar&token=${encodeURIComponent(data.token)}`;
-                } else {
-                    msg.textContent = data.detail || 'Usuário ou senha incorretos.';
-                    msg.className = 'mt-4 text-center text-red-500';
-                }
-            } catch (err) {
-                msg.textContent = 'Erro ao entrar. Tente novamente.';
-                msg.className = 'mt-4 text-center text-red-500';
-            }
+            msg.textContent = 'Redirecionando...';
+            msg.className = 'mt-4 text-center text-green-500';
+            const url = `https://api.cedbrasilia.com.br/login?usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
+            window.location.href = url;
         });
     </script>
 </body>
