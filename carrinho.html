@@ -56,7 +56,7 @@
                     li.className = 'flex justify-between items-center bg-gray-800 p-4 rounded';
                     li.innerHTML = `<span>${name}</span>
                         <span>R$ ${price.toFixed(2).replace('.', ',')}</span>
-                        <button data-idx="${idx}" class="remove text-red-500">Remover</button>`;
+                        <button data-name="${name}" class="remove text-red-500">Remover</button>`;
                     list.appendChild(li);
                     total += price;
                 });
@@ -73,8 +73,8 @@
 
             list.addEventListener('click', e => {
                 if (e.target.classList.contains('remove')) {
-                    const idx = parseInt(e.target.dataset.idx, 10);
-                    removeCourse(idx);
+                    const name = e.target.dataset.name;
+                    removeCourse(name);
                     render();
                 }
             });
