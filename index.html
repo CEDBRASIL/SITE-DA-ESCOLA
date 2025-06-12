@@ -339,7 +339,7 @@
                     <input type="checkbox" id="theme-checkbox" />
                     <div class="slider"></div>
                 </label>
-                <a href="login.html" class="header-button font-semibold py-2 px-6 rounded-lg transition-colors">Entrar</a>
+                <button id="loginButton" type="button" class="header-button font-semibold py-2 px-6 rounded-lg transition-colors">Entrar</button>
                 <button id="cartButton" class="relative text-white hover:text-spotify-green transition-colors text-xl">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count" class="absolute -top-2 -right-2 bg-spotify-green text-black rounded-full text-xs w-5 h-5 flex items-center justify-center" style="display:none"></span>
@@ -359,7 +359,7 @@
             <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors">Cursos</a>
             <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors">Depoimentos</a>
             <a href="#" data-section="afiliados" class="hover:text-spotify-green transition-colors">Afiliados</a>
-            <a href="login.html" class="hover:text-spotify-green transition-colors">Entrar</a>
+            <button id="mobileLoginButton" type="button" class="hover:text-spotify-green transition-colors">Entrar</button>
             <button id="mobileCartButton" class="hover:text-spotify-green transition-colors"><i class="fas fa-shopping-cart"></i></button>
             
             <div class="flex justify-center space-x-6 mt-8">
@@ -395,9 +395,9 @@
             <h2 id="modal-title" class="text-2xl font-bold mb-4"></h2>
             <p id="modal-desc" class="text-gray-300"></p>
         </div>
-    </div>
+</div>
 
-    <div id="checkout-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-50">
+<div id="checkout-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-50">
         <div class="bg-gray-900 p-6 rounded-lg relative max-w-lg w-full">
             <button id="close-checkout" class="absolute top-2 right-2 text-white"><i class="fas fa-times"></i></button>
             <h2 class="text-2xl font-bold mb-4">Finalizar Compra</h2>
@@ -416,6 +416,30 @@
                 </div>
                 <button type="submit" id="checkout-submit" class="w-full button-glow bg-spotify-green text-black font-bold py-3 px-6 rounded-full">Concluir Matrícula</button>
                 <div id="checkout-message" class="text-center mt-2 h-5"></div>
+            </form>
+    </div>
+</div>
+
+    <div id="login-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-50">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-[-1]">
+            <div class="glow-effect -top-40 -left-40 w-96 h-96 bg-green-500 rounded-full"></div>
+            <div class="glow-effect top-1/2 left-1/3 w-[500px] h-[500px] bg-emerald-600 rounded-full"></div>
+            <div class="glow-effect -bottom-40 -right-40 w-96 h-96 bg-teal-500 rounded-full"></div>
+        </div>
+        <div class="bg-[#181818] p-8 rounded-2xl shadow-2xl shadow-spotify-green/10 border border-gray-800 relative w-full max-w-sm">
+            <button id="close-login" class="absolute top-2 right-2 text-white"><i class="fas fa-times"></i></button>
+            <form id="loginForm" class="space-y-4">
+                <h1 class="text-2xl font-bold mb-6 text-center text-white">Acessar Área do Aluno</h1>
+                <div class="mb-4">
+                    <label for="usuario" class="block mb-2 text-sm font-semibold text-gray-300">Usuário</label>
+                    <input type="text" id="usuario" class="form-control w-full p-3 rounded-lg text-white" placeholder="Login" required />
+                </div>
+                <div class="mb-6">
+                    <label for="senha" class="block mb-2 text-sm font-semibold text-gray-300">Senha</label>
+                    <input type="password" id="senha" class="form-control w-full p-3 rounded-lg text-white" placeholder="Senha" required />
+                </div>
+                <button type="submit" class="w-full bg-spotify-green text-black font-bold py-3 rounded-lg hover-bg-spotify-green-darker transition-colors button-glow">Entrar</button>
+                <p id="loginMsg" class="mt-4 text-center hidden"></p>
             </form>
         </div>
     </div>
@@ -881,6 +905,12 @@
 
             const mobileMenuButton = document.getElementById('mobileMenuButton');
             const mobileMenu = document.getElementById('mobile-menu');
+            const loginButton = document.getElementById('loginButton');
+            const mobileLoginButton = document.getElementById('mobileLoginButton');
+            const loginModal = document.getElementById('login-modal');
+            const closeLogin = document.getElementById('close-login');
+            const loginForm = document.getElementById('loginForm');
+            const loginMsg = document.getElementById('loginMsg');
             if (typeof updateCartCount === 'function') {
                 updateCartCount();
             }
@@ -889,6 +919,31 @@
                     mobileMenu.classList.toggle('hidden');
                 });
             }
+
+            function openLogin() {
+                if (loginModal) loginModal.classList.remove('hidden');
+            }
+            function closeLoginFn() {
+                if (loginModal) loginModal.classList.add('hidden');
+            }
+
+            if (loginButton) loginButton.addEventListener('click', openLogin);
+            if (mobileLoginButton) mobileLoginButton.addEventListener('click', () => {
+                if (mobileMenu) mobileMenu.classList.add('hidden');
+                openLogin();
+            });
+            if (closeLogin) closeLogin.addEventListener('click', closeLoginFn);
+            if (loginModal) loginModal.addEventListener('click', e => { if (e.target === loginModal) closeLoginFn(); });
+
+            if (loginForm) loginForm.addEventListener('submit', e => {
+                e.preventDefault();
+                const usuario = document.getElementById('usuario').value.trim();
+                const senha = document.getElementById('senha').value.trim();
+                loginMsg.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-green-500 text-xl"></i>';
+                loginMsg.className = 'mt-4 text-center';
+                const url = `https://api.cedbrasilia.com.br/login?usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
+                window.location.href = url;
+            });
 
             const themeCheckboxes = [
                 document.getElementById('theme-checkbox'),
