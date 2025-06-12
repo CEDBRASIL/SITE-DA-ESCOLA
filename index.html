@@ -822,13 +822,15 @@
             }
         }
 
-        function removeCourse(index) {
-            const removedCourseName = cart[index];
-            cart.splice(index, 1);
-            saveCart();
-            renderCart();
-            updateCourseButtonStates();
-            showNotification(`"${removedCourseName}" removido do carrinho`, 'success');
+        function removeCourse(name) {
+            const idx = cart.indexOf(name);
+            if (idx !== -1) {
+                cart.splice(idx, 1);
+                saveCart();
+                renderCart();
+                updateCourseButtonStates();
+                showNotification(`"${name}" removido do carrinho`, 'success');
+            }
         }
 
         function updateCartCount() {
@@ -1181,12 +1183,12 @@
                 const cart = getCart();
                 cartList.innerHTML = '';
                 let total = 0;
-                cart.forEach((name, idx) => {
+                cart.forEach(name => {
                     const price = getCoursePrice(name);
                     const li = document.createElement('li');
                     li.innerHTML = `<span>${name}</span>` +
                         `<span>R$ ${price.toFixed(2).replace('.', ',')}</span>` +
-                        `<button data-idx="${idx}" class="remove">Remover</button>`;
+                        `<button data-name="${name}" class="remove">Remover</button>`;
                     cartList.appendChild(li);
                     total += price;
                 });
@@ -1223,8 +1225,8 @@
             if (cartBackdrop) cartBackdrop.addEventListener('click', closeCartFn);
             cartList.addEventListener('click', e => {
                 if (e.target.classList.contains('remove')) {
-                    const idx = parseInt(e.target.dataset.idx, 10);
-                    removeCourse(idx);
+                    const name = e.target.dataset.name;
+                    removeCourse(name);
                     renderCart();
                 }
             });

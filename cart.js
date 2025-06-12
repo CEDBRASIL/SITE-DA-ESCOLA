@@ -43,11 +43,12 @@ function addCourse(name) {
   }
 }
 
-function removeCourse(index) {
+function removeCourse(name) {
   const cart = getCart();
-  const removed = cart.splice(index, 1);
-  saveCart(cart);
-  if (removed.length) {
+  const idx = cart.indexOf(name);
+  if (idx !== -1) {
+    const removed = cart.splice(idx, 1);
+    saveCart(cart);
     showToast(`${removed[0]} removido do carrinho`);
   }
 }
