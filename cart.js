@@ -27,6 +27,9 @@ function getCart() {
 
 function saveCart(cart) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  if (typeof updateCartCount === 'function') {
+    updateCartCount();
+  }
 }
 
 function addCourse(name) {
@@ -39,6 +42,15 @@ function removeCourse(index) {
   const cart = getCart();
   cart.splice(index, 1);
   saveCart(cart);
+}
+
+function updateCartCount() {
+  const el = document.getElementById('cart-count');
+  if (el) {
+    const cart = getCart();
+    el.textContent = cart.length;
+    el.style.display = cart.length ? 'flex' : 'none';
+  }
 }
 
 function showToast(message) {
@@ -65,4 +77,5 @@ if (typeof window !== 'undefined') {
   window.removeCourse = removeCourse;
   window.getCoursePrice = getCoursePrice;
   window.showToast = showToast;
+  window.updateCartCount = updateCartCount;
 }

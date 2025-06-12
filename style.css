@@ -173,11 +173,15 @@
             left: 0;
         }
 
-        #cart-sidebar {
-            transition: transform 0.3s ease;
-        }
+#cart-sidebar {
+    transition: transform 0.3s ease;
+}
 #cart-sidebar.open {
     transform: translateX(0);
+}
+
+#cart-count {
+    display: none;
 }
 
 #toast-container {
