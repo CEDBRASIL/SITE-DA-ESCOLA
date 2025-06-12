@@ -418,6 +418,49 @@
     <script>
         // Conteúdo do cart.js
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        const COURSE_PRICES = {
+            "Excel PRO": 49.90,
+            "Design Gráfico": 89.90,
+            "Analista e Desenvolvimento de Sistemas": 79.90,
+            "Administração": 49.90,
+            "Inglês Fluente": 99.90,
+            "Inglês Kids": 39.90,
+            "Informática Essencial": 49.90,
+            "Operador de Micro": 59.90,
+            "Especialista em Marketing & Vendas 360º": 149.90,
+            "Marketing Digital": 89.90,
+            "Pacote Office": 29.99,
+        };
+
+        const COURSE_DESCRIPTIONS = {
+            'Excel PRO': 'Domine planilhas e crie relatórios avançados para impulsionar sua produtividade.',
+            'Design Gráfico': 'Aprenda técnicas profissionais de criação visual e destaque-se no mercado.',
+            'Analista e Desenvolvimento de Sistemas': 'Formação completa para quem deseja programar e projetar sistemas de alta qualidade.',
+            'Administração': 'Construa habilidades essenciais para gerenciar negócios com eficiência.',
+            'Inglês Fluente': 'Alcance a fluência no idioma mais requisitado pelo mercado de trabalho.',
+            'Inglês Kids': 'Aulas divertidas e interativas para crianças aprenderem inglês brincando.',
+            'Informática Essencial': 'Conhecimentos fundamentais de informática para o dia a dia.',
+            'Operador de Micro': 'Tudo sobre operacionalização de computadores e pacote office.',
+            'Especialista em Marketing & Vendas 360º': 'Estratégias de marketing e vendas para alavancar qualquer negócio.',
+            'Marketing Digital': 'Domine as principais ferramentas de divulgação online.',
+            'Pacote Office': 'Aprenda Word, Excel, PowerPoint e muito mais para o mercado.'
+        };
+
+        const COURSE_DETAILS = {
+            'Excel PRO': 'Curso completo para dominar planilhas, gráficos e automações no Excel, com foco em aplicações práticas.',
+            'Design Gráfico': 'Aprenda a criar peças profissionais para web e impressão utilizando as principais ferramentas do mercado.',
+            'Analista e Desenvolvimento de Sistemas': 'Formação abrangente em programação, análise de requisitos e desenvolvimento de sistemas de ponta a ponta.',
+            'Administração': 'Capacitação em gestão empresarial, finanças e processos administrativos modernos.',
+            'Inglês Fluente': 'Metodologia eficaz para alcançar fluência e se comunicar com confiança em qualquer situação.',
+            'Inglês Kids': 'Conteúdo lúdico que estimula o aprendizado do idioma de forma divertida para crianças.',
+            'Informática Essencial': 'Fundamentos de computação para uso pessoal e profissional, incluindo internet e segurança.',
+            'Operador de Micro': 'Treinamento para operar computadores e dominar o pacote office no dia a dia.',
+            'Especialista em Marketing & Vendas 360º': 'Estrategias avançadas para impulsionar vendas e posicionamento de marcas no ambiente digital.',
+            'Marketing Digital': 'Domine redes sociais, anúncios pagos e SEO para atrair clientes online.',
+            'Pacote Office': 'Do básico ao avançado em Word, Excel e PowerPoint com exercícios práticos.'
+        };
+
         let availableCourses = []; // Variável para armazenar os cursos carregados da API
 
         function saveCart() {
@@ -464,7 +507,13 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                availableCourses = data; // Armazena os cursos na variável global
+                const names = Object.keys(data.cursos || {}).filter(n => n !== 'None');
+                availableCourses = names.map(name => ({
+                    name,
+                    price: COURSE_PRICES[name] || 0,
+                    description: COURSE_DESCRIPTIONS[name] || 'Curso profissionalizante do CED BRASIL.',
+                    detail: COURSE_DETAILS[name] || COURSE_DESCRIPTIONS[name] || ''
+                }));
                 loadCourses(); // Carrega os cursos na interface
             } catch (error) {
                 console.error('Erro ao carregar cursos da API:', error);
@@ -483,7 +532,7 @@
                 courseCard.className = 'card card-glow p-6 flex flex-col justify-between items-start';
                 // Adiciona um placeholder de imagem se a URL da imagem não for válida ou estiver ausente
                 const imageUrl = course.image && course.image.startsWith('http') ? course.image : `https://placehold.co/400x250/1DB954/121212?text=${encodeURIComponent(course.name)}`;
-                
+
                 courseCard.innerHTML = `
                     <img src="${imageUrl}" alt="Imagem do curso de ${course.name}" class="w-full h-40 object-cover rounded-lg mb-4">
                     <h3 class="text-2xl font-bold mb-2">${course.name}</h3>
@@ -494,7 +543,7 @@
                             Adicionar ao Carrinho
                         </button>
                     </div>
-                    <button class="details-button text-xs mt-2 text-blue-400 hover:underline" data-title="${course.name}" data-description="${course.description}">Ver Detalhes</button>
+                    <button class="details-button text-xs mt-2 text-blue-400 hover:underline" data-title="${course.name}" data-description="${course.detail}">Ver Detalhes</button>
                 `;
                 courseList.appendChild(courseCard);
             });
