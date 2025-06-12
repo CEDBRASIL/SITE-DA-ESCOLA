@@ -151,12 +151,13 @@
     <header class="bg-transparent py-4 sticky top-0 z-50 backdrop-blur-sm border-b border-transparent">
         <div class="container mx-auto px-6 flex justify-between items-center">
             <a href="#" data-section="hero" class="text-3xl font-bold tracking-tighter logo-text">CED <span class="spotify-green">BRASIL</span></a>
-            <nav id="desktop-nav" class="hidden md:flex items-center space-x-2">
+            <nav id="desktop-nav" class="hidden md:flex items-center space-x-2 relative">
                 <a href="#" data-section="hero" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Início</a>
                 <a href="#" data-section="sobre" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Sobre Nós</a>
                 <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Cursos</a>
                 <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Depoimentos</a>
                 <a href="carrinho.html" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Carrinho</a>
+                <div id="nav-indicator" class="absolute bottom-0 h-0.5 bg-spotify-green transition-all duration-300"></div>
             </nav>
             <div class="hidden md:flex items-center gap-4">
                  <label class="theme-switch" for="theme-checkbox">
@@ -325,6 +326,16 @@
 
                 const sections = document.querySelectorAll('.content-section');
                 const navLinks = document.querySelectorAll('[data-section]');
+                const indicator = document.getElementById('nav-indicator');
+                const desktopNav = document.getElementById('desktop-nav');
+
+                function updateIndicator(el) {
+                    if (!indicator || !el) return;
+                    const rect = el.getBoundingClientRect();
+                    const navRect = desktopNav.getBoundingClientRect();
+                    indicator.style.width = rect.width + 'px';
+                    indicator.style.transform = `translateX(${rect.left - navRect.left}px)`;
+                }
                 function showSection(id) {
                     sections.forEach(section => {
                         if (section.id === id) {
@@ -336,7 +347,9 @@
                         }
                     });
                     navLinks.forEach(link => {
-                        link.classList.toggle('active', link.dataset.section === id);
+                        const active = link.dataset.section === id;
+                        link.classList.toggle('active', active);
+                        if (active) updateIndicator(link);
                     });
                 }
                 navLinks.forEach(link => {
@@ -347,7 +360,13 @@
                         if (mobileMenu) mobileMenu.classList.add('hidden');
                     });
                 });
+                window.addEventListener('resize', () => {
+                    const activeLink = document.querySelector('#desktop-nav a.active');
+                    if (activeLink) updateIndicator(activeLink);
+                });
                 showSection('hero');
+                const initialLink = document.querySelector('#desktop-nav a.active');
+                if (initialLink) updateIndicator(initialLink);
             });
         </script>
     </body>

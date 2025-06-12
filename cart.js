@@ -1,5 +1,21 @@
 const CART_KEY = 'cart';
-const COURSE_PRICE = 59.99;
+const COURSE_PRICES = {
+  "Excel PRO": 49.90,
+  "Design Gráfico": 89.90,
+  "Analista e Desenvolvimento de Sistemas": 79.90,
+  "Administração": 49.90,
+  "Inglês Fluente": 99.90,
+  "Inglês Kids": 39.90,
+  "Informática Essencial": 49.90,
+  "Operador de Micro": 59.90,
+  "Especialista em Marketing & Vendas 360º": 149.90,
+  "Marketing Digital": 89.90,
+  "Pacote Office": 29.99,
+};
+
+function getCoursePrice(name) {
+  return COURSE_PRICES[name] || 0;
+}
 
 function getCart() {
   try {
@@ -29,5 +45,5 @@ if (typeof window !== 'undefined') {
   window.getCart = getCart;
   window.addCourse = addCourse;
   window.removeCourse = removeCourse;
-  window.COURSE_PRICE = COURSE_PRICE;
+  window.getCoursePrice = getCoursePrice;
 }

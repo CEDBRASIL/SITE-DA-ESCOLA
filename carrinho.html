@@ -48,13 +48,14 @@
                 list.innerHTML = '';
                 let total = 0;
                 cart.forEach((name, idx) => {
+                    const price = getCoursePrice(name);
                     const li = document.createElement('li');
                     li.className = 'flex justify-between items-center bg-gray-800 p-4 rounded';
                     li.innerHTML = `<span>${name}</span>
-                        <span>R$ ${COURSE_PRICE.toFixed(2).replace('.', ',')}</span>
+                        <span>R$ ${price.toFixed(2).replace('.', ',')}</span>
                         <button data-idx="${idx}" class="remove text-red-500">Remover</button>`;
                     list.appendChild(li);
-                    total += COURSE_PRICE;
+                    total += price;
                 });
                 if (cart.length >= 2) {
                     const desconto = total * 0.4;
