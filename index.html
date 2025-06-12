@@ -200,9 +200,20 @@
             border-radius: 0.75rem; /* Bordas mais arredondadas */
             padding: 1rem;
             margin-bottom: 0.75rem; /* Espaçamento entre os itens */
+            /* Flexbox para espaçamento adequado */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem; /* Espaçamento entre os elementos do item */
+            flex-wrap: wrap; /* Permite quebrar linha em telas menores */
         }
         #cart-items li span:first-child {
             font-weight: 500; /* Nome do curso mais destacado */
+            flex-grow: 1; /* Permite que o nome do curso ocupe espaço disponível */
+            min-width: 100px; /* Garante que o nome não encolha demais */
+        }
+        #cart-items li span:nth-child(2) {
+            white-space: nowrap; /* Impede que o preço quebre linha */
         }
         #cart-items li .remove {
             background-color: #ef4444; /* Cor de fundo para o botão de remover */
@@ -211,6 +222,7 @@
             border-radius: 0.5rem;
             font-size: 0.75rem;
             transition: background-color 0.2s;
+            margin-left: auto; /* Empurra para a direita se houver espaço */
         }
         #cart-items li .remove:hover {
             background-color: #dc2626;
@@ -807,8 +819,11 @@
         }
 
         function removeCourse(index) {
+            const removedCourseName = cart[index]; // Get the name of the course being removed
             cart.splice(index, 1);
             saveCart();
+            renderCart(); // Re-render the cart after removal
+            updateCourseButtonStates(); // Update the states of all course buttons
         }
 
         function updateCartCount() {
@@ -880,6 +895,9 @@
                 courseList.appendChild(courseCard);
             });
 
+            // Call updateCourseButtonStates after loading all courses
+            updateCourseButtonStates();
+
             // Adiciona listeners de evento para botões "Adicionar ao Carrinho"
             document.querySelectorAll('.add-to-cart').forEach(button => {
                 button.addEventListener('click', (e) => {
@@ -892,15 +910,7 @@
                         e.target.textContent = 'Adicionado!';
                         e.target.disabled = true;
                         e.target.classList.add('opacity-50', 'cursor-not-allowed');
-                        setTimeout(() => {
-                            // Reativa o botão se o item ainda não estiver no carrinho (caso seja removido depois)
-                            if (!getCart().includes(courseName)) {
-                                e.target.textContent = 'Adicionar ao Carrinho';
-                                e.target.disabled = false;
-                                e.target.classList.remove('opacity-50', 'cursor-not-allowed');
-                            }
-                        }, 2000); // Reativa o botão após 2 segundos
-                        updateCartCount(); // Atualiza a contagem do carrinho no cabeçalho
+                        // No need for a setTimeout here to re-enable, as removeCourse will handle it.
                     } else {
                         showNotification(`"${courseName}" já está no carrinho.`, 'error');
                         e.target.textContent = 'Já no carrinho!';
@@ -918,6 +928,23 @@
                     const description = e.target.dataset.description;
                     window.showCourseModal(title, description); // Usa a função global
                 });
+            });
+        }
+
+        // Nova função para atualizar o estado dos botões de curso
+        function updateCourseButtonStates() {
+            const buttons = document.querySelectorAll('.add-to-cart');
+            buttons.forEach(button => {
+                const courseName = button.dataset.courseName;
+                if (cart.includes(courseName)) {
+                    button.textContent = 'Adicionado!';
+                    button.disabled = true;
+                    button.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    button.textContent = 'Adicionar ao Carrinho';
+                    button.disabled = false;
+                    button.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
             });
         }
 
@@ -1149,14 +1176,21 @@
                     const heroSubtitle = document.getElementById('hero-subtitle');
                     if (heroTitle && heroSubtitle) {
                         const originalTitleText = heroTitle.dataset.text;
-                        const originalSubtitleText = heroSubtitle.dataset.text;
+                        const originalSubtitleText = heroSubtitle.dataset.text; // Still get text from data-text
 
-                        // Inicia a animação de digitação para o título, depois para o subtítulo
+                        // Only apply typing effect to the title
                         typeEffect(heroTitle, originalTitleText, 50, () => {
-                            applyHeroTitleStyling(); // Aplica o estilo após o título ser totalmente digitado
-                            typeEffect(heroSubtitle, originalSubtitleText, 30); // Digitação mais lenta para o parágrafo
+                            applyHeroTitleStyling();
+                            // Display subtitle immediately after title typing completes
+                            heroSubtitle.textContent = originalSubtitleText;
                         });
                     }
+                } else {
+                    // Para outras seções, garante que o conteúdo da seção hero seja exibido completamente
+                    const heroTitle = document.getElementById('hero-title');
+                    const heroSubtitle = document.getElementById('hero-subtitle');
+                    if (heroTitle) heroTitle.innerHTML = heroTitle.dataset.text; // Garante que o texto completo esteja presente
+                    if (heroSubtitle) heroSubtitle.textContent = heroSubtitle.dataset.text; // Garante que o texto completo esteja presente
                 }
             }
 
@@ -1192,7 +1226,6 @@
                 cart.forEach((name, idx) => {
                     const price = getCoursePrice(name);
                     const li = document.createElement('li');
-                    // li.className = 'flex justify-between items-center bg-gray-800 p-4 rounded'; // Style moved to global CSS
                     li.innerHTML = `<span>${name}</span>` +
                         `<span>R$ ${price.toFixed(2).replace('.', ',')}</span>` +
                         `<button data-idx="${idx}" class="remove">Remover</button>`;
@@ -1234,7 +1267,6 @@
                 if (e.target.classList.contains('remove')) {
                     const idx = parseInt(e.target.dataset.idx, 10);
                     removeCourse(idx);
-                    renderCart();
                 }
             });
 
