@@ -10,265 +10,195 @@
     <link rel="icon" href="favicon.jpg" type="image/jpeg" />
 
     <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #E5E7EB;
+            --text-muted-color: #9CA3AF;
+            --card-bg-color: rgba(24, 24, 24, 0.5); /* #181818 com opacidade */
+            --border-color: #282828;
+            --header-button-bg: #1F2937;
+            --accent-color: #1db954;
+            --accent-glow-color: rgba(29, 185, 84, 0.4);
+            --accent-glow-hover-color: rgba(29, 185, 84, 0.6);
+            --slider-bg: #374151;
+        }
+
+        .light-theme {
+            --bg-color: #F9FAFB;
+            --text-color: #1F2937;
+            --text-muted-color: #4B5563;
+            --card-bg-color: rgba(255, 255, 255, 0.8);
+            --border-color: #E5E7EB;
+            --header-button-bg: #E5E7EB;
+            --slider-bg: #d1d5db;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #121212;
-            color: #E5E7EB;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            position: relative;
-        }
-        
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: -2;
-            pointer-events: none;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        main {
-            flex-grow: 1;
-        }
-
-        .spotify-green {
-            color: #1db954;
-        }
-
-        .bg-spotify-green {
-            background-color: #1db954;
-        }
-        
-        .hover-bg-spotify-green-darker:hover {
-            background-color: #1aa34a;
-        }
-        
-        .border-spotify-green {
-            border-color: #1db954;
-        }
-
+        .text-muted { color: var(--text-muted-color); }
         .card {
-            background-color: #181818;
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
             border-radius: 1rem;
             padding: 2rem;
             transition: all 0.3s ease;
-            border: 1px solid #282828;
             height: 100%;
         }
+        .header-button { background-color: var(--header-button-bg); color: var(--text-color); }
+        .header-button:hover { background-color: var(--border-color); }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; color: var(--text-color); }
+        main { flex-grow: 1; }
+        .spotify-green { color: var(--accent-color); }
+        .bg-spotify-green { background-color: var(--accent-color); }
+        .hover-bg-spotify-green-darker:hover { background-color: #1aa34a; }
+        .border-spotify-green { border-color: var(--accent-color); }
+        .card-glow:hover { transform: translateY(-5px); box-shadow: 0 0 25px 5px var(--accent-glow-color); border-color: var(--accent-color); }
+        .button-glow { transition: all 0.3s ease-in-out; box-shadow: 0 0 15px 2px var(--accent-glow-color); }
+        .button-glow:hover { transform: translateY(-2px); box-shadow: 0 0 25px 5px var(--accent-glow-hover-color); }
+        .glow-effect { position: absolute; z-index: -1; filter: blur(120px); opacity: 0.2; }
         
-        .card-glow {
-             will-change: transform, box-shadow; /* Otimização para animação */
-        }
-
-        .card-glow:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px 5px rgba(29, 185, 84, 0.25);
-            border-color: rgba(29, 185, 84, 0.4);
-        }
-
-        .button-glow {
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 0 15px 2px rgba(29, 185, 84, 0.4);
-            will-change: transform, box-shadow; /* Otimização para animação */
-        }
-        
-        .button-glow:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 25px 5px rgba(29, 185, 84, 0.6);
-        }
-
-        .reveal {
+        .content-section {
+            display: none;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.6s ease-out;
-            will-change: opacity, transform; /* Otimização para animação */
+            transform: translateY(20px);
+            will-change: opacity, transform;
         }
-        
-        .reveal.visible {
+        .content-section.visible {
+            display: block;
             opacity: 1;
             transform: translateY(0);
         }
-        
-        .testimonial-card {
-            background-color: #181818;
-            border-left: 4px solid #1db954;
-        }
 
-        #courses-container {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.7s ease-in-out, opacity 0.5s ease-in-out, margin-top 0.7s ease-in-out;
-            opacity: 0;
-            margin-top: 0;
+        .theme-switch { display: inline-block; height: 24px; position: relative; width: 48px; }
+        .theme-switch input { display:none; }
+        .slider { background-color: var(--slider-bg); bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 24px; }
+        .slider:before {
+            background-color: #fff;
+            bottom: 3px;
+            content: "";
+            height: 18px;
+            left: 3px;
+            position: absolute;
+            transition: .4s;
+            width: 18px;
+            border-radius: 50%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%23374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
         }
-
-        #courses-container.expanded {
-            opacity: 1;
-            margin-top: 3rem; /* Adiciona espaço quando expandido */
+        input:checked + .slider { background-color: var(--accent-color); }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>');
         }
-
-        #toggleCoursesBtn i {
-            transition: transform 0.3s ease-in-out;
-        }
-        
-         /* Tema claro */
-        body.light-theme {
-            filter: invert(1) hue-rotate(180deg);
-            background-color: #f0f0f0;
-        }
-        body.light-theme .keep-colors,
-        body.light-theme img,
-        body.light-theme iframe {
-            filter: invert(1) hue-rotate(180deg);
-        }
-        .scroll-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background-color: #1db954;
-            color: #000;
-            border-radius: 9999px;
-            padding: 0.75rem 1rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-            opacity: 0;
-            transform: scale(0);
-            transition: opacity 0.3s, transform 0.3s;
-            pointer-events: none;
-            z-index: 1000;
-        }
-        .scroll-to-top.show {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
+        nav a.active {
+            color: var(--accent-color) !important;
+            font-weight: 600;
         }
     </style>
 </head>
 <body class="overflow-x-hidden">
 
-    <header class="bg-[#121212] py-4 sticky top-0 z-50 shadow-lg shadow-black/20">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-[-1]">
+        <div class="glow-effect -top-40 -left-40 w-96 h-96 bg-green-500 rounded-full"></div>
+        <div class="glow-effect top-1/2 left-1/3 w-[500px] h-[500px] bg-emerald-600 rounded-full"></div>
+        <div class="glow-effect -bottom-40 -right-40 w-96 h-96 bg-teal-500 rounded-full"></div>
+    </div>
+
+    <header class="bg-transparent py-4 sticky top-0 z-50 backdrop-blur-sm border-b border-transparent">
         <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="index.html" class="text-3xl font-bold tracking-tighter text-white">CED <span class="spotify-green">BRASIL</span></a>
-            <nav class="hidden md:flex items-center space-x-8">
-                <a href="#sobre" class="hover:text-spotify-green transition-colors">Sobre Nós</a>
-                <a href="#cursos" class="hover:text-spotify-green transition-colors">Cursos</a>
-                <a href="#depoimentos" class="hover:text-spotify-green transition-colors">Depoimentos</a>
-                 <a href="https://ead.cedbrasilia.com.br" class="hidden md:inline-block bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
-                    Área do Aluno
-                </a>
-                 <a href="afiliados.html" class="hidden md:inline-block bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
-                    Seja Afiliado
-                </a>
+            <a href="#" data-section="hero" class="text-3xl font-bold tracking-tighter text-white">CED <span class="spotify-green">BRASIL</span></a>
+            <nav id="desktop-nav" class="hidden md:flex items-center space-x-2">
+                <a href="#" data-section="hero" class="text-white hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Início</a>
+                <a href="#" data-section="sobre" class="text-muted hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Sobre Nós</a>
+                <a href="#" data-section="cursos" class="text-muted hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Cursos</a>
+                <a href="#" data-section="depoimentos" class="text-muted hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Depoimentos</a>
             </nav>
-            <div class="flex items-center">
-                <button id="themeToggle" class="text-yellow-400 text-2xl mr-4" aria-label="Alternar tema">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <button id="mobileMenuButton" class="md:hidden text-white">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-                </button>
+            <div class="hidden md:flex items-center gap-4">
+                 <div class="relative">
+                    <button id="lang-switcher-btn" class="px-3 py-1.5 border border-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-800 transition-colors flex items-center">
+                        <span data-translate="lang_button">PT</span>
+                        <svg class="w-4 h-4 ml-1 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="lang-desktop-menu" class="absolute hidden right-0 mt-2 w-40 rounded-lg shadow-lg card z-10">
+                        <div class="py-1">
+                            <a href="#" class="block px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-white" onclick="setLanguage('pt', event)">Português (PT)</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-white" onclick="setLanguage('en', event)">English (EN)</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-white" onclick="setLanguage('es', event)">Español (ES)</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-white" onclick="setLanguage('ru', event)">Русский (RU)</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-white" onclick="setLanguage('zh', event)">中文 (ZH)</a>
+                             <a href="#" class="block px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-white" onclick="setLanguage('ja', event)">日本語 (JA)</a>
+                        </div>
+                    </div>
+                </div>
+                <label class="theme-switch" for="theme-checkbox">
+                    <input type="checkbox" id="theme-checkbox" />
+                    <div class="slider"></div>
+                </label>
+                 <a href="assinatura.html" class="header-button font-semibold py-2 px-6 rounded-lg transition-colors">
+                    Matricular
+                </a>
             </div>
-        </div>
-         <div id="mobileMenu" class="hidden md:hidden bg-[#181818] rounded-lg mt-4 mx-6 p-4 text-center">
-            <a href="#sobre" class="block py-2 hover:text-spotify-green transition-colors">Sobre Nós</a>
-            <a href="#cursos" class="block py-2 hover:text-spotify-green transition-colors">Cursos</a>
-            <a href="#depoimentos" class="block py-2 hover:text-spotify-green transition-colors">Depoimentos</a>
-            <a href="https://ead.cedbrasilia.com.br" class="block mt-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
-                Área do Aluno
-            </a>
-            <a href="afiliados.html" class="block mt-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
-                Seja Afiliado
-            </a>
-            <button id="mobileThemeToggle" class="block w-full text-center mt-4 py-2 text-yellow-400 text-lg" aria-label="Alternar tema">
-                <i class="fas fa-moon"></i> Tema
+            <button id="mobileMenuButton" class="md:hidden text-white">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
             </button>
         </div>
     </header>
 
-    <main>
-        <section id="hero" class="text-center py-20 md:py-32 px-6 reveal">
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight mb-6">
+    <main class="container mx-auto px-6">
+        <section id="hero" class="text-center py-20 md:py-32 px-6 content-section">
+            <h1 data-translate="hero_title" class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight mb-6">
                 Educação de Qualidade que <br> 
                 <span class="spotify-green">Transforma o Seu Futuro</span>.
             </h1>
-            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 mb-10">
+            <p data-translate="hero_subtitle" class="text-lg md:text-xl max-w-3xl mx-auto text-muted mb-10">
                 Capacitamos você com o conhecimento e as habilidades essenciais para dominar o mercado de trabalho e construir a carreira dos seus sonhos.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a href="assinatura.html" class="w-full sm:w-auto inline-block button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full hover-bg-spotify-green-darker">
                     Me Matricular Agora
                 </a>
-                <a href="#contato" class="w-full sm:w-auto inline-block bg-transparent border-2 border-spotify-green text-spotify-green font-semibold py-3 px-8 rounded-full hover:bg-spotify-green hover:text-black transition-colors">
-                    Fale com um Consultor
-                </a>
             </div>
         </section>
 
-        <section id="sobre" class="py-20 px-6 reveal">
-            <div class="container mx-auto">
+        <section id="sobre" class="py-20 px-6 content-section">
+             <div class="container mx-auto">
                 <div class="text-center mb-12">
                     <h2 class="text-4xl font-bold tracking-tighter">Quem <span class="spotify-green">Somos</span></h2>
-                    <p class="text-lg text-gray-400 mt-2">Construindo pontes para o seu sucesso através de uma educação de excelência.</p>
+                    <p class="text-lg text-muted mt-2">Construindo pontes para o seu sucesso através de uma educação de excelência.</p>
                 </div>
                  <div class="text-center max-w-3xl mx-auto mb-12">
                     <h3 class="text-3xl font-bold mb-4 spotify-green">Nossa Missão</h3>
-                    <p class="text-gray-300 leading-relaxed text-lg">
+                    <p class="text-muted leading-relaxed text-lg">
                         Capacitar indivíduos com conhecimento e habilidades inovadoras, promovendo o desenvolvimento pessoal e profissional para que alcancem seus objetivos e contribuam positivamente para a sociedade.
                     </p>
                 </div>
                  <div class="text-center max-w-3xl mx-auto mb-16">
                     <h3 class="text-3xl font-bold mb-4 spotify-green">Nossa Visão</h3>
-                    <p class="text-gray-300 leading-relaxed text-lg">
+                    <p class="text-muted leading-relaxed text-lg">
                         Ser a principal referência em educação online no Brasil, reconhecida pela qualidade de ensino, inovação pedagógica e pelo impacto transformador na vida de nossos alunos.
                     </p>
                 </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="card card-glow text-center">
-                        <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-16 h-16 rounded-full flex items-center justify-center mb-4 text-3xl mx-auto"><i class="fas fa-lightbulb"></i></div>
-                        <h3 class="text-2xl font-bold mb-2">Inovação</h3>
-                        <p class="text-gray-400">Conteúdo sempre atualizado com as últimas tendências do mercado.</p>
-                    </div>
-                     <div class="card card-glow text-center">
-                        <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-16 h-16 rounded-full flex items-center justify-center mb-4 text-3xl mx-auto"><i class="fas fa-handshake"></i></div>
-                        <h3 class="text-2xl font-bold mb-2">Compromisso</h3>
-                        <p class="text-gray-400">Dedicados ao seu sucesso, oferecendo suporte contínuo e personalizado.</p>
-                    </div>
-                    <div class="card card-glow text-center">
-                        <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-16 h-16 rounded-full flex items-center justify-center mb-4 text-3xl mx-auto"><i class="fas fa-users"></i></div>
-                        <h3 class="text-2xl font-bold mb-2">Comunidade</h3>
-                        <p class="text-gray-400">Uma rede de apoio e colaboração entre alunos e professores.</p>
-                    </div>
-                    <div class="card card-glow text-center">
-                        <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-16 h-16 rounded-full flex items-center justify-center mb-4 text-3xl mx-auto"><i class="fas fa-award"></i></div>
-                        <h3 class="text-2xl font-bold mb-2">Excelência</h3>
-                        <p class="text-gray-400">Padrões de ensino rigorosos para garantir a melhor formação.</p>
-                    </div>
-                </div>
             </div>
         </section>
-        
-        <section id="cursos" class="py-20 px-6 bg-[#181818] reveal">
+        <section id="cursos" class="py-20 px-6 content-section">
             <div class="container mx-auto">
                  <div class="text-center mb-12">
                     <h2 class="text-4xl font-bold tracking-tighter">Nossa <span class="spotify-green">Assinatura</span></h2>
-                    <p class="text-lg text-gray-400 mt-2">Acesso ilimitado a todos os nossos cursos por um preço único.</p>
+                    <p class="text-lg text-muted mt-2">Acesso ilimitado a todos os nossos cursos por um preço único.</p>
                 </div>
                 
-                <div class="max-w-2xl mx-auto bg-[#121212] border-2 border-spotify-green rounded-2xl p-8 shadow-2xl shadow-spotify-green/20">
+                <div class="max-w-2xl mx-auto bg-[#000000] border-2 border-spotify-green rounded-2xl p-8 shadow-2xl shadow-spotify-green/20">
                     <h3 class="text-3xl font-bold text-center mb-2">Plano Completo</h3>
                     <p class="text-center text-5xl font-extrabold spotify-green mb-4">R$29<span class="text-3xl font-bold text-gray-400">,99/mês</span></p>
-                    <ul class="space-y-3 text-gray-300 my-8">
+                    <ul class="space-y-3 my-8">
                         <li class="flex items-center"><i class="fas fa-check-circle text-spotify-green mr-3"></i> Acesso a todos os cursos</li>
                         <li class="flex items-center"><i class="fas fa-check-circle text-spotify-green mr-3"></i> Novos cursos adicionados mensalmente</li>
                         <li class="flex items-center"><i class="fas fa-check-circle text-spotify-green mr-3"></i> Certificado de conclusão para todos</li>
@@ -278,244 +208,157 @@
                         Garantir Minha Vaga
                     </a>
                 </div>
-
-                <div class="text-center mt-12">
-                    <button id="toggleCoursesBtn" class="bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors">
-                        Ver todos os cursos incluídos <i class="fas fa-chevron-down ml-2 transition-transform"></i>
-                    </button>
-                </div>
-
-                <div id="courses-container">
-                     <div class="flex flex-wrap justify-center gap-4 my-8">
-                        <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold active-filter" data-filter="all">Todos</button>
-                        <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="tecnologia">Tecnologia</button>
-                        <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="administracao">Administração</button>
-                        <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="design">Design</button>
-                        <button class="px-6 py-2 rounded-full bg-[#282828] text-gray-300 hover:bg-spotify-green hover:text-black transition duration-300 font-semibold" data-filter="idiomas">Idiomas</button>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="course-list">
-                        <!-- Cursos serão inseridos aqui pelo JavaScript -->
-                    </div>
-                </div>
             </div>
         </section>
-
-        <section id="depoimentos" class="py-20 px-6 reveal">
+        <section id="depoimentos" class="py-20 px-6 content-section">
              <div class="container mx-auto">
                 <div class="text-center mb-12">
                     <h2 class="text-4xl font-bold tracking-tighter">O Que Nossos <span class="spotify-green">Alunos Dizem</span></h2>
-                    <p class="text-lg text-gray-400 mt-2">Histórias reais de sucesso e transformação que inspiram nossa comunidade.</p>
+                    <p class="text-lg text-muted mt-2">Histórias reais de sucesso e transformação que inspiram nossa comunidade.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                     <div class="card testimonial-card p-8">
                         <div class="flex items-center mb-4 text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                        <p class="text-gray-300 italic mb-6">"O curso de Desenvolvimento Web foi um divisor de águas na minha carreira. A didática é excelente e o suporte é incomparável. Hoje, sou um desenvolvedor realizado!"</p>
+                        <p class="text-muted italic mb-6">"O curso de Desenvolvimento Web foi um divisor de águas na minha carreira. A didática é excelente e o suporte é incomparável. Hoje, sou um desenvolvedor realizado!"</p>
                         <div class="flex items-center">
-                            <img src="https://placehold.co/48x48/1DB954/121212?text=JA" alt="Avatar de João Almeida" class="w-12 h-12 rounded-full mr-4 keep-colors">
+                            <img src="https://placehold.co/48x48/1DB954/121212?text=JA" alt="Avatar de João Almeida" class="w-12 h-12 rounded-full mr-4">
                             <div>
                                 <p class="font-bold text-white">João Almeida</p>
-                                <p class="text-sm text-gray-400">Desenvolvedor Full Stack</p>
+                                <p class="text-sm text-muted">Desenvolvedor Full Stack</p>
                             </div>
                         </div>
                     </div>
                      <div class="card testimonial-card p-8">
                         <div class="flex items-center mb-4 text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                        <p class="text-gray-300 italic mb-6">"Finalmente encontrei um curso de design que me ensinou a pensar como um UX/UI designer de verdade. O portfólio que construí aqui me abriu portas para grandes projetos."</p>
+                        <p class="text-muted italic mb-6">"Finalmente encontrei um curso de design que me ensinou a pensar como um UX/UI designer de verdade. O portfólio que construí aqui me abriu portas para grandes projetos."</p>
                         <div class="flex items-center">
-                            <img src="https://placehold.co/48x48/1DB954/121212?text=MP" alt="Avatar de Maria Pereira" class="w-12 h-12 rounded-full mr-4 keep-colors">
+                            <img src="https://placehold.co/48x48/1DB954/121212?text=MP" alt="Avatar de Maria Pereira" class="w-12 h-12 rounded-full mr-4">
                             <div>
                                 <p class="font-bold text-white">Maria Pereira</p>
-                                <p class="text-sm text-gray-400">Designer UX/UI</p>
+                                <p class="text-sm text-muted">Designer UX/UI</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section id="contato" class="py-20 px-6 text-center bg-[#181818] reveal">
-            <div class="container mx-auto">
-                 <h2 class="text-4xl font-bold tracking-tighter">Pronto para Começar?</h2>
-                 <p class="text-lg text-gray-400 mt-2 mb-8 max-w-2xl mx-auto">Fale com nossa equipe de especialistas e descubra como podemos ajudar você a alcançar seus objetivos.</p>
-                 <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="inline-block button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full hover-bg-spotify-green-darker">
-                    <i class="fab fa-whatsapp mr-2"></i> Falar com Consultor
-                </a>
             </div>
         </section>
     </main>
 
     <footer class="text-center py-8 border-t border-gray-800">
         <div class="container mx-auto px-6">
-             <div class="text-2xl font-bold tracking-tighter mb-4 text-white">
-                <a href="#">CED <span class="spotify-green">BRASIL</span></a>
+             <div class="mb-4">
+                <a href="#" data-section="hero" class="flex items-center justify-center gap-3">
+                     <span class="text-2xl font-bold tracking-tighter text-white">CED <span class="spotify-green">BRASIL</span></span>
+                </a>
             </div>
-            <p class="text-gray-400">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
+            <p class="text-muted">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
              <div class="flex justify-center space-x-6 mt-4">
                  <a href="https://www.facebook.com/people/CED-Brasil/61575889016332/" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-facebook-f text-lg"></i></a>
                  <a href="https://instagram.com/cedbrasill" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-instagram text-lg"></i></a>
                  <a href="https://wa.me/5561986660241" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-whatsapp text-lg"></i></a>
              </div>
-             <p class="text-xs text-gray-500 mt-6">
+             <p class="text-xs text-muted mt-6">
                 Feito com <i class="fas fa-heart spotify-green"></i> por @FurioNnzxT | <a href="http://www.encrypthost.com.br" target="_blank" rel="noopener" class="hover:text-spotify-green underline">Acesse www.encrypthost.com.br</a>
              </p>
         </div>
     </footer>
     
-    <button id="scrollTopBtn" aria-label="Voltar ao topo" class="scroll-to-top">&#8679;</button>
-
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Mobile Menu
-        const mobileMenuButton = document.getElementById('mobileMenuButton');
-        const mobileMenu = document.getElementById('mobileMenu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-        
-        document.querySelectorAll('#mobileMenu a, nav a[href^="#"]').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth < 768) {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-        });
+    const translations = {
+        pt: {
+            nav_inicio: "Início", nav_sobre: "Sobre Nós", nav_cursos: "Cursos", nav_depoimentos: "Depoimentos", lang_button: "PT",
+            hero_title: `Educação de Qualidade que <br> <span class="spotify-green">Transforma o Seu Futuro</span>.`,
+            hero_subtitle: "Capacitamos você com o conhecimento e as habilidades essenciais para dominar o mercado de trabalho e construir a carreira dos seus sonhos.",
+        },
+        en: {
+            nav_inicio: "Home", nav_sobre: "About Us", nav_cursos: "Courses", nav_depoimentos: "Testimonials", lang_button: "EN",
+            hero_title: `Quality Education that <br> <span class="spotify-green">Transforms Your Future</span>.`,
+            hero_subtitle: "We empower you with the essential knowledge and skills to master the job market and build the career of your dreams.",
+        },
+        es: { nav_inicio: "Inicio", nav_sobre: "Sobre Nosotros", nav_cursos: "Cursos", nav_depoimentos: "Testimonios", lang_button: "ES" },
+        ru: { nav_inicio: "Главная", nav_sobre: "О нас", nav_cursos: "Курсы", nav_depoimentos: "Отзывы", lang_button: "RU" },
+        zh: { nav_inicio: "首页", nav_sobre: "关于我们", nav_cursos: "课程", nav_depoimentos: "感言", lang_button: "ZH" },
+        ja: { nav_inicio: "ホーム", nav_sobre: "会社概要", nav_cursos: "コース", nav_depoimentos: "お客様の声", lang_button: "JA" }
+    };
 
-        // Theme Toggle
-        function applyTheme(isLight) {
-            document.body.classList.toggle('light-theme', isLight);
-            const icons = document.querySelectorAll('#themeToggle i, #mobileThemeToggle i');
-            icons.forEach(icon => {
-                icon.classList.toggle('fa-moon', !isLight);
-                icon.classList.toggle('fa-sun', isLight);
+    function setLanguage(lang, event) {
+        if(event) event.preventDefault();
+        const langPack = translations[lang] || translations.pt;
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.getAttribute('data-translate');
+            if (langPack[key]) {
+                el.innerHTML = langPack[key];
+            } else if (translations.pt[key]) {
+                el.innerHTML = translations.pt[key];
+            }
+        });
+        localStorage.setItem('language', lang);
+        document.querySelectorAll('#lang-switcher-btn span, #mobile-lang-btn span').forEach(el => el.textContent = lang.toUpperCase());
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const contentSections = document.querySelectorAll('.content-section');
+        const navLinks = document.querySelectorAll('nav a[data-section], footer a[data-section]');
+
+        function switchContent(targetId) {
+            contentSections.forEach(section => {
+                section.classList.toggle('visible', section.id === targetId);
+            });
+            navLinks.forEach(link => {
+                const isActive = link.dataset.section === targetId;
+                link.classList.toggle('active', isActive);
+                link.classList.toggle('text-muted', !isActive);
             });
         }
-        const storedTheme = localStorage.getItem('theme') === 'light';
-        applyTheme(storedTheme);
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            const isLight = !document.body.classList.contains('light-theme');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            applyTheme(isLight);
-        });
-        document.getElementById('mobileThemeToggle')?.addEventListener('click', () => {
-            const isLight = !document.body.classList.contains('light-theme');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            applyTheme(isLight);
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchContent(link.dataset.section);
+            });
         });
 
-        // Current Year
+        switchContent('hero');
+        
+        // Theme Switcher
+        const themeCheckboxes = [document.getElementById('theme-checkbox'), document.getElementById('mobile-theme-checkbox')];
+        const body = document.body;
+        function applyTheme(isLight) {
+             body.classList.toggle('light-theme', isLight);
+             themeCheckboxes.forEach(cb => { if(cb) cb.checked = isLight; });
+        }
+        const savedTheme = localStorage.getItem('theme') === 'light';
+        applyTheme(savedTheme);
+        themeCheckboxes.forEach(cb => {
+            if(cb) cb.addEventListener('change', (e) => {
+                applyTheme(e.currentTarget.checked);
+                localStorage.setItem('theme', e.currentTarget.checked ? 'light' : 'dark');
+            });
+        });
+
+        // Language Switcher
+        const langBtn = document.getElementById('lang-switcher-btn');
+        const langMenu = document.getElementById('lang-desktop-menu');
+        if(langBtn && langMenu) {
+            langBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                langMenu.classList.toggle('hidden');
+            });
+        }
+        document.addEventListener('click', (e) => {
+            if (langMenu && !langMenu.contains(e.target) && !langBtn.contains(e.target)) {
+                langMenu.classList.add('hidden');
+            }
+        });
+        document.querySelectorAll('#lang-desktop-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                if(langMenu) langMenu.classList.add('hidden');
+            });
+        });
+        const savedLang = localStorage.getItem('language') || 'pt';
+        setLanguage(savedLang);
+
         document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-        // Reveal Animation
-        const revealElements = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-        revealElements.forEach(el => observer.observe(el));
-        
-        // Scroll to top button
-        const scrollBtn = document.getElementById('scrollTopBtn');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) scrollBtn.classList.add('show');
-            else scrollBtn.classList.remove('show');
-        });
-        scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-        
-        // Course Data and Filtering
-        const defaultCourses = [
-            { name: "Desenvolvimento de Apps Mobile", category: "tecnologia", duration: "12 meses" },
-            { name: "Ciência de Dados para Iniciantes", category: "tecnologia", duration: "10 meses" },
-            { name: "Marketing de Mídias Sociais", category: "administracao", duration: "6 meses" },
-            { name: "Fotografia Digital Profissional", category: "design", duration: "7 meses" },
-            { name: "Espanhol do Zero à Fluência", category: "idiomas", duration: "8 meses" },
-            { name: "Empreendedorismo na Prática", category: "administracao", duration: "5 meses" },
-            { name: "Excel PRO", category: "tecnologia", duration: "12 meses" },
-            { name: "Design Gráfico", category: "design", duration: "10 meses" },
-            { name: "Analista e Dev de Sistemas", category: "tecnologia", duration: "18 meses" },
-            { name: "Administração", category: "administracao", duration: "8 meses" },
-            { name: "Inglês Fluente", category: "idiomas", duration: "12 meses" },
-            { name: "Inglês Kids", category: "idiomas", duration: "6 meses" },
-            { name: "Informática Essencial", category: "tecnologia", duration: "6 meses" },
-            { name: "Operador de Micro", category: "tecnologia", duration: "8 meses" },
-            { name: "Marketing & Vendas 360º", category: "administracao", duration: "12 meses" },
-            { name: "Marketing Digital", category: "administracao", duration: "8 meses" },
-            { name: "Pacote Office", category: "tecnologia", duration: "6 meses" }
-        ];
-
-        let courses = [];
-
-        const guessCategory = (name) => {
-            const lower = name.toLowerCase();
-            if (lower.includes('ingl')) return 'idiomas';
-            if (lower.includes('design')) return 'design';
-            if (lower.includes('marketing') || lower.includes('admin')) return 'administracao';
-            return 'tecnologia';
-        };
-
-        const fetchCourses = async () => {
-            try {
-                const res = await fetch('https://api.cedbrasilia.com.br/cursos');
-                const data = await res.json();
-                const nomes = Object.keys(data.cursos || {});
-                courses = nomes.map(n => ({ name: n, category: guessCategory(n), duration: '-' }));
-            } catch (err) {
-                courses = defaultCourses;
-            }
-            renderCourses();
-        };
-
-        const courseListContainer = document.getElementById('course-list');
-        const filterButtons = document.querySelectorAll('[data-filter]');
-        const toggleCoursesBtn = document.getElementById('toggleCoursesBtn');
-        const coursesContainer = document.getElementById('courses-container');
-
-        const renderCourses = (filter = 'all') => {
-            courseListContainer.innerHTML = '';
-            const filteredCourses = courses.filter(course => filter === 'all' || course.category === filter);
-
-            filteredCourses.forEach(course => {
-                const courseCard = `
-                    <div class="card card-glow course-item" data-category="${course.category}">
-                        <h3 class="text-2xl font-bold mb-2 spotify-green">${course.name}</h3>
-                        <p class="text-gray-400">Duração: ${course.duration}</p>
-                    </div>
-                `;
-                courseListContainer.insertAdjacentHTML('beforeend', courseCard);
-            });
-        };
-
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                filterButtons.forEach(btn => btn.classList.remove('active-filter', 'bg-spotify-green', 'text-black'));
-                button.classList.add('active-filter', 'bg-spotify-green', 'text-black');
-                renderCourses(button.dataset.filter);
-            });
-        });
-        
-        toggleCoursesBtn.addEventListener('click', () => {
-            const icon = toggleCoursesBtn.querySelector('i');
-            const isExpanded = coursesContainer.classList.toggle('expanded');
-            
-            if (isExpanded) {
-                coursesContainer.style.maxHeight = coursesContainer.scrollHeight + 'px';
-                icon.style.transform = 'rotate(180deg)';
-                toggleCoursesBtn.childNodes[0].nodeValue = 'Ocultar cursos ';
-
-            } else {
-                coursesContainer.style.maxHeight = '0px';
-                icon.style.transform = 'rotate(0deg)';
-                toggleCoursesBtn.childNodes[0].nodeValue = 'Ver todos os cursos incluídos ';
-            }
-        });
-        
-        // Initial Render
-        document.querySelector('[data-filter="all"]').classList.add('active-filter', 'bg-spotify-green', 'text-black');
-        fetchCourses();
     });
 </script>
 
