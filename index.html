@@ -156,7 +156,6 @@
                 <a href="#" data-section="sobre" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Sobre Nós</a>
                 <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Cursos</a>
                 <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Depoimentos</a>
-                <a href="carrinho.html" class="hover:text-spotify-green transition-colors px-3 py-2 rounded-md">Carrinho</a>
                 <div id="nav-indicator" class="absolute bottom-0 h-0.5 bg-spotify-green transition-all duration-300"></div>
             </nav>
             <div class="hidden md:flex items-center gap-4">
@@ -164,9 +163,9 @@
                     <input type="checkbox" id="theme-checkbox" />
                     <div class="slider"></div>
                 </label>
-                 <a href="assinatura.html" class="header-button font-semibold py-2 px-6 rounded-lg transition-colors">
-                    Matricular
-                </a>
+                 <button id="cartButton" class="text-white hover:text-spotify-green transition-colors text-xl">
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
             </div>
             <button id="mobileMenuButton" class="md:hidden text-white z-50">
                  <i class="fas fa-bars text-xl"></i>
@@ -181,7 +180,7 @@
             <a href="#" data-section="sobre" class="hover:text-spotify-green transition-colors">Sobre Nós</a>
             <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors">Cursos</a>
             <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors">Depoimentos</a>
-            <a href="carrinho.html" class="hover:text-spotify-green transition-colors">Carrinho</a>
+            <button id="mobileCartButton" class="hover:text-spotify-green transition-colors"><i class="fas fa-shopping-cart"></i></button>
             
              <div class="border-t border-gray-700 w-full my-8"></div>
              
@@ -194,6 +193,13 @@
         </nav>
     </div>
 
+    <div id="cart-sidebar" class="fixed top-0 right-0 w-80 h-full bg-gray-900 p-6 transform translate-x-full transition-transform duration-300 z-50">
+        <button id="close-cart" class="text-white mb-4"><i class="fas fa-times"></i></button>
+        <h2 class="text-2xl font-bold mb-4">Seu Carrinho</h2>
+        <ul id="cart-items" class="space-y-4 mb-4"></ul>
+        <div id="cart-total" class="text-lg font-semibold mb-4"></div>
+        <a href="matricularasaas.html" class="button-glow bg-spotify-green text-black font-bold py-2 px-4 rounded">Finalizar Matrícula</a>
+    </div>
 
     <main class="container mx-auto px-6 relative">
         <section id="hero" class="text-center py-20 md:py-32 px-6 content-section">
@@ -204,11 +210,6 @@
             <p class="text-lg md:text-xl max-w-3xl mx-auto text-muted mb-10">
                 Capacitamos você com o conhecimento e as habilidades essenciais para dominar o mercado de trabalho e construir a carreira dos seus sonhos.
             </p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="assinatura.html" class="w-full sm:w-auto inline-block button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full hover-bg-spotify-green-darker">
-                    Me Matricular Agora
-                </a>
-            </div>
         </section>
 
         <section id="sobre" class="py-20 px-6 content-section hidden">
@@ -364,6 +365,58 @@
                     const activeLink = document.querySelector('#desktop-nav a.active');
                     if (activeLink) updateIndicator(activeLink);
                 });
+
+                const cartSidebar = document.getElementById('cart-sidebar');
+                const cartButton = document.getElementById('cartButton');
+                const mobileCartButton = document.getElementById('mobileCartButton');
+                const closeCart = document.getElementById('close-cart');
+                const cartList = document.getElementById('cart-items');
+                const cartTotal = document.getElementById('cart-total');
+
+                function renderCart() {
+                    const cart = getCart();
+                    cartList.innerHTML = '';
+                    let total = 0;
+                    cart.forEach((name, idx) => {
+                        const price = getCoursePrice(name);
+                        const li = document.createElement('li');
+                        li.className = 'flex justify-between items-center bg-gray-800 p-4 rounded';
+                        li.innerHTML = `<span>${name}</span>` +
+                            `<span>R$ ${price.toFixed(2).replace('.', ',')}</span>` +
+                            `<button data-idx="${idx}" class="remove text-red-500">Remover</button>`;
+                        cartList.appendChild(li);
+                        total += price;
+                    });
+                    if (cart.length >= 2) {
+                        const desconto = total * 0.4;
+                        const final = total - desconto;
+                        cartTotal.innerHTML = `Subtotal: R$ ${total.toFixed(2).replace('.', ',')}<br>` +
+                            `<span class="text-green-500">Desconto 40%: -R$ ${desconto.toFixed(2).replace('.', ',')}</span><br>` +
+                            `<strong>Total: R$ ${final.toFixed(2).replace('.', ',')}</strong>`;
+                    } else {
+                        cartTotal.innerHTML = `<strong>Total: R$ ${total.toFixed(2).replace('.', ',')}</strong>`;
+                    }
+                }
+
+                function openCart() {
+                    renderCart();
+                    cartSidebar.classList.add('open');
+                }
+
+                if (cartButton) cartButton.addEventListener('click', openCart);
+                if (mobileCartButton) mobileCartButton.addEventListener('click', () => {
+                    if (mobileMenu) mobileMenu.classList.add('hidden');
+                    openCart();
+                });
+                if (closeCart) closeCart.addEventListener('click', () => cartSidebar.classList.remove('open'));
+                cartList.addEventListener('click', e => {
+                    if (e.target.classList.contains('remove')) {
+                        const idx = parseInt(e.target.dataset.idx, 10);
+                        removeCourse(idx);
+                        renderCart();
+                    }
+                });
+
                 showSection('hero');
                 const initialLink = document.querySelector('#desktop-nav a.active');
                 if (initialLink) updateIndicator(initialLink);
