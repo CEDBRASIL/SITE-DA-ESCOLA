@@ -33,7 +33,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const desc = descriptions[name] || 'Curso profissionalizante do CED BRASIL.';
       const card = document.createElement('div');
       card.className = 'card p-6 flex flex-col justify-between';
-      const price = `R$ ${COURSE_PRICE.toFixed(2).replace('.', ',')}`;
+      const priceVal = getCoursePrice(name);
+      const price = `R$ ${priceVal.toFixed(2).replace('.', ',')}`;
       card.innerHTML = `
         <div>
           <h3 class="text-xl font-bold mb-2">${name}</h3>
