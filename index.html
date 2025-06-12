@@ -810,12 +810,9 @@
          * @returns {boolean} - Retorna true se o curso foi adicionado, false se já existia.
          */
         function addCourse(courseName) {
-            if (!cart.includes(courseName)) {
-                cart.push(courseName);
-                saveCart();
-                return true; // Course added successfully
-            }
-            return false; // Course already in cart
+            cart.push(courseName);
+            saveCart();
+            return true;
         }
 
         function removeCourse(index) {
@@ -902,22 +899,8 @@
             document.querySelectorAll('.add-to-cart').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const courseName = e.target.dataset.courseName;
-                    const added = addCourse(courseName); // Chama a função addCourse
-
-                    if (added) {
-                        showNotification(`"${courseName}" adicionado ao carrinho!`, 'success');
-                        // Desabilita o botão temporariamente ou muda o texto
-                        e.target.textContent = 'Adicionado!';
-                        e.target.disabled = true;
-                        e.target.classList.add('opacity-50', 'cursor-not-allowed');
-                        // No need for a setTimeout here to re-enable, as removeCourse will handle it.
-                    } else {
-                        showNotification(`"${courseName}" já está no carrinho.`, 'error');
-                        e.target.textContent = 'Já no carrinho!';
-                        setTimeout(() => {
-                            e.target.textContent = 'Adicionar ao Carrinho';
-                        }, 1500);
-                    }
+                    addCourse(courseName);
+                    showNotification(`"${courseName}" adicionado ao carrinho!`, 'success');
                 });
             });
 
@@ -935,16 +918,9 @@
         function updateCourseButtonStates() {
             const buttons = document.querySelectorAll('.add-to-cart');
             buttons.forEach(button => {
-                const courseName = button.dataset.courseName;
-                if (cart.includes(courseName)) {
-                    button.textContent = 'Adicionado!';
-                    button.disabled = true;
-                    button.classList.add('opacity-50', 'cursor-not-allowed');
-                } else {
-                    button.textContent = 'Adicionar ao Carrinho';
-                    button.disabled = false;
-                    button.classList.remove('opacity-50', 'cursor-not-allowed');
-                }
+                button.textContent = 'Adicionar ao Carrinho';
+                button.disabled = false;
+                button.classList.remove('opacity-50', 'cursor-not-allowed');
             });
         }
 
@@ -1026,36 +1002,22 @@
 
                 // Show loading state
                 loginMsg.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-spotify-green text-xl"></i> Enviando...';
-                loginMsg.classList.remove('hidden', 'text-red-500'); // Ensure it's visible and not red
-                loginMsg.classList.add('text-gray-300'); // Set a neutral color for loading
+                loginMsg.classList.remove('hidden', 'text-red-500');
+                loginMsg.classList.add('text-gray-300');
                 loginSubmitButton.disabled = true;
                 loginSubmitButton.classList.add('opacity-50', 'cursor-not-allowed');
                 loginSubmitButton.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Entrando...';
 
                 try {
                     const url = `https://api.cedbrasilia.com.br/login?usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
-                    // Simulate API call for demonstration, replace with actual fetch
-                    // For a real API call:
-                    // const response = await fetch(url);
-                    // if (!response.ok) throw new Error('Falha no login');
-                    // const data = await response.json();
-                    
-                    // Simulating a delay and success/failure for demonstration
-                    await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
-                    
-                    // Simulate success or failure
-                    const success = Math.random() > 0.3; // 70% chance of success for demo
-                    if (success) {
-                        loginMsg.textContent = 'Login bem-sucedido! Redirecionando...';
-                        loginMsg.classList.remove('text-red-500', 'text-gray-300');
-                        loginMsg.classList.add('text-green-500');
-                        // In a real application, you'd redirect here:
-                        // window.location.href = url; // or a dashboard URL
-                        setTimeout(closeLoginFn, 1000); // Close modal after 1 second for demo
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        const redirectUrl = response.redirected ? response.url : url;
+                        window.location.href = redirectUrl;
                     } else {
-                        throw new Error('Usuário ou senha incorretos.');
+                        const data = await response.json().catch(() => ({}));
+                        throw new Error(data.detail || 'Erro ao fazer login.');
                     }
-
                 } catch (error) {
                     loginMsg.textContent = error.message;
                     loginMsg.classList.remove('text-green-500', 'text-gray-300');
