@@ -33,13 +33,23 @@ document.addEventListener('DOMContentLoaded', async () => {
       const desc = descriptions[name] || 'Curso profissionalizante do CED BRASIL.';
       const card = document.createElement('div');
       card.className = 'card p-6 flex flex-col justify-between';
+      const price = `R$ ${COURSE_PRICE.toFixed(2).replace('.', ',')}`;
       card.innerHTML = `
         <div>
           <h3 class="text-xl font-bold mb-2">${name}</h3>
           <p class="text-gray-400 mb-4">${desc}</p>
+          <p class="text-gray-400 mb-4">Valor: ${price}</p>
         </div>
-        <a href="${slug}.html" class="self-start mt-auto button-glow bg-spotify-green text-black font-bold px-4 py-2 rounded">Matricule-se</a>
+        <div class="flex gap-2 mt-auto">
+          <a href="${slug}.html" class="button-glow bg-spotify-green text-black font-bold px-4 py-2 rounded">Detalhes</a>
+          <button class="add-cart button-glow bg-blue-600 text-white font-bold px-4 py-2 rounded" data-name="${name}">Adicionar ao Carrinho</button>
+        </div>
       `;
+      const addBtn = card.querySelector('.add-cart');
+      addBtn.addEventListener('click', () => {
+        addCourse(name);
+        alert('Curso adicionado ao carrinho!');
+      });
       courseList.appendChild(card);
     });
   } catch (err) {
