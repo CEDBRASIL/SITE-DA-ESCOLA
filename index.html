@@ -1234,6 +1234,10 @@
                     e.stopPropagation();
                     const name = e.target.dataset.name;
                     removeCourse(name);
+                    // Garante que a interface seja atualizada imediatamente
+                    if (typeof renderCart === 'function') {
+                        renderCart();
+                    }
                 }
             });
 
