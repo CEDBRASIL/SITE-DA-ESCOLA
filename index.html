@@ -387,10 +387,6 @@
     </div>
 
 
-    <div id="course-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-50">
-        <div class="bg-gray-900 p-6 rounded-lg relative max-w-lg w-full">
-            <button id="close-modal" class="absolute top-2 right-2 text-white"><i class="fas fa-times"></i></button>
-            <h2 id="modal-title" class="text-2xl font-bold mb-4"></h2>
             <p id="modal-desc" class="text-gray-300"></p>
         </div>
 </div>
@@ -854,6 +850,10 @@
             const loginForm = document.getElementById('loginForm');
             const loginMsg = document.getElementById('loginMsg');
             const loginSubmitButton = document.getElementById('loginSubmitButton'); // Get the login submit button
+            const courseModal = document.getElementById("course-modal");
+            const modalTitle = document.getElementById("modal-title");
+            const modalDesc = document.getElementById("modal-desc");
+            const closeModal = document.getElementById("close-modal");
 
             if (typeof updateCartCount === 'function') {
                 updateCartCount();
