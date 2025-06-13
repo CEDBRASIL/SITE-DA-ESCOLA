@@ -159,75 +159,6 @@
             background-color: var(--accent-color); /* Garante que a cor do cursor mude com o tema */
         }
 
-        /* Estilos para o menu do carrinho */
-        #cart-sidebar {
-            background-color: var(--bg-color); /* Usar a cor de fundo principal */
-            border: 1px solid var(--border-color);
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5); /* Sombra mais forte */
-            /* Aumentando o tamanho do carrinho */
-            width: 100%; /* Default para mobile */
-            max-width: 100%; /* Garante que não ultrapasse 100% em mobile */
-        }
-        /* Responsive widths for cart sidebar */
-        @media (min-width: 640px) { /* sm */
-            #cart-sidebar {
-                width: 75%;
-            }
-        }
-        @media (min-width: 768px) { /* md */
-            #cart-sidebar {
-                width: 66.66%; /* 2/3 */
-            }
-        }
-        @media (min-width: 1024px) { /* lg */
-            #cart-sidebar {
-                width: 50%; /* 1/2 */
-            }
-        }
-        @media (min-width: 1280px) { /* xl */
-            #cart-sidebar {
-                max-width: 448px; /* max-w-md */
-            }
-        }
-
-
-        #cart-sidebar .text-2xl.font-bold {
-            color: var(--accent-color); /* Título do carrinho na cor de destaque */
-        }
-        #cart-items li {
-            background-color: var(--card-bg-color); /* Fundo dos itens do carrinho */
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem; /* Bordas mais arredondadas */
-            padding: 1rem;
-            margin-bottom: 0.75rem; /* Espaçamento entre os itens */
-            /* Flexbox para espaçamento adequado */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem; /* Espaçamento entre os elementos do item */
-            flex-wrap: wrap; /* Permite quebrar linha em telas menores */
-        }
-        #cart-items li span:first-child {
-            font-weight: 500; /* Nome do curso mais destacado */
-            flex-grow: 1; /* Permite que o nome do curso ocupe espaço disponível */
-            min-width: 100px; /* Garante que o nome não encolha demais */
-        }
-        #cart-items li span:nth-child(2) {
-            white-space: nowrap; /* Impede que o preço quebre linha */
-        }
-        #cart-items li .remove {
-            background-color: #ef4444; /* Cor de fundo para o botão de remover */
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            transition: background-color 0.2s;
-            margin-left: auto; /* Empurra para a direita se houver espaço */
-        }
-        #cart-items li .remove:hover {
-            background-color: #dc2626;
-        }
-        #checkout-button {
             width: 100%; /* Botão de finalizar matrícula em largura total */
             border-radius: 9999px; /* Totalmente arredondado */
         }
@@ -405,10 +336,6 @@
                     <div class="slider"></div>
                 </label>
                 <a id="loginButton" href="login.html" class="header-button font-semibold py-2 px-6 rounded-lg transition-colors">Entrar</a>
-                <button id="cartButton" class="relative text-white hover:text-spotify-green transition-colors text-xl">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="cart-count" class="absolute -top-2 -right-2 bg-spotify-green text-black rounded-full text-xs w-5 h-5 flex items-center justify-center" style="display:none"></span>
-                </button>
             </div>
             <button id="mobileMenuButton" class="md:hidden text-white z-50">
                 <i class="fas fa-bars text-xl"></i>
@@ -425,7 +352,6 @@
             <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors">Depoimentos</a>
             <a href="#" data-section="afiliados" class="hover:text-spotify-green transition-colors">Afiliados</a>
             <a id="mobileLoginButton" href="login.html" class="hover:text-spotify-green transition-colors">Entrar</a>
-            <button id="mobileCartButton" class="hover:text-spotify-green transition-colors"><i class="fas fa-shopping-cart"></i></button>
             
             <div class="flex justify-center space-x-6 mt-8">
                 <a href="https://www.facebook.com/people/CED-Brasil/61575889016332/" target="_blank" rel="noopener" class="text-white hover:text-spotify-green text-3xl"><i class="fab fa-facebook-f"></i></a>
@@ -444,15 +370,6 @@
         </nav>
     </div>
 
-    <div id="cart-sidebar" class="fixed top-0 right-0 h-full p-6 transform translate-x-full transition-transform duration-300 z-50 rounded-l-lg bg-gray-900">
-        <button id="close-cart" class="text-white mb-4"><i class="fas fa-times"></i></button>
-        <h2 class="text-2xl font-bold mb-4">Seu Carrinho</h2>
-        <ul id="cart-items" class="space-y-4 mb-4"></ul>
-        <div id="cart-total" class="text-lg font-semibold mb-4"></div>
-        <button id="checkout-button" class="button-glow bg-spotify-green text-black font-bold py-2 px-4 rounded-full">Finalizar Matrícula</button>
-    </div>
-
-    <div id="cart-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-40"></div>
 
     <div id="course-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-50">
         <div class="bg-gray-900 p-6 rounded-lg relative max-w-lg w-full">
@@ -479,6 +396,8 @@
                     <label for="checkout-phone" class="block mb-2 font-semibold">Telefone (com DDD)</label>
                     <input type="tel" id="checkout-phone" required placeholder="(XX) XXXXX-XXXX" class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600" />
                 </div>
+                <input type="hidden" id="selected-course" />
+                <div id="login-info" class="text-center mt-4"></div>
                 <button type="submit" id="checkout-submit" class="w-full button-glow bg-spotify-green text-black font-bold py-3 px-6 rounded-full">Concluir Matrícula</button>
                 <div id="checkout-message" class="text-center mt-2 h-5"></div>
             </form>
@@ -754,8 +673,6 @@
     <div id="notification-popup"></div>
 
     <script>
-        // Conteúdo do cart.js
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
         const COURSE_PRICES = {
             "Excel PRO": 49.90,
@@ -800,53 +717,7 @@
         };
 
         let availableCourses = []; // Variável para armazenar os cursos carregados da API
-
-        function saveCart() {
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartCount();
-        }
-
-        function getCart() {
-            return cart;
-        }
-
-        /**
-         * Adiciona um curso ao carrinho se ele não estiver duplicado.
-         * @param {string} courseName - O nome do curso a ser adicionado.
-         * @returns {boolean} - Retorna true se o curso foi adicionado, false se já existia.
-         */
-        function addCourse(courseName) {
-            if (!cart.includes(courseName)) {
-                cart.push(courseName);
-                saveCart();
-                updateCourseButtonStates();
-                showNotification(`"${courseName}" adicionado ao carrinho!`, 'success');
-                return true;
-            } else {
-                showNotification(`"${courseName}" já está no carrinho`, 'error');
-                return false;
-            }
-        }
-
-        function removeCourse(name) {
-            if (cart.includes(name)) {
-                cart = cart.filter(item => item !== name);
-                saveCart();
-                renderCart();
-                updateCourseButtonStates();
-                showNotification(`"${name}" removido do carrinho`, 'success');
-            }
-        }
-
-        function updateCartCount() {
-            const cartCountElement = document.getElementById('cart-count');
-            if (cartCountElement) {
-                cartCountElement.textContent = cart.length;
-                cartCountElement.style.display = cart.length > 0 ? 'flex' : 'none';
-            }
-        }
-
-        // Função para carregar os cursos da API
+        let selectedCourse = null;
         async function fetchCourses() {
             try {
                 const response = await fetch('https://api.cedbrasilia.com.br/cursos');
@@ -898,8 +769,8 @@
                     <p class="text-muted text-sm mb-4">${course.description}</p>
                     <div class="flex items-center justify-between w-full mt-auto">
                         <span class="text-xl font-bold spotify-green">R$ ${course.price.toFixed(2).replace('.', ',')}</span>
-                        <button class="add-to-cart button-glow bg-spotify-green text-black font-semibold py-2 px-4 rounded-full transition-all duration-300 transform" data-course-name="${course.name}">
-                            Adicionar ao Carrinho
+                        <button class="enroll-course button-glow bg-spotify-green text-black font-semibold py-2 px-4 rounded-full transition-all duration-300 transform" data-course-name="${course.name}">
+                            Me matricular agora!
                         </button>
                     </div>
                     <button class="details-button text-xs mt-2 text-blue-400 hover:underline" data-title="${course.name}" data-description="${course.detail}">Ver Detalhes</button>
@@ -907,17 +778,14 @@
                 courseList.appendChild(courseCard);
             });
 
-            // Call updateCourseButtonStates after loading all courses
-            updateCourseButtonStates();
 
-            // Adiciona listeners de evento para botões "Adicionar ao Carrinho"
-            document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const courseName = e.target.dataset.courseName;
-                    const added = addCourse(courseName);
-                    if (added) {
-                        showNotification(`"${courseName}" adicionado ao carrinho!`, 'success');
-                    }
+            // Adiciona listeners de evento para botões "Me matricular agora!"
+            document.querySelectorAll(".enroll-course").forEach(button => {
+                button.addEventListener("click", e => {
+                    selectedCourse = e.target.dataset.courseName;
+                    if (selectedCourseInput) selectedCourseInput.value = selectedCourse;
+                    if (loginInfo) loginInfo.innerHTML = "";
+                    openCheckout();
                 });
             });
 
@@ -931,23 +799,6 @@
             });
         }
 
-        // Nova função para atualizar o estado dos botões de curso
-        function updateCourseButtonStates() {
-            const buttons = document.querySelectorAll('.add-to-cart');
-            const currentCart = getCart();
-            buttons.forEach(button => {
-                const name = button.dataset.courseName;
-                if (currentCart.includes(name)) {
-                    button.textContent = 'No Carrinho';
-                    button.disabled = true;
-                    button.classList.add('opacity-50', 'cursor-not-allowed');
-                } else {
-                    button.textContent = 'Adicionar ao Carrinho';
-                    button.disabled = false;
-                    button.classList.remove('opacity-50', 'cursor-not-allowed');
-                }
-            });
-        }
 
         // Função para obter o preço do curso, necessária para renderização do carrinho.
         function getCoursePrice(courseName) {
@@ -1178,75 +1029,6 @@
                 if (activeLink) updateIndicator(activeLink);
             });
 
-            const cartSidebar = document.getElementById('cart-sidebar');
-            const cartBackdrop = document.getElementById('cart-backdrop');
-            const cartButton = document.getElementById('cartButton');
-            const mobileCartButton = document.getElementById('mobileCartButton');
-            const closeCart = document.getElementById('close-cart');
-            const cartList = document.getElementById('cart-items');
-            const cartTotal = document.getElementById('cart-total');
-            const courseModal = document.getElementById('course-modal');
-            const modalTitle = document.getElementById('modal-title');
-            const modalDesc = document.getElementById('modal-desc');
-            const closeModal = document.getElementById('close-modal');
-
-            function renderCart() {
-                const cart = getCart();
-                cartList.innerHTML = '';
-                let total = 0;
-                cart.forEach(name => {
-                    const price = getCoursePrice(name);
-                    const li = document.createElement('li');
-                    li.innerHTML = `<span>${name}</span>` +
-                        `<span>R$ ${price.toFixed(2).replace('.', ',')}</span>` +
-                        `<button data-name="${name}" class="remove">Remover</button>`;
-                    cartList.appendChild(li);
-                    total += price;
-                });
-                if (cart.length >= 2) {
-                    const desconto = total * 0.4;
-                    const final = total - desconto;
-                    cartTotal.innerHTML = `Subtotal: R$ ${total.toFixed(2).replace('.', ',')}<br>` +
-                        `<span class="text-green-500">Desconto 40%: -R$ ${desconto.toFixed(2).replace('.', ',')}</span><br>` +
-                        `<strong>Total: R$ ${final.toFixed(2).replace('.', ',')}</strong>`;
-                } else {
-                    cartTotal.innerHTML = `<strong>Total: R$ ${total.toFixed(2).replace('.', ',')}</strong>`;
-                }
-            }
-
-            function openCart() {
-                renderCart();
-                cartSidebar.classList.remove('translate-x-full');
-                cartSidebar.classList.add('translate-x-0', 'open');
-                if (cartBackdrop) cartBackdrop.classList.remove('hidden');
-            }
-
-            if (cartButton) cartButton.addEventListener('click', openCart);
-            if (mobileCartButton) mobileCartButton.addEventListener('click', () => {
-                if (mobileMenu) mobileMenu.classList.add('hidden');
-                openCart();
-            });
-            function closeCartFn() {
-                cartSidebar.classList.remove('open', 'translate-x-0');
-                cartSidebar.classList.add('translate-x-full');
-                if (cartBackdrop) cartBackdrop.classList.add('hidden');
-            }
-
-            if (closeCart) closeCart.addEventListener('click', closeCartFn);
-            if (cartBackdrop) cartBackdrop.addEventListener('click', closeCartFn);
-            
-            // FIX #3 & #4: Simplify cart removal logic to fix both issues
-            cartList.addEventListener('click', e => {
-                if (e.target.classList.contains('remove')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const name = e.target.dataset.name;
-                    // The removeCourse function already handles all necessary updates,
-                    // including re-rendering the cart and updating button states.
-                    removeCourse(name);
-                }
-            });
-
             function showCourseModal(title, text) {
                 if (!courseModal) return;
                 modalTitle.textContent = title;
@@ -1269,6 +1051,8 @@
             const checkoutCPF = document.getElementById('checkout-cpf');
             const checkoutPhone = document.getElementById('checkout-phone');
             const checkoutMsg = document.getElementById('checkout-message');
+            const selectedCourseInput = document.getElementById("selected-course");
+            const loginInfo = document.getElementById("login-info");
 
             function openCheckout() {
                 if (checkoutModal) checkoutModal.classList.remove('hidden');
@@ -1306,7 +1090,6 @@
             }
 
             if (checkoutButton) checkoutButton.addEventListener('click', () => {
-                closeCartFn();
                 openCheckout();
             });
             if (closeCheckout) closeCheckout.addEventListener('click', closeCheckoutFn);
@@ -1331,16 +1114,21 @@
                     const res = await fetch('https://api.cedbrasilia.com.br/matricular', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ nome, cpf, whatsapp: phone, cursos: getCart() })
+                        body: JSON.stringify({ nome, cpf, whatsapp: phone, cursos: [selectedCourse] })
                     });
                     if (res.ok) {
-                        checkoutMsg.textContent = 'Matrícula enviada com sucesso!';
-                        checkoutMsg.className = 'text-center text-green-400 mt-2 h-5';
+                        const data = await res.json();
+                        checkoutMsg.textContent = "Matrícula enviada com sucesso!";
+                        checkoutMsg.className = "text-center text-green-400 mt-2 h-5";
                         checkoutForm.reset();
-                        cart = []; // Clear the cart array
-                        saveCart(); // Save the empty cart to localStorage and update UI
-                        renderCart(); // Re-render the empty cart sidebar
-                        updateCourseButtonStates(); // Reset all course buttons on main page
+                        if (data.usuario && data.senha) {
+                            loginInfo.innerHTML = `Usuário: <strong>${data.usuario}</strong><br>Senha: <strong>${data.senha}</strong><br>`;
+                            const link = document.createElement("a");
+                            link.href = `https://api.cedbrasilia.com.br/login/?usuario=${encodeURIComponent(data.usuario)}&senha=${encodeURIComponent(data.senha)}`;
+                            link.className = "button-glow bg-spotify-green text-black font-bold py-2 px-4 rounded-full mt-2 inline-block";
+                            link.textContent = "ENTRAR";
+                            loginInfo.appendChild(link);
+                        }
                     } else {
                         throw new Error('Erro ao enviar');
                     }
