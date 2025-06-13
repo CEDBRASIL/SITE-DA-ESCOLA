@@ -45,11 +45,10 @@ function addCourse(name) {
 
 function removeCourse(name) {
   const cart = getCart();
-  const idx = cart.indexOf(name);
-  if (idx !== -1) {
-    const removed = cart.splice(idx, 1);
-    saveCart(cart);
-    showToast(`${removed[0]} removido do carrinho`);
+  if (cart.includes(name)) {
+    const newCart = cart.filter(item => item !== name);
+    saveCart(newCart);
+    showToast(`${name} removido do carrinho`);
   }
 }
 
