@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>CED Brasil – Sistema WhatsApp</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100">
+<main class="max-w-md mx-auto p-6 mt-10 bg-gray-800 rounded-lg">
+  <h1 class="text-2xl font-bold mb-6 text-center">Conexão WhatsApp</h1>
+
+  <!-- QR -->
+  <div id="qrBox" class="text-center mb-6">
+    <img id="qrImg" class="mx-auto w-60 h-60" src="" alt="QR Code" hidden>
+    <p id="statusTxt" class="text-yellow-400">Carregando QR-Code…</p>
+  </div>
+
+  <!-- Formulário -->
+  <form id="waForm" class="space-y-4">
+    <div>
+      <label class="block text-sm mb-1">Número (E.164)</label>
+      <input id="numero" type="text" required
+             class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+    </div>
+    <div>
+      <label class="block text-sm mb-1">Mensagem</label>
+      <textarea id="mensagem" rows="3" required
+                class="w-full p-2 rounded bg-gray-700 border border-gray-600"></textarea>
+    </div>
+    <button class="w-full py-2 bg-green-600 hover:bg-green-500 rounded">
+      Enviar Mensagem
+    </button>
+    <p id="feedback" class="mt-2 text-center text-sm"></p>
+  </form>
+</main>
+
+<script>
+const api = "https://api.cedbrasilia.com.br/whatsapp";
+
+// ---- QR polling ----
+async function pollQR() {
+  const r = await fetch(api + "/qr");
+  const d = await r.json();
+  const img = document.getElementById("qrImg");
+  const txt = document.getElementById("statusTxt");
+
+  if (d.state === "loading") {
+    img.src = "data:image/png;base64," + d.qr;
+    img.hidden = false;
+    txt.textContent = "Escaneie o QR-Code…";
+    setTimeout(pollQR, 2000);
+  } else {
+    img.hidden = true;
+    txt.textContent = "Conectado ✅";
+    txt.className = "text-green-400";
+  }
+}
+pollQR();
+
+// ---- Envio ----
+document.getElementById("waForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const numero = document.getElementById("numero").value.trim();
+  const mensagem = document.getElementById("mensagem").value.trim();
+  const fb = document.getElementById("feedback");
+  fb.textContent = "Enviando…";
+  fb.className = "text-yellow-400 text-center";
+
+  const res = await fetch(api, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ numero, mensagem })
+  });
+
+  if (res.ok) {
+    fb.textContent = "Mensagem enviada!";
+    fb.className = "text-green-400 text-center";
+    document.getElementById("mensagem").value = "";
+  } else {
+    const err = await res.json();
+    fb.textContent = err.detail || "Falha ao enviar";
+    fb.className = "text-red-500 text-center";
+  }
+});
+</script>
+</body>
+</html>
