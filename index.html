@@ -829,9 +829,8 @@
         }
 
         function removeCourse(name) {
-            const idx = cart.indexOf(name);
-            if (idx !== -1) {
-                cart.splice(idx, 1);
+            if (cart.includes(name)) {
+                cart = cart.filter(item => item !== name);
                 saveCart();
                 renderCart();
                 updateCourseButtonStates();
