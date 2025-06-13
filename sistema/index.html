@@ -144,6 +144,14 @@
                             <input type="tel" id="matricular-whatsapp" class="form-control w-full p-3 rounded-lg text-white" placeholder="(XX) XXXXX-XXXX" required />
                         </div>
                         <div class="mb-4">
+                            <label for="pacote-select" class="block mb-2 text-sm font-semibold text-gray-300">Selecionar Pacote do curso</label>
+                            <select id="pacote-select" class="form-control w-full p-3 rounded-lg text-white"></select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="curso-select" class="block mb-2 text-sm font-semibold text-gray-300">Selecionar curso</label>
+                            <select id="curso-select" class="form-control w-full p-3 rounded-lg text-white"></select>
+                        </div>
+                        <div class="mb-4">
                             <label for="matricular-msg" class="block mb-2 text-sm font-semibold text-gray-300">Mensagem</label>
                             <textarea id="matricular-msg" rows="3" class="form-control w-full p-3 rounded-lg text-white">Olá, seja bem-vindo ao CED BRASIL!</textarea>
                         </div>
@@ -190,6 +198,8 @@
             const matricularForm = document.getElementById('matricular-form');
             const matricularFeedback = document.getElementById('matricular-feedback');
             const matricularWhatsapp = document.getElementById('matricular-whatsapp');
+            const pacoteSelect = document.getElementById('pacote-select');
+            const cursoSelect = document.getElementById('curso-select');
             const welcomeSection = document.getElementById('welcome-section');
             const alunosTabela = document.getElementById('alunos-tabela');
             const filtroInput = document.getElementById('aluno-filtro');
@@ -200,6 +210,43 @@
             const bloquearSelecionadosBtn = document.getElementById('bloquear-selecionados');
             const desbloquearSelecionadosBtn = document.getElementById('desbloquear-selecionados');
             const excluirSelecionadosBtn = document.getElementById('excluir-selecionados');
+
+            async function carregarPacotes() {
+                try {
+                    const res = await fetch('https://api.cedbrasilia.com.br/cursos');
+                    const data = await res.json();
+                    const pacotes = Object.keys(data.cursos || {});
+                    pacoteSelect.innerHTML = '<option value="">Selecione</option>';
+                    pacotes.forEach(p => {
+                        const opt = document.createElement('option');
+                        opt.value = p;
+                        opt.textContent = p;
+                        pacoteSelect.appendChild(opt);
+                    });
+                } catch (err) {
+                    pacoteSelect.innerHTML = '<option value="">Erro ao carregar</option>';
+                }
+            }
+
+            async function carregarCursos() {
+                try {
+                    const res = await fetch('https://api.cedbrasilia.com.br/cursosom');
+                    const data = await res.json();
+                    const cursos = data.cursos || [];
+                    cursoSelect.innerHTML = '<option value="">Selecione</option>';
+                    cursos.forEach(c => {
+                        const opt = document.createElement('option');
+                        opt.value = c;
+                        opt.textContent = c;
+                        cursoSelect.appendChild(opt);
+                    });
+                } catch (err) {
+                    cursoSelect.innerHTML = '<option value="">Erro ao carregar</option>';
+                }
+            }
+
+            carregarPacotes();
+            carregarCursos();
 
             loginForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -257,9 +304,11 @@
                 const login = document.getElementById('matricular-login').value.trim();
                 const nome = document.getElementById('matricular-nome').value.trim();
                 const whatsapp = document.getElementById('matricular-whatsapp').value.replace(/\D/g, '');
+                const pacote = pacoteSelect.value;
+                const curso = cursoSelect.value;
                 const mensagem = document.getElementById('matricular-msg').value.trim();
 
-                if (!login || !nome || !whatsapp) {
+                if (!login || !nome || !whatsapp || !pacote || !curso) {
                     matricularFeedback.textContent = 'Preencha todos os campos.';
                     matricularFeedback.className = 'mt-4 text-red-500 text-center';
                     return;
@@ -271,7 +320,7 @@
                     const resp = await fetch('https://api.cedbrasilia.com.br/matricular', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ login, nome, whatsapp, mensagem })
+                        body: JSON.stringify({ login, nome, whatsapp, pacote, curso, mensagem })
                     });
                     if (!resp.ok) throw new Error('Falha ao cadastrar');
                     matricularFeedback.textContent = 'Aluno matriculado com sucesso!';
