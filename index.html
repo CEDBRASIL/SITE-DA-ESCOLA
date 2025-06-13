@@ -1063,8 +1063,11 @@
 
             function updateIndicator(el) {
                 if (!indicator || !el) return;
-                indicator.style.width = `${el.offsetWidth}px`;
-                indicator.style.left = `${el.offsetLeft}px`;
+                const span = el.querySelector('span');
+                const width = span ? span.offsetWidth : el.offsetWidth;
+                const left = el.offsetLeft + (el.offsetWidth - width) / 2;
+                indicator.style.width = `${width}px`;
+                indicator.style.left = `${left}px`;
             }
             
             // Função para simular o efeito de digitação
