@@ -118,6 +118,25 @@
             color: var(--accent-color) !important;
             font-weight: 600;
         }
+
+        /* Animação de destaque nos menus */
+        nav a {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        nav a::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        nav a:hover::after {
+            width: 100%;
+        }
         #mobile-menu {
              transition: opacity 0.3s ease, transform 0.3s ease;
         }
@@ -167,10 +186,6 @@
 
         #desktop-nav {
             position: relative;
-        }
-        #nav-indicator {
-            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            left: 0;
         }
 
 #cart-sidebar {

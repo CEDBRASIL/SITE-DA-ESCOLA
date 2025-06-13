@@ -132,6 +132,23 @@
             color: var(--accent-color) !important;
             font-weight: 600;
         }
+        nav a {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        nav a::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        nav a:hover::after {
+            width: 100%;
+        }
         #mobile-menu {
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
@@ -392,7 +409,6 @@
                 <a href="#" data-section="cursos" class="hover:text-spotify-green transition-colors px-4 py-2 rounded-md font-semibold text-lg"><span>Cursos</span></a>
                 <a href="#" data-section="depoimentos" class="hover:text-spotify-green transition-colors px-4 py-2 rounded-md font-semibold text-lg"><span>Depoimentos</span></a>
                 <a href="#" data-section="afiliados" class="hover:text-spotify-green transition-colors px-4 py-2 rounded-md font-semibold text-lg"><span>Afiliados</span></a>
-                <div id="nav-indicator" class="absolute bottom-0 h-0.5 bg-spotify-green transition-all duration-300"></div>
             </nav>
             <div class="hidden md:flex items-center gap-4">
                 <div class="flex space-x-3">
@@ -1058,23 +1074,9 @@
             const desktopLinks = document.querySelectorAll('#desktop-nav [data-section]');
             const mobileLinks = document.querySelectorAll('#mobile-nav [data-section]');
             const allLinks = [...desktopLinks, ...mobileLinks];
-            const indicator = document.getElementById('nav-indicator');
             const desktopNav = document.getElementById('desktop-nav');
 
-            // FIX #2: Correctly size and position the navigation indicator
-            function updateIndicator(el) {
-                if (!indicator || !el) return;
-                const span = el.querySelector('span');
-                if(span) {
-                    // The indicator's left position should be the parent `a` tag's left offset
-                    // plus the span's own offsetLeft within the `a` tag.
-                    const indicatorLeft = el.offsetLeft + span.offsetLeft;
-                    const indicatorWidth = span.offsetWidth;
-
-                    indicator.style.width = `${indicatorWidth}px`;
-                    indicator.style.left = `${indicatorLeft}px`;
-                }
-            }
+            // Indicador removido
             
             // FIX #1: Correctly handle the end of the typing animation
             function typeEffect(element, text, speed = 50, callback) {
@@ -1141,7 +1143,6 @@
                 desktopLinks.forEach(link => {
                     const active = link.dataset.section === id;
                     link.classList.toggle('active', active);
-                    if (active) updateIndicator(link);
                 });
                 mobileLinks.forEach(link => {
                     link.classList.toggle('active', link.dataset.section === id);
@@ -1174,8 +1175,7 @@
                 });
             });
             window.addEventListener('resize', () => {
-                const activeLink = document.querySelector('#desktop-nav a.active');
-                if (activeLink) updateIndicator(activeLink);
+                // Ajusta elementos responsivos ao redimensionar
             });
 
             const cartSidebar = document.getElementById('cart-sidebar');
@@ -1531,17 +1531,10 @@
             // Recalculate position on resize to ensure correct snapping
             window.addEventListener('resize', () => {
                 showTestimonial(currentTestimonialIndex); // Re-adjust position based on new window size
-                const activeLink = document.querySelector('#desktop-nav a.active');
-                if (activeLink) updateIndicator(activeLink);
             });
 
             // Carregamento inicial: mostra a seção hero e inicia o efeito de digitação
             showSection('hero');
-            const initialLink = document.querySelector('#desktop-nav a.active');
-            if (initialLink) {
-               // Use a timeout to ensure the element is fully rendered before measuring
-               setTimeout(() => updateIndicator(initialLink), 100);
-            }
 
             // Carrega os cursos da API quando a página é carregada
             fetchCourses();
