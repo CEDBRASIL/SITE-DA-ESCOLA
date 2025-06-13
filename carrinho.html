@@ -73,6 +73,8 @@
 
             list.addEventListener('click', e => {
                 if (e.target.classList.contains('remove')) {
+                    e.preventDefault();
+                    e.stopPropagation();
                     const name = e.target.dataset.name;
                     removeCourse(name);
                     render();
