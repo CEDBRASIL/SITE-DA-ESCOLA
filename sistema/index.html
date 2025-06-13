@@ -91,6 +91,10 @@
                         <i class="fas fa-users"></i>
                         Alunos
                     </button>
+                    <button id="menu-matricular" class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-3">
+                        <i class="fas fa-user-plus"></i>
+                        Matricular Aluno
+                    </button>
                 </nav>
                  <button id="logout-button" class="mt-auto w-full text-left px-4 py-2 rounded-lg hover:bg-red-800/50 text-red-400 transition-colors flex items-center gap-3">
                     <i class="fas fa-sign-out-alt"></i>
@@ -123,6 +127,29 @@
                             <tbody id="alunos-tabela" class="divide-y divide-gray-800"></tbody>
                         </table>
                     </div>
+                </section>
+                <section id="matricular-section" class="hidden">
+                    <h2 class="text-3xl font-bold mb-6">Matricular Novo Aluno</h2>
+                    <form id="matricular-form" class="bg-[#181818] p-8 rounded-2xl shadow-2xl shadow-spotify-green/10 border border-gray-800 max-w-md">
+                        <div class="mb-4">
+                            <label for="matricular-login" class="block mb-2 text-sm font-semibold text-gray-300">Login</label>
+                            <input type="text" id="matricular-login" class="form-control w-full p-3 rounded-lg text-white" required />
+                        </div>
+                        <div class="mb-4">
+                            <label for="matricular-nome" class="block mb-2 text-sm font-semibold text-gray-300">Nome</label>
+                            <input type="text" id="matricular-nome" class="form-control w-full p-3 rounded-lg text-white" required />
+                        </div>
+                        <div class="mb-4">
+                            <label for="matricular-whatsapp" class="block mb-2 text-sm font-semibold text-gray-300">Whatsapp</label>
+                            <input type="tel" id="matricular-whatsapp" class="form-control w-full p-3 rounded-lg text-white" placeholder="(XX) XXXXX-XXXX" required />
+                        </div>
+                        <div class="mb-4">
+                            <label for="matricular-msg" class="block mb-2 text-sm font-semibold text-gray-300">Mensagem</label>
+                            <textarea id="matricular-msg" rows="3" class="form-control w-full p-3 rounded-lg text-white">Olá, seja bem-vindo ao CED BRASIL!</textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-spotify-green text-black font-bold py-3 rounded-lg hover-bg-spotify-green-darker transition-colors button-glow">Enviar</button>
+                        <p id="matricular-feedback" class="mt-4 text-center text-sm"></p>
+                    </form>
                 </section>
                 <div id="welcome-section" class="flex items-center justify-center h-full">
                     <div class="text-center">
@@ -157,7 +184,12 @@
             const logoutButton = document.getElementById('logout-button');
 
             const menuAlunos = document.getElementById('menu-alunos');
+            const menuMatricular = document.getElementById('menu-matricular');
             const alunosSection = document.getElementById('alunos-section');
+            const matricularSection = document.getElementById('matricular-section');
+            const matricularForm = document.getElementById('matricular-form');
+            const matricularFeedback = document.getElementById('matricular-feedback');
+            const matricularWhatsapp = document.getElementById('matricular-whatsapp');
             const welcomeSection = document.getElementById('welcome-section');
             const alunosTabela = document.getElementById('alunos-tabela');
             const filtroInput = document.getElementById('aluno-filtro');
@@ -191,8 +223,15 @@
 
             menuAlunos.addEventListener('click', () => {
                 alunosSection.classList.remove('hidden');
+                matricularSection.classList.add('hidden');
                 welcomeSection.classList.add('hidden');
                 fetchAlunos();
+            });
+
+            menuMatricular.addEventListener('click', () => {
+                alunosSection.classList.add('hidden');
+                matricularSection.classList.remove('hidden');
+                welcomeSection.classList.add('hidden');
             });
             
             buscarAlunosBtn.addEventListener('click', fetchAlunos);
@@ -208,6 +247,57 @@
                 document.querySelectorAll('.select-aluno').forEach(cb => cb.checked = selectAllCheckbox.checked);
                 updateDrawer();
             });
+
+            matricularWhatsapp.addEventListener('input', e => {
+                e.target.value = applyWhatsappMask(e.target.value);
+            });
+
+            matricularForm.addEventListener('submit', async e => {
+                e.preventDefault();
+                const login = document.getElementById('matricular-login').value.trim();
+                const nome = document.getElementById('matricular-nome').value.trim();
+                const whatsapp = document.getElementById('matricular-whatsapp').value.replace(/\D/g, '');
+                const mensagem = document.getElementById('matricular-msg').value.trim();
+
+                if (!login || !nome || !whatsapp) {
+                    matricularFeedback.textContent = 'Preencha todos os campos.';
+                    matricularFeedback.className = 'mt-4 text-red-500 text-center';
+                    return;
+                }
+
+                matricularFeedback.textContent = 'Enviando...';
+                matricularFeedback.className = 'mt-4 text-gray-300 text-center';
+                try {
+                    const resp = await fetch('https://api.cedbrasilia.com.br/matricular', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ login, nome, whatsapp, mensagem })
+                    });
+                    if (!resp.ok) throw new Error('Falha ao cadastrar');
+                    matricularFeedback.textContent = 'Aluno matriculado com sucesso!';
+                    matricularFeedback.className = 'mt-4 text-green-400 text-center';
+                    matricularForm.reset();
+                } catch (err) {
+                    matricularFeedback.textContent = 'Falha ao cadastrar aluno.';
+                    matricularFeedback.className = 'mt-4 text-red-500 text-center';
+                }
+            });
+
+            function applyWhatsappMask(value) {
+                value = value.replace(/\D/g, '');
+                if (value.length > 11) {
+                    value = value.slice(0, 11);
+                }
+                if (value.length > 10) {
+                    return `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7, 11)}`;
+                } else if (value.length > 6) {
+                    return `(${value.slice(0, 2)}) ${value.slice(2, 6)}-${value.slice(6)}`;
+                } else if (value.length > 2) {
+                    return `(${value.slice(0, 2)}) ${value.slice(2)}`;
+                } else {
+                    return value;
+                }
+            }
 
             async function fetchAlunos() {
                 alunosTabela.innerHTML = `<tr><td class="px-6 py-4 text-center" colspan="5"><i class="fas fa-spinner fa-spin text-2xl spotify-green"></i></td></tr>`;
