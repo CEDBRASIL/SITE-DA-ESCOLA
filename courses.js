@@ -63,16 +63,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
         <div class="flex gap-2 mt-auto">
           <button class="details button-glow bg-spotify-green text-black font-bold px-4 py-2 rounded" data-name="${name}">Detalhes</button>
-          <button class="add-cart button-glow bg-blue-600 text-white font-bold px-4 py-2 rounded" data-name="${name}">Adicionar ao Carrinho</button>
+          <button class="enroll button-glow bg-blue-600 text-white font-bold px-4 py-2 rounded" data-name="${name}">Me matricular agora!</button>
         </div>
       `;
-      const addBtn = card.querySelector('.add-cart');
+      const addBtn = card.querySelector('.enroll');
       const detailsBtn = card.querySelector('.details');
       addBtn.addEventListener('click', () => {
-        addCourse(name);
-        if (typeof showToast === 'function') {
-          showToast(`${name} adicionado ao carrinho!`);
-        }
+        window.location.href = `matricularasaas.html?curso=${encodeURIComponent(name)}`;
       });
       if (detailsBtn) {
         detailsBtn.addEventListener('click', () => {
