@@ -145,18 +145,18 @@
             display: inline-block;
             width: 2px;
             height: 1.2em; /* Ajusta com base no tamanho da fonte */
-            background-color: var(--text-color);
+            background-color: var(--accent-color);
             margin-left: 2px;
             animation: blink-caret .75s step-end infinite;
         }
 
         @keyframes blink-caret {
             from, to { background-color: transparent }
-            50% { background-color: var(--text-color); }
+            50% { background-color: var(--accent-color); }
         }
 
         .light-theme .typing-cursor {
-            background-color: var(--text-color); /* Garante que a cor do cursor mude com o tema */
+            background-color: var(--accent-color); /* Garante que a cor do cursor mude com o tema */
         }
 
         /* Estilos para o menu do carrinho */
@@ -1070,7 +1070,7 @@
             // Função para simular o efeito de digitação
             function typeEffect(element, text, speed = 50, callback) {
                 let i = 0;
-                element.innerHTML = ''; // Limpa o conteúdo
+                element.innerHTML = '';
                 const cursor = document.createElement('span');
                 cursor.className = 'typing-cursor';
                 element.appendChild(cursor);
@@ -1080,15 +1080,17 @@
                         const char = text.charAt(i);
                         element.insertBefore(document.createTextNode(char), cursor);
                         i++;
-                        setTimeout(type, speed);
+                        const randomSpeed = speed + Math.random() * 100;
+                        setTimeout(type, randomSpeed);
                     } else {
                         if (cursor.parentNode) {
-                            cursor.parentNode.removeChild(cursor);
+                            cursor.parentNode.remove();
                         }
                         if (callback) callback();
                     }
                 }
-                type();
+
+                setTimeout(type, 500);
             }
 
             // Função para aplicar estilo específico após a digitação do H1
