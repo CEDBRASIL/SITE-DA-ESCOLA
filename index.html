@@ -792,14 +792,6 @@
 
 
             // Adiciona listeners de evento para botões "Me matricular agora!"
-            document.querySelectorAll(".enroll-course").forEach(button => {
-                button.addEventListener("click", e => {
-                    selectedCourse = e.target.dataset.courseName;
-                    if (selectedCourseInput) selectedCourseInput.value = selectedCourse;
-                    if (loginInfo) loginInfo.innerHTML = "";
-                    openCheckout();
-                });
-            });
 
             // Adiciona listeners de evento para botões "Ver Detalhes"
             document.querySelectorAll('.details-button').forEach(button => {
@@ -1088,6 +1080,16 @@
                 v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
                 return v;
             }
+
+            // Captura cliques em botões de matrícula mesmo que sejam adicionados dinamicamente
+            document.addEventListener('click', e => {
+                const btn = e.target.closest('.enroll-course');
+                if (!btn) return;
+                selectedCourse = btn.dataset.courseName || '';
+                if (selectedCourseInput) selectedCourseInput.value = selectedCourse;
+                if (loginInfo) loginInfo.innerHTML = '';
+                openCheckout();
+            });
 
             if (checkoutButton) checkoutButton.addEventListener('click', () => {
                 openCheckout();
