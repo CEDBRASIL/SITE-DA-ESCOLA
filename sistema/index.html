@@ -61,6 +61,7 @@
             box-shadow: 0 0 25px 5px rgba(29, 185, 84, 0.6);
         }
     </style>
+    <script src="../libs/xlsx.full.min.js"></script>
 </head>
 <body class="min-h-screen">
     <div id="login-section" class="min-h-screen flex items-center justify-center p-4">
@@ -98,6 +99,10 @@
                     <button id="menu-cobrancas" class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-3">
                         <i class="fas fa-money-bill-wave"></i>
                         Cobranças
+                    </button>
+                    <button id="menu-whatsapp" class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-3">
+                        <i class="fab fa-whatsapp"></i>
+                        Whatsapp
                     </button>
                 </nav>
                  <button id="logout-button" class="mt-auto w-full text-left px-4 py-2 rounded-lg hover:bg-red-800/50 text-red-400 transition-colors flex items-center gap-3">
@@ -180,6 +185,30 @@
                         </table>
                     </div>
                 </section>
+                <section id="whatsapp-section" class="hidden">
+                    <h2 class="text-3xl font-bold mb-6">Whatsapp</h2>
+                    <div class="bg-[#181818] p-6 rounded-lg border border-gray-800 mb-6">
+                        <p>Status: <span id="wp-conn-status" class="font-bold">Desconectado</span></p>
+                        <p id="wp-number" class="mb-4"></p>
+                        <button id="wp-connect-btn" class="bg-spotify-green text-black px-4 py-2 rounded-lg hover-bg-spotify-green-darker button-glow">Conectar</button>
+                        <div id="wp-qr" class="mt-4"></div>
+                    </div>
+                    <div class="bg-[#181818] p-6 rounded-lg border border-gray-800">
+                        <h3 class="text-xl font-bold mb-4">Disparo de Mensagens</h3>
+                        <input type="file" id="wp-file" accept=".csv,.xlsx" class="mb-4" />
+                        <textarea id="wp-msg" rows="3" class="form-control w-full p-3 rounded-lg text-white mb-4" placeholder="Mensagem"></textarea>
+                        <label for="wp-interval" class="block mb-2">Intervalo entre mensagens (segundos)</label>
+                        <select id="wp-interval" class="form-control w-full p-3 rounded-lg text-white mb-4">
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="60">60</option>
+                        </select>
+                        <button id="wp-send-btn" class="bg-spotify-green text-black px-4 py-2 rounded-lg hover-bg-spotify-green-darker button-glow">Enviar</button>
+                        <p id="wp-send-status" class="mt-4 text-sm"></p>
+                    </div>
+                </section>
                 <div id="welcome-section" class="flex items-center justify-center h-full">
                     <div class="text-center">
                          <i class="fas fa-cogs text-6xl text-gray-600 mb-4"></i>
@@ -215,9 +244,11 @@
             const menuAlunos = document.getElementById('menu-alunos');
             const menuMatricular = document.getElementById('menu-matricular');
             const menuCobrancas = document.getElementById('menu-cobrancas');
+            const menuWhatsapp = document.getElementById('menu-whatsapp');
             const alunosSection = document.getElementById('alunos-section');
             const matricularSection = document.getElementById('matricular-section');
             const cobrancasSection = document.getElementById('cobrancas-section');
+            const whatsappSection = document.getElementById('whatsapp-section');
             const cobrancasTabela = document.getElementById('cobrancas-tabela');
             const matricularForm = document.getElementById('matricular-form');
             const matricularFeedback = document.getElementById('matricular-feedback');
@@ -234,6 +265,16 @@
             const bloquearSelecionadosBtn = document.getElementById('bloquear-selecionados');
             const desbloquearSelecionadosBtn = document.getElementById('desbloquear-selecionados');
             const excluirSelecionadosBtn = document.getElementById('excluir-selecionados');
+
+            const wpStatusSpan = document.getElementById('wp-conn-status');
+            const wpNumber = document.getElementById('wp-number');
+            const wpQrDiv = document.getElementById('wp-qr');
+            const wpConnectBtn = document.getElementById('wp-connect-btn');
+            const wpFile = document.getElementById('wp-file');
+            const wpMsg = document.getElementById('wp-msg');
+            const wpInterval = document.getElementById('wp-interval');
+            const wpSendBtn = document.getElementById('wp-send-btn');
+            const wpSendStatus = document.getElementById('wp-send-status');
 
             async function carregarPacotes() {
                 try {
@@ -296,6 +337,7 @@
                 alunosSection.classList.remove('hidden');
                 matricularSection.classList.add('hidden');
                 cobrancasSection.classList.add('hidden');
+                whatsappSection.classList.add('hidden');
                 welcomeSection.classList.add('hidden');
                 fetchAlunos();
             });
@@ -304,6 +346,7 @@
                 alunosSection.classList.add('hidden');
                 matricularSection.classList.remove('hidden');
                 cobrancasSection.classList.add('hidden');
+                whatsappSection.classList.add('hidden');
                 welcomeSection.classList.add('hidden');
             });
 
@@ -311,8 +354,18 @@
                 alunosSection.classList.add('hidden');
                 matricularSection.classList.add('hidden');
                 cobrancasSection.classList.remove('hidden');
+                whatsappSection.classList.add('hidden');
                 welcomeSection.classList.add('hidden');
                 carregarCobrancas();
+            });
+
+            menuWhatsapp.addEventListener('click', () => {
+                alunosSection.classList.add('hidden');
+                matricularSection.classList.add('hidden');
+                cobrancasSection.classList.add('hidden');
+                welcomeSection.classList.add('hidden');
+                whatsappSection.classList.remove('hidden');
+                checkWpStatus();
             });
             
             buscarAlunosBtn.addEventListener('click', fetchAlunos);
@@ -495,6 +548,85 @@
                 } catch (err) {
                     alert('Erro ao enviar cobrança.');
                 }
+            }
+
+            async function checkWpStatus() {
+                try {
+                    const resp = await fetch('https://whatsapptest-stij.onrender.com/status');
+                    const data = await resp.json();
+                    if (data.connected) {
+                        wpStatusSpan.textContent = 'Conectado';
+                        wpNumber.textContent = `Número: ${data.number || ''}`;
+                        wpQrDiv.innerHTML = '';
+                    } else {
+                        wpStatusSpan.textContent = 'Desconectado';
+                        wpNumber.textContent = '';
+                    }
+                } catch (err) {
+                    wpStatusSpan.textContent = 'Erro ao verificar';
+                }
+            }
+
+            wpConnectBtn.addEventListener('click', async () => {
+                wpQrDiv.innerHTML = 'Carregando...';
+                try {
+                    const resp = await fetch('https://whatsapptest-stij.onrender.com/qr');
+                    const data = await resp.json();
+                    wpQrDiv.innerHTML = `<img src="${data.qr}" alt="QR Code" class="mx-auto"/>`;
+                } catch (err) {
+                    wpQrDiv.textContent = 'Erro ao obter QR code';
+                }
+            });
+
+            wpSendBtn.addEventListener('click', async () => {
+                const file = wpFile.files[0];
+                const mensagem = wpMsg.value.trim();
+                if (!file || !mensagem) {
+                    wpSendStatus.textContent = 'Selecione arquivo e mensagem.';
+                    wpSendStatus.className = 'mt-4 text-red-500';
+                    return;
+                }
+                wpSendStatus.textContent = 'Processando...';
+                wpSendStatus.className = 'mt-4 text-gray-300';
+                try {
+                    const numeros = await parseFile(file);
+                    const intervalo = parseInt(wpInterval.value, 10) * 1000;
+                    for (let i = 0; i < numeros.length; i++) {
+                        await fetch(`https://whatsapptest-stij.onrender.com/send?para=${numeros[i]}&mensagem=${encodeURIComponent(mensagem)}`);
+                        if (i < numeros.length - 1) await new Promise(r => setTimeout(r, intervalo));
+                    }
+                    wpSendStatus.textContent = 'Mensagens enviadas!';
+                    wpSendStatus.className = 'mt-4 text-green-400';
+                } catch (err) {
+                    wpSendStatus.textContent = 'Erro no envio.';
+                    wpSendStatus.className = 'mt-4 text-red-500';
+                }
+            });
+
+            function parseFile(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    if (file.name.endsWith('.csv')) {
+                        reader.onload = e => {
+                            const lines = e.target.result.split(/\r?\n/).filter(Boolean);
+                            const nums = lines.map(l => l.split(/[,;]/)[0].replace(/\D/g, ''));
+                            resolve(nums);
+                        };
+                        reader.onerror = reject;
+                        reader.readAsText(file);
+                    } else {
+                        reader.onload = e => {
+                            const data = new Uint8Array(e.target.result);
+                            const wb = XLSX.read(data, {type: 'array'});
+                            const sheet = wb.Sheets[wb.SheetNames[0]];
+                            const json = XLSX.utils.sheet_to_json(sheet, {header:1});
+                            const nums = json.map(r => String(r[0] || '').replace(/\D/g, ''));
+                            resolve(nums.filter(n => n));
+                        };
+                        reader.onerror = reject;
+                        reader.readAsArrayBuffer(file);
+                    }
+                });
             }
 
             function updateDrawer() {
