@@ -53,7 +53,9 @@
 </main>
 
 <script>
-const api = "https://whatsapptest-stij.onrender.com";
+const apiBase = "https://whatsapptest-stij.onrender.com";
+const fetchApi = (path, options) =>
+  fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(apiBase + path)}`, options);
 
 function normalizarNumero(num) {
   num = String(num || '').replace(/\D/g, '');
@@ -68,7 +70,7 @@ function normalizarNumero(num) {
 
 async function atualizarStatus() {
   try {
-    const r = await fetch(api + "/status");
+    const r = await fetchApi("/status");
     const d = await r.json();
     statusText.textContent = d.conectado ? "Conectado" : "Desconectado";
   } catch {
@@ -77,13 +79,13 @@ async function atualizarStatus() {
 }
 
 async function conectar() {
-  await fetch(api + "/connect", { method: "POST" });
+  await fetchApi("/connect", { method: "POST" });
   pollQR();
 }
 
 async function pollQR() {
   try {
-    const r = await fetch(api + "/qr");
+    const r = await fetchApi("/qr");
     const d = await r.json();
     if (d.state === "loading") {
       qrImg.src = "data:image/png;base64," + d.qr;
@@ -107,7 +109,7 @@ async function adicionarNumero(numero) {
   fb.textContent = "Enviando…";
   fb.className = "text-yellow-400 text-center";
   try {
-    const r = await fetch(api + "/add-number", {
+    const r = await fetchApi("/add-number", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ numero: normalizarNumero(numero) })
@@ -129,7 +131,7 @@ async function uploadNumeros(file) {
   try {
     const fd = new FormData();
     fd.append("file", file);
-    const r = await fetch(api + "/upload-numbers", { method: "POST", body: fd });
+    const r = await fetchApi("/upload-numbers", { method: "POST", body: fd });
     if (!r.ok) throw new Error();
     fb.textContent = "Arquivo enviado";
     fb.className = "text-green-400 text-center";
@@ -142,7 +144,7 @@ async function uploadNumeros(file) {
 
 async function listarNumeros() {
   try {
-    const r = await fetch(api + "/numbers");
+    const r = await fetchApi("/numbers");
     const d = await r.json();
     listaNumeros.innerHTML = (d.numeros || []).map(n => `<li>${n}</li>`).join("") || "<li>Nenhum número</li>";
   } catch {
@@ -155,7 +157,7 @@ async function disparar(mensagem, intervalo) {
   fb.textContent = "Enviando…";
   fb.className = "text-yellow-400 text-center";
   try {
-    const r = await fetch(api + "/disparo", {
+    const r = await fetchApi("/disparo", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ mensagem, intervalo })
