@@ -313,6 +313,11 @@
         .login-submit-loading {
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
+
+        /* Sucesso da matrícula */
+        #success-modal .success-content {
+            animation: fadeInScale 0.3s ease-out forwards;
+        }
     </style>
 </head>
 <body class="overflow-x-hidden">
@@ -407,6 +412,14 @@
             <button type="submit" id="checkout-submit" class="w-full button-glow bg-spotify-green text-black font-bold py-3 px-6 rounded-full hover-bg-spotify-green-darker transition-all">Assinar Agora</button>
             <div id="checkout-message" class="text-center mt-2 h-5 text-gray-300"></div>
         </form>
+    </div>
+</div>
+
+<div id="success-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
+    <div class="bg-gray-900 p-8 rounded-2xl relative max-w-md w-full border border-gray-700 shadow-2xl shadow-spotify-green/10 success-content text-center">
+        <div class="text-5xl spotify-green mb-4"><i class="fas fa-check-circle"></i></div>
+        <p id="success-message" class="text-gray-300 mb-6"></p>
+        <button id="close-success" class="w-full button-glow bg-spotify-green text-black font-bold py-3 px-6 rounded-full hover:bg-spotify-green-darker">OK</button>
     </div>
 </div>
 
@@ -1009,6 +1022,15 @@
             if (closeCheckout) closeCheckout.addEventListener('click', closeCheckoutFn);
             if (checkoutModal) checkoutModal.addEventListener('click', e => { if (e.target === checkoutModal) closeCheckoutFn(); });
 
+            const successModalEl = document.getElementById('success-modal');
+            const closeSuccessBtn = document.getElementById('close-success');
+            function closeSuccessFn() {
+                if (successModalEl) successModalEl.classList.add('hidden');
+                closeCheckoutFn();
+            }
+            if (closeSuccessBtn) closeSuccessBtn.addEventListener('click', closeSuccessFn);
+            if (successModalEl) successModalEl.addEventListener('click', e => { if (e.target === successModalEl) closeSuccessFn(); });
+
             function applyCPFMask(v) {
                 v = v.replace(/\D/g, '').slice(0,11);
                 v = v.replace(/(\d{3})(\d)/, '$1.$2');
@@ -1079,8 +1101,15 @@
                         cursos_ids: selectedCourse.ids
                     };
                     await criarAssinatura(dados);
-                    checkoutMsg.textContent = `Sua matrícula foi gerada, ${nome}! Enviamos os dados da assinatura no seu whatsapp!`;
+                    const successText = `Sua matrícula foi gerada, ${nome}! Enviamos os dados da assinatura no seu whatsapp!`;
+                    checkoutMsg.textContent = successText;
                     checkoutMsg.className = 'text-center text-green-500 mt-2 h-5';
+                    const successMsgEl = document.getElementById('success-message');
+                    const successModal = document.getElementById('success-modal');
+                    if (successMsgEl && successModal) {
+                        successMsgEl.textContent = successText;
+                        successModal.classList.remove('hidden');
+                    }
                     checkoutSubmitButton.disabled = false;
                     checkoutSubmitButton.innerHTML = 'Assinar Agora';
                 } catch (err) {
