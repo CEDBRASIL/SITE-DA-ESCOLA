@@ -55,6 +55,17 @@
 <script>
 const api = "https://whatsapptest-stij.onrender.com";
 
+function normalizarNumero(num) {
+  num = String(num || '').replace(/\D/g, '');
+  if (!num.startsWith('55')) {
+    num = '55' + num;
+  }
+  if (num.startsWith('55') && num[4] === '9') {
+    num = num.slice(0, 4) + num.slice(5);
+  }
+  return num;
+}
+
 async function atualizarStatus() {
   try {
     const r = await fetch(api + "/status");
@@ -99,7 +110,7 @@ async function adicionarNumero(numero) {
     const r = await fetch(api + "/add-number", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ numero })
+      body: JSON.stringify({ numero: normalizarNumero(numero) })
     });
     if (!r.ok) throw new Error();
     fb.textContent = "Número adicionado";
