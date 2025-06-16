@@ -1239,6 +1239,14 @@
             renderTestimonials();
             loadAfiliadosProducts();
 
+            if (window.location.hash === '#cursos') {
+                showSection('cursos');
+                const cursosSection = document.getElementById('cursos');
+                if (cursosSection) {
+                    cursosSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+
             const enrollNow = document.getElementById('enroll-now');
             if (enrollNow) {
                 enrollNow.addEventListener('click', e => {
