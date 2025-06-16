@@ -801,7 +801,7 @@
                     selectedCourse = availableCourses.find(c => c.name === courseName);
                     if (selectedCourseInput) selectedCourseInput.value = courseName;
                     if (loginInfo) loginInfo.innerHTML = "";
-                    openCheckout();
+                    window.openCheckout();
                 });
             });
 
@@ -1061,6 +1061,7 @@
             function openCheckout() {
                 if (checkoutModal) checkoutModal.classList.remove('hidden');
             }
+            window.openCheckout = openCheckout;
             function closeCheckoutFn() {
                 if (checkoutModal) checkoutModal.classList.add('hidden');
             }
@@ -1122,7 +1123,7 @@
             }
 
             if (checkoutButton) checkoutButton.addEventListener('click', () => {
-                openCheckout();
+                window.openCheckout();
             });
             if (closeCheckout) closeCheckout.addEventListener('click', closeCheckoutFn);
             if (checkoutModal) checkoutModal.addEventListener('click', e => { if (e.target === checkoutModal) closeCheckoutFn(); });
