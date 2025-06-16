@@ -543,7 +543,7 @@
                 if (!numero) return alert('Número inválido');
                 const mensagem = `Olá! Sua cobrança vence em ${data}.`;
                 try {
-                    await fetch(`https://whatsapptest-stij.onrender.com/send?para=${numero}&mensagem=${encodeURIComponent(mensagem)}`);
+                    await fetch(`https://api.allorigins.win/raw?url=https://whatsapptest-stij.onrender.com/send?para=${numero}&mensagem=${encodeURIComponent(mensagem)}`);
                     alert('Cobrança enviada!');
                 } catch (err) {
                     alert('Erro ao enviar cobrança.');
@@ -552,11 +552,12 @@
 
             async function checkWpStatus() {
                 try {
-                    const resp = await fetch('https://whatsapptest-stij.onrender.com/status');
+                    const resp = await fetch('https://api.allorigins.win/raw?url=https://whatsapptest-stij.onrender.com/status');
                     const data = await resp.json();
-                    if (data.connected) {
+                    const conectado = data.connected ?? data.conectado;
+                    if (conectado) {
                         wpStatusSpan.textContent = 'Conectado';
-                        wpNumber.textContent = `Número: ${data.number || ''}`;
+                        wpNumber.textContent = `Número: ${data.numero || data.number || ''}`;
                         wpQrDiv.innerHTML = '';
                     } else {
                         wpStatusSpan.textContent = 'Desconectado';
@@ -570,9 +571,9 @@
             wpConnectBtn.addEventListener('click', async () => {
                 wpQrDiv.innerHTML = 'Carregando...';
                 try {
-                    const resp = await fetch('https://whatsapptest-stij.onrender.com/qr');
-                    const data = await resp.json();
-                    wpQrDiv.innerHTML = `<img src="${data.qr}" alt="QR Code" class="mx-auto"/>`;
+                    const resp = await fetch('https://api.allorigins.win/raw?url=https://whatsapptest-stij.onrender.com/qr');
+                    const html = await resp.text();
+                    wpQrDiv.innerHTML = html;
                 } catch (err) {
                     wpQrDiv.textContent = 'Erro ao obter QR code';
                 }
@@ -592,7 +593,7 @@
                     const numeros = await parseFile(file);
                     const intervalo = parseInt(wpInterval.value, 10) * 1000;
                     for (let i = 0; i < numeros.length; i++) {
-                        await fetch(`https://whatsapptest-stij.onrender.com/send?para=${numeros[i]}&mensagem=${encodeURIComponent(mensagem)}`);
+                        await fetch(`https://api.allorigins.win/raw?url=https://whatsapptest-stij.onrender.com/send?para=${numeros[i]}&mensagem=${encodeURIComponent(mensagem)}`);
                         if (i < numeros.length - 1) await new Promise(r => setTimeout(r, intervalo));
                     }
                     wpSendStatus.textContent = 'Mensagens enviadas!';
