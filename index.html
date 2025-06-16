@@ -756,6 +756,20 @@
             } catch (error) {
                 console.error('Erro ao carregar cursos da API:', error);
                 showNotification('Erro ao carregar cursos. Tente novamente mais tarde.', 'error');
+                // Fallback: usa cursos locais para garantir que os botões de matrícula estejam disponíveis
+                availableCourses = Object.keys(COURSE_PRICES).map(name => ({
+                    name,
+                    ids: [],
+                    price: COURSE_PRICES[name] || 0,
+                    description: COURSE_DESCRIPTIONS[name] || 'Curso profissionalizante do CED BRASIL.',
+                    detail: COURSE_DETAILS[name] || COURSE_DESCRIPTIONS[name] || ''
+                }));
+                availableCourses.sort((a, b) => {
+                    if (a.name === 'Pacote Office') return -1;
+                    if (b.name === 'Pacote Office') return 1;
+                    return a.name.localeCompare(b.name);
+                });
+                loadCourses();
             }
         }
 
