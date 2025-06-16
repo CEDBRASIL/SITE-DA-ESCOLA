@@ -124,7 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ nome, cpf, phone, cursos })
       });
       if (!res.ok) throw new Error('Falha ao conectar');
-      window.location.href = 'https://www.asaas.com/c/dnbrk5s1xcf5zo1q';
+      formMessage.textContent = `Sua matrícula foi gerada, ${nome}! Enviamos os dados da assinatura no seu whatsapp!`;
+      formMessage.className = 'text-center text-green-500';
+      form.reset();
     } catch (err) {
       formMessage.textContent = err.message;
       formMessage.className = 'text-center error-message';
