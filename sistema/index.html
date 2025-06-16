@@ -195,7 +195,18 @@
                     </div>
                     <div class="bg-[#181818] p-6 rounded-lg border border-gray-800">
                         <h3 class="text-xl font-bold mb-4">Disparo de Mensagens</h3>
+                        <details class="mb-4 text-gray-400 text-sm">
+                            <summary class="cursor-pointer">Instruções para novos usuários</summary>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>Conecte seu WhatsApp clicando em <strong>Conectar</strong> e leia o QR code.</li>
+                                <li>Envie um arquivo <code>.csv</code> ou <code>.xlsx</code> com os números na primeira coluna ou digite-os abaixo.</li>
+                                <li>Escreva a mensagem e escolha o intervalo entre cada envio.</li>
+                                <li>Clique em <strong>Enviar</strong> para iniciar o disparo.</li>
+                            </ul>
+                        </details>
                         <input type="file" id="wp-file" accept=".csv,.xlsx" class="mb-4" />
+                        <textarea id="wp-nums" rows="2" class="form-control w-full p-3 rounded-lg text-white mb-4" placeholder="Números separados por vírgula ou linha"></textarea>
+                        <p id="wp-num-count" class="text-sm text-gray-400 mb-4">0 número(s)</p>
                         <textarea id="wp-msg" rows="3" class="form-control w-full p-3 rounded-lg text-white mb-4" placeholder="Mensagem"></textarea>
                         <label for="wp-interval" class="block mb-2">Intervalo entre mensagens (segundos)</label>
                         <select id="wp-interval" class="form-control w-full p-3 rounded-lg text-white mb-4">
@@ -271,10 +282,15 @@
             const wpQrDiv = document.getElementById('wp-qr');
             const wpConnectBtn = document.getElementById('wp-connect-btn');
             const wpFile = document.getElementById('wp-file');
+            const wpNumeros = document.getElementById('wp-nums');
+            const wpNumCount = document.getElementById('wp-num-count');
             const wpMsg = document.getElementById('wp-msg');
             const wpInterval = document.getElementById('wp-interval');
             const wpSendBtn = document.getElementById('wp-send-btn');
             const wpSendStatus = document.getElementById('wp-send-status');
+
+            wpFile.addEventListener('change', updateNumberCount);
+            wpNumeros.addEventListener('input', updateNumberCount);
 
             async function carregarPacotes() {
                 try {
@@ -582,18 +598,23 @@
             wpSendBtn.addEventListener('click', async () => {
                 const file = wpFile.files[0];
                 const mensagem = wpMsg.value.trim();
-                if (!file || !mensagem) {
-                    wpSendStatus.textContent = 'Selecione arquivo e mensagem.';
+                const manualNums = wpNumeros.value.split(/[\n,;]+/).map(n => n.replace(/\D/g, '')).filter(Boolean);
+                let numeros = manualNums;
+                if (file) {
+                    try { numeros = numeros.concat(await parseFile(file)); } catch(e) {}
+                }
+                if (numeros.length === 0 || !mensagem) {
+                    wpSendStatus.textContent = 'Adicione números e mensagem.';
                     wpSendStatus.className = 'mt-4 text-red-500';
                     return;
                 }
                 wpSendStatus.textContent = 'Processando...';
                 wpSendStatus.className = 'mt-4 text-gray-300';
                 try {
-                    const numeros = await parseFile(file);
                     const intervalo = parseInt(wpInterval.value, 10) * 1000;
                     for (let i = 0; i < numeros.length; i++) {
                         await fetch(`https://api.allorigins.win/raw?url=https://whatsapptest-stij.onrender.com/send?para=${numeros[i]}&mensagem=${encodeURIComponent(mensagem)}`);
+                        wpSendStatus.textContent = `Enviando (${i + 1}/${numeros.length})`;
                         if (i < numeros.length - 1) await new Promise(r => setTimeout(r, intervalo));
                     }
                     wpSendStatus.textContent = 'Mensagens enviadas!';
@@ -630,6 +651,15 @@
                 });
             }
 
+            async function updateNumberCount() {
+                let count = wpNumeros.value.split(/[\n,;]+/).map(n => n.replace(/\D/g, '')).filter(Boolean).length;
+                const file = wpFile.files[0];
+                if (file) {
+                    try { const nums = await parseFile(file); count += nums.length; } catch(e) {}
+                }
+                wpNumCount.textContent = `${count} número(s)`;
+            }
+
             function updateDrawer() {
                 const count = document.querySelectorAll('.select-aluno:checked').length;
                 if (count > 0) {
@@ -639,6 +669,8 @@
                     acoesDrawer.classList.add('hidden');
                 }
             }
+
+            updateNumberCount();
 
         });
     </script>
