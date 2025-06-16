@@ -332,8 +332,7 @@
     <header class="bg-transparent py-4 sticky top-0 z-50 backdrop-blur-sm border-b border-transparent">
         <div class="container mx-auto px-6 flex justify-between items-center">
             <a href="#" data-section="hero">
-                <img src="ced.svg" alt="CED Brasil" class="h-16 inline-block"> <!-- Reverted to local SVG -->
-            </a>
+                <img src="ced.svg" alt="CED Brasil" class="h-16 inline-block"> </a>
             <nav id="desktop-nav" class="hidden md:flex items-center space-x-4 relative">
                 <a href="#" data-section="hero" class="hover:text-spotify-green transition-colors px-4 py-2 rounded-md font-semibold text-lg"><span>Início</span></a>
                 <a href="#" data-section="sobre" class="hover:text-spotify-green transition-colors px-4 py-2 rounded-md font-semibold text-lg"><span>Sobre Nós</span></a>
@@ -359,7 +358,6 @@
         </div>
     </header>
     
-    <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-40 p-6">
         <nav id="mobile-nav" class="flex flex-col items-center justify-center h-full text-2xl space-y-8">
             <a href="#" data-section="hero" class="hover:text-spotify-green transition-colors">Início</a>
@@ -391,35 +389,32 @@
         </div>
 </div>
 
-<div id="checkout-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-50">
-        <div class="bg-gray-900 p-6 rounded-lg relative max-w-lg w-full">
-            <button id="close-checkout" class="absolute top-2 right-2 text-white"><i class="fas fa-times"></i></button>
-            <h2 class="text-2xl font-bold mb-2">Finalizar Compra</h2>
-            <p id="selected-course-name" class="text-center text-sm text-gray-300 mb-2"></p>
-            <form id="checkoutForm" class="space-y-4">
-                <div>
-                    <label for="checkout-nome" class="block mb-2 font-semibold">Nome completo</label>
-                    <input type="text" id="checkout-nome" required class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600" />
-                </div>
-                <div>
-                    <label for="checkout-cpf" class="block mb-2 font-semibold">CPF</label>
-                    <input type="text" id="checkout-cpf" required placeholder="000.000.000-00" class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600" />
-                </div>
-                <div>
-                    <label for="checkout-email" class="block mb-2 font-semibold">Email</label>
-                    <input type="email" id="checkout-email" required class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600" />
-                </div>
-                <div class="mb-2">
-                    <label for="checkout-phone" class="block mb-2 font-semibold">Telefone (com DDD)</label>
-                    <input type="tel" id="checkout-phone" required placeholder="(XX) XXXXX-XXXX" class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600" />
-                </div>
-                <input type="hidden" id="selected-course" />
-                <div id="login-info" class="text-center mt-4"></div>
-                <button type="submit" id="checkout-submit" class="w-full button-glow bg-spotify-green text-black font-bold py-3 px-6 rounded-full">Concluir Matrícula</button>
-                <div id="checkout-message" class="text-center mt-2 h-5"></div>
-            </form>
+<div id="checkout-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
+    <div class="bg-gray-900 p-6 rounded-2xl relative max-w-md w-full border border-gray-700 shadow-2xl shadow-spotify-green/10 login-modal-content">
+        <button id="close-checkout" class="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors"><i class="fas fa-times"></i></button>
+        <h2 class="text-2xl font-bold mb-2 text-center text-white">Finalizar Matrícula</h2>
+        <p id="selected-course-name" class="text-center text-sm text-gray-300 mb-4"></p>
+        <form id="checkoutForm" class="space-y-4">
+            <div>
+                <label for="checkout-nome" class="block mb-2 font-semibold text-gray-300">Nome completo</label>
+                <input type="text" id="checkout-nome" required class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600 focus:outline-none focus:border-spotify-green focus:ring-1 focus:ring-spotify-green" />
+            </div>
+            <div>
+                <label for="checkout-cpf" class="block mb-2 font-semibold text-gray-300">CPF</label>
+                <input type="text" id="checkout-cpf" required placeholder="000.000.000-00" class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600 focus:outline-none focus:border-spotify-green focus:ring-1 focus:ring-spotify-green" />
+            </div>
+            <div class="mb-2">
+                <label for="checkout-phone" class="block mb-2 font-semibold text-gray-300">Telefone (com DDD)</label>
+                <input type="tel" id="checkout-phone" required placeholder="(XX) XXXXX-XXXX" class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600 focus:outline-none focus:border-spotify-green focus:ring-1 focus:ring-spotify-green" />
+            </div>
+            <input type="hidden" id="selected-course" />
+            <div id="login-info" class="text-center mt-4"></div>
+            <button type="submit" id="checkout-submit" class="w-full button-glow bg-spotify-green text-black font-bold py-3 px-6 rounded-full hover-bg-spotify-green-darker transition-all">Concluir Matrícula</button>
+            <div id="checkout-message" class="text-center mt-2 h-5 text-gray-300"></div>
+        </form>
     </div>
 </div>
+
 
     <div id="login-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-50">
         <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-[-1]">
@@ -427,8 +422,7 @@
             <div class="glow-effect top-1/2 left-1/3 w-[500px] h-[500px] bg-emerald-600 rounded-full"></div>
             <div class="glow-effect -bottom-40 -right-40 w-96 h-96 bg-teal-500 rounded-full"></div>
         </div>
-        <div class="bg-[#181818] p-8 rounded-2xl shadow-2xl shadow-spotify-green/10 border border-gray-800 relative w-full max-w-md login-modal-content"> <!-- Increased max-w-sm to max-w-md -->
-            <button id="close-login" class="absolute top-2 right-2 text-white"><i class="fas fa-times"></i></button>
+        <div class="bg-[#181818] p-8 rounded-2xl shadow-2xl shadow-spotify-green/10 border border-gray-800 relative w-full max-w-md login-modal-content"> <button id="close-login" class="absolute top-2 right-2 text-white"><i class="fas fa-times"></i></button>
             <form id="loginForm" class="space-y-4">
                 <h1 class="text-2xl font-bold mb-6 text-center text-white">Acessar Área do Aluno</h1>
                 <div class="mb-4">
@@ -440,19 +434,16 @@
                     <input type="password" id="senha" class="form-control w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600 focus:outline-none focus:border-spotify-green focus:ring-1 focus:ring-spotify-green transition-all" placeholder="Senha" required />
                 </div>
                 <button type="submit" id="loginSubmitButton" class="w-full bg-spotify-green text-black font-bold py-3 rounded-lg hover-bg-spotify-green-darker transition-colors button-glow login-submit-loading">Entrar</button>
-                <p id="loginMsg" class="mt-4 text-center text-red-500 font-semibold h-5"></p> <!-- Adjusted text color and added height -->
-            </form>
+                <p id="loginMsg" class="mt-4 text-center text-red-500 font-semibold h-5"></p> </form>
         </div>
     </div>
 
     <main class="container mx-auto px-6 relative">
         <section id="hero" class="text-center py-20 md:py-32 px-6 content-section">
             <h1 id="hero-title" class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight mb-6" data-text="Educação de Qualidade que Transforma o Seu Futuro.">
-                <!-- Conteúdo será digitado via JavaScript -->
-            </h1>
+                </h1>
             <p id="hero-subtitle" class="text-lg md:text-xl max-w-3xl mx-auto text-muted mb-10" data-text="Capacitamos você com o conhecimento e as habilidades essenciais para dominar o mercado de trabalho e construir a carreira dos seus sonhos.">
-                <!-- Conteúdo será digitado via JavaScript -->
-            </p>
+                </p>
             <a id="enroll-now" href="#cursos" class="button-glow bg-spotify-green text-black font-bold py-3 px-8 rounded-full text-lg mt-8 inline-block">Fazer minha matrícula agora</a>
         </section>
 
@@ -496,8 +487,7 @@
                     <p class="text-lg text-muted mt-2">Invista em você com um dos nossos cursos de alta demanda.</p>
                 </div>
                 <div id="course-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Cards de cursos serão injetados aqui via JavaScript -->
-                </div>
+                    </div>
             </div>
         </section>
         <section id="depoimentos" class="py-20 px-6 content-section hidden">
@@ -508,14 +498,12 @@
                 </div>
                 <div class="carousel-container">
                     <div id="testimonials-carousel" class="carousel-wrapper">
-                        <!-- Depoimentos serão injetados aqui via JavaScript -->
-                    </div>
+                        </div>
                     <button id="prev-testimonial" class="carousel-button prev"><i class="fas fa-chevron-left"></i></button>
                     <button id="next-testimonial" class="carousel-button next"><i class="fas fa-chevron-right"></i></button>
                 </div>
                 <div id="carousel-dots" class="carousel-dots">
-                    <!-- Dots serão injetados aqui via JavaScript -->
-                </div>
+                    </div>
             </div>
         </section>
 
@@ -540,7 +528,6 @@
                         <p class="text-lg text-muted mt-2">Tudo que você precisa para ter sucesso na palma da sua mão.</p>
                     </div>
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <!-- Benefícios -->
                         <div class="card card-glow">
                             <div class="bg-spotify-green bg-opacity-20 text-spotify-green w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-2xl"><i class="fas fa-file-image"></i></div>
                             <h3 class="text-2xl font-bold mb-2">Materiais sem marca d'água</h3>
@@ -634,8 +621,7 @@
                                 </tr>
                             </thead>
                             <tbody id="afiliados-products-table-body" class="divide-y divide-gray-800 bg-[#181818]">
-                                <!-- Rows will be populated by JS -->
-                            </tbody>
+                                </tbody>
                         </table>
                     </div>
                 </div>
@@ -674,7 +660,7 @@
                 <div class="text-2xl font-bold tracking-tighter mb-4 text-white">
                     <a href="index.html">CED BRASIL</a>
                 </div>
-                <p class="text-gray-400">&copy; <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
+                <p class="text-gray-400">© <span id="currentYear"></span> CED BRASIL. Todos os direitos reservados.</p>
                 <div class="flex justify-center space-x-6 mt-4">
                     <a href="https://www.facebook.com/people/CED-Brasil/61575889016332/" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-facebook-f text-lg"></i></a>
                     <a href="https://instagram.com/cedbrasill" target="_blank" rel="noopener" class="text-gray-500 hover:text-spotify-green"><i class="fab fa-instagram text-lg"></i></a>
@@ -686,7 +672,6 @@
             </div>
         </footer>
 
-    <!-- Elemento de Notificação -->
     <div id="notification-popup"></div>
 
     <script>
@@ -703,20 +688,6 @@
             "Especialista em Marketing & Vendas 360º": 149.90,
             "Marketing Digital": 89.90,
             "Pacote Office": 29.99,
-        };
-
-        const COURSE_SLUGS = {
-            "Excel PRO": "excel-pro",
-            "Design Gráfico": "design-grafico",
-            "Analista e Desenvolvimento de Sistemas": "analista-e-desenvolvimento-de-sistemas",
-            "Administração": "administracao",
-            "Inglês Fluente": "ingles-fluente",
-            "Inglês Kids": "ingles-kids",
-            "Informática Essencial": "informatica-essencial",
-            "Operador de Micro": "operador-de-micro",
-            "Especialista em Marketing & Vendas 360º": "especialista-em-marketing-vendas-360",
-            "Marketing Digital": "marketing-digital",
-            "Pacote Office": "pacote-office",
         };
 
         const COURSE_DESCRIPTIONS = {
@@ -807,7 +778,6 @@
                 } else {
                     courseCard.className = 'card card-glow p-6 flex flex-col justify-between items-start';
                 }
-                // Adiciona um placeholder de imagem se a URL da imagem não for válida ou estiver ausente
                 const imageUrl = course.image && course.image.startsWith('http') ? course.image : `https://placehold.co/400x250/1DB954/121212?text=${encodeURIComponent(course.name)}`;
 
                 courseCard.innerHTML = `
@@ -830,16 +800,23 @@
             // Adiciona listeners de evento para botões "Me matricular agora!"
             document.querySelectorAll(".enroll-course").forEach(button => {
                 button.addEventListener("click", e => {
+                    // **MODIFICAÇÃO PRINCIPAL AQUI**
+                    // A lógica de redirecionamento foi removida para sempre abrir o modal de checkout.
                     const courseName = e.currentTarget.dataset.courseName;
-                    const slug = COURSE_SLUGS[courseName];
-                    if (slug) {
-                        window.location.href = `cursos/${slug}.html`;
-                        return;
-                    }
+                    
+                    // Encontra o curso selecionado para obter seus detalhes (preço, IDs, etc.)
                     selectedCourse = availableCourses.find(c => c.name === courseName);
+                    
+                    // Prepara o modal de checkout com as informações do curso
+                    const selectedCourseInput = document.getElementById("selected-course");
+                    const selectedCourseNameEl = document.getElementById("selected-course-name");
+                    const checkoutMessage = document.getElementById("checkout-message");
+
                     if (selectedCourseInput) selectedCourseInput.value = courseName;
-                    if (selectedCourseName) selectedCourseName.textContent = `Curso selecionado: ${courseName}`;
-                    if (loginInfo) loginInfo.innerHTML = "";
+                    if (selectedCourseNameEl) selectedCourseNameEl.textContent = `Curso: ${courseName}`;
+                    if (checkoutMessage) checkoutMessage.innerHTML = "";
+
+                    // Abre o modal de checkout
                     window.openCheckout();
                 });
             });
@@ -1086,48 +1063,36 @@
             if (courseModal) courseModal.addEventListener('click', e => { if (e.target === courseModal) closeModalFn(); });
             window.showCourseModal = showCourseModal;
 
-            const checkoutButton = document.getElementById('checkout-button');
+            // --- Lógica do Checkout ---
             const checkoutModal = document.getElementById('checkout-modal');
             const closeCheckout = document.getElementById('close-checkout');
             const checkoutForm = document.getElementById('checkoutForm');
             const checkoutNome = document.getElementById('checkout-nome');
             const checkoutCPF = document.getElementById('checkout-cpf');
-            const checkoutEmail = document.getElementById('checkout-email');
             const checkoutPhone = document.getElementById('checkout-phone');
             const checkoutMsg = document.getElementById('checkout-message');
-            const selectedCourseInput = document.getElementById("selected-course");
-            const selectedCourseName = document.getElementById("selected-course-name");
-            const loginInfo = document.getElementById("login-info");
+            const checkoutSubmitButton = document.getElementById('checkout-submit');
 
-            function openCheckout() {
-                if (checkoutModal) checkoutModal.classList.remove('hidden');
+            // Função global para abrir o modal de checkout
+            window.openCheckout = function() {
+                if (checkoutModal) {
+                    checkoutModal.classList.remove('hidden');
+                    // Limpa o formulário ao abrir
+                    checkoutForm.reset();
+                    checkoutMsg.textContent = '';
+                    checkoutSubmitButton.disabled = false;
+                    checkoutSubmitButton.innerHTML = 'Concluir Matrícula';
+                }
             }
-            window.openCheckout = openCheckout;
+
             function closeCheckoutFn() {
                 if (checkoutModal) checkoutModal.classList.add('hidden');
-                if (selectedCourseName) selectedCourseName.textContent = '';
             }
 
-            // Função de máscara de telefone aprimorada
-            function applyWhatsappMask(value) {
-                value = value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+            if (closeCheckout) closeCheckout.addEventListener('click', closeCheckoutFn);
+            if (checkoutModal) checkoutModal.addEventListener('click', e => { if (e.target === checkoutModal) closeCheckoutFn(); });
 
-                if (value.length > 11) { // Limita a 11 dígitos (DDD + 9 dígitos)
-                    value = value.slice(0, 11);
-                }
-
-                if (value.length > 10) { // Celular (XX) XXXXX-XXXX
-                    return `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7, 11)}`;
-                } else if (value.length > 6) { // Telefone (XX) XXXX-XXXX
-                    return `(${value.slice(0, 2)}) ${value.slice(2, 6)}-${value.slice(6)}`;
-                } else if (value.length > 2) {
-                    return `(${value.slice(0, 2)}) ${value.slice(2)}`;
-                } else {
-                    return value;
-                }
-            }
-
-
+            // Máscaras para os campos do formulário
             function applyCPFMask(v) {
                 v = v.replace(/\D/g, '').slice(0,11);
                 v = v.replace(/(\d{3})(\d)/, '$1.$2');
@@ -1136,17 +1101,23 @@
                 return v;
             }
 
-            function normalizarNumero(num) {
-                num = String(num || '').replace(/\D/g, '');
-                if (!num.startsWith('55')) {
-                    num = '55' + num;
+            function applyWhatsappMask(value) {
+                value = value.replace(/\D/g, ''); 
+                if (value.length > 11) value = value.slice(0, 11);
+                if (value.length > 10) {
+                    return `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7, 11)}`;
+                } else if (value.length > 6) {
+                    return `(${value.slice(0, 2)}) ${value.slice(2, 6)}-${value.slice(6)}`;
+                } else if (value.length > 2) {
+                    return `(${value.slice(0, 2)}) ${value.slice(2)}`;
                 }
-                if (num.startsWith('55') && num[4] === '9') {
-                    num = num.slice(0, 4) + num.slice(5);
-                }
-                return num;
+                return value;
             }
 
+            if (checkoutCPF) checkoutCPF.addEventListener('input', e => { e.target.value = applyCPFMask(e.target.value); });
+            if (checkoutPhone) checkoutPhone.addEventListener('input', e => { e.target.value = applyWhatsappMask(e.target.value); });
+
+            // Função para enviar os dados para a API (conforme sua documentação)
             async function gerarLinkPagamento(dadosAluno) {
                 const resposta = await fetch('https://api.cedbrasilia.com.br/asaas/checkout', {
                     method: 'POST',
@@ -1155,53 +1126,56 @@
                 });
 
                 if (!resposta.ok) {
-                    throw new Error('Falha ao gerar cobrança');
+                    const errorData = await resposta.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Falha ao gerar cobrança');
                 }
 
                 const json = await resposta.json();
                 if (json.url) {
-                    window.location.href = json.url;
+                    window.location.href = json.url; // Redireciona para a página de pagamento
+                } else {
+                    throw new Error('URL de pagamento não recebida.');
                 }
             }
 
-            if (checkoutButton) checkoutButton.addEventListener('click', () => {
-                window.openCheckout();
-            });
-            if (closeCheckout) closeCheckout.addEventListener('click', closeCheckoutFn);
-            if (checkoutModal) checkoutModal.addEventListener('click', e => { if (e.target === checkoutModal) closeCheckoutFn(); });
-
-            if (checkoutCPF) checkoutCPF.addEventListener('input', e => { e.target.value = applyCPFMask(e.target.value); });
-            if (checkoutPhone) checkoutPhone.addEventListener('input', e => { e.target.value = applyWhatsappMask(e.target.value); });
-
+            // Evento de submit do formulário de checkout
             if (checkoutForm) checkoutForm.addEventListener('submit', async e => {
                 e.preventDefault();
                 const nome = checkoutNome.value.trim();
-                const cpf = checkoutCPF.value.replace(/\D/g, '').slice(0,11);
-                const email = checkoutEmail.value.trim();
-                const phone = normalizarNumero(checkoutPhone.value);
-                if (!nome || !cpf || !email || !phone) {
+                const cpf = checkoutCPF.value.replace(/\D/g, '');
+                const phone = checkoutPhone.value.replace(/\D/g, '');
+
+                if (!nome || !cpf || !phone || !selectedCourse) {
                     checkoutMsg.textContent = 'Preencha todos os campos.';
                     checkoutMsg.className = 'text-center text-red-500 mt-2 h-5';
                     return;
                 }
-                checkoutMsg.textContent = 'Enviando...';
+
+                checkoutMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gerando link de pagamento...';
                 checkoutMsg.className = 'text-center text-gray-300 mt-2 h-5';
+                checkoutSubmitButton.disabled = true;
+                checkoutSubmitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Aguarde...';
+                
                 try {
                     const dados = {
-                        nome,
-                        cpf,
-                        email,
-                        whatsapp: phone,
-                        valor: selectedCourse ? selectedCourse.price : 0,
-                        descricao: selectedCourse ? selectedCourse.name : '',
-                        cursos_ids: selectedCourse ? selectedCourse.ids : []
+                        nome: nome,
+                        cpf: cpf,
+                        whatsapp: `55${phone}`, // API espera o DDI
+                        valor: selectedCourse.price,
+                        descricao: `Matrícula no curso: ${selectedCourse.name}`,
+                        cursos_ids: selectedCourse.ids
                     };
                     await gerarLinkPagamento(dados);
                 } catch (err) {
-                    checkoutMsg.textContent = err.message || 'Erro ao enviar. Tente novamente.';
+                    checkoutMsg.textContent = err.message || 'Erro ao processar. Tente novamente.';
                     checkoutMsg.className = 'text-center text-red-500 mt-2 h-5';
+                    checkoutSubmitButton.disabled = false;
+                    checkoutSubmitButton.innerHTML = 'Concluir Matrícula';
                 }
             });
+
+            // --- Fim da Lógica do Checkout ---
+
 
             // Carrossel de Depoimentos
             const testimonialsData = [
