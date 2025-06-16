@@ -775,10 +775,7 @@
                 } else {
                     courseCard.className = 'card card-glow p-6 flex flex-col justify-between items-start';
                 }
-                const imageUrl = course.image && course.image.startsWith('http') ? course.image : `https://placehold.co/400x250/1DB954/121212?text=${encodeURIComponent(course.name)}`;
-
                 courseCard.innerHTML = `
-                    <img src="${imageUrl}" alt="Imagem do curso de ${course.name}" class="w-full h-40 object-cover rounded-lg mb-4">
                     ${badge}
                     <h3 class="text-2xl font-bold mb-2">${course.name}</h3>
                     <p class="text-muted text-sm mb-4">${course.description}</p>
