@@ -280,6 +280,17 @@
                 return v;
             }
 
+            function normalizarNumero(num) {
+                num = String(num || '').replace(/\D/g, '');
+                if (!num.startsWith('55')) {
+                    num = '55' + num;
+                }
+                if (num.startsWith('55') && num[4] === '9') {
+                    num = num.slice(0, 4) + num.slice(5);
+                }
+                return num;
+            }
+
             function validateField(input) {
                 const isValid = input.checkValidity();
                 input.classList.toggle('is-valid', isValid);
@@ -353,7 +364,7 @@
 
                 const formData = {
                     nome: nomeInput.value.trim(),
-                    whatsapp: whatsappInput.value.replace(/\D/g, ''),
+                    whatsapp: normalizarNumero(whatsappInput.value),
                     email: "matricula@cedbrasil.com",
                     cursos: selectedCursos
                 };
