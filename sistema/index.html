@@ -229,6 +229,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             let BASIC_B64 = '';
+
+            function formatNumero(numero) {
+                const n = String(numero || '').replace(/\D/g, '');
+                return n.startsWith('55') ? n : '55' + n;
+            }
             // Simulação da busca do .env, pode ser removido se não for usado.
             // fetch('../get.env').then(r => r.text()).then(t => {
             //     const m = t.match(/^BASIC_B64=(.*)$/m);
@@ -540,6 +545,7 @@
             }
 
             async function enviarCobranca(numero, data) {
+                numero = formatNumero(numero);
                 if (!numero) return alert('Número inválido');
                 const mensagem = `Olá! Sua cobrança vence em ${data}.`;
                 try {
@@ -590,7 +596,7 @@
                 wpSendStatus.textContent = 'Processando...';
                 wpSendStatus.className = 'mt-4 text-gray-300';
                 try {
-                    const numeros = await parseFile(file);
+                    const numeros = (await parseFile(file)).map(formatNumero);
                     const intervalo = parseInt(wpInterval.value, 10) * 1000;
                     for (let i = 0; i < numeros.length; i++) {
                         await fetch(`https://api.allorigins.win/raw?url=https://whatsapptest-stij.onrender.com/send?para=${numeros[i]}&mensagem=${encodeURIComponent(mensagem)}`);

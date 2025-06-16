@@ -55,6 +55,11 @@
 <script>
 const api = "https://whatsapptest-stij.onrender.com";
 
+function formatNumero(numero) {
+  const n = String(numero || "").replace(/\D/g, "");
+  return n.startsWith("55") ? n : "55" + n;
+}
+
 async function atualizarStatus() {
   try {
     const r = await fetch(api + "/status");
@@ -99,7 +104,7 @@ async function adicionarNumero(numero) {
     const r = await fetch(api + "/add-number", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ numero })
+      body: JSON.stringify({ numero: formatNumero(numero) })
     });
     if (!r.ok) throw new Error();
     fb.textContent = "Número adicionado";
@@ -162,7 +167,7 @@ document.getElementById("connectBtn").addEventListener("click", conectar);
 
 document.getElementById("addNumberForm").addEventListener("submit", e => {
   e.preventDefault();
-  adicionarNumero(document.getElementById("numero").value.trim());
+  adicionarNumero(formatNumero(document.getElementById("numero").value.trim()));
   document.getElementById("numero").value = "";
 });
 
