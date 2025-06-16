@@ -701,6 +701,20 @@
             "Pacote Office": 29.99,
         };
 
+        const COURSE_SLUGS = {
+            "Excel PRO": "excel-pro",
+            "Design Gráfico": "design-grafico",
+            "Analista e Desenvolvimento de Sistemas": "analista-e-desenvolvimento-de-sistemas",
+            "Administração": "administracao",
+            "Inglês Fluente": "ingles-fluente",
+            "Inglês Kids": "ingles-kids",
+            "Informática Essencial": "informatica-essencial",
+            "Operador de Micro": "operador-de-micro",
+            "Especialista em Marketing & Vendas 360º": "especialista-em-marketing-vendas-360",
+            "Marketing Digital": "marketing-digital",
+            "Pacote Office": "pacote-office",
+        };
+
         const COURSE_DESCRIPTIONS = {
             'Excel PRO': 'Domine planilhas e crie relatórios avançados para impulsionar sua produtividade.',
             'Design Gráfico': 'Aprenda técnicas profissionais de criação visual e destaque-se no mercado.',
@@ -813,6 +827,11 @@
             document.querySelectorAll(".enroll-course").forEach(button => {
                 button.addEventListener("click", e => {
                     const courseName = e.currentTarget.dataset.courseName;
+                    const slug = COURSE_SLUGS[courseName];
+                    if (slug) {
+                        window.location.href = `cursos/${slug}.html`;
+                        return;
+                    }
                     selectedCourse = availableCourses.find(c => c.name === courseName);
                     if (selectedCourseInput) selectedCourseInput.value = courseName;
                     if (selectedCourseName) selectedCourseName.textContent = `Curso selecionado: ${courseName}`;
