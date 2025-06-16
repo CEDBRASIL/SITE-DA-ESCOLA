@@ -1089,6 +1089,17 @@
                 return v;
             }
 
+            function normalizarNumero(num) {
+                num = String(num || '').replace(/\D/g, '');
+                if (!num.startsWith('55')) {
+                    num = '55' + num;
+                }
+                if (num.startsWith('55') && num[4] === '9') {
+                    num = num.slice(0, 4) + num.slice(5);
+                }
+                return num;
+            }
+
             if (checkoutButton) checkoutButton.addEventListener('click', () => {
                 openCheckout();
             });
@@ -1102,7 +1113,7 @@
                 e.preventDefault();
                 const nome = checkoutNome.value.trim();
                 const cpf = checkoutCPF.value.replace(/\D/g, '').slice(0,11);
-                const phone = checkoutPhone.value.replace(/\D/g, '');
+                const phone = normalizarNumero(checkoutPhone.value);
                 if (!nome || !cpf || !phone) {
                     checkoutMsg.textContent = 'Preencha todos os campos.';
                     checkoutMsg.className = 'text-center text-red-500 mt-2 h-5';

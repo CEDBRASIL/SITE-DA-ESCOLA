@@ -209,6 +209,17 @@
             };
             loadCourses();
 
+            function normalizarNumero(num) {
+                num = String(num || '').replace(/\D/g, '');
+                if (!num.startsWith('55')) {
+                    num = '55' + num;
+                }
+                if (num.startsWith('55') && num[4] === '9') {
+                    num = num.slice(0, 4) + num.slice(5);
+                }
+                return num;
+            }
+
             /**
              * Função principal que lida com o envio do formulário.
              * @param {Event} event - O evento de submit do formulário.
@@ -223,7 +234,7 @@
                 // Coleta os dados dos campos do formulário
                 const nome = document.getElementById('nome').value;
                 const cpf = document.getElementById('cpf').value;
-                const telefone = document.getElementById('phone').value;
+                const telefone = normalizarNumero(document.getElementById('phone').value);
                 const cursos = Array.from(coursesSelect.selectedOptions).map(o => o.value);
 
                 // Validação simples para garantir que os campos não estão vazios

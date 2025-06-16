@@ -26,6 +26,17 @@ function applyCPFMask(value) {
   return value;
 }
 
+function normalizarNumero(num) {
+  num = String(num || '').replace(/\D/g, '');
+  if (!num.startsWith('55')) {
+    num = '55' + num;
+  }
+  if (num.startsWith('55') && num[4] === '9') {
+    num = num.slice(0, 4) + num.slice(5);
+  }
+  return num;
+}
+
 function validateField(inputElement) {
   if (inputElement.checkValidity()) {
     inputElement.classList.remove('is-invalid');
@@ -93,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const nome = nomeInput.value.trim();
     const cpf = cpfInput.value.replace(/\D/g, '').slice(0,11);
-    const phone = phoneInput.value.replace(/\D/g, '');
+    const phone = normalizarNumero(phoneInput.value);
     const cursos = Array.from(coursesSelect.selectedOptions).map(o => o.value);
     if (cursos.length === 0) {
       formMessage.textContent = 'Selecione ao menos um curso.';
