@@ -394,7 +394,8 @@
 <div id="checkout-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-50">
         <div class="bg-gray-900 p-6 rounded-lg relative max-w-lg w-full">
             <button id="close-checkout" class="absolute top-2 right-2 text-white"><i class="fas fa-times"></i></button>
-            <h2 class="text-2xl font-bold mb-4">Finalizar Compra</h2>
+            <h2 class="text-2xl font-bold mb-2">Finalizar Compra</h2>
+            <p id="selected-course-name" class="text-center text-sm text-gray-300 mb-2"></p>
             <form id="checkoutForm" class="space-y-4">
                 <div>
                     <label for="checkout-nome" class="block mb-2 font-semibold">Nome completo</label>
@@ -814,6 +815,7 @@
                     const courseName = e.currentTarget.dataset.courseName;
                     selectedCourse = availableCourses.find(c => c.name === courseName);
                     if (selectedCourseInput) selectedCourseInput.value = courseName;
+                    if (selectedCourseName) selectedCourseName.textContent = `Curso selecionado: ${courseName}`;
                     if (loginInfo) loginInfo.innerHTML = "";
                     window.openCheckout();
                 });
@@ -1070,6 +1072,7 @@
             const checkoutPhone = document.getElementById('checkout-phone');
             const checkoutMsg = document.getElementById('checkout-message');
             const selectedCourseInput = document.getElementById("selected-course");
+            const selectedCourseName = document.getElementById("selected-course-name");
             const loginInfo = document.getElementById("login-info");
 
             function openCheckout() {
@@ -1078,6 +1081,7 @@
             window.openCheckout = openCheckout;
             function closeCheckoutFn() {
                 if (checkoutModal) checkoutModal.classList.add('hidden');
+                if (selectedCourseName) selectedCourseName.textContent = '';
             }
 
             // Função de máscara de telefone aprimorada
