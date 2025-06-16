@@ -104,6 +104,14 @@
                         <i class="fab fa-whatsapp"></i>
                         Whatsapp
                     </button>
+                    <button id="menu-tarefas" class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-3">
+                        <i class="fas fa-tasks"></i>
+                        Lista de Tarefas
+                    </button>
+                    <button id="menu-usuarios" class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-3">
+                        <i class="fas fa-user-cog"></i>
+                        Usuários
+                    </button>
                 </nav>
                  <button id="logout-button" class="mt-auto w-full text-left px-4 py-2 rounded-lg hover:bg-red-800/50 text-red-400 transition-colors flex items-center gap-3">
                     <i class="fas fa-sign-out-alt"></i>
@@ -220,6 +228,30 @@
                         <p id="wp-send-status" class="mt-4 text-sm"></p>
                     </div>
                 </section>
+                <section id="tarefas-section" class="hidden">
+                    <h2 class="text-3xl font-bold mb-6">Lista de Tarefas</h2>
+                    <form id="tarefa-form" class="bg-[#181818] p-6 rounded-lg border border-gray-800 mb-6 flex flex-col gap-4 max-w-md">
+                        <input id="tarefa-desc" type="text" class="form-control p-3 rounded-lg text-white" placeholder="Descrição da tarefa" required />
+                        <select id="tarefa-user" class="form-control p-3 rounded-lg text-white"></select>
+                        <button type="submit" class="bg-spotify-green text-black px-4 py-2 rounded-lg hover-bg-spotify-green-darker button-glow">Adicionar</button>
+                    </form>
+                    <ul id="tarefas-list" class="space-y-2"></ul>
+                </section>
+                <section id="usuarios-section" class="hidden">
+                    <h2 class="text-3xl font-bold mb-6">Usuários</h2>
+                    <form id="usuario-form" class="bg-[#181818] p-6 rounded-lg border border-gray-800 mb-6 flex flex-col gap-4 max-w-md">
+                        <input id="usuario-nome" type="text" class="form-control p-3 rounded-lg text-white" placeholder="Nome" required />
+                        <div id="acessos-opcoes" class="flex flex-wrap gap-2 text-sm">
+                            <label><input type="checkbox" value="alunos" class="mr-1" checked>Alunos</label>
+                            <label><input type="checkbox" value="matricular" class="mr-1" checked>Matricular</label>
+                            <label><input type="checkbox" value="cobrancas" class="mr-1" checked>Cobranças</label>
+                            <label><input type="checkbox" value="whatsapp" class="mr-1" checked>Whatsapp</label>
+                            <label><input type="checkbox" value="tarefas" class="mr-1" checked>Tarefas</label>
+                        </div>
+                        <button type="submit" class="bg-spotify-green text-black px-4 py-2 rounded-lg hover-bg-spotify-green-darker button-glow">Adicionar</button>
+                    </form>
+                    <ul id="usuarios-list" class="space-y-2"></ul>
+                </section>
                 <div id="welcome-section" class="flex items-center justify-center h-full">
                     <div class="text-center">
                          <i class="fas fa-cogs text-6xl text-gray-600 mb-4"></i>
@@ -256,10 +288,14 @@
             const menuMatricular = document.getElementById('menu-matricular');
             const menuCobrancas = document.getElementById('menu-cobrancas');
             const menuWhatsapp = document.getElementById('menu-whatsapp');
+            const menuTarefas = document.getElementById('menu-tarefas');
+            const menuUsuarios = document.getElementById('menu-usuarios');
             const alunosSection = document.getElementById('alunos-section');
             const matricularSection = document.getElementById('matricular-section');
             const cobrancasSection = document.getElementById('cobrancas-section');
             const whatsappSection = document.getElementById('whatsapp-section');
+            const tarefasSection = document.getElementById('tarefas-section');
+            const usuariosSection = document.getElementById('usuarios-section');
             const cobrancasTabela = document.getElementById('cobrancas-tabela');
             const matricularForm = document.getElementById('matricular-form');
             const matricularFeedback = document.getElementById('matricular-feedback');
@@ -350,38 +386,43 @@
             });
 
             menuAlunos.addEventListener('click', () => {
-                alunosSection.classList.remove('hidden');
-                matricularSection.classList.add('hidden');
-                cobrancasSection.classList.add('hidden');
-                whatsappSection.classList.add('hidden');
-                welcomeSection.classList.add('hidden');
+                mostrar(alunosSection);
                 fetchAlunos();
             });
 
-            menuMatricular.addEventListener('click', () => {
+            function mostrar(sec) {
                 alunosSection.classList.add('hidden');
-                matricularSection.classList.remove('hidden');
+                matricularSection.classList.add('hidden');
                 cobrancasSection.classList.add('hidden');
                 whatsappSection.classList.add('hidden');
+                tarefasSection.classList.add('hidden');
+                usuariosSection.classList.add('hidden');
                 welcomeSection.classList.add('hidden');
+                sec.classList.remove('hidden');
+            }
+
+            menuMatricular.addEventListener('click', () => {
+                mostrar(matricularSection);
             });
 
             menuCobrancas.addEventListener('click', () => {
-                alunosSection.classList.add('hidden');
-                matricularSection.classList.add('hidden');
-                cobrancasSection.classList.remove('hidden');
-                whatsappSection.classList.add('hidden');
-                welcomeSection.classList.add('hidden');
+                mostrar(cobrancasSection);
                 carregarCobrancas();
             });
 
             menuWhatsapp.addEventListener('click', () => {
-                alunosSection.classList.add('hidden');
-                matricularSection.classList.add('hidden');
-                cobrancasSection.classList.add('hidden');
-                welcomeSection.classList.add('hidden');
-                whatsappSection.classList.remove('hidden');
+                mostrar(whatsappSection);
                 checkWpStatus();
+            });
+
+            menuTarefas.addEventListener('click', () => {
+                mostrar(tarefasSection);
+                renderTarefas();
+            });
+
+            menuUsuarios.addEventListener('click', () => {
+                mostrar(usuariosSection);
+                renderUsuarios();
             });
             
             buscarAlunosBtn.addEventListener('click', fetchAlunos);
@@ -406,7 +447,7 @@
                 e.preventDefault();
                 const login = document.getElementById('matricular-login').value.trim();
                 const nome = document.getElementById('matricular-nome').value.trim();
-                const whatsapp = document.getElementById('matricular-whatsapp').value.replace(/\D/g, '');
+                const whatsapp = normalizarNumero(document.getElementById('matricular-whatsapp').value);
                 const pacote = pacoteSelect.value;
                 const curso = cursoSelect.value;
                 const mensagem = document.getElementById('matricular-msg').value.trim();
@@ -449,6 +490,17 @@
                 } else {
                     return value;
                 }
+            }
+
+            function normalizarNumero(num) {
+                num = String(num || '').replace(/\D/g, '');
+                if (!num.startsWith('55')) {
+                    num = '55' + num;
+                }
+                if (num.startsWith('55') && num[4] === '9') {
+                    num = num.slice(0, 4) + num.slice(5);
+                }
+                return num;
             }
 
             async function fetchAlunos() {
@@ -559,7 +611,8 @@
                 if (!numero) return alert('Número inválido');
                 const mensagem = `Olá! Sua cobrança vence em ${data}.`;
                 try {
-                    await fetch(`https://api.allorigins.win/raw?url=https://whatsapptest-stij.onrender.com/send?para=${numero}&mensagem=${encodeURIComponent(mensagem)}`);
+                    const numFmt = normalizarNumero(numero);
+                    await fetch(`https://api.allorigins.win/raw?url=https://whatsapptest-stij.onrender.com/send?para=${numFmt}&mensagem=${encodeURIComponent(mensagem)}`);
                     alert('Cobrança enviada!');
                 } catch (err) {
                     alert('Erro ao enviar cobrança.');
@@ -598,7 +651,7 @@
             wpSendBtn.addEventListener('click', async () => {
                 const file = wpFile.files[0];
                 const mensagem = wpMsg.value.trim();
-                const manualNums = wpNumeros.value.split(/[\n,;]+/).map(n => n.replace(/\D/g, '')).filter(Boolean);
+                const manualNums = wpNumeros.value.split(/[\n,;]+/).map(n => normalizarNumero(n)).filter(Boolean);
                 let numeros = manualNums;
                 if (file) {
                     try { numeros = numeros.concat(await parseFile(file)); } catch(e) {}
@@ -631,8 +684,8 @@
                     if (file.name.endsWith('.csv')) {
                         reader.onload = e => {
                             const lines = e.target.result.split(/\r?\n/).filter(Boolean);
-                            const nums = lines.map(l => l.split(/[,;]/)[0].replace(/\D/g, ''));
-                            resolve(nums);
+                            const nums = lines.map(l => normalizarNumero(l.split(/[,;]/)[0]));
+                            resolve(nums.filter(n => n));
                         };
                         reader.onerror = reject;
                         reader.readAsText(file);
@@ -642,7 +695,7 @@
                             const wb = XLSX.read(data, {type: 'array'});
                             const sheet = wb.Sheets[wb.SheetNames[0]];
                             const json = XLSX.utils.sheet_to_json(sheet, {header:1});
-                            const nums = json.map(r => String(r[0] || '').replace(/\D/g, ''));
+                            const nums = json.map(r => normalizarNumero(String(r[0] || '')));
                             resolve(nums.filter(n => n));
                         };
                         reader.onerror = reject;
@@ -652,7 +705,7 @@
             }
 
             async function updateNumberCount() {
-                let count = wpNumeros.value.split(/[\n,;]+/).map(n => n.replace(/\D/g, '')).filter(Boolean).length;
+                let count = wpNumeros.value.split(/[\n,;]+/).map(n => normalizarNumero(n)).filter(Boolean).length;
                 const file = wpFile.files[0];
                 if (file) {
                     try { const nums = await parseFile(file); count += nums.length; } catch(e) {}
@@ -670,6 +723,60 @@
                 }
             }
 
+
+            let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+            let tarefas = JSON.parse(localStorage.getItem('tarefas') || '[]');
+
+            function salvarUsuarios() { localStorage.setItem('usuarios', JSON.stringify(usuarios)); }
+            function salvarTarefas() { localStorage.setItem('tarefas', JSON.stringify(tarefas)); }
+
+            function atualizarOpcoesUsuarios() {
+                const sel = document.getElementById('tarefa-user');
+                if (!sel) return;
+                sel.innerHTML = usuarios.map((u,i) => `<option value="${i}">${u.nome}</option>`).join('');
+            }
+
+            function renderUsuarios() {
+                const list = document.getElementById('usuarios-list');
+                list.innerHTML = usuarios.map((u,i) => `<li class="bg-[#181818] p-3 rounded flex justify-between"><span>${u.nome} (${(u.acessos||[]).join(', ')})</span><button data-i="${i}" class="rem-usuario text-red-500"><i class='fas fa-trash'></i></button></li>`).join('') || '<li class="text-gray-400">Nenhum usuário</li>';
+                list.querySelectorAll('.rem-usuario').forEach(b => b.addEventListener('click', () => { usuarios.splice(b.dataset.i,1); salvarUsuarios(); renderUsuarios(); atualizarOpcoesUsuarios(); }));
+                atualizarOpcoesUsuarios();
+            }
+
+            function renderTarefas() {
+                const list = document.getElementById('tarefas-list');
+                list.innerHTML = tarefas.map((t,i) => {
+                    const u = usuarios[t.usuario] ? usuarios[t.usuario].nome : '';
+                    return `<li class="bg-[#181818] p-3 rounded flex justify-between"><span>${t.desc} - ${u}</span><button data-i="${i}" class="rem-tarefa text-red-500"><i class='fas fa-trash'></i></button></li>`;
+                }).join('') || '<li class="text-gray-400">Nenhuma tarefa</li>';
+                list.querySelectorAll('.rem-tarefa').forEach(b => b.addEventListener('click', () => { tarefas.splice(b.dataset.i,1); salvarTarefas(); renderTarefas(); }));
+                atualizarOpcoesUsuarios();
+            }
+
+            document.getElementById('usuario-form').addEventListener('submit', e => {
+                e.preventDefault();
+                const nome = document.getElementById('usuario-nome').value.trim();
+                const acessos = Array.from(document.querySelectorAll('#acessos-opcoes input:checked')).map(c => c.value);
+                if (!nome) return;
+                usuarios.push({ nome, acessos });
+                salvarUsuarios();
+                e.target.reset();
+                renderUsuarios();
+            });
+
+            document.getElementById('tarefa-form').addEventListener('submit', e => {
+                e.preventDefault();
+                const desc = document.getElementById('tarefa-desc').value.trim();
+                const usuario = document.getElementById('tarefa-user').value;
+                if (!desc) return;
+                tarefas.push({ desc, usuario });
+                salvarTarefas();
+                e.target.reset();
+                renderTarefas();
+            });
+
+            renderUsuarios();
+            renderTarefas();
             updateNumberCount();
 
         });
