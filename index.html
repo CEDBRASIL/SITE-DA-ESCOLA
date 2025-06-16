@@ -811,7 +811,7 @@
             // Adiciona listeners de evento para botões "Me matricular agora!"
             document.querySelectorAll(".enroll-course").forEach(button => {
                 button.addEventListener("click", e => {
-                    const courseName = e.target.dataset.courseName;
+                    const courseName = e.currentTarget.dataset.courseName;
                     selectedCourse = availableCourses.find(c => c.name === courseName);
                     if (selectedCourseInput) selectedCourseInput.value = courseName;
                     if (loginInfo) loginInfo.innerHTML = "";
