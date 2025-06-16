@@ -180,7 +180,7 @@
                         <h4 class="text-2xl font-bold mb-2">Edição Padrão</h4>
                         <p class="text-gray-600 dark:text-gray-300 mb-4 flex-grow">A experiência completa de Grand Theft Auto VI.</p>
                         <span class="text-3xl font-extrabold text-amber-500 mb-6">R$ 349,90</span>
-                        <button class="w-full mt-auto bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
+                        <button class="enroll-btn w-full mt-auto bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105" data-course-name="Edição Padrão" data-price="349.90">
                             Me matricular agora!
                         </button>
                     </div>
@@ -194,7 +194,7 @@
                         <h4 class="text-2xl font-bold mb-2">Edição Deluxe</h4>
                         <p class="text-gray-600 dark:text-gray-300 mb-4 flex-grow">Inclui o jogo base e conteúdo digital exclusivo: novas missões, veículos e armas.</p>
                         <span class="text-3xl font-extrabold text-amber-500 mb-6">R$ 499,90</span>
-                        <button class="w-full mt-auto bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
+                        <button class="enroll-btn w-full mt-auto bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105" data-course-name="Edição Deluxe" data-price="499.90">
                             Me matricular agora!
                         </button>
                     </div>
@@ -249,6 +249,30 @@
             </div>
         </section>
     </main>
+
+    <div id="checkout-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-50">
+        <div class="bg-gray-900 p-6 rounded-lg relative max-w-lg w-full">
+            <button id="close-checkout" class="absolute top-2 right-2 text-white"><i class="fas fa-times"></i></button>
+            <h2 class="text-2xl font-bold mb-4">Finalizar Compra</h2>
+            <form id="checkoutForm" class="space-y-4">
+                <div>
+                    <label for="checkout-nome" class="block mb-2 font-semibold">Nome completo</label>
+                    <input type="text" id="checkout-nome" required class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600" />
+                </div>
+                <div>
+                    <label for="checkout-cpf" class="block mb-2 font-semibold">CPF</label>
+                    <input type="text" id="checkout-cpf" required placeholder="000.000.000-00" class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600" />
+                </div>
+                <div class="mb-2">
+                    <label for="checkout-phone" class="block mb-2 font-semibold">Telefone (com DDD)</label>
+                    <input type="tel" id="checkout-phone" required placeholder="(XX) XXXXX-XXXX" class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600" />
+                </div>
+                <input type="hidden" id="selected-course" />
+                <button type="submit" id="checkout-submit" class="w-full button-glow bg-spotify-green text-black font-bold py-3 px-6 rounded-full">Concluir Matrícula</button>
+                <div id="checkout-message" class="text-center mt-2 h-5"></div>
+            </form>
+        </div>
+    </div>
 
     <!-- Rodapé -->
     <footer class="border-t border-gray-200 dark:border-gray-800">
@@ -363,6 +387,109 @@
                         behavior: 'smooth'
                     });
                 });
+            });
+
+            // --- MODAL DE MATRÍCULA ---
+            const enrollButtons = document.querySelectorAll('.enroll-btn');
+            const checkoutModal = document.getElementById('checkout-modal');
+            const closeCheckout = document.getElementById('close-checkout');
+            const checkoutForm = document.getElementById('checkoutForm');
+            const checkoutNome = document.getElementById('checkout-nome');
+            const checkoutCPF = document.getElementById('checkout-cpf');
+            const checkoutPhone = document.getElementById('checkout-phone');
+            const checkoutMsg = document.getElementById('checkout-message');
+            const selectedCourseInput = document.getElementById('selected-course');
+
+            let selectedCourse = null;
+
+            function openCheckout() {
+                if (checkoutModal) checkoutModal.classList.remove('hidden');
+            }
+            function closeCheckoutFn() {
+                if (checkoutModal) checkoutModal.classList.add('hidden');
+            }
+
+            enrollButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const name = btn.dataset.courseName;
+                    const price = parseFloat(btn.dataset.price);
+                    selectedCourse = { name, price };
+                    if (selectedCourseInput) selectedCourseInput.value = name;
+                    openCheckout();
+                });
+            });
+
+            if (closeCheckout) closeCheckout.addEventListener('click', closeCheckoutFn);
+            if (checkoutModal) checkoutModal.addEventListener('click', e => { if (e.target === checkoutModal) closeCheckoutFn(); });
+
+            function applyWhatsappMask(value) {
+                value = value.replace(/\D/g, '');
+                if (value.length > 11) value = value.slice(0, 11);
+                if (value.length > 10) {
+                    return `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7, 11)}`;
+                } else if (value.length > 6) {
+                    return `(${value.slice(0, 2)}) ${value.slice(2, 6)}-${value.slice(6)}`;
+                } else if (value.length > 2) {
+                    return `(${value.slice(0, 2)}) ${value.slice(2)}`;
+                }
+                return value;
+            }
+
+            function applyCPFMask(v) {
+                v = v.replace(/\D/g, '').slice(0,11);
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                return v;
+            }
+
+            function normalizarNumero(num) {
+                num = String(num || '').replace(/\D/g, '');
+                if (!num.startsWith('55')) num = '55' + num;
+                if (num.startsWith('55') && num[4] === '9') num = num.slice(0, 4) + num.slice(5);
+                return num;
+            }
+
+            async function gerarLinkPagamento(dadosAluno) {
+                const resp = await fetch('https://api.cedbrasilia.com.br/asaas/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dadosAluno)
+                });
+                if (!resp.ok) throw new Error('Falha ao gerar cobrança');
+                const json = await resp.json();
+                if (json.url) window.location.href = json.url;
+            }
+
+            if (checkoutCPF) checkoutCPF.addEventListener('input', e => { e.target.value = applyCPFMask(e.target.value); });
+            if (checkoutPhone) checkoutPhone.addEventListener('input', e => { e.target.value = applyWhatsappMask(e.target.value); });
+
+            if (checkoutForm) checkoutForm.addEventListener('submit', async e => {
+                e.preventDefault();
+                const nome = checkoutNome.value.trim();
+                const cpf = checkoutCPF.value.replace(/\D/g, '').slice(0,11);
+                const phone = normalizarNumero(checkoutPhone.value);
+                if (!nome || !cpf || !phone) {
+                    checkoutMsg.textContent = 'Preencha todos os campos.';
+                    checkoutMsg.className = 'text-center text-red-500 mt-2 h-5';
+                    return;
+                }
+                checkoutMsg.textContent = 'Enviando...';
+                checkoutMsg.className = 'text-center text-gray-300 mt-2 h-5';
+                try {
+                    const dados = {
+                        nome,
+                        cpf,
+                        whatsapp: phone,
+                        valor: selectedCourse ? selectedCourse.price : 0,
+                        descricao: selectedCourse ? selectedCourse.name : '',
+                        cursos_ids: []
+                    };
+                    await gerarLinkPagamento(dados);
+                } catch (err) {
+                    checkoutMsg.textContent = err.message || 'Erro ao enviar. Tente novamente.';
+                    checkoutMsg.className = 'text-center text-red-500 mt-2 h-5';
+                }
             });
         });
     </script>
