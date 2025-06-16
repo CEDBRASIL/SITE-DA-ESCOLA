@@ -329,8 +329,8 @@
     </div>
 
     <div class="bg-spotify-green text-black text-center py-2">
-        <a href="https://wa.me/5561981969018?text=Quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20cursos" class="font-bold underline">
-            Gostaria de se matricular agora? Falar com um Consultor
+        <a id="top-cursos-link" href="#cursos" class="font-bold underline">
+            Gostaria de se matricular agora? Acessar aba cursos
         </a>
     </div>
 
@@ -1250,6 +1250,15 @@
             const enrollNow = document.getElementById('enroll-now');
             if (enrollNow) {
                 enrollNow.addEventListener('click', e => {
+                    e.preventDefault();
+                    showSection('cursos');
+                    document.getElementById('cursos').scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+
+            const topCursosLink = document.getElementById('top-cursos-link');
+            if (topCursosLink) {
+                topCursosLink.addEventListener('click', e => {
                     e.preventDefault();
                     showSection('cursos');
                     document.getElementById('cursos').scrollIntoView({ behavior: 'smooth' });
