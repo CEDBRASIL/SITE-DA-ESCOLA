@@ -1050,11 +1050,7 @@
                 }
 
                 const json = await resposta.json();
-                if (json.url) {
-                    window.location.href = json.url;
-                } else {
-                    throw new Error('URL de pagamento da assinatura não recebida.');
-                }
+                return json;
             }
 
             if (checkoutForm) checkoutForm.addEventListener('submit', async e => {
@@ -1086,6 +1082,10 @@
                         cursos_ids: selectedCourse.ids
                     };
                     await criarAssinatura(dados);
+                    checkoutMsg.textContent = `Sua matrícula foi gerada, ${nome}! Enviamos os dados da assinatura no seu whatsapp!`;
+                    checkoutMsg.className = 'text-center text-green-500 mt-2 h-5';
+                    checkoutSubmitButton.disabled = false;
+                    checkoutSubmitButton.innerHTML = 'Assinar Agora';
                 } catch (err) {
                     checkoutMsg.textContent = err.message || 'Erro ao processar. Tente novamente.';
                     checkoutMsg.className = 'text-center text-red-500 mt-2 h-5';
