@@ -81,6 +81,7 @@ function initCoursePage(courseName) {
 
     const nomeInput = document.getElementById('nome');
     const cpfInput = document.getElementById('cpf');
+    const emailInput = document.getElementById('email');
     const phoneInput = document.getElementById('whatsapp');
     const message = document.getElementById('form-message');
 
@@ -91,8 +92,9 @@ function initCoursePage(courseName) {
       e.preventDefault();
       const nome = nomeInput.value.trim();
       const cpf = cpfInput.value.replace(/\D/g, '').slice(0,11);
+      const email = emailInput.value.trim();
       const phone = normalizarNumero(phoneInput.value);
-      if (!nome || !cpf || !phone) {
+      if (!nome || !cpf || !email || !phone) {
         message.textContent = 'Preencha todos os campos.';
         message.className = 'text-center text-red-500 mt-2 h-5';
         return;
@@ -103,6 +105,7 @@ function initCoursePage(courseName) {
         await gerarLinkPagamento({
           nome,
           cpf,
+          email,
           whatsapp: phone,
           valor: price,
           descricao: courseName,

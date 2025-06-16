@@ -405,6 +405,10 @@
                     <label for="checkout-cpf" class="block mb-2 font-semibold">CPF</label>
                     <input type="text" id="checkout-cpf" required placeholder="000.000.000-00" class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600" />
                 </div>
+                <div>
+                    <label for="checkout-email" class="block mb-2 font-semibold">Email</label>
+                    <input type="email" id="checkout-email" required class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600" />
+                </div>
                 <div class="mb-2">
                     <label for="checkout-phone" class="block mb-2 font-semibold">Telefone (com DDD)</label>
                     <input type="tel" id="checkout-phone" required placeholder="(XX) XXXXX-XXXX" class="w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-600" />
@@ -1088,6 +1092,7 @@
             const checkoutForm = document.getElementById('checkoutForm');
             const checkoutNome = document.getElementById('checkout-nome');
             const checkoutCPF = document.getElementById('checkout-cpf');
+            const checkoutEmail = document.getElementById('checkout-email');
             const checkoutPhone = document.getElementById('checkout-phone');
             const checkoutMsg = document.getElementById('checkout-message');
             const selectedCourseInput = document.getElementById("selected-course");
@@ -1172,8 +1177,9 @@
                 e.preventDefault();
                 const nome = checkoutNome.value.trim();
                 const cpf = checkoutCPF.value.replace(/\D/g, '').slice(0,11);
+                const email = checkoutEmail.value.trim();
                 const phone = normalizarNumero(checkoutPhone.value);
-                if (!nome || !cpf || !phone) {
+                if (!nome || !cpf || !email || !phone) {
                     checkoutMsg.textContent = 'Preencha todos os campos.';
                     checkoutMsg.className = 'text-center text-red-500 mt-2 h-5';
                     return;
@@ -1184,6 +1190,7 @@
                     const dados = {
                         nome,
                         cpf,
+                        email,
                         whatsapp: phone,
                         valor: selectedCourse ? selectedCourse.price : 0,
                         descricao: selectedCourse ? selectedCourse.name : '',
