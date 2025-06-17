@@ -100,6 +100,10 @@
                         <i class="fas fa-money-bill-wave"></i>
                         Cobranças
                     </button>
+                    <button id="menu-assinantes" class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-3">
+                        <i class="fas fa-address-book"></i>
+                        Assinantes
+                    </button>
                     <button id="menu-whatsapp" class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-3">
                         <i class="fab fa-whatsapp"></i>
                         Whatsapp
@@ -193,6 +197,32 @@
                         </table>
                     </div>
                 </section>
+                <section id="assinantes-section" class="hidden">
+                    <h2 class="text-3xl font-bold mb-6">Assinantes</h2>
+                    <form id="assinante-form" class="bg-[#181818] p-6 rounded-lg border border-gray-800 mb-6 flex flex-col gap-4 max-w-md">
+                        <input id="assinante-nome" type="text" class="form-control p-3 rounded-lg text-white" placeholder="Nome" required />
+                        <input id="assinante-numero" type="tel" class="form-control p-3 rounded-lg text-white" placeholder="Telefone" required />
+                        <input id="assinante-venc" type="date" class="form-control p-3 rounded-lg text-white" required />
+                        <input id="assinante-valor" type="number" step="0.01" class="form-control p-3 rounded-lg text-white" placeholder="Valor" required />
+                        <button type="submit" class="bg-spotify-green text-black px-4 py-2 rounded-lg hover-bg-spotify-green-darker button-glow">Criar Assinatura</button>
+                        <p id="assinante-form-feedback" class="text-sm text-center"></p>
+                    </form>
+                    <div class="overflow-x-auto bg-[#181818] rounded-lg border border-gray-800">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr class="border-b border-gray-700">
+                                    <th class="px-6 py-3 text-left"><input type="checkbox" id="assinantes-select-all" class="form-control bg-gray-700 border-gray-600 rounded" /></th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Nome</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Número</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Vencimento</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Valor</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="assinantes-tabela" class="divide-y divide-gray-800"></tbody>
+                        </table>
+                    </div>
+                </section>
                 <section id="whatsapp-section" class="hidden">
                     <h2 class="text-3xl font-bold mb-6">Whatsapp</h2>
                     <div class="bg-[#181818] p-6 rounded-lg border border-gray-800 mb-6">
@@ -267,6 +297,10 @@
             <button id="desbloquear-selecionados" class="bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded-lg transition-colors flex items-center gap-2"><i class="fas fa-unlock"></i> Desbloquear</button>
             <button id="excluir-selecionados" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-lg transition-colors flex items-center gap-2"><i class="fas fa-trash"></i> Excluir</button>
         </div>
+        <div id="assinantes-drawer" class="hidden fixed bottom-0 left-0 right-0 bg-[#181818] p-4 border-t border-gray-800 flex justify-end items-center gap-3 shadow-lg">
+            <span id="assinantes-contador" class="text-sm text-gray-400 mr-4">0 selecionados</span>
+            <button id="assinantes-excluir" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-lg flex items-center gap-2"><i class="fas fa-trash"></i> Excluir</button>
+        </div>
     </div>
     
     <script>
@@ -287,12 +321,14 @@
             const menuAlunos = document.getElementById('menu-alunos');
             const menuMatricular = document.getElementById('menu-matricular');
             const menuCobrancas = document.getElementById('menu-cobrancas');
+            const menuAssinantes = document.getElementById('menu-assinantes');
             const menuWhatsapp = document.getElementById('menu-whatsapp');
             const menuTarefas = document.getElementById('menu-tarefas');
             const menuUsuarios = document.getElementById('menu-usuarios');
             const alunosSection = document.getElementById('alunos-section');
             const matricularSection = document.getElementById('matricular-section');
             const cobrancasSection = document.getElementById('cobrancas-section');
+            const assinantesSection = document.getElementById('assinantes-section');
             const whatsappSection = document.getElementById('whatsapp-section');
             const tarefasSection = document.getElementById('tarefas-section');
             const usuariosSection = document.getElementById('usuarios-section');
@@ -312,6 +348,13 @@
             const bloquearSelecionadosBtn = document.getElementById('bloquear-selecionados');
             const desbloquearSelecionadosBtn = document.getElementById('desbloquear-selecionados');
             const excluirSelecionadosBtn = document.getElementById('excluir-selecionados');
+            const assinantesTabela = document.getElementById('assinantes-tabela');
+            const assinantesSelectAll = document.getElementById('assinantes-select-all');
+            const assinantesDrawer = document.getElementById('assinantes-drawer');
+            const assinantesContador = document.getElementById('assinantes-contador');
+            const assinantesExcluirBtn = document.getElementById('assinantes-excluir');
+            const assinanteForm = document.getElementById('assinante-form');
+            const assinanteFormFeedback = document.getElementById('assinante-form-feedback');
 
             const wpStatusSpan = document.getElementById('wp-conn-status');
             const wpNumber = document.getElementById('wp-number');
@@ -394,10 +437,12 @@
                 alunosSection.classList.add('hidden');
                 matricularSection.classList.add('hidden');
                 cobrancasSection.classList.add('hidden');
+                assinantesSection.classList.add('hidden');
                 whatsappSection.classList.add('hidden');
                 tarefasSection.classList.add('hidden');
                 usuariosSection.classList.add('hidden');
                 welcomeSection.classList.add('hidden');
+                assinantesDrawer.classList.add('hidden');
                 sec.classList.remove('hidden');
             }
 
@@ -408,6 +453,11 @@
             menuCobrancas.addEventListener('click', () => {
                 mostrar(cobrancasSection);
                 carregarCobrancas();
+            });
+
+            menuAssinantes.addEventListener('click', () => {
+                mostrar(assinantesSection);
+                fetchAssinantes();
             });
 
             menuWhatsapp.addEventListener('click', () => {
@@ -433,6 +483,13 @@
             excluirSelecionadosBtn.addEventListener('click', deleteSelecionados);
             bloquearSelecionadosBtn.addEventListener('click', () => updateSelecionados(1));
             desbloquearSelecionadosBtn.addEventListener('click', () => updateSelecionados(0));
+
+            assinantesExcluirBtn.addEventListener('click', deleteAssinantesSelecionados);
+
+            assinantesSelectAll.addEventListener('change', () => {
+                document.querySelectorAll('.select-assinante').forEach(cb => cb.checked = assinantesSelectAll.checked);
+                updateAssinantesDrawer();
+            });
             
             selectAllCheckbox.addEventListener('change', () => {
                 document.querySelectorAll('.select-aluno').forEach(cb => cb.checked = selectAllCheckbox.checked);
@@ -473,6 +530,36 @@
                 } catch (err) {
                     matricularFeedback.textContent = 'Falha ao cadastrar aluno.';
                     matricularFeedback.className = 'mt-4 text-red-500 text-center';
+                }
+            });
+
+            assinanteForm.addEventListener('submit', async e => {
+                e.preventDefault();
+                const nome = document.getElementById('assinante-nome').value.trim();
+                const numero = normalizarNumero(document.getElementById('assinante-numero').value);
+                const dataVencimento = document.getElementById('assinante-venc').value;
+                const valor = document.getElementById('assinante-valor').value;
+                if (!nome || !numero || !dataVencimento || !valor) {
+                    assinanteFormFeedback.textContent = 'Preencha todos os campos.';
+                    assinanteFormFeedback.className = 'text-red-500 text-center';
+                    return;
+                }
+                assinanteFormFeedback.textContent = 'Enviando...';
+                assinanteFormFeedback.className = 'text-gray-300 text-center';
+                try {
+                    const resp = await fetch('https://api.cedbrasilia.com.br/assinantes', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ nome, numero, dataVencimento, valor })
+                    });
+                    if (!resp.ok) throw new Error();
+                    assinanteFormFeedback.textContent = 'Assinatura criada!';
+                    assinanteFormFeedback.className = 'text-green-400 text-center';
+                    assinanteForm.reset();
+                    fetchAssinantes();
+                } catch (err) {
+                    assinanteFormFeedback.textContent = 'Erro ao criar assinatura.';
+                    assinanteFormFeedback.className = 'text-red-500 text-center';
                 }
             });
 
@@ -720,6 +807,91 @@
                     contadorSelecionados.textContent = `${count} selecionado(s)`;
                 } else {
                     acoesDrawer.classList.add('hidden');
+                }
+            }
+
+            function updateAssinantesDrawer() {
+                const count = document.querySelectorAll('.select-assinante:checked').length;
+                if (count > 0) {
+                    assinantesDrawer.classList.remove('hidden');
+                    assinantesContador.textContent = `${count} selecionado(s)`;
+                } else {
+                    assinantesDrawer.classList.add('hidden');
+                }
+            }
+
+            function getAssinantesSelecionados() {
+                return Array.from(document.querySelectorAll('.select-assinante:checked')).map(cb => cb.dataset.id);
+            }
+
+            async function deleteAssinantesSelecionados() {
+                const selecionados = getAssinantesSelecionados();
+                if (selecionados.length === 0) return;
+                if (!confirm(`Deseja realmente deletar os ${selecionados.length} assinantes selecionados?`)) return;
+                try {
+                    await Promise.all(selecionados.map(id => fetch(`https://api.cedbrasilia.com.br/assinantes/${id}`, { method: 'DELETE' })));
+                    fetchAssinantes();
+                } catch (err) { alert('Erro ao deletar assinantes.'); }
+            }
+
+            async function deleteAssinante(id) {
+                if (!confirm('Deseja remover esta assinatura?')) return;
+                try {
+                    await fetch(`https://api.cedbrasilia.com.br/assinantes/${id}`, { method: 'DELETE' });
+                    fetchAssinantes();
+                } catch (err) { alert('Erro ao remover assinatura.'); }
+            }
+
+            async function editAssinante(id) {
+                const row = document.querySelector(`.edit-assinante[data-id="${id}"]`).closest('tr');
+                const nome = prompt('Nome:', row.children[1].textContent);
+                if (nome === null) return;
+                const numero = prompt('Número:', row.children[2].textContent);
+                if (numero === null) return;
+                const venc = prompt('Data de Vencimento:', row.children[3].textContent);
+                if (venc === null) return;
+                const valor = prompt('Valor:', row.children[4].textContent);
+                if (valor === null) return;
+                try {
+                    await fetch(`https://api.cedbrasilia.com.br/assinantes/${id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ nome, numero: normalizarNumero(numero), dataVencimento: venc, valor })
+                    });
+                    fetchAssinantes();
+                } catch (err) { alert('Erro ao atualizar assinatura.'); }
+            }
+
+            async function fetchAssinantes() {
+                assinantesTabela.innerHTML = `<tr><td class="px-6 py-4 text-center" colspan="6"><i class="fas fa-spinner fa-spin text-2xl spotify-green"></i></td></tr>`;
+                try {
+                    const resp = await fetch('https://api.cedbrasilia.com.br/assinantes');
+                    const data = await resp.json();
+                    const assinantes = Array.isArray(data) ? data : data.assinantes || [];
+                    if (assinantes.length === 0) {
+                        assinantesTabela.innerHTML = `<tr><td class="px-6 py-4 text-center" colspan="6">Nenhum assinante.</td></tr>`;
+                    } else {
+                        assinantesTabela.innerHTML = assinantes.map(a => `
+                            <tr class="hover:bg-gray-700 transition-colors">
+                                <td class="px-6 py-4"><input type="checkbox" class="select-assinante form-control" data-id="${a.id}"></td>
+                                <td class="px-6 py-4 font-medium">${a.nome}</td>
+                                <td class="px-6 py-4 text-gray-400">${a.numero || ''}</td>
+                                <td class="px-6 py-4 text-gray-400">${a.dataVencimento || ''}</td>
+                                <td class="px-6 py-4 text-gray-400">${a.valor || ''}</td>
+                                <td class="px-6 py-4 text-sm space-x-2">
+                                    <button data-id="${a.id}" class="edit-assinante bg-yellow-600 text-white px-3 py-1 rounded-md hover:bg-yellow-700 transition-colors"><i class="fas fa-edit"></i></button>
+                                    <button data-id="${a.id}" class="delete-assinante bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition-colors"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `).join('');
+                        document.querySelectorAll('.edit-assinante').forEach(b => b.addEventListener('click', () => editAssinante(b.dataset.id)));
+                        document.querySelectorAll('.delete-assinante').forEach(b => b.addEventListener('click', () => deleteAssinante(b.dataset.id)));
+                        document.querySelectorAll('.select-assinante').forEach(cb => cb.addEventListener('change', updateAssinantesDrawer));
+                        assinantesSelectAll.checked = false;
+                        updateAssinantesDrawer();
+                    }
+                } catch (err) {
+                    assinantesTabela.innerHTML = `<tr><td class="px-6 py-4 text-center text-red-500" colspan="6">Erro ao buscar assinantes.</td></tr>`;
                 }
             }
 
