@@ -201,6 +201,7 @@
                     <h2 class="text-3xl font-bold mb-6">Assinantes</h2>
                     <form id="assinante-form" class="bg-[#181818] p-6 rounded-lg border border-gray-800 mb-6 flex flex-col gap-4 max-w-md">
                         <input id="assinante-nome" type="text" class="form-control p-3 rounded-lg text-white" placeholder="Nome" required />
+                        <input id="assinante-cpf" type="text" class="form-control p-3 rounded-lg text-white" placeholder="CPF" required />
                         <input id="assinante-numero" type="tel" class="form-control p-3 rounded-lg text-white" placeholder="Telefone" required />
                         <input id="assinante-venc" type="date" class="form-control p-3 rounded-lg text-white" required />
                         <input id="assinante-valor" type="number" step="0.01" class="form-control p-3 rounded-lg text-white" placeholder="Valor" required />
@@ -500,6 +501,14 @@
                 e.target.value = applyWhatsappMask(e.target.value);
             });
 
+            document.getElementById('assinante-numero').addEventListener('input', e => {
+                e.target.value = applyWhatsappMask(e.target.value);
+            });
+
+            document.getElementById('assinante-cpf').addEventListener('input', e => {
+                e.target.value = applyCPFMask(e.target.value);
+            });
+
             matricularForm.addEventListener('submit', async e => {
                 e.preventDefault();
                 const login = document.getElementById('matricular-login').value.trim();
@@ -536,10 +545,11 @@
             assinanteForm.addEventListener('submit', async e => {
                 e.preventDefault();
                 const nome = document.getElementById('assinante-nome').value.trim();
+                const cpf = document.getElementById('assinante-cpf').value.replace(/\D/g, '');
                 const numero = normalizarNumero(document.getElementById('assinante-numero').value);
                 const dataVencimento = document.getElementById('assinante-venc').value;
                 const valor = document.getElementById('assinante-valor').value;
-                if (!nome || !numero || !dataVencimento || !valor) {
+                if (!nome || !cpf || !numero || !dataVencimento || !valor) {
                     assinanteFormFeedback.textContent = 'Preencha todos os campos.';
                     assinanteFormFeedback.className = 'text-red-500 text-center';
                     return;
@@ -550,7 +560,7 @@
                     const resp = await fetch('https://api.cedbrasilia.com.br/assinantes', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ nome, numero, dataVencimento, valor })
+                        body: JSON.stringify({ nome, cpf, whatsapp: numero, valor, vencimento: dataVencimento })
                     });
                     if (!resp.ok) throw new Error();
                     assinanteFormFeedback.textContent = 'Assinatura criada!';
@@ -577,6 +587,14 @@
                 } else {
                     return value;
                 }
+            }
+
+            function applyCPFMask(v) {
+                v = v.replace(/\D/g, '').slice(0,11);
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                return v;
             }
 
             function normalizarNumero(num) {
