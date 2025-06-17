@@ -560,18 +560,13 @@
                 assinanteFormFeedback.textContent = 'Enviando...';
                 assinanteFormFeedback.className = 'text-gray-300 text-center';
                 try {
-                    const resp = await fetch('https://api.cedbrasilia.com.br/assinantes', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ nome, cpf, numero, valor, vencimento: dataVencimento })
-                    });
-                    if (!resp.ok) throw new Error();
+                    await criarAssinante({ nome, cpf, numero, valor, vencimento: dataVencimento });
                     assinanteFormFeedback.textContent = 'Assinatura criada!';
                     assinanteFormFeedback.className = 'text-green-400 text-center';
                     assinanteForm.reset();
                     fetchAssinantes();
                 } catch (err) {
-                    assinanteFormFeedback.textContent = 'Erro ao criar assinatura.';
+                    assinanteFormFeedback.textContent = err.message || 'Erro ao criar assinatura.';
                     assinanteFormFeedback.className = 'text-red-500 text-center';
                 }
             });
@@ -609,6 +604,55 @@
                     num = num.slice(0, 4) + num.slice(5);
                 }
                 return num;
+            }
+
+            // ======== Funções da API de Assinantes ========
+            async function listarAssinantes() {
+                try {
+                    const resp = await fetch('https://api.cedbrasilia.com.br/assinantes');
+                    if (!resp.ok) throw new Error('Falha na requisição');
+                    return await resp.json();
+                } catch (err) {
+                    throw new Error('Erro ao buscar assinantes');
+                }
+            }
+
+            async function criarAssinante(dados) {
+                try {
+                    const resp = await fetch('https://api.cedbrasilia.com.br/assinantes', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(dados)
+                    });
+                    if (!resp.ok) throw new Error('Falha ao criar assinatura');
+                    return await resp.json();
+                } catch (err) {
+                    throw new Error('Erro de rede ao criar assinatura');
+                }
+            }
+
+            async function editarAssinanteAPI(id, dados) {
+                try {
+                    const resp = await fetch(`https://api.cedbrasilia.com.br/assinantes/${id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(dados)
+                    });
+                    if (!resp.ok) throw new Error('Falha ao atualizar assinatura');
+                    return await resp.json();
+                } catch (err) {
+                    throw new Error('Erro de rede ao atualizar assinatura');
+                }
+            }
+
+            async function excluirAssinanteAPI(id) {
+                try {
+                    const resp = await fetch(`https://api.cedbrasilia.com.br/assinantes/${id}`, { method: 'DELETE' });
+                    if (!resp.ok) throw new Error('Falha ao remover assinatura');
+                    return true;
+                } catch (err) {
+                    throw new Error('Erro de rede ao remover assinatura');
+                }
             }
 
             async function fetchAlunos() {
@@ -858,17 +902,23 @@
                 if (selecionados.length === 0) return;
                 if (!confirm(`Deseja realmente deletar os ${selecionados.length} assinantes selecionados?`)) return;
                 try {
-                    await Promise.all(selecionados.map(id => fetch(`https://api.cedbrasilia.com.br/assinantes/${id}`, { method: 'DELETE' })));
+                    await Promise.all(selecionados.map(id => excluirAssinanteAPI(id)));
+                    alert('Assinantes removidos com sucesso!');
                     fetchAssinantes();
-                } catch (err) { alert('Erro ao deletar assinantes.'); }
+                } catch (err) {
+                    alert(err.message || 'Erro ao deletar assinantes.');
+                }
             }
 
             async function deleteAssinante(id) {
                 if (!confirm('Deseja remover esta assinatura?')) return;
                 try {
-                    await fetch(`https://api.cedbrasilia.com.br/assinantes/${id}`, { method: 'DELETE' });
+                    await excluirAssinanteAPI(id);
+                    alert('Assinatura removida com sucesso!');
                     fetchAssinantes();
-                } catch (err) { alert('Erro ao remover assinatura.'); }
+                } catch (err) {
+                    alert(err.message || 'Erro ao remover assinatura.');
+                }
             }
 
             async function editAssinante(id) {
@@ -882,20 +932,18 @@
                 const valor = prompt('Valor:', row.children[4].textContent);
                 if (valor === null) return;
                 try {
-                    await fetch(`https://api.cedbrasilia.com.br/assinantes/${id}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ nome, numero: normalizarNumero(numero), dataVencimento: venc, valor })
-                    });
+                    await editarAssinanteAPI(id, { nome, numero: normalizarNumero(numero), dataVencimento: venc, valor });
+                    alert('Assinatura atualizada com sucesso!');
                     fetchAssinantes();
-                } catch (err) { alert('Erro ao atualizar assinatura.'); }
+                } catch (err) {
+                    alert(err.message || 'Erro ao atualizar assinatura.');
+                }
             }
 
             async function fetchAssinantes() {
                 assinantesTabela.innerHTML = `<tr><td class="px-6 py-4 text-center" colspan="6"><i class="fas fa-spinner fa-spin text-2xl spotify-green"></i></td></tr>`;
                 try {
-                    const resp = await fetch('https://api.cedbrasilia.com.br/assinantes');
-                    const data = await resp.json();
+                    const data = await listarAssinantes();
                     const assinantes = Array.isArray(data) ? data : data.assinantes || [];
                     if (assinantes.length === 0) {
                         assinantesTabela.innerHTML = `<tr><td class="px-6 py-4 text-center" colspan="6">Nenhum assinante.</td></tr>`;
