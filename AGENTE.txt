@@ -1,0 +1,2 @@
+Memoria de PRs do Codex
+Adicionado modulo de disparo WhatsApp com FastAPI, frontend em JS e Docker.
