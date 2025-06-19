@@ -131,7 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
       formMessage.className = 'text-center text-green-500';
       form.reset();
     } catch (err) {
-      formMessage.textContent = err.message;
+      console.error(err);
+      formMessage.textContent = 'Erro ao processar sua solicitação. Tente novamente.';
       formMessage.className = 'text-center error-message';
     } finally {
       submitButton.disabled = false;
