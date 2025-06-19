@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disparo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Disparo de Mensagens</h1>
+    <section id="arquivos">
+        <h2>Meus Arquivos</h2>
+        <input type="file" id="fileInput">
+        <button onclick="uploadArquivo()">Enviar</button>
+        <ul id="listaArquivos"></ul>
+    </section>
+    <section id="listas">
+        <h2>Lista de Contatos</h2>
+        <input id="nomeLista" placeholder="Nome da lista">
+        <button onclick="criarLista()">Criar</button>
+        <ul id="listaListas"></ul>
+    </section>
+    <section id="mensagens">
+        <h2>Mensagens</h2>
+        <input id="identificador" placeholder="Identificador">
+        <textarea id="conteudo" placeholder="Conteúdo"></textarea>
+        <button onclick="criarMensagem()">Criar</button>
+        <ul id="listaMensagens"></ul>
+    </section>
+    <section id="disparos">
+        <h2>Disparo de Mensagens</h2>
+        <input id="listaId" placeholder="ID da Lista">
+        <input id="mensagemId" placeholder="ID da Mensagem">
+        <input id="agendadoPara" type="datetime-local">
+        <button onclick="criarDisparo()">Disparar</button>
+        <ul id="listaDisparos"></ul>
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>
